@@ -1,0 +1,181 @@
+{
+  "version": 1,
+  "projects": {
+    "administration-portal": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/administration-portal",
+      "sourceRoot": "apps/administration-portal/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/administration-portal",
+            "index": "apps/administration-portal/src/index.html",
+            "main": "apps/administration-portal/src/main.ts",
+            "polyfills": "apps/administration-portal/src/polyfills.ts",
+            "tsConfig": "apps/administration-portal/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/administration-portal/src/favicon.ico",
+              "apps/administration-portal/src/assets"
+            ],
+            "styles": ["apps/administration-portal/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/administration-portal/src/environments/environment.ts",
+                  "with": "apps/administration-portal/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "administration-portal:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "administration-portal:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "administration-portal:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/administration-portal/tsconfig.app.json",
+              "apps/administration-portal/tsconfig.spec.json",
+              "apps/administration-portal/tsconfig.editor.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/administration-portal/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/administration-portal/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "administration-portal-e2e": {
+      "root": "apps/administration-portal-e2e",
+      "sourceRoot": "apps/administration-portal-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/administration-portal-e2e/cypress.json",
+            "tsConfig": "apps/administration-portal-e2e/tsconfig.e2e.json",
+            "devServerTarget": "administration-portal:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "administration-portal:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/administration-portal-e2e/tsconfig.e2e.json"],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/administration-portal-e2e/**/*"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "analytics": false
+  },
+  "schematics": {
+    "@nrwl/workspace": {
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/cypress": {
+      "cypress-project": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/node": {
+      "application": {
+        "linter": "tslint"
+      },
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/nest": {
+      "application": {
+        "linter": "tslint"
+      },
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/express": {
+      "application": {
+        "linter": "tslint"
+      },
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "administration-portal"
+}
