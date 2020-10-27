@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'bushtrade.web-root',
+  selector: 'bushtrade-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
