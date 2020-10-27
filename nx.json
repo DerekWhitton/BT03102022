@@ -29,6 +29,13 @@
     "administration-portal-e2e": {
       "tags": [],
       "implicitDependencies": ["administration-portal"]
+    },
+    "seller-portal": {
+      "tags": []
+    },
+    "seller-portal-e2e": {
+      "tags": [],
+      "implicitDependencies": ["seller-portal"]
     }
   }
 }
