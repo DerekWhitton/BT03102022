@@ -52,6 +52,9 @@
     },
     "administration-portal-advertisments": {
       "tags": []
+    },
+    "administration-portal-listings": {
+      "tags": []
     }
   }
 }
