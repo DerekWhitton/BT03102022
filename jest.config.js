@@ -4,5 +4,6 @@ module.exports = {
     '<rootDir>/apps/seller-portal',
     '<rootDir>/apps/buyer-portal',
     '<rootDir>/libs/ui',
+    '<rootDir>/libs/seller-portal/listings',
   ],
 };

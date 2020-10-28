@@ -402,6 +402,39 @@
           "style": "scss"
         }
       }
+    },
+    "seller-portal-listings": {
+      "projectType": "library",
+      "root": "libs/seller-portal/listings",
+      "sourceRoot": "libs/seller-portal/listings/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/seller-portal/listings/tsconfig.lib.json",
+              "libs/seller-portal/listings/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/seller-portal/listings/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/seller-portal/listings/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {
