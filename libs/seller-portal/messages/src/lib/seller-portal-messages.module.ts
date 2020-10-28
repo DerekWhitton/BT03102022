@@ -6,7 +6,6 @@ import { MessagesIndexComponent } from './containers/messages-index/messages-ind
 @NgModule({
   imports: [
     CommonModule,
-
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: MessagesIndexComponent },
     ]),

@@ -21,5 +21,6 @@ import { AppComponent } from './app/app.component';
   ],
   declarations: [AppComponent],
   entryComponents: [AppComponent],
+  exports: [AppComponent],
 })
 export class SellerPortalSellerAppModule {}
