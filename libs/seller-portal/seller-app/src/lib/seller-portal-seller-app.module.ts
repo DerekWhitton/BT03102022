@@ -8,7 +8,7 @@ import { AppComponent } from './app/app.component';
     CommonModule,
 
     RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+      {path: '', pathMatch: 'full', component: AppComponent} 
     ]),
   ],
   declarations: [AppComponent],
