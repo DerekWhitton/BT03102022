@@ -64,6 +64,9 @@
     },
     "administration-portal-articles": {
       "tags": []
+    },
+    "administration-portal-support": {
+      "tags": []
     }
   }
 }

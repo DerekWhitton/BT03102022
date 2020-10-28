@@ -34,6 +34,9 @@
       ],
       "@bushtrade/administration-portal/articles": [
         "libs/administration-portal/articles/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/support": [
+        "libs/administration-portal/support/src/index.ts"
       ]
     }
   },
