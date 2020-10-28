@@ -765,7 +765,7 @@
           "style": "scss"
         }
       }
-    }
+    },
     "seller-portal-listings": {
       "projectType": "library",
       "root": "libs/seller-portal/listings",
