@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MegaMenuItem } from 'primeng/api';
 
 @Component({
   selector: 'bushtrade-web-portal-menu',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./portal-menu.component.scss'],
 })
 export class PortalMenuComponent implements OnInit {
+  @Input() menuItems: MegaMenuItem[];
   constructor() {}
 
   ngOnInit(): void {}

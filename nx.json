@@ -46,6 +46,39 @@
     },
     "ui": {
       "tags": []
+    },
+    "administration-portal-users": {
+      "tags": []
+    },
+    "administration-portal-advertisments": {
+      "tags": []
+    },
+    "administration-portal-listings": {
+      "tags": []
+    },
+    "administration-portal-reports": {
+      "tags": []
+    },
+    "administration-portal-messages": {
+      "tags": []
+    },
+    "administration-portal-articles": {
+      "tags": []
+    },
+    "administration-portal-support": {
+      "tags": []
+    },
+    "administration-portal-escrow": {
+      "tags": []
+    },
+    "administration-portal-forums": {
+      "tags": []
+    },
+    "administration-portal-administration-app": {
+      "tags": []
+    },
+    "administration-portal-dashboard": {
+      "tags": []
     }
   }
 }
