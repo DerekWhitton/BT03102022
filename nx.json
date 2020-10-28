@@ -73,6 +73,9 @@
     },
     "administration-portal-forums": {
       "tags": []
+    },
+    "administration-portal-administration-app": {
+      "tags": []
     }
   }
 }

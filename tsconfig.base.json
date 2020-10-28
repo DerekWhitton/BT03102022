@@ -43,6 +43,9 @@
       ],
       "@bushtrade/administration-portal/forums": [
         "libs/administration-portal/forums/src/index.ts"
+      ],
+      "@bushtrade/administration/app": [
+        "libs/administration-portal/administration-app/src/index.ts"
       ]
     }
   },
