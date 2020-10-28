@@ -435,6 +435,39 @@
           "style": "scss"
         }
       }
+    },
+    "seller-portal-banking": {
+      "projectType": "library",
+      "root": "libs/seller-portal/banking",
+      "sourceRoot": "libs/seller-portal/banking/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/seller-portal/banking/tsconfig.lib.json",
+              "libs/seller-portal/banking/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/seller-portal/banking/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/seller-portal/banking/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

@@ -5,5 +5,6 @@ module.exports = {
     '<rootDir>/apps/buyer-portal',
     '<rootDir>/libs/ui',
     '<rootDir>/libs/seller-portal/listings',
+    '<rootDir>/libs/seller-portal/banking',
   ],
 };

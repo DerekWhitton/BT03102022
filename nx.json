@@ -49,6 +49,9 @@
     },
     "seller-portal-listings": {
       "tags": []
+    },
+    "seller-portal-banking": {
+      "tags": []
     }
   }
 }

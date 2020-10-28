@@ -19,6 +19,9 @@
       "@bushtrade.web/ui": ["libs/ui/src/index.ts"],
       "@bushtrade/seller-portal/listings": [
         "libs/seller-portal/listings/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/banking": [
+        "libs/seller-portal/banking/src/index.ts"
       ]
     }
   },
