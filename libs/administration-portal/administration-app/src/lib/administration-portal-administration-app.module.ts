@@ -8,7 +8,14 @@ import { UiModule } from '@bushtrade/ui';
     CommonModule,
     UiModule,
     RouterModule.forRoot([
-      { path: '', pathMatch: 'full', component: AppComponent },
+      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('@bushtrade/adminsitration-portal/dashboard').then(
+            (module) => module.AdministrationPortalDashboardModule
+          ),
+      },
       {
         path: 'users',
         loadChildren: () =>

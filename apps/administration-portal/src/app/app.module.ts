@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { AdministrationPortalAdministrationAppModule } from '@bushtrade/administration/app';
+import { AdministrationPortalAdministrationAppModule } from '@bushtrade/administration-portal/app';
 
 @NgModule({
   declarations: [AppComponent],
