@@ -46,6 +46,63 @@
     },
     "ui": {
       "tags": []
+    },
+    "administration-portal-users": {
+      "tags": []
+    },
+    "administration-portal-advertisments": {
+      "tags": []
+    },
+    "administration-portal-listings": {
+      "tags": []
+    },
+    "administration-portal-reports": {
+      "tags": []
+    },
+    "administration-portal-messages": {
+      "tags": []
+    },
+    "administration-portal-articles": {
+      "tags": []
+    },
+    "administration-portal-support": {
+      "tags": []
+    },
+    "administration-portal-escrow": {
+      "tags": []
+    },
+    "administration-portal-forums": {
+      "tags": []
+    },
+    "administration-portal-administration-app": {
+      "tags": []
+    },
+    "administration-portal-dashboard": {
+      "tags": []
+    },
+    "seller-portal-listings": {
+      "tags": []
+    },
+    "seller-portal-banking": {
+      "tags": []
+    },
+    "seller-portal-sales": {
+      "tags": []
+    },
+    "seller-portal-messages": {
+      "tags": []
+    },
+    "seller-portal-buyers": {
+      "tags": []
+    },
+    "seller-portal-account": {
+      "tags": []
+    },
+    "seller-portal-seller-app": {
+      "tags": []
+    },
+    "seller-portal-dashboard": {
+      "tags": []
     }
   }
 }
