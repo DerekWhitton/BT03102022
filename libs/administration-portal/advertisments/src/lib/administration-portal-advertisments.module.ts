@@ -6,7 +6,12 @@ import { AdvertisementsIndexComponent } from './containers/advertisements-index/
 export const administrationPortalAdvertismentsRoutes: Route[] = [];
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: '', pathMatch: 'full', component: AdvertisementsIndexComponent },
+    ]),
+  ],
   declarations: [AdvertisementsIndexComponent],
   entryComponents: [AdvertisementsIndexComponent],
 })

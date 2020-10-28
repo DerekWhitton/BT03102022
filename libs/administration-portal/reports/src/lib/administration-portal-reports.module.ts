@@ -6,7 +6,12 @@ import { ReportsIndexComponent } from './containers/reports-index/reports-index.
 export const administrationPortalReportsRoutes: Route[] = [];
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: '', pathMatch: 'full', component: ReportsIndexComponent },
+    ]),
+  ],
   declarations: [ReportsIndexComponent],
   entryComponents: [ReportsIndexComponent],
 })

@@ -6,7 +6,12 @@ import { ArticlesIndexComponent } from './containers/articles-index/articles-ind
 export const administrationPortalArticlesRoutes: Route[] = [];
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: '', pathMatch: 'full', component: ArticlesIndexComponent },
+    ]),
+  ],
   declarations: [ArticlesIndexComponent],
   entryComponents: [ArticlesIndexComponent],
 })

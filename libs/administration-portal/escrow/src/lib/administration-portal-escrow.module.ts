@@ -6,7 +6,12 @@ import { EscrowIndexComponent } from './containers/escrow-index/escrow-index.com
 export const administrationPortalEscrowRoutes: Route[] = [];
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: '', pathMatch: 'full', component: EscrowIndexComponent },
+    ]),
+  ],
   declarations: [EscrowIndexComponent],
   entryComponents: [EscrowIndexComponent],
 })

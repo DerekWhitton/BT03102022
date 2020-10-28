@@ -6,7 +6,12 @@ import { ForumIndexComponent } from './containers/forum-index/forum-index.compon
 export const administrationPortalForumsRoutes: Route[] = [];
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: '', pathMatch: 'full', component: ForumIndexComponent },
+    ]),
+  ],
   declarations: [ForumIndexComponent],
   entryComponents: [ForumIndexComponent],
 })

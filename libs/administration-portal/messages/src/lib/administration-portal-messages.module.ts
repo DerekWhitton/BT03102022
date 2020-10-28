@@ -6,7 +6,13 @@ import { MessagesIndexComponent } from './containers/messages-index/messages-ind
 export const administrationPortalMessagesRoutes: Route[] = [];
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: '', pathMatch: 'full', component: MessagesIndexComponent },
+    ]),
+  ],
+
   declarations: [MessagesIndexComponent],
   entryComponents: [MessagesIndexComponent],
 })

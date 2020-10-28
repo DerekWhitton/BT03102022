@@ -6,7 +6,12 @@ import { SupportIndexComponent } from './containers/support-index/support-index.
 export const administrationPortalSupportRoutes: Route[] = [];
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: '', pathMatch: 'full', component: SupportIndexComponent },
+    ]),
+  ],
   declarations: [SupportIndexComponent],
   entryComponents: [SupportIndexComponent],
 })
