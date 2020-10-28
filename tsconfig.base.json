@@ -26,7 +26,10 @@
       "@bushtrade/administration-portal/listings": [
         "libs/administration-portal/listings/src/index.ts"
       ],
-      "@bushtrade/administration-portal/reports": ["libs/reports/src/index.ts"]
+      "@bushtrade/administration-portal/reports": ["libs/reports/src/index.ts"],
+      "@bushtrade/administration-portal/messages": [
+        "libs/administration-portal/messages/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
