@@ -22,6 +22,9 @@
       ],
       "@bushtrade/seller-portal/banking": [
         "libs/seller-portal/banking/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/sales": [
+        "libs/seller-portal/sales/src/index.ts"
       ]
     }
   },
