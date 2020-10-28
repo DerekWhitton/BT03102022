@@ -16,7 +16,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@bushtrade.web/ui": ["libs/ui/src/index.ts"]
+      "@bushtrade.web/ui": ["libs/ui/src/index.ts"],
+      "@bushtrade/administration-portal/users": [
+        "libs/administration-portal/users/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/advertisments": [
+        "libs/administration-portal/advertisments/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

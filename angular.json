@@ -402,6 +402,72 @@
           "style": "scss"
         }
       }
+    },
+    "administration-portal-users": {
+      "projectType": "library",
+      "root": "libs/administration-portal/users",
+      "sourceRoot": "libs/administration-portal/users/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/users/tsconfig.lib.json",
+              "libs/administration-portal/users/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/users/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/users/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-advertisments": {
+      "projectType": "library",
+      "root": "libs/administration-portal/advertisments",
+      "sourceRoot": "libs/administration-portal/advertisments/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/advertisments/tsconfig.lib.json",
+              "libs/administration-portal/advertisments/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/advertisments/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/advertisments/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

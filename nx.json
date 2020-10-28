@@ -46,6 +46,12 @@
     },
     "ui": {
       "tags": []
+    },
+    "administration-portal-users": {
+      "tags": []
+    },
+    "administration-portal-advertisments": {
+      "tags": []
     }
   }
 }
