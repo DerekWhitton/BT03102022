@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tslint.json",
+  "rules": {
+    "directive-selector": [true, "attribute", "bushtradeWeb", "camelCase"],
+    "component-selector": [true, "element", "bushtrade.web", "kebab-case"]
+  },
+  "linterOptions": {
+    "exclude": ["!**/*"]
+  }
+}
