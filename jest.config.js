@@ -7,5 +7,6 @@ module.exports = {
     '<rootDir>/libs/administration-portal/users',
     '<rootDir>/libs/administration-portal/advertisments',
     '<rootDir>/libs/administration-portal/listings',
+    '<rootDir>/libs/administration-portal/reports',
   ],
 };

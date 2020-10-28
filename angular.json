@@ -501,6 +501,39 @@
           "style": "scss"
         }
       }
+    },
+    "administration-portal-reports": {
+      "projectType": "library",
+      "root": "libs/administration-portal/reports",
+      "sourceRoot": "libs/administration-portal/reports/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/reports/tsconfig.lib.json",
+              "libs/administration-portal/reports/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/reports/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/reports/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

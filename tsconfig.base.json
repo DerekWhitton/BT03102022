@@ -25,6 +25,9 @@
       ],
       "@bushtrade/administration-portal/listings": [
         "libs/administration-portal/listings/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/reports": [
+        "libs/administration-portal/reports/src/index.ts"
       ]
     }
   },

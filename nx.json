@@ -55,6 +55,9 @@
     },
     "administration-portal-listings": {
       "tags": []
+    },
+    "administration-portal-reports": {
+      "tags": []
     }
   }
 }
