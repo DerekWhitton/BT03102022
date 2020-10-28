@@ -31,6 +31,9 @@
       ],
       "@bushtrade/administration-portal/messages": [
         "libs/administration-portal/messages/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/articles": [
+        "libs/administration-portal/articles/src/index.ts"
       ]
     }
   },

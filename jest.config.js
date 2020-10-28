@@ -9,5 +9,6 @@ module.exports = {
     '<rootDir>/libs/administration-portal/listings',
     '<rootDir>/libs/administration-portal/reports',
     '<rootDir>/libs/administration-portal/messages',
+    '<rootDir>/libs/administration-portal/articles',
   ],
 };
