@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'administration-portal-messages',
-  preset: '../../../jest.preset.js',
+  displayName: 'reports',
+  preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -14,7 +14,7 @@ module.exports = {
       },
     },
   },
-  coverageDirectory: '../../../coverage/libs/administration-portal/messages',
+  coverageDirectory: '../../coverage/libs/reports',
   snapshotSerializers: [
     'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',
     'jest-preset-angular/build/AngularSnapshotSerializer.js',

@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 
-export const administrationPortalMessagesRoutes: Route[] = [];
+export const reportsRoutes: Route[] = [];
 
 @NgModule({
   imports: [CommonModule, RouterModule],
 })
-export class AdministrationPortalMessagesModule {}
+export class ReportsModule {}
