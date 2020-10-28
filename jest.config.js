@@ -8,5 +8,6 @@ module.exports = {
     '<rootDir>/libs/seller-portal/banking',
     '<rootDir>/libs/seller-portal/sales',
     '<rootDir>/libs/seller-portal/messages',
+    '<rootDir>/libs/seller-portal/buyers',
   ],
 };

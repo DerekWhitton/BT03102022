@@ -58,6 +58,9 @@
     },
     "seller-portal-messages": {
       "tags": []
+    },
+    "seller-portal-buyers": {
+      "tags": []
     }
   }
 }
