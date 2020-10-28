@@ -11,5 +11,6 @@ module.exports = {
     '<rootDir>/libs/administration-portal/messages',
     '<rootDir>/libs/administration-portal/articles',
     '<rootDir>/libs/administration-portal/support',
+    '<rootDir>/libs/administration-portal/escrow',
   ],
 };

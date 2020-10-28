@@ -633,6 +633,39 @@
           "style": "scss"
         }
       }
+    },
+    "administration-portal-escrow": {
+      "projectType": "library",
+      "root": "libs/administration-portal/escrow",
+      "sourceRoot": "libs/administration-portal/escrow/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/escrow/tsconfig.lib.json",
+              "libs/administration-portal/escrow/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/escrow/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/escrow/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

@@ -37,6 +37,9 @@
       ],
       "@bushtrade/administration-portal/support": [
         "libs/administration-portal/support/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/escrow": [
+        "libs/administration-portal/escrow/src/index.ts"
       ]
     }
   },
