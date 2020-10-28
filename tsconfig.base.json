@@ -46,6 +46,9 @@
       ],
       "@bushtrade/administration/app": [
         "libs/administration-portal/administration-app/src/index.ts"
+      ],
+      "@bushtrade/adminsitration/dashboard": [
+        "libs/administration-portal/dashboard/src/index.ts"
       ]
     }
   },

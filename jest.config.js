@@ -14,5 +14,6 @@ module.exports = {
     '<rootDir>/libs/administration-portal/escrow',
     '<rootDir>/libs/administration-portal/forums',
     '<rootDir>/libs/administration-portal/administration-app',
+    '<rootDir>/libs/administration-portal/dashboard',
   ],
 };

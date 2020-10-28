@@ -76,6 +76,9 @@
     },
     "administration-portal-administration-app": {
       "tags": []
+    },
+    "administration-portal-dashboard": {
+      "tags": []
     }
   }
 }
