@@ -16,7 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@bushtrade.web/ui": ["libs/ui/src/index.ts"],
+      "@bushtrade/web/ui": ["libs/ui/src/index.ts"],
       "@bushtrade/seller-portal/listings": [
         "libs/seller-portal/listings/src/index.ts"
       ],
@@ -41,6 +41,7 @@
       "@bushtrade/seller-portal/dashboard": [
         "libs/seller-portal/dashboard/src/index.ts"
       ]
+      "@bushtrade/ui": ["libs/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
