@@ -49,7 +49,31 @@
       ],
       "@bushtrade/adminsitration-portal/dashboard": [
         "libs/administration-portal/dashboard/src/index.ts"
-      ]
+      ],
+      "@bushtrade/seller-portal/listings": [
+        "libs/seller-portal/listings/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/banking": [
+        "libs/seller-portal/banking/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/sales": [
+        "libs/seller-portal/sales/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/messages": [
+        "libs/seller-portal/messages/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/buyers": [
+        "libs/seller-portal/buyers/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/account": [
+        "libs/seller-portal/account/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/app": [
+        "libs/seller-portal/seller-app/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/dashboard": [
+        "libs/seller-portal/dashboard/src/index.ts"
+      ],
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -15,5 +15,13 @@ module.exports = {
     '<rootDir>/libs/administration-portal/forums',
     '<rootDir>/libs/administration-portal/administration-app',
     '<rootDir>/libs/administration-portal/dashboard',
+    '<rootDir>/libs/seller-portal/listings',
+    '<rootDir>/libs/seller-portal/banking',
+    '<rootDir>/libs/seller-portal/sales',
+    '<rootDir>/libs/seller-portal/messages',
+    '<rootDir>/libs/seller-portal/buyers',
+    '<rootDir>/libs/seller-portal/account',
+    '<rootDir>/libs/seller-portal/seller-app',
+    '<rootDir>/libs/seller-portal/dashboard',
   ],
 };
