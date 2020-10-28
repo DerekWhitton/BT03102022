@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { IndexComponent } from './index/index.component';
+import { AppComponent } from './app/app.component';
 import { UiModule } from '@bushtrade/ui';
 @NgModule({
   imports: [
     CommonModule,
     UiModule,
     RouterModule.forRoot([
-      { path: '', pathMatch: 'full', component: IndexComponent },
+      { path: '', pathMatch: 'full', component: AppComponent },
       {
         path: 'users',
         loadChildren: () =>
@@ -74,8 +74,8 @@ import { UiModule } from '@bushtrade/ui';
       },
     ]),
   ],
-  declarations: [IndexComponent],
-  entryComponents: [IndexComponent],
-  exports: [IndexComponent],
+  declarations: [AppComponent],
+  entryComponents: [AppComponent],
+  exports: [AppComponent],
 })
 export class AdministrationPortalAdministrationAppModule {}

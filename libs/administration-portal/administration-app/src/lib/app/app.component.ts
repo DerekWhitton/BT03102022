@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MegaMenuItem } from 'primeng/api';
 
 @Component({
-  selector: 'bushtrade-aministration-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+  selector: 'bushtrade-aministration-app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
 })
-export class IndexComponent implements OnInit {
+export class AppComponent implements OnInit {
   menuItems: MegaMenuItem[];
   constructor() {}
 
@@ -15,6 +15,7 @@ export class IndexComponent implements OnInit {
       {
         label: 'Dashboard',
         icon: 'pi pi-pw pi-chart-bar',
+        routerLink: ['/', '/'],
       },
       {
         label: 'Users',
