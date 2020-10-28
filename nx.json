@@ -64,6 +64,9 @@
     },
     "seller-portal-account": {
       "tags": []
+    },
+    "seller-portal-seller-app": {
+      "tags": []
     }
   }
 }

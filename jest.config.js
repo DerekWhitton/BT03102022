@@ -10,5 +10,6 @@ module.exports = {
     '<rootDir>/libs/seller-portal/messages',
     '<rootDir>/libs/seller-portal/buyers',
     '<rootDir>/libs/seller-portal/account',
+    '<rootDir>/libs/seller-portal/seller-app',
   ],
 };
