@@ -25,6 +25,9 @@
       ],
       "@bushtrade/seller-portal/sales": [
         "libs/seller-portal/sales/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/messages": [
+        "libs/seller-portal/messages/src/index.ts"
       ]
     }
   },

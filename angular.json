@@ -498,6 +498,39 @@
           "style": "scss"
         }
       }
+    },
+    "seller-portal-messages": {
+      "projectType": "library",
+      "root": "libs/seller-portal/messages",
+      "sourceRoot": "libs/seller-portal/messages/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/seller-portal/messages/tsconfig.lib.json",
+              "libs/seller-portal/messages/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/seller-portal/messages/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/seller-portal/messages/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

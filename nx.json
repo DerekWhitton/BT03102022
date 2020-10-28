@@ -55,6 +55,9 @@
     },
     "seller-portal-sales": {
       "tags": []
+    },
+    "seller-portal-messages": {
+      "tags": []
     }
   }
 }
