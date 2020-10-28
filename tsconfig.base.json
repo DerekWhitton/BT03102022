@@ -28,6 +28,9 @@
       ],
       "@bushtrade/administration-portal/reports": [
         "libs/administration-portal/reports/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/messages": [
+        "libs/administration-portal/messages/src/index.ts"
       ]
     }
   },

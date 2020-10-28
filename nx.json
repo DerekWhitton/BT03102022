@@ -58,6 +58,9 @@
     },
     "administration-portal-reports": {
       "tags": []
+    },
+    "administration-portal-messages": {
+      "tags": []
     }
   }
 }
