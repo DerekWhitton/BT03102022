@@ -31,6 +31,9 @@
       ],
       "@bushtrade/seller-portal/buyers": [
         "libs/seller-portal/buyers/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/account": [
+        "libs/seller-portal/account/src/index.ts"
       ]
     }
   },
