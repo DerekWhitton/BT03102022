@@ -23,5 +23,6 @@ module.exports = {
     '<rootDir>/libs/seller-portal/account',
     '<rootDir>/libs/seller-portal/seller-app',
     '<rootDir>/libs/seller-portal/dashboard',
+    '<rootDir>/apps/website',
   ],
 };
