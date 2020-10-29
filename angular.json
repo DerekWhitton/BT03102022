@@ -1233,6 +1233,36 @@
           "style": "scss"
         }
       }
+    },
+    "website-website-app": {
+      "projectType": "library",
+      "root": "libs/website/website-app",
+      "sourceRoot": "libs/website/website-app/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/website-app/tsconfig.lib.json",
+              "libs/website/website-app/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/website-app/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/website-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

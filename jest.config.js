@@ -31,5 +31,6 @@ module.exports = {
     '<rootDir>/libs/website/forums',
     '<rootDir>/libs/website/favourites',
     '<rootDir>/libs/website/support',
+    '<rootDir>/libs/website/website-app',
   ],
 };
