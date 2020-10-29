@@ -37,13 +37,6 @@
       "tags": [],
       "implicitDependencies": ["seller-portal"]
     },
-    "buyer-portal": {
-      "tags": []
-    },
-    "buyer-portal-e2e": {
-      "tags": [],
-      "implicitDependencies": ["buyer-portal"]
-    },
     "ui": {
       "tags": []
     },
