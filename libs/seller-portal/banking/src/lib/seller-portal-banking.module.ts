@@ -6,7 +6,12 @@ import { BankingIndexComponent } from './containers/banking-index/banking-index.
 export const sellerPortalBankingRoutes: Route[] = [];
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: '', pathMatch: 'full', component: BankingIndexComponent },
+    ]),
+  ],
   declarations: [BankingIndexComponent],
   entryComponents: [BankingIndexComponent],
 })
