@@ -26,5 +26,6 @@ module.exports = {
     '<rootDir>/apps/website',
     '<rootDir>/libs/website/home',
     '<rootDir>/libs/website/buy-sell',
+    '<rootDir>/libs/website/marketplace',
   ],
 };
