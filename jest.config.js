@@ -28,5 +28,6 @@ module.exports = {
     '<rootDir>/libs/website/buy-sell',
     '<rootDir>/libs/website/marketplace',
     '<rootDir>/libs/website/auctions',
+    '<rootDir>/libs/website/forums',
   ],
 };

@@ -115,6 +115,9 @@
     },
     "website-auctions": {
       "tags": []
+    },
+    "website-forums": {
+      "tags": []
     }
   }
 }

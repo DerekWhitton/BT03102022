@@ -1143,6 +1143,36 @@
           "style": "scss"
         }
       }
+    },
+    "website-forums": {
+      "projectType": "library",
+      "root": "libs/website/forums",
+      "sourceRoot": "libs/website/forums/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/forums/tsconfig.lib.json",
+              "libs/website/forums/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/forums/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/forums/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {
