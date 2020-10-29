@@ -80,7 +80,8 @@
         "libs/website/marketplace/src/index.ts"
       ],
       "@bushtrade/website/auctions": ["libs/website/auctions/src/index.ts"],
-      "@bushtrade/website/forums": ["libs/website/forums/src/index.ts"]
+      "@bushtrade/website/forums": ["libs/website/forums/src/index.ts"],
+      "@bushtrade/website/favourites": ["libs/website/favourites/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

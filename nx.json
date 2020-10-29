@@ -118,6 +118,9 @@
     },
     "website-forums": {
       "tags": []
+    },
+    "website-favourites": {
+      "tags": []
     }
   }
 }
