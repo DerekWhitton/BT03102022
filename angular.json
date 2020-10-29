@@ -1053,6 +1053,36 @@
           "style": "scss"
         }
       }
+    },
+    "website-buy-sell": {
+      "projectType": "library",
+      "root": "libs/website/buy-sell",
+      "sourceRoot": "libs/website/buy-sell/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/buy-sell/tsconfig.lib.json",
+              "libs/website/buy-sell/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/buy-sell/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/buy-sell/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

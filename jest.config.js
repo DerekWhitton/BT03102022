@@ -25,5 +25,6 @@ module.exports = {
     '<rootDir>/libs/seller-portal/dashboard',
     '<rootDir>/apps/website',
     '<rootDir>/libs/website/home',
+    '<rootDir>/libs/website/buy-sell',
   ],
 };
