@@ -81,7 +81,8 @@
       ],
       "@bushtrade/website/auctions": ["libs/website/auctions/src/index.ts"],
       "@bushtrade/website/forums": ["libs/website/forums/src/index.ts"],
-      "@bushtrade/website/favourites": ["libs/website/favourites/src/index.ts"]
+      "@bushtrade/website/favourites": ["libs/website/favourites/src/index.ts"],
+      "@bushtrade/website/support": ["libs/website/support/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
