@@ -73,7 +73,8 @@
       ],
       "@bushtrade/seller-portal/dashboard": [
         "libs/seller-portal/dashboard/src/index.ts"
-      ]
+      ],
+      "@bushtrade/website/home": ["libs/website/home/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

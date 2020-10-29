@@ -103,6 +103,9 @@
     "website-e2e": {
       "tags": [],
       "implicitDependencies": ["website"]
+    },
+    "website-home": {
+      "tags": []
     }
   }
 }
