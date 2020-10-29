@@ -112,6 +112,9 @@
     },
     "website-marketplace": {
       "tags": []
+    },
+    "website-auctions": {
+      "tags": []
     }
   }
 }

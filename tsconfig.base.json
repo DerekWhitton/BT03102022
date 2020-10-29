@@ -78,7 +78,8 @@
       "@bushtrade/website/buy-sell": ["libs/website/buy-sell/src/index.ts"],
       "@bushtrade/website/marketplace": [
         "libs/website/marketplace/src/index.ts"
-      ]
+      ],
+      "@bushtrade/website/auctions": ["libs/website/auctions/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

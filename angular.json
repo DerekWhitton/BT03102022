@@ -1113,6 +1113,36 @@
           "style": "scss"
         }
       }
+    },
+    "website-auctions": {
+      "projectType": "library",
+      "root": "libs/website/auctions",
+      "sourceRoot": "libs/website/auctions/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/auctions/tsconfig.lib.json",
+              "libs/website/auctions/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/auctions/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/auctions/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {
