@@ -139,6 +139,12 @@
     },
     "app-config": {
       "tags": []
+    },
+    "administration-portal-settings": {
+      "tags": []
+    },
+    "ui-elements": {
+      "tags": []
     }
   }
 }

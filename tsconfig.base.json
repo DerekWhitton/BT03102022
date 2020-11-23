@@ -95,7 +95,11 @@
       "@bushtrade/administration-portal/shared/services": [
         "libs/administration-portal/shared/services/src/index.ts"
       ],
-      "@bushtrade/app-config": ["libs/app-config/index.ts"] 
+      "@bushtrade/app-config": ["libs/app-config/index.ts"],
+      "@bushtrade/administration-portal/settings": [
+        "libs/administration-portal/settings/src/index.ts"
+      ],
+      "@bushtrade/ui-elements": ["libs/ui-elements/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
