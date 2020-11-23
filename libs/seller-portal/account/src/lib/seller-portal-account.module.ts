@@ -6,7 +6,6 @@ import { AccountIndexComponent } from './containers/account-index/account-index.
 @NgModule({
   imports: [
     CommonModule,
-
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: AccountIndexComponent },
     ]),
