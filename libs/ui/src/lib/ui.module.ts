@@ -14,9 +14,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { WebsiteFooterComponent } from './website-footer/website-footer.component';
 import { ProductItemComponent } from './product-item/product-item.component';
-
+import { ProductItemMinimalComponent } from './product-item-minimal/product-item-minimal.component';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 @NgModule({
-  imports: [CommonModule, MegaMenuModule, MenuModule],
+  imports: [CommonModule, MegaMenuModule, MenuModule, CardModule, ButtonModule],
   declarations: [
     PortalMenuComponent,
     CrudTableComponent,
@@ -28,6 +30,7 @@ import { ProductItemComponent } from './product-item/product-item.component';
     PortalTopBarComponent,
     WebsiteFooterComponent,
     ProductItemComponent,
+    ProductItemMinimalComponent,
   ],
   providers: [
     // {
@@ -49,6 +52,7 @@ import { ProductItemComponent } from './product-item/product-item.component';
     PortalTopBarComponent,
     WebsiteFooterComponent,
     ProductItemComponent,
+    ProductItemMinimalComponent,
   ],
 })
 export class UiModule {}
