@@ -6,7 +6,6 @@ import { CrudTableComponent } from './crud-table/crud-table.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { WebsiteMenuComponent } from './website-menu/website-menu.component';
-import { PortalFooterComponent } from './portal-footer/portal-footer.component';
 
 @NgModule({
   imports: [CommonModule, MegaMenuModule],
@@ -16,7 +15,6 @@ import { PortalFooterComponent } from './portal-footer/portal-footer.component';
     HeaderComponent,
     FooterComponent,
     WebsiteMenuComponent,
-    PortalFooterComponent,
   ],
   exports: [
     PortalMenuComponent,
