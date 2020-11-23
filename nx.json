@@ -127,6 +127,24 @@
     },
     "website-website-app": {
       "tags": []
+    },
+    "administration-portal-shared-state": {
+      "tags": []
+    },
+    "administration-portal-shared-entities": {
+      "tags": []
+    },
+    "administration-portal-shared-services": {
+      "tags": []
+    },
+    "app-config": {
+      "tags": []
+    },
+    "administration-portal-settings": {
+      "tags": []
+    },
+    "ui-elements": {
+      "tags": []
     }
   }
 }

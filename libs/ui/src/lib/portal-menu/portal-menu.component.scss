@@ -1,0 +1,33 @@
+.layout-menu-footer {
+  overflow: auto;
+  padding: 1rem;
+}
+
+.layout-menu-footer ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.layout-menu-footer ul a {
+  align-items: center;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  padding: 0.5em;
+}
+
+.layout-menu-footer ul a:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.layout-menu-footer ul a i {
+  margin-right: 0.5rem;
+}
+
+.active {
+  font-weight: 700;
+  a {
+    color: beige;
+  }
+}

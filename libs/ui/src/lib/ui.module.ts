@@ -6,6 +6,11 @@ import { CrudTableComponent } from './crud-table/crud-table.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { WebsiteMenuComponent } from './website-menu/website-menu.component';
+import { PortalFooterComponent } from './portal-footer/portal-footer.component';
+import { PortalMenuItemComponent } from './portal-menu-item/portal-menu-item.component';
+import { PortalTopBarComponent } from './portal-top-bar/portal-top-bar.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   imports: [CommonModule, MegaMenuModule],
@@ -15,12 +20,28 @@ import { WebsiteMenuComponent } from './website-menu/website-menu.component';
     HeaderComponent,
     FooterComponent,
     WebsiteMenuComponent,
+    PortalFooterComponent,
+    PortalMenuItemComponent,
+    PortalTopBarComponent,
+  ],
+  providers: [
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: ExceptionInterceptor,
+    //   multi: true,
+    // },
+    MessageService,
+    ConfirmationService,
   ],
   exports: [
     PortalMenuComponent,
     CrudTableComponent,
     HeaderComponent,
     FooterComponent,
+    WebsiteMenuComponent,
+    PortalFooterComponent,
+    PortalMenuItemComponent,
+    PortalTopBarComponent,
   ],
 })
 export class UiModule {}

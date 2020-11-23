@@ -32,5 +32,11 @@ module.exports = {
     '<rootDir>/libs/website/favourites',
     '<rootDir>/libs/website/support',
     '<rootDir>/libs/website/website-app',
+    '<rootDir>/libs/administration-portal/shared/state',
+    '<rootDir>/libs/administration-portal/shared/entities',
+    '<rootDir>/libs/administration-portal/shared/services',
+    '<rootDir>/libs/app-config',
+    '<rootDir>/libs/administration-portal/settings',
+    '<rootDir>/libs/ui-elements',
   ],
 };

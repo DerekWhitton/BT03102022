@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MegaMenuItem } from 'primeng/api';
 
 @Component({
@@ -7,8 +7,39 @@ import { MegaMenuItem } from 'primeng/api';
   styleUrls: ['./portal-menu.component.scss'],
 })
 export class PortalMenuComponent implements OnInit {
-  @Input() menuItems: MegaMenuItem[];
+  @Input() menuItems;
+
+  @Input() isSlim = false;
+
+  @Input() isMobile = false;
+
+  @Input() isDesktop = false;
+
+  @Input() isMenuHoverActive = false;
+  @Output() handleMenuClick = new EventEmitter();
+
+  @Output() handleMenuHoverActive = new EventEmitter();
+  @Output() handleMenuHoverActiveFalse = new EventEmitter();
+  @Output() handleUnblockBodyScroll = new EventEmitter();
+  @Output() handleStaticMenuMobileActiveFalse = new EventEmitter();
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  handleSetMenuHoverActive() {
+    this.handleMenuHoverActive.emit();
+  }
+
+  handleSetMenuHoverActiveFalse() {
+    this.handleMenuHoverActiveFalse.emit();
+  }
+
+  unblockBodyScroll() {
+    this.handleUnblockBodyScroll.emit();
+  }
+
+  staticMenuMobileActiveFalse() {
+    this.handleStaticMenuMobileActiveFalse.emit();
+  }
 }

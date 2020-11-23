@@ -1,2 +1,64 @@
-<bushtrade-portal-menu [menuItems]="menuItems"> </bushtrade-portal-menu>
-<router-outlet></router-outlet>
+<div
+  class="layout-wrapper"
+  [ngClass]="{
+    'layout-overlay': menuMode === 'overlay',
+    'layout-static': menuMode === 'static',
+    'layout-slim': menuMode === 'slim',
+    'layout-sidebar-dim': colorScheme === 'dim',
+    'layout-sidebar-dark': colorScheme === 'dark',
+    'layout-overlay-active': overlayMenuActive,
+    'layout-mobile-active': staticMenuMobileActive,
+    'layout-static-inactive':
+      staticMenuDesktopInactive && menuMode === 'static',
+    'p-input-filled': inputStyle === 'filled',
+    'p-ripple-disabled': !ripple
+  }"
+  [class]="colorScheme === 'light' ? menuTheme : ''"
+  [attr.data-theme]="colorScheme"
+  (click)="onLayoutClick()"
+>
+  <div class="layout-content-wrapper">
+    <bushtrade-portal-top-bar
+      [topbarNotificationMenuActive]="topbarNotificationMenuActive"
+      [topbarUserMenuActive]="topbarUserMenuActive"
+      (handleMenuButtonClick)="onMenuButtonClick($event)"
+      (handleRightMenuClick)="onRightMenuClick($event)"
+      (handleSearchClick)="onSearchClick($event)"
+      (handleTopbarUserMenuButtonClick)="onTopbarUserMenuButtonClick($event)"
+      (hanldeTopbarNotificationMenuButtonClick)="
+        onTopbarNotificationMenuButtonClick($event)
+      "
+    ></bushtrade-portal-top-bar>
+
+    <div class="layout-content">
+      <router-outlet></router-outlet>
+    </div>
+
+    <bushtrade-portal-footer></bushtrade-portal-footer>
+  </div>
+
+  <!-- <boma-portal-config
+    (changeMenuTheme)="changeMenuTheme($event)"
+  ></boma-portal-config> -->
+
+  <bushtrade-portal-menu
+    [menuItems]="menuItems"
+    [isSlim]="isSlim()"
+    [isMobile]="isMobile()"
+    [isDesktop]="isDesktop()"
+    [isMenuHoverActive]="isMenuHoverActive()"
+    (handleMenuClick)="onMenuClick()"
+    (handleMenuHoverActive)="onSetMenuHoverActive()"
+    (handleMenuHoverActiveFalse)="onSetMenuHoverActiveFalse()"
+    (handleUnblockBodyScroll)="unblockBodyScroll()"
+    (handleStaticMenuMobileActiveFalse)="onSetStaticMenuMobileActiveFalse()"
+  ></bushtrade-portal-menu>
+
+  <!-- <boma-portal-right-menu
+    [rightMenuActive]="rightMenuActive"
+    (hanldeRightMenuClick)="onRightMenuClick($event)"
+  ></boma-portal-right-menu> -->
+
+  <div class="layout-mask modal-in"></div>
+  <!-- <boma-toast></boma-toast> -->
+</div>

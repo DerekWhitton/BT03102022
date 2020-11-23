@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { UiModule } from '@bushtrade/ui';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -78,6 +79,14 @@ import { UiModule } from '@bushtrade/ui';
           import('@bushtrade/administration-portal/support').then(
             (module) => module.AdministrationPortalSupportModule
           ),
+      },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('@bushtrade/administration-portal/settings').then(
+            (module) => module.AdministrationPortalSettingsModule
+          ),
+        // canActivate: [MsalGuard],
       },
     ]),
   ],
