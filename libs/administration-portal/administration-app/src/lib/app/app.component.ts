@@ -249,17 +249,17 @@ export class AppComponent implements OnInit {
             ) as HTMLImageElement;
 
             if (res.colorScheme === 'light') {
-              mobileLogoLink.src = 'assets/layout/images/logo-dark.svg';
-              footerLogoLink.src = 'assets/layout/images/logo-dark.svg';
+              mobileLogoLink.src = 'assets/layout/images/logo-dark.png';
+              footerLogoLink.src = 'assets/layout/images/logo-dark.png';
               if (res.menuTheme == 'white') {
-                appLogoLink.src = 'assets/layout/images/logo-dark.svg';
+                appLogoLink.src = 'assets/layout/images/logo-dark.png';
               } else {
-                appLogoLink.src = 'assets/layout/images/logo-light.svg';
+                appLogoLink.src = 'assets/layout/images/logo-light.png';
               }
             } else {
-              mobileLogoLink.src = 'assets/layout/images/logo-light.svg';
-              footerLogoLink.src = 'assets/layout/images/logo-light.svg';
-              appLogoLink.src = 'assets/layout/images/logo-light.svg';
+              mobileLogoLink.src = 'assets/layout/images/logo-light.png';
+              footerLogoLink.src = 'assets/layout/images/logo-light.png';
+              appLogoLink.src = 'assets/layout/images/logo-light.png';
             }
           }
         }
