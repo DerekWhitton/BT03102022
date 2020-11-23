@@ -38,6 +38,8 @@
     "@angular/platform-browser-dynamic": "^10.1.0",
     "@angular/router": "^10.1.0",
     "@azure/msal-angular": "^1.1.1",
+    "@ngrx/store": "^10.0.1",
+    "@ngrx/store-devtools": "^10.0.1",
     "@nrwl/angular": "10.3.1",
     "msal": "^1.4.2",
     "primeicons": "^4.0.0",
