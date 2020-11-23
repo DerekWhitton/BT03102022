@@ -2,11 +2,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { WebsiteIndexComponent } from './website-index/website-index.component';
-
-export const websiteWebsiteAppRoutes: Route[] = [];
-
+import { UiModule } from '@bushtrade/ui';
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    UiModule,
+    RouterModule.forRoot([
+      { path: '', pathMatch: 'full', redirectTo: 'home' },
+      {
+        path: 'home',
+        loadChildren: () =>
+          import('@bushtrade/website/home').then(
+            (module) => module.WebsiteHomeModule
+          ),
+      },
+    ]),
+  ],
   declarations: [WebsiteIndexComponent],
+  entryComponents: [WebsiteIndexComponent],
+  exports: [WebsiteIndexComponent],
 })
 export class WebsiteWebsiteAppModule {}

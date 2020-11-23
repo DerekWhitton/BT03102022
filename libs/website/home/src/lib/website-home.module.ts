@@ -6,7 +6,12 @@ import { HomeIndexComponent } from './home-index/home-index.component';
 export const websiteHomeRoutes: Route[] = [];
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: '', pathMatch: 'full', component: HomeIndexComponent },
+    ]),
+  ],
   declarations: [HomeIndexComponent],
 })
 export class WebsiteHomeModule {}

@@ -11,6 +11,7 @@ import { PortalMenuItemComponent } from './portal-menu-item/portal-menu-item.com
 import { PortalTopBarComponent } from './portal-top-bar/portal-top-bar.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { WebsiteFooterComponent } from './website-footer/website-footer.component';
 
 @NgModule({
   imports: [CommonModule, MegaMenuModule],
@@ -23,6 +24,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     PortalFooterComponent,
     PortalMenuItemComponent,
     PortalTopBarComponent,
+    WebsiteFooterComponent,
   ],
   providers: [
     // {
@@ -42,6 +44,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     PortalFooterComponent,
     PortalMenuItemComponent,
     PortalTopBarComponent,
+    WebsiteFooterComponent,
   ],
 })
 export class UiModule {}
