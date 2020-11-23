@@ -6,7 +6,12 @@ import { SalesIndexComponent } from './containers/sales-index/sales-index.compon
 export const sellerPortalSalesRoutes: Route[] = [];
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: '', pathMatch: 'full', component: SalesIndexComponent },
+    ]),
+  ],
   declarations: [SalesIndexComponent],
   entryComponents: [SalesIndexComponent],
 })

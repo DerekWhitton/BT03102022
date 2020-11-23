@@ -37,13 +37,6 @@
       "tags": [],
       "implicitDependencies": ["seller-portal"]
     },
-    "buyer-portal": {
-      "tags": []
-    },
-    "buyer-portal-e2e": {
-      "tags": [],
-      "implicitDependencies": ["buyer-portal"]
-    },
     "ui": {
       "tags": []
     },
@@ -102,6 +95,37 @@
       "tags": []
     },
     "seller-portal-dashboard": {
+      "tags": []
+    },
+    "website": {
+      "tags": []
+    },
+    "website-e2e": {
+      "tags": [],
+      "implicitDependencies": ["website"]
+    },
+    "website-home": {
+      "tags": []
+    },
+    "website-buy-sell": {
+      "tags": []
+    },
+    "website-marketplace": {
+      "tags": []
+    },
+    "website-auctions": {
+      "tags": []
+    },
+    "website-forums": {
+      "tags": []
+    },
+    "website-favourites": {
+      "tags": []
+    },
+    "website-support": {
+      "tags": []
+    },
+    "website-website-app": {
       "tags": []
     }
   }

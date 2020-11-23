@@ -17,6 +17,48 @@ import { AppComponent } from './app/app.component';
             (module) => module.SellerPortalDashboardModule
           ),
       },
+      {
+        path: 'account',
+        loadChildren: () =>
+          import('@bushtrade/seller-portal/account').then(
+            (module) => module.SellerPortalAccountModule
+          ),
+      },
+      {
+        path: 'banking',
+        loadChildren: () =>
+          import('@bushtrade/seller-portal/banking').then(
+            (module) => module.SellerPortalBankingModule
+          ),
+      },
+      {
+        path: 'buyers',
+        loadChildren: () =>
+          import('@bushtrade/seller-portal/buyers').then(
+            (module) => module.SellerPortalBuyersModule
+          ),
+      },
+      {
+        path: 'listings',
+        loadChildren: () =>
+          import('@bushtrade/seller-portal/listings').then(
+            (module) => module.SellerPortalListingsModule
+          ),
+      },
+      {
+        path: 'messages',
+        loadChildren: () =>
+          import('@bushtrade/seller-portal/messages').then(
+            (module) => module.SellerPortalMessagesModule
+          ),
+      },
+      {
+        path: 'sales',
+        loadChildren: () =>
+          import('@bushtrade/seller-portal/sales').then(
+            (module) => module.SellerPortalSalesModule
+          ),
+      },
     ]),
   ],
   declarations: [AppComponent],

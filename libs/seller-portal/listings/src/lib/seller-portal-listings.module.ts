@@ -6,7 +6,12 @@ import { ListingsIndexComponent } from './containers/listings-index/listings-ind
 export const sellerPortalListingsRoutes: Route[] = [];
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      { path: '', pathMatch: 'full', component: ListingsIndexComponent },
+    ]),
+  ],
   declarations: [ListingsIndexComponent],
   entryComponents: [ListingsIndexComponent],
 })
