@@ -1450,6 +1450,39 @@
           "style": "scss"
         }
       }
+    },
+    "website-trophy-cabinet": {
+      "projectType": "library",
+      "root": "libs/website/trophy-cabinet",
+      "sourceRoot": "libs/website/trophy-cabinet/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/trophy-cabinet/tsconfig.lib.json",
+              "libs/website/trophy-cabinet/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/trophy-cabinet/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/trophy-cabinet/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

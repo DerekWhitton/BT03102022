@@ -99,7 +99,10 @@
       "@bushtrade/administration-portal/settings": [
         "libs/administration-portal/settings/src/index.ts"
       ],
-      "@bushtrade/ui-elements": ["libs/ui-elements/src/index.ts"]
+      "@bushtrade/ui-elements": ["libs/ui-elements/src/index.ts"],
+      "@bushtrade/website/trophy-cabinet": [
+        "libs/website/trophy-cabinet/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -44,13 +44,13 @@ import { UiModule } from '@bushtrade/ui';
             (module) => module.WebsiteForumsModule
           ),
       },
-      // {
-      //   path: 'trophy-cabinet',
-      //   loadChildren: () =>
-      //     import('@bushtrade/website/forums').then(
-      //       (module) => module.WebsiteForumsModule
-      //     ),
-      // },
+      {
+        path: 'trophy-cabinet',
+        loadChildren: () =>
+          import('@bushtrade/website/trophy-cabinet').then(
+            (module) => module.WebsiteTrophyCabinetModule
+          ),
+      },
       {
         path: 'support',
         loadChildren: () =>
