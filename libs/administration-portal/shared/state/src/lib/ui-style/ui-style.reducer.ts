@@ -2,7 +2,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import * as UiStyleActions from './ui-style.actions';
-import { IUiStyle } from '@boma/administration-portal/shared/entities';
+import { IUiStyle } from '@bushtrade/administration-portal/shared/entites';
 
 export const UISTYLE_FEATURE_KEY = 'uiStyle';
 

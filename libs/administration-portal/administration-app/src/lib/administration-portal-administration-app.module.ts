@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { UiModule } from '@bushtrade/ui';
+
 @NgModule({
   imports: [
     CommonModule,

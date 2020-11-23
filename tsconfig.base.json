@@ -94,7 +94,8 @@
       ],
       "@bushtrade/administration-portal/shared/services": [
         "libs/administration-portal/shared/services/src/index.ts"
-      ]
+      ],
+      "@bushtrade/app-config": ["libs/app-config/index.ts"] 
     }
   },
   "exclude": ["node_modules", "tmp"]

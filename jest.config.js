@@ -35,5 +35,6 @@ module.exports = {
     '<rootDir>/libs/administration-portal/shared/state',
     '<rootDir>/libs/administration-portal/shared/entities',
     '<rootDir>/libs/administration-portal/shared/services',
+    '<rootDir>/libs/app-config',
   ],
 };

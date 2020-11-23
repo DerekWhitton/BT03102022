@@ -169,9 +169,8 @@ export class AppComponent implements OnInit {
   ];
   constructor(
     private primengConfig: PrimeNGConfig,
-    private store: Store // private broadcastService: BroadcastService,
-  ) // private authService: MsalService
-  {}
+    private store: Store // private broadcastService: BroadcastService, // private authService: MsalService
+  ) {}
 
   ngOnInit(): void {
     // // event listeners for authentication status
