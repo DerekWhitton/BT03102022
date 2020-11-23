@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdministrationPortalAdministrationAppModule } from '@bushtrade/administration-portal/app';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
@@ -24,6 +25,7 @@ export function localStorageSyncReducer(
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AdministrationPortalAdministrationAppModule,
     StoreModule.forRoot(
       {

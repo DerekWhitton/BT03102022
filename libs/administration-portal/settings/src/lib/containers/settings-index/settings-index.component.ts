@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { setUiStyle } from '@boma/administration-portal/shared/state';
-import { getUiStyle } from '@boma/administration-portal/shared/state';
-import { IUiStyle } from '@boma/administration-portal/shared/entities';
+import {
+  setUiStyle,
+  getUiStyle,
+} from '@bushtrade/administration-portal/shared/state';
+import { IUiStyle } from '@bushtrade/administration-portal/shared/entites';
 
 @Component({
-  selector: 'boma-settings-index',
+  selector: 'bushtrade-settings-index',
   templateUrl: './settings-index.component.html',
   styleUrls: ['./settings-index.component.scss'],
 })

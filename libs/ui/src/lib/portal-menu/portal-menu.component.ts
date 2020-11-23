@@ -25,9 +25,7 @@ export class PortalMenuComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.menuItems);
-  }
+  ngOnInit(): void {}
 
   handleSetMenuHoverActive() {
     this.handleMenuHoverActive.emit();
