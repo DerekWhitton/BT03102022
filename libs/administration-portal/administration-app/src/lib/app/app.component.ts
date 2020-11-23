@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MegaMenuItem, PrimeNGConfig } from 'primeng/api';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { getUiStyle } from '@bushtrade/administration-portal/shared/state';
+import { IUiStyle } from '@bushtrade/administration-portal/shared/entites';
 
 @Component({
   selector: 'bushtrade-aministration-app',
@@ -167,10 +169,9 @@ export class AppComponent implements OnInit {
   ];
   constructor(
     private primengConfig: PrimeNGConfig,
-    private store: Store,
-    // private broadcastService: BroadcastService,
-    // private authService: MsalService
-  ) {}
+    private store: Store // private broadcastService: BroadcastService,
+  ) // private authService: MsalService
+  {}
 
   ngOnInit(): void {
     // // event listeners for authentication status
