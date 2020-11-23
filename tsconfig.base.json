@@ -91,6 +91,9 @@
       ],
       "@bushtrade/administration-portal/shared/entites": [
         "libs/administration-portal/shared/entities/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/shared/services": [
+        "libs/administration-portal/shared/services/src/index.ts"
       ]
     }
   },

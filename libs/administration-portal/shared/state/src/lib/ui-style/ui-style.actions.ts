@@ -1,4 +1,4 @@
-import { IUiStyle } from '@boma/administration-portal/shared/entities';
+import { IUiStyle } from '@bushtrade/administration-portal/shared/entites';
 import { createAction, props } from '@ngrx/store';
 
 export const loadUiStyle = createAction('[UiStyle] Load UiStyle Success');

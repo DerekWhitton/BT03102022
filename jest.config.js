@@ -34,5 +34,6 @@ module.exports = {
     '<rootDir>/libs/website/website-app',
     '<rootDir>/libs/administration-portal/shared/state',
     '<rootDir>/libs/administration-portal/shared/entities',
+    '<rootDir>/libs/administration-portal/shared/services',
   ],
 };
