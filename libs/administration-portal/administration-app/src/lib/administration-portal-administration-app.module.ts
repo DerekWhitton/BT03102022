@@ -80,6 +80,14 @@ import { UiModule } from '@bushtrade/ui';
             (module) => module.AdministrationPortalSupportModule
           ),
       },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('@bushtrade/administration-portal/settings').then(
+            (module) => module.AdministrationPortalSettingsModule
+          ),
+        // canActivate: [MsalGuard],
+      },
     ]),
   ],
   declarations: [AppComponent],
