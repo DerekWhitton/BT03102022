@@ -16,6 +16,13 @@ import { UiModule } from '@bushtrade/ui';
             (module) => module.WebsiteHomeModule
           ),
       },
+      {
+        path: 'buyandsell',
+        loadChildren: () =>
+          import('@bushtrade/website/buy-sell').then(
+            (module) => module.WebsiteBuySellModule
+          ),
+      },
     ]),
   ],
   declarations: [WebsiteIndexComponent],

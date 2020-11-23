@@ -6,9 +6,8 @@ import { BuySellIndexComponent } from './buy-sell-index/buy-sell-index.component
 @NgModule({
   imports: [
     CommonModule,
-
     RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+      { path: '', pathMatch: 'full', component: BuySellIndexComponent },
     ]),
   ],
   declarations: [BuySellIndexComponent],
