@@ -32,5 +32,6 @@ module.exports = {
     '<rootDir>/libs/website/favourites',
     '<rootDir>/libs/website/support',
     '<rootDir>/libs/website/website-app',
+    '<rootDir>/libs/administration-portal/shared/state',
   ],
 };

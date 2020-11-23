@@ -127,6 +127,9 @@
     },
     "website-website-app": {
       "tags": []
+    },
+    "administration-portal-shared-state": {
+      "tags": []
     }
   }
 }

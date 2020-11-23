@@ -85,6 +85,9 @@
       "@bushtrade/website/support": ["libs/website/support/src/index.ts"],
       "@bushtrade/website/website-app": [
         "libs/website/website-app/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/shared/state": [
+        "libs/administration-portal/shared/state/src/index.ts"
       ]
     }
   },
