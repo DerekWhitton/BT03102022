@@ -8,7 +8,7 @@ import { MarketplaceIndexComponent } from './marketplace-index/marketplace-index
     CommonModule,
 
     RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+      { path: '', pathMatch: 'full', component: MarketplaceIndexComponent },
     ]),
   ],
   declarations: [MarketplaceIndexComponent],

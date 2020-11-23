@@ -17,10 +17,52 @@ import { UiModule } from '@bushtrade/ui';
           ),
       },
       {
-        path: 'buyandsell',
+        path: 'buy-sell',
         loadChildren: () =>
           import('@bushtrade/website/buy-sell').then(
             (module) => module.WebsiteBuySellModule
+          ),
+      },
+      {
+        path: 'marketplace',
+        loadChildren: () =>
+          import('@bushtrade/website/marketplace').then(
+            (module) => module.WebsiteMarketplaceModule
+          ),
+      },
+      {
+        path: 'auctions',
+        loadChildren: () =>
+          import('@bushtrade/website/auctions').then(
+            (module) => module.WebsiteAuctionsModule
+          ),
+      },
+      {
+        path: 'forums',
+        loadChildren: () =>
+          import('@bushtrade/website/forums').then(
+            (module) => module.WebsiteForumsModule
+          ),
+      },
+      // {
+      //   path: 'trophy-cabinet',
+      //   loadChildren: () =>
+      //     import('@bushtrade/website/forums').then(
+      //       (module) => module.WebsiteForumsModule
+      //     ),
+      // },
+      {
+        path: 'support',
+        loadChildren: () =>
+          import('@bushtrade/website/support').then(
+            (module) => module.WebsiteSupportModule
+          ),
+      },
+      {
+        path: 'favourites',
+        loadChildren: () =>
+          import('@bushtrade/website/favourites').then(
+            (module) => module.WebsiteFavouritesModule
           ),
       },
     ]),

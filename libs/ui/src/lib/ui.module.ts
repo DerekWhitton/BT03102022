@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MegaMenuModule } from 'primeng/megamenu';
+import { MenuModule } from 'primeng/menu';
 import { PortalMenuComponent } from './portal-menu/portal-menu.component';
 import { CrudTableComponent } from './crud-table/crud-table.component';
 import { HeaderComponent } from './header/header.component';
@@ -14,7 +15,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { WebsiteFooterComponent } from './website-footer/website-footer.component';
 
 @NgModule({
-  imports: [CommonModule, MegaMenuModule],
+  imports: [CommonModule, MegaMenuModule, MenuModule],
   declarations: [
     PortalMenuComponent,
     CrudTableComponent,

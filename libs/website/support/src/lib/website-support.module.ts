@@ -8,7 +8,7 @@ import { SupportIndexComponent } from './support-index/support-index.component';
     CommonModule,
 
     RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+      { path: '', pathMatch: 'full', component: SupportIndexComponent },
     ]),
   ],
   declarations: [SupportIndexComponent],
