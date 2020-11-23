@@ -16,6 +16,8 @@ import {
   trigger,
 } from '@angular/animations';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { PortalMenuService } from '../shared/services/portal-menu.service';
 
 @Component({
   selector: '[boma-portal-menu-item]',
