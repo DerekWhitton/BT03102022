@@ -8,6 +8,7 @@ import { FooterComponent } from './footer/footer.component';
 import { WebsiteMenuComponent } from './website-menu/website-menu.component';
 import { PortalFooterComponent } from './portal-footer/portal-footer.component';
 import { PortalMenuItemComponent } from './portal-menu-item/portal-menu-item.component';
+import { PortalTopBarComponent } from './portal-top-bar/portal-top-bar.component';
 
 @NgModule({
   imports: [CommonModule, MegaMenuModule],
@@ -19,6 +20,7 @@ import { PortalMenuItemComponent } from './portal-menu-item/portal-menu-item.com
     WebsiteMenuComponent,
     PortalFooterComponent,
     PortalMenuItemComponent,
+    PortalTopBarComponent,
   ],
   exports: [
     PortalMenuComponent,
