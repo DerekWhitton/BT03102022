@@ -1291,6 +1291,34 @@
           }
         }
       }
+    },
+    "administration-portal-shared-entities": {
+      "root": "libs/administration-portal/shared/entities",
+      "sourceRoot": "libs/administration-portal/shared/entities/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/shared/entities/tsconfig.lib.json",
+              "libs/administration-portal/shared/entities/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/shared/entities/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/shared/entities/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

@@ -130,6 +130,9 @@
     },
     "administration-portal-shared-state": {
       "tags": []
+    },
+    "administration-portal-shared-entities": {
+      "tags": []
     }
   }
 }

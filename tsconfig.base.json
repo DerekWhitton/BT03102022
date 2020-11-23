@@ -88,6 +88,9 @@
       ],
       "@bushtrade/administration-portal/shared/state": [
         "libs/administration-portal/shared/state/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/shared/entites": [
+        "libs/administration-portal/shared/entities/src/index.ts"
       ]
     }
   },
