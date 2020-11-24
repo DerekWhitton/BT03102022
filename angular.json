@@ -960,7 +960,8 @@
               }
             ],
             "styles": [
-              "apps/website/src/styles.scss"
+              "apps/website/src/styles/styles.scss"
+
             ],
             "scripts": []
           },

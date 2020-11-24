@@ -8,9 +8,18 @@ import { MegaMenuItem } from 'primeng/api';
 })
 export class WebsiteMenuComponent implements OnInit {
   items: MegaMenuItem[];
+  categories = [];
   constructor() {}
 
   ngOnInit(): void {
+
+    this.categories = [
+      {name: 'Guns', code: 'NY', inactive: false},
+      {name: 'Ammo', code: 'RM', inactive: true},
+      {name: 'Camping', code: 'LDN', inactive: false},
+      {name: 'Clothes', code: 'IST', inactive: true}
+    ];
+
     this.items = [
       {
         label: 'Buy & Sell',
@@ -39,7 +48,7 @@ export class WebsiteMenuComponent implements OnInit {
       {
         icon: 'pi pi-fw pi-heart',
         routerLink: ['/', 'favourites'],
-      },
+      }
     ];
   }
 }

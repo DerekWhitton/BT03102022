@@ -19,6 +19,7 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+import {MenubarModule} from 'primeng/menubar';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { InputTextModule } from 'primeng/inputtext';
     ButtonModule,
     DropdownModule,
     InputTextModule,
+    MenubarModule,
   ],
   declarations: [
     PortalMenuComponent,
