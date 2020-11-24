@@ -17,8 +17,19 @@ import { ProductItemComponent } from './product-item/product-item.component';
 import { ProductItemMinimalComponent } from './product-item-minimal/product-item-minimal.component';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
+
 @NgModule({
-  imports: [CommonModule, MegaMenuModule, MenuModule, CardModule, ButtonModule],
+  imports: [
+    CommonModule,
+    MegaMenuModule,
+    MenuModule,
+    CardModule,
+    ButtonModule,
+    DropdownModule,
+    InputTextModule,
+  ],
   declarations: [
     PortalMenuComponent,
     CrudTableComponent,
