@@ -1,0 +1,72 @@
+/* You can add global styles to this file, and also import other style files */
+@import '../../../../node_modules/primeicons/primeicons.css';
+@import '../../../../node_modules/primeng/resources/primeng.min.css';
+@import '../../../../node_modules/primeflex/primeflex.css';
+@import './theme/blue/theme-light.scss';
+
+
+$COLOUR-GOLD: #C09A6A;
+$COLOUR-GREY: #525252;
+$COLOUR-BLUE: #717EC3;
+
+
+
+
+*{
+    font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: normal;
+}
+/* COLOURS */
+.bg-gold{
+    background: $COLOUR-GOLD;
+}
+.bg-grey{
+    background: $COLOUR-GREY;
+}
+
+body{
+    margin: 0 auto;
+}
+
+.logo-image{
+    max-width: 125px;
+}
+
+.p-menubar{
+    
+    background: none;
+    border: none;
+    a{
+        span {
+            color: #ffffff!important;
+        }
+    }
+
+}
+
+.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:not(.p-disabled):hover {
+    background: #c09a6a;
+}
+
+.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:focus {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: none;
+}
+
+.ui-block{
+    width: 100%!important;
+}
+
+.p-button-white{
+    color: #fff!important;
+    
+}
+
+.heading-three{
+    font-size: 1.2em; 
+    text-transform: uppercase;
+}
+
+

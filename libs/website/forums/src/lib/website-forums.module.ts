@@ -8,7 +8,7 @@ import { ForumsIndexComponent } from './forums-index/forums-index.component';
     CommonModule,
 
     RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+      { path: '', pathMatch: 'full', component: ForumsIndexComponent },
     ]),
   ],
   declarations: [ForumsIndexComponent],

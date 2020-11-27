@@ -30,7 +30,9 @@
                 "output": "./assets"
               }
             ],
-            "styles": ["apps/administration-portal/src/styles.scss"],
+            "styles": [
+              "apps/administration-portal/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -125,7 +127,9 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/administration-portal-e2e/tsconfig.e2e.json"],
+            "tsConfig": [
+              "apps/administration-portal-e2e/tsconfig.e2e.json"
+            ],
             "exclude": [
               "**/node_modules/**",
               "!apps/administration-portal-e2e/**/*"
@@ -158,7 +162,9 @@
               "apps/seller-portal/src/favicon.ico",
               "apps/seller-portal/src/assets"
             ],
-            "styles": ["apps/seller-portal/src/styles.scss"],
+            "styles": [
+              "apps/seller-portal/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -217,7 +223,10 @@
               "apps/seller-portal/tsconfig.spec.json",
               "apps/seller-portal/tsconfig.editor.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/seller-portal/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/seller-portal/**/*"
+            ]
           }
         },
         "test": {
@@ -250,8 +259,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/seller-portal-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/seller-portal-e2e/**/*"]
+            "tsConfig": [
+              "apps/seller-portal-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/seller-portal-e2e/**/*"
+            ]
           }
         }
       }
@@ -269,7 +283,10 @@
               "libs/ui/tsconfig.lib.json",
               "libs/ui/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/ui/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/ui/**/*"
+            ]
           }
         },
         "test": {
@@ -728,7 +745,10 @@
               "libs/seller-portal/sales/tsconfig.lib.json",
               "libs/seller-portal/sales/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/seller-portal/sales/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/seller-portal/sales/**/*"
+            ]
           }
         },
         "test": {
@@ -791,7 +811,10 @@
               "libs/seller-portal/buyers/tsconfig.lib.json",
               "libs/seller-portal/buyers/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/seller-portal/buyers/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/seller-portal/buyers/**/*"
+            ]
           }
         },
         "test": {
@@ -929,9 +952,17 @@
             "aot": true,
             "assets": [
               "apps/website/src/favicon.ico",
-              "apps/website/src/assets"
+              "apps/website/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./libs/shared/assets",
+                "output": "./assets"
+              }
             ],
-            "styles": ["apps/website/src/styles.scss"],
+            "styles": [
+              "apps/website/src/styles/styles.scss"
+
+            ],
             "scripts": []
           },
           "configurations": {
@@ -990,7 +1021,10 @@
               "apps/website/tsconfig.spec.json",
               "apps/website/tsconfig.editor.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/website/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/website/**/*"
+            ]
           }
         },
         "test": {
@@ -1023,8 +1057,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/website-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/website-e2e/**/*"]
+            "tsConfig": [
+              "apps/website-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/website-e2e/**/*"
+            ]
           }
         }
       }
@@ -1042,7 +1081,10 @@
               "libs/website/home/tsconfig.lib.json",
               "libs/website/home/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/website/home/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/home/**/*"
+            ]
           }
         },
         "test": {
@@ -1072,7 +1114,10 @@
               "libs/website/buy-sell/tsconfig.lib.json",
               "libs/website/buy-sell/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/website/buy-sell/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/buy-sell/**/*"
+            ]
           }
         },
         "test": {
@@ -1102,7 +1147,10 @@
               "libs/website/marketplace/tsconfig.lib.json",
               "libs/website/marketplace/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/website/marketplace/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/marketplace/**/*"
+            ]
           }
         },
         "test": {
@@ -1132,7 +1180,10 @@
               "libs/website/auctions/tsconfig.lib.json",
               "libs/website/auctions/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/website/auctions/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/auctions/**/*"
+            ]
           }
         },
         "test": {
@@ -1162,7 +1213,10 @@
               "libs/website/forums/tsconfig.lib.json",
               "libs/website/forums/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/website/forums/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/forums/**/*"
+            ]
           }
         },
         "test": {
@@ -1192,7 +1246,10 @@
               "libs/website/favourites/tsconfig.lib.json",
               "libs/website/favourites/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/website/favourites/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/favourites/**/*"
+            ]
           }
         },
         "test": {
@@ -1222,7 +1279,10 @@
               "libs/website/support/tsconfig.lib.json",
               "libs/website/support/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/website/support/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/support/**/*"
+            ]
           }
         },
         "test": {
@@ -1252,7 +1312,10 @@
               "libs/website/website-app/tsconfig.lib.json",
               "libs/website/website-app/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/website/website-app/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/website-app/**/*"
+            ]
           }
         },
         "test": {
@@ -1371,7 +1434,10 @@
               "libs/app-config/tsconfig.lib.json",
               "libs/app-config/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/app-config/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/app-config/**/*"
+            ]
           }
         },
         "test": {
@@ -1434,13 +1500,49 @@
               "libs/ui-elements/tsconfig.lib.json",
               "libs/ui-elements/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/ui-elements/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/ui-elements/**/*"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/ui-elements/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-trophy-cabinet": {
+      "projectType": "library",
+      "root": "libs/website/trophy-cabinet",
+      "sourceRoot": "libs/website/trophy-cabinet/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/trophy-cabinet/tsconfig.lib.json",
+              "libs/website/trophy-cabinet/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/trophy-cabinet/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/trophy-cabinet/jest.config.js",
             "passWithNoTests": true
           }
         }

@@ -8,7 +8,7 @@ import { AuctionsIndexComponent } from './auctions-index/auctions-index.componen
     CommonModule,
 
     RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+      { path: '', pathMatch: 'full', component: AuctionsIndexComponent },
     ]),
   ],
   declarations: [AuctionsIndexComponent],
