@@ -94,6 +94,18 @@ export class AppComponent implements OnInit {
     {
       label: 'Listings',
       icon: 'pi pi-user',
+      items: [
+        {
+          label: 'All',
+          icon: 'pi pi-fw pi-home',
+          routerLink: ['/', 'listings'],
+        },
+        {
+          label: 'Categories',
+          icon: 'pi pi-fw pi-home',
+          routerLink: ['/', 'listings', 'categories'],
+        },
+      ],
       routerLink: ['/', 'listings'],
     },
     { separator: true },
