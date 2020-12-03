@@ -1,1 +1,11 @@
-<p>listings-index works!</p>
+<div class="card">
+  <bushtrade-web-crud-table
+    [data]="listings$ | async"
+    [selectableColumns]="columns"
+    [loading]="loading$ | async"
+    [headersValue]="'Listings'"
+    [viewable]="true"
+    (viewSelection)="onViewSelection($event)"
+  >
+  </bushtrade-web-crud-table>
+</div>
