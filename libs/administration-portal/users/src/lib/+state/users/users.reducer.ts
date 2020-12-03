@@ -33,7 +33,52 @@ const usersReducer = createReducer(
   on(UsersActions.loadUsersSuccess, (state, { payload }) =>
     usersAdapter.setAll(payload.users, { ...state, loaded: true })
   ),
-  on(UsersActions.loadUsersFailure, (state, { error }) => ({ ...state, error }))
+  on(UsersActions.loadUsersFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(UsersActions.setSelectedUser, (state, action) => {
+    return {
+      ...state,
+      selectedId: action.userId,
+    };
+  }),
+  on(UsersActions.loadUserDetailsSuccess, (state, { user }) =>
+    usersAdapter.upsertOne(user, {
+      ...state,
+      loaded: true,
+      error: '',
+      selectedId: user.id,
+    })
+  ),
+  on(UsersActions.loadUserDetailsFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(UsersActions.addRoleUserSuccess, (state, { user }) =>
+    usersAdapter.upsertOne(user, {
+      ...state,
+      loaded: true,
+      error: '',
+      selectedId: user.id,
+    })
+  ),
+  on(UsersActions.addRoleUserFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(UsersActions.removeRoleUserSuccess, (state, { user }) =>
+    usersAdapter.upsertOne(user, {
+      ...state,
+      loaded: true,
+      error: '',
+      selectedId: user.id,
+    })
+  ),
+  on(UsersActions.removeRoleUserFailure, (state, { error }) => ({
+    ...state,
+    error,
+  }))
 );
 
 export function reducer(state: State | undefined, action: Action) {

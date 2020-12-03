@@ -30,5 +30,69 @@ export class UsersEffects {
     )
   );
 
+  loadUserDetails$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UsersActions.loadUserDetails),
+      fetch({
+        run: (action, state: any) => {
+          return this.userService
+            .loadUserDetails(action.userId)
+            .pipe(
+              map((response) =>
+                UsersActions.loadUserDetailsSuccess({ user: response })
+              )
+            );
+        },
+
+        onError: (action, error) => {
+          console.error('Error', error);
+          return UsersActions.loadUserDetailsFailure({ error });
+        },
+      })
+    )
+  );
+
+  addRoleToUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UsersActions.addRoleUser),
+      fetch({
+        run: (action, state: any) => {
+          return this.userService
+            .addRoleUser(action.role, action.userId)
+            .pipe(
+              map((response) =>
+                UsersActions.addRoleUserSuccess({ user: response })
+              )
+            );
+        },
+        onError: (action, error) => {
+          console.error('Error', error);
+          return UsersActions.addRoleUserFailure({ error });
+        },
+      })
+    )
+  );
+
+  removeRoleFromUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UsersActions.removeRoleUser),
+      fetch({
+        run: (action, state: any) => {
+          return this.userService
+            .removeRoleUser(action.roleId, action.userId)
+            .pipe(
+              map((response) =>
+                UsersActions.removeRoleUserSuccess({ user: response })
+              )
+            );
+        },
+        onError: (action, error) => {
+          console.error('Error', error);
+          return UsersActions.removeRoleUserFailure({ error });
+        },
+      })
+    )
+  );
+
   constructor(private actions$: Actions, private userService: UsersService) {}
 }

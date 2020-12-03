@@ -28,4 +28,25 @@ export class UsersService {
       }
     );
   }
+
+  loadUserDetails(id: string) {
+    return this.httpClient.get<IUser>(
+      `${this.base}api/v${this.version}/Users/${id}`
+    );
+  }
+
+  addRoleUser(role: IRole, userId: string) {
+    return this.httpClient.post<IUser>(
+      `${this.base}api/v${this.version}/Users/${userId}/roles`,
+      {
+        roleId: role.id,
+      }
+    );
+  }
+
+  removeRoleUser(roleId: string, userId: string) {
+    return this.httpClient.delete<IUser>(
+      `${this.base}api/v${this.version}/Users/${userId}/roles/${roleId}`
+    );
+  }
 }

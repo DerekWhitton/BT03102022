@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IUser } from '@bushtrade/administration-portal/shared/entites';
 import { Observable } from 'rxjs';
 import { loadUsers } from '../../../+state/users/users.actions';
@@ -16,7 +17,7 @@ export class UsersIndexComponent implements OnInit {
   ];
   users$: Observable<IUser[]>;
   loading$ = this.usersFacade.loaded$;
-  constructor(public usersFacade: UsersFacade) {}
+  constructor(public usersFacade: UsersFacade, private router: Router) {}
 
   ngOnInit(): void {
     this.usersFacade.dispatch(loadUsers());
@@ -24,6 +25,6 @@ export class UsersIndexComponent implements OnInit {
   }
 
   onViewSelection(data) {
-    console.log(data);
+    this.router.navigate(['/', 'users', 'user', data.id]);
   }
 }
