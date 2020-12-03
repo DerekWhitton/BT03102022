@@ -8,6 +8,10 @@ import { EffectsModule } from '@ngrx/effects';
 import * as fromUsers from './+state/users/users.reducer';
 import { UsersEffects } from './+state/users/users.effects';
 import { UsersFacade } from './+state/users/users.facade';
+import { RolesIndexComponent } from './containers/roles/roles-index/roles-index.component';
+import * as fromRoles from './+state/roles/roles.reducer';
+import { RolesEffects } from './+state/roles/roles.effects';
+import { RolesFacade } from './+state/roles/roles.facade';
 
 export const administrationPortalUsersRoutes: Route[] = [];
 
@@ -20,9 +24,11 @@ export const administrationPortalUsersRoutes: Route[] = [];
     ]),
     StoreModule.forFeature(fromUsers.USERS_FEATURE_KEY, fromUsers.reducer),
     EffectsModule.forFeature([UsersEffects]),
+    StoreModule.forFeature(fromRoles.ROLES_FEATURE_KEY, fromRoles.reducer),
+    EffectsModule.forFeature([RolesEffects]),
   ],
-  declarations: [UsersIndexComponent],
+  declarations: [UsersIndexComponent, RolesIndexComponent],
   entryComponents: [UsersIndexComponent],
-  providers: [UsersFacade],
+  providers: [UsersFacade, RolesFacade],
 })
 export class AdministrationPortalUsersModule {}
