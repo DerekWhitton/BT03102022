@@ -3,19 +3,26 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { UiModule } from '@bushtrade/ui';
+import { MsalGuard } from '@azure/msal-angular';
 
 @NgModule({
   imports: [
     CommonModule,
     UiModule,
     RouterModule.forRoot([
-      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboard',
+        canActivate: [MsalGuard],
+      },
       {
         path: 'dashboard',
         loadChildren: () =>
           import('@bushtrade/adminsitration-portal/dashboard').then(
             (module) => module.AdministrationPortalDashboardModule
           ),
+        canActivate: [MsalGuard],
       },
       {
         path: 'users',
@@ -23,6 +30,7 @@ import { UiModule } from '@bushtrade/ui';
           import('@bushtrade/administration-portal/users').then(
             (module) => module.AdministrationPortalUsersModule
           ),
+        canActivate: [MsalGuard],
       },
       {
         path: 'advertisments',
@@ -30,6 +38,7 @@ import { UiModule } from '@bushtrade/ui';
           import('@bushtrade/administration-portal/advertisments').then(
             (module) => module.AdministrationPortalAdvertismentsModule
           ),
+        canActivate: [MsalGuard],
       },
       {
         path: 'articles',
@@ -37,6 +46,7 @@ import { UiModule } from '@bushtrade/ui';
           import('@bushtrade/administration-portal/articles').then(
             (module) => module.AdministrationPortalArticlesModule
           ),
+        canActivate: [MsalGuard],
       },
       {
         path: 'escrow',
@@ -44,6 +54,7 @@ import { UiModule } from '@bushtrade/ui';
           import('@bushtrade/administration-portal/escrow').then(
             (module) => module.AdministrationPortalEscrowModule
           ),
+        canActivate: [MsalGuard],
       },
       {
         path: 'forums',
@@ -51,6 +62,7 @@ import { UiModule } from '@bushtrade/ui';
           import('@bushtrade/administration-portal/forums').then(
             (module) => module.AdministrationPortalForumsModule
           ),
+        canActivate: [MsalGuard],
       },
       {
         path: 'listings',
@@ -58,6 +70,7 @@ import { UiModule } from '@bushtrade/ui';
           import('@bushtrade/administration-portal/listings').then(
             (module) => module.AdministrationPortalListingsModule
           ),
+        canActivate: [MsalGuard],
       },
       {
         path: 'messages',
@@ -65,6 +78,7 @@ import { UiModule } from '@bushtrade/ui';
           import('@bushtrade/administration-portal/messages').then(
             (module) => module.AdministrationPortalMessagesModule
           ),
+        canActivate: [MsalGuard],
       },
       {
         path: 'reports',
@@ -72,6 +86,7 @@ import { UiModule } from '@bushtrade/ui';
           import('@bushtrade/administration-portal/reports').then(
             (module) => module.AdministrationPortalReportsModule
           ),
+        canActivate: [MsalGuard],
       },
       {
         path: 'support',
@@ -79,6 +94,7 @@ import { UiModule } from '@bushtrade/ui';
           import('@bushtrade/administration-portal/support').then(
             (module) => module.AdministrationPortalSupportModule
           ),
+        canActivate: [MsalGuard],
       },
       {
         path: 'settings',
@@ -86,7 +102,7 @@ import { UiModule } from '@bushtrade/ui';
           import('@bushtrade/administration-portal/settings').then(
             (module) => module.AdministrationPortalSettingsModule
           ),
-        // canActivate: [MsalGuard],
+        canActivate: [MsalGuard],
       },
     ]),
   ],
