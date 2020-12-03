@@ -1,0 +1,279 @@
+<div class="chain-link">
+  <span
+    *ngFor="let link of categoryChain; index as i"
+    (click)="onJumpChain(link.id, link.name, i)"
+    >{{ link.name }} -
+  </span>
+</div>
+
+<div>
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <button
+        *ngIf="sub == false"
+        pButton
+        pRipple
+        label="Add Category"
+        icon="pi pi-plus"
+        class="p-button-success p-mr-1"
+        (click)="this.displayCreateDialog = true"
+      ></button>
+      <button
+        *ngIf="sub == true"
+        pButton
+        pRipple
+        label="Add Subcategory"
+        icon="pi pi-plus"
+        class="p-button-success p-mr-1"
+        (click)="this.displayCreateDialog = true"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+  <p-progressBar
+    mode="indeterminate"
+    *ngIf="!loaded; else tableMain"
+  ></p-progressBar>
+  <ng-template #tableMain>
+    <div *ngIf="sub == false">
+      <p-table [value]="categories" dataKey="id">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem;"></th>
+            <th pSortableColumn="name">
+              Name
+              <!-- <p-sortIcon field="name"></p-sortIcon> -->
+            </th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-category let-expanded="expanded">
+          <tr>
+            <td>
+              <!-- <button
+                type="button"
+                pButton
+                pRipple
+                [pRowToggler]="category"
+                class="p-button-text p-button-rounded p-button-plain"
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+              ></button> -->
+            </td>
+            <td>
+              {{ category.name }}
+            </td>
+            <td>
+              <button
+                type="button"
+                pButton
+                icon="pi pi-chevron-right"
+                class="p-button-rounded p-button-primary p-mr-2"
+                (click)="onGoDeeper(category)"
+              ></button>
+              <button
+                type="button"
+                pButton
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-warning"
+                (click)="deleteCategory(category.id)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div *ngIf="sub == true">
+      <div *ngIf="categories.length > 0; else noSubCategory" #tableSub>
+        <p-table [value]="categories" dataKey="id">
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 3rem;"></th>
+              <th pSortableColumn="name">
+                Name
+                <!-- <p-sortIcon field="name"></p-sortIcon> -->
+              </th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-category let-expanded="expanded">
+            <tr>
+              <td>
+                <!-- <button
+                  type="button"
+                  pButton
+                  pRipple
+                  [pRowToggler]="category"
+                  class="p-button-text p-button-rounded p-button-plain"
+                  [icon]="
+                    expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
+                  "
+                ></button> -->
+              </td>
+              <td>
+                {{ category.name }}
+              </td>
+              <td>
+                <button
+                  type="button"
+                  pButton
+                  icon="pi pi-chevron-right"
+                  class="p-button-rounded p-button-primary p-mr-2"
+                  (click)="onGoDeeper(category)"
+                ></button>
+                <button
+                  type="button"
+                  pButton
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-warning"
+                  (click)="deleteCategory(category.id)"
+                ></button>
+              </td>
+            </tr>
+          </ng-template>
+          <!-- <ng-template pTemplate="rowexpansion" let-children>
+            <tr>
+              <td colspan="3">
+                <div class="p-p-3">
+                  <p-table
+                    [value]="children.categoryLocaleMetadata"
+                    dataKey="id"
+                  >
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th pSortableColumn="name">
+                          Name
+                          <p-sortIcon field="name"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="local">
+                          Local
+                          <p-sortIcon field="local"></p-sortIcon>
+                        </th>
+                        <th style="width: 4rem;"></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-categoryLocaleMetadata>
+                      <tr>
+                        <td>{{ categoryLocaleMetadata.name }}</td>
+                        <td>{{ categoryLocaleMetadata.locale }}</td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="footer" let-categoryLocaleMetadata>
+                      <tr>
+                        <td colspan="2">
+                          <button
+                            pButton
+                            pRipple
+                            label="Add Locale"
+                            icon="pi pi-plus"
+                            class="p-button-success p-mr-1"
+                            (click)="
+                              curentItemLocalMetadata =
+                                children.categoryLocaleMetadata;
+                              localAddId = children.id;
+                              this.displayAddLocaleDialog = true
+                            "
+                          ></button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="6">
+                          There are no order for this product yet.
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </td>
+            </tr>
+          </ng-template> -->
+        </p-table>
+      </div>
+
+      <ng-template #noSubCategory>
+        <p>There are no subcategories. Add one above</p>
+      </ng-template>
+    </div>
+  </ng-template>
+</div>
+
+<p-dialog
+  [(visible)]="displayCreateDialog"
+  [style]="{ width: '450px' }"
+  header="Add Category"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="createFormGroup">
+      <div class="p-field">
+        <label>
+          Name:
+        </label>
+        <input pInputText type="text" required formControlName="name" />
+      </div>
+      <div class="p-field">
+        <label>
+          Active:
+        </label>
+        <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+      </div>
+    </form>
+
+    <form [formGroup]="addPropertyFormGroup" *ngIf="sub == true">
+      <div class="p-field">
+        <label>
+          Name:
+        </label>
+        <input pInputText type="text" required formControlName="name" />
+      </div>
+      <div class="p-field">
+        <label>
+          Type:
+        </label>
+        <p-inputNumber required formControlName="type"></p-inputNumber>
+      </div>
+      <div class="p-field">
+        <label>
+          Required:
+        </label>
+        <p-inputSwitch formControlName="required"></p-inputSwitch>
+      </div>
+      <div class="p-field">
+        <label>
+          Options:
+        </label>
+        <p-chips formControlName="options"></p-chips>
+      </div>
+      <p-button
+        label="Add Property"
+        [disabled]="!this.addPropertyFormGroup.valid"
+        (click)="attachProperty()"
+      ></p-button>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="this.displayCreateDialog = false"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Add"
+      icon="pi pi-check"
+      class="p-button-text"
+      [disabled]="!this.createFormGroup.valid"
+      (click)="createCategory()"
+    ></button>
+  </ng-template>
+</p-dialog>
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+></p-confirmDialog>

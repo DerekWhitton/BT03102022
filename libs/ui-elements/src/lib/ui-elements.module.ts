@@ -17,6 +17,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { ChipsModule } from 'primeng/chips';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CheckboxModule } from 'primeng/checkbox';
 @NgModule({
   imports: [
     CommonModule,
@@ -40,6 +44,10 @@ import { MenubarModule } from 'primeng/menubar';
     InputTextModule,
     MenubarModule,
     MenuModule,
+    ProgressBarModule,
+    ChipsModule,
+    InputNumberModule,
+    CheckboxModule,
   ],
   exports: [
     RadioButtonModule,
@@ -62,6 +70,10 @@ import { MenubarModule } from 'primeng/menubar';
     InputTextModule,
     MenubarModule,
     MenuModule,
+    ProgressBarModule,
+    ChipsModule,
+    InputNumberModule,
+    CheckboxModule,
   ],
 })
 export class UiElementsModule {}

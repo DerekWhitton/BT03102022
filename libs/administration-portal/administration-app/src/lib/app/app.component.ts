@@ -67,30 +67,30 @@ export class AppComponent implements OnInit {
       routerLink: ['/', 'users'],
     },
     { separator: true },
-    {
-      label: 'Advertisments',
-      icon: 'pi pi-user',
-      routerLink: ['/', 'advertisments'],
-    },
-    { separator: true },
-    {
-      label: 'Articles',
-      icon: 'pi pi-user',
-      routerLink: ['/', 'articles'],
-    },
-    { separator: true },
-    {
-      label: 'Escrow',
-      icon: 'pi pi-user',
-      routerLink: ['/', 'escrow'],
-    },
-    { separator: true },
-    {
-      label: 'Forums',
-      icon: 'pi pi-user',
-      routerLink: ['/', 'forums'],
-    },
-    { separator: true },
+    // {
+    //   label: 'Advertisments',
+    //   icon: 'pi pi-user',
+    //   routerLink: ['/', 'advertisments'],
+    // },
+    // { separator: true },
+    // {
+    //   label: 'Articles',
+    //   icon: 'pi pi-user',
+    //   routerLink: ['/', 'articles'],
+    // },
+    // { separator: true },
+    // {
+    //   label: 'Escrow',
+    //   icon: 'pi pi-user',
+    //   routerLink: ['/', 'escrow'],
+    // },
+    // { separator: true },
+    // {
+    //   label: 'Forums',
+    //   icon: 'pi pi-user',
+    //   routerLink: ['/', 'forums'],
+    // },
+    // { separator: true },
     {
       label: 'Listings',
       icon: 'pi pi-user',
@@ -108,24 +108,24 @@ export class AppComponent implements OnInit {
       ],
       routerLink: ['/', 'listings'],
     },
-    { separator: true },
-    {
-      label: 'Messages',
-      icon: 'pi pi-user',
-      routerLink: ['/', 'messages'],
-    },
-    { separator: true },
-    {
-      label: 'Reports',
-      icon: 'pi pi-user',
-      routerLink: ['/', 'reports'],
-    },
-    { separator: true },
-    {
-      label: 'Support',
-      icon: 'pi pi-user',
-      routerLink: ['/', 'support'],
-    },
+    // { separator: true },
+    // {
+    //   label: 'Messages',
+    //   icon: 'pi pi-user',
+    //   routerLink: ['/', 'messages'],
+    // },
+    // { separator: true },
+    // {
+    //   label: 'Reports',
+    //   icon: 'pi pi-user',
+    //   routerLink: ['/', 'reports'],
+    // },
+    // { separator: true },
+    // {
+    //   label: 'Support',
+    //   icon: 'pi pi-user',
+    //   routerLink: ['/', 'support'],
+    // },
   ];
   constructor(private primengConfig: PrimeNGConfig, private store: Store) {}
 
