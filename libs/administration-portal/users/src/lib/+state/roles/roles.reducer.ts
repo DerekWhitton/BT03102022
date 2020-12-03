@@ -33,7 +33,54 @@ const rolesReducer = createReducer(
   on(RolesActions.loadRolesSuccess, (state, { payload }) =>
     rolesAdapter.setAll(payload.items, { ...state, loaded: true })
   ),
-  on(RolesActions.loadRolesFailure, (state, { error }) => ({ ...state, error }))
+  on(RolesActions.loadRolesFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(RolesActions.createRoleSuccess, (state, { role }) =>
+    rolesAdapter.upsertOne(role, { ...state, loaded: true })
+  ),
+  on(RolesActions.createRoleFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(RolesActions.setSelectedRole, (state, action) => {
+    return {
+      ...state,
+      selectedId: action.roleId,
+    };
+  }),
+  on(RolesActions.loadRoleDetailsSuccess, (state, { role }) =>
+    rolesAdapter.upsertOne(role, {
+      ...state,
+      loaded: true,
+      error: '',
+      selectedId: role.id,
+    })
+  ),
+  on(RolesActions.loadRoleDetailsFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(RolesActions.updateRoleSuccess, (state, { role }) =>
+    rolesAdapter.upsertOne(role, {
+      ...state,
+      loaded: true,
+      error: '',
+      selectedId: role.id,
+    })
+  ),
+  on(RolesActions.updateRoleFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(RolesActions.deleteRoleSuccess, (state, { roleId }) =>
+    rolesAdapter.removeOne(roleId, state)
+  ),
+  on(RolesActions.deleteRoleFailure, (state, { error }) => ({
+    ...state,
+    error,
+  }))
 );
 
 export function reducer(state: State | undefined, action: Action) {

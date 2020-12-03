@@ -4,6 +4,54 @@
     [selectableColumns]="columns"
     [loading]="loading$ | async"
     [headersValue]="'Roles'"
+    [createFormTemplateReference]="createFormTemplate"
+    (createSubmit)="onCreateSubmit()"
+    [createFormValid]="createFormGroup.valid"
+    (updateSelection)="handleUpdateSelection($event)"
+    [updateFormTemplateReference]="updateFormTemplate"
+    (updateSubmit)="onUpdateSubmit()"
+    [allowDelete]="true"
+    (itemDeleted)="onItemDeleted($event)"
   >
   </bushtrade-web-crud-table>
 </div>
+
+<ng-template #createFormTemplate>
+  <form [formGroup]="createFormGroup">
+    <label>
+      Name:
+    </label>
+    <input pInputText type="text" required formControlName="name" />
+    <label>
+      Description
+    </label>
+    <textarea
+      pInputText
+      name=""
+      id=""
+      cols="30"
+      rows="10"
+      formControlName="description"
+    ></textarea>
+  </form>
+</ng-template>
+
+<ng-template #updateFormTemplate>
+  <form [formGroup]="updateFormGroup">
+    <label>
+      Name:
+    </label>
+    <input pInputText type="text" required formControlName="name" />
+    <label>
+      Description
+    </label>
+    <textarea
+      pInputText
+      name=""
+      id=""
+      cols="30"
+      rows="10"
+      formControlName="description"
+    ></textarea>
+  </form>
+</ng-template>

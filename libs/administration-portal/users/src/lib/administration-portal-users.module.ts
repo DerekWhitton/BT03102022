@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersIndexComponent } from './containers/users/users-index/users-index.component';
 import { UiModule } from '@bushtrade/ui';
 import { StoreModule } from '@ngrx/store';
@@ -19,6 +20,8 @@ export const administrationPortalUsersRoutes: Route[] = [];
   imports: [
     CommonModule,
     UiModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: UsersIndexComponent },
       { path: 'roles', component: RolesIndexComponent },

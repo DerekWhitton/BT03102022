@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import {
   IPaginatedResponse,
@@ -26,6 +26,37 @@ export class RolesService {
       {
         params: { page, query, perPage },
       }
+    );
+  }
+
+  createRole(role: IRole) {
+    return this.httpClient.post<IRole>(
+      `${this.base}api/v${this.version}/Roles`,
+      {
+        ...role,
+      }
+    );
+  }
+
+  loadRoleDetails(roleId: string) {
+    return this.httpClient.get<IRole>(
+      `${this.base}api/v${this.version}/Roles/${roleId}`
+    );
+  }
+
+  updateRole(role: IRole, roleId: string) {
+    return this.httpClient.patch<IRole>(
+      `${this.base}api/v${this.version}/Roles/${roleId}`,
+      {
+        name: role.name,
+        description: role.description,
+      }
+    );
+  }
+
+  deleteRole(roleId: string) {
+    return this.httpClient.delete<HttpResponse<any>>(
+      `${this.base}api/v${this.version}/Roles/${roleId}`
     );
   }
 }
