@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MegaMenuModule } from 'primeng/megamenu';
+import { MenuModule } from 'primeng/menu';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { MegaMenuModule } from 'primeng/megamenu';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -13,7 +14,9 @@ import { TableModule } from 'primeng/table';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ChartModule } from 'primeng/chart';
 import { InputTextModule } from 'primeng/inputtext';
-
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { MenubarModule } from 'primeng/menubar';
 @NgModule({
   imports: [
     CommonModule,
@@ -31,6 +34,12 @@ import { InputTextModule } from 'primeng/inputtext';
     RadioButtonModule,
     ChartModule,
     InputTextModule,
+    CardModule,
+    ButtonModule,
+    DropdownModule,
+    InputTextModule,
+    MenubarModule,
+    MenuModule,
   ],
   exports: [
     RadioButtonModule,
@@ -47,6 +56,12 @@ import { InputTextModule } from 'primeng/inputtext';
     RadioButtonModule,
     ChartModule,
     InputTextModule,
+    CardModule,
+    ButtonModule,
+    DropdownModule,
+    InputTextModule,
+    MenubarModule,
+    MenuModule,
   ],
 })
 export class UiElementsModule {}

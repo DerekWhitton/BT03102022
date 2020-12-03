@@ -1,11 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { UsersEntity } from './users.models';
+import { IUser, IUsers } from '@bushtrade/administration-portal/shared/entites';
 
 export const loadUsers = createAction('[Users] Load Users');
 
 export const loadUsersSuccess = createAction(
   '[Users] Load Users Success',
-  props<{ users: UsersEntity[] }>()
+  props<{ payload: IUsers }>()
 );
 
 export const loadUsersFailure = createAction(
