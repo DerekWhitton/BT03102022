@@ -39,13 +39,6 @@ export class AppComponent implements OnInit {
     {
       label: 'Favourites',
       icon: 'pi pi-fw pi-home',
-      items: [
-        {
-          label: 'Dashboard',
-          icon: 'pi pi-fw pi-home',
-          routerLink: ['/', 'dashboard'],
-        },
-      ],
       routerLink: ['/', 'dashboard'],
     },
     { separator: true },
@@ -54,7 +47,7 @@ export class AppComponent implements OnInit {
       icon: 'pi pi-pw pi-users',
       items: [
         {
-          label: 'Home',
+          label: 'All',
           icon: 'pi pi-fw pi-home',
           routerLink: ['/', 'users'],
         },
@@ -65,150 +58,54 @@ export class AppComponent implements OnInit {
     {
       label: 'Advertisments',
       icon: 'pi pi-user',
-      items: [
-        {
-          label: 'Home',
-          icon: 'pi pi-fw pi-list',
-          routerLink: ['/', 'advertisments'],
-        },
-      ],
       routerLink: ['/', 'advertisments'],
     },
     { separator: true },
     {
       label: 'Articles',
       icon: 'pi pi-user',
-      items: [
-        {
-          label: 'Home',
-          icon: 'pi pi-fw pi-list',
-          routerLink: ['/', 'articles'],
-        },
-      ],
       routerLink: ['/', 'articles'],
     },
     { separator: true },
     {
       label: 'Escrow',
       icon: 'pi pi-user',
-      items: [
-        {
-          label: 'Home',
-          icon: 'pi pi-fw pi-list',
-          routerLink: ['/', 'escrow'],
-        },
-      ],
       routerLink: ['/', 'escrow'],
     },
     { separator: true },
     {
       label: 'Forums',
       icon: 'pi pi-user',
-      items: [
-        {
-          label: 'Home',
-          icon: 'pi pi-fw pi-list',
-          routerLink: ['/', 'forums'],
-        },
-      ],
       routerLink: ['/', 'forums'],
     },
     { separator: true },
     {
       label: 'Listings',
       icon: 'pi pi-user',
-      items: [
-        {
-          label: 'Home',
-          icon: 'pi pi-fw pi-list',
-          routerLink: ['/', 'listings'],
-        },
-      ],
       routerLink: ['/', 'listings'],
     },
     { separator: true },
     {
       label: 'Messages',
       icon: 'pi pi-user',
-      items: [
-        {
-          label: 'Home',
-          icon: 'pi pi-fw pi-list',
-          routerLink: ['/', 'messages'],
-        },
-      ],
       routerLink: ['/', 'messages'],
     },
     { separator: true },
     {
       label: 'Reports',
       icon: 'pi pi-user',
-      items: [
-        {
-          label: 'Home',
-          icon: 'pi pi-fw pi-list',
-          routerLink: ['/', 'reports'],
-        },
-      ],
       routerLink: ['/', 'reports'],
     },
     { separator: true },
     {
       label: 'Support',
       icon: 'pi pi-user',
-      items: [
-        {
-          label: 'Home',
-          icon: 'pi pi-fw pi-list',
-          routerLink: ['/', 'support'],
-        },
-      ],
       routerLink: ['/', 'support'],
     },
-    { separator: true },
   ];
-  constructor(
-    private primengConfig: PrimeNGConfig,
-    private store: Store // private broadcastService: BroadcastService, // private authService: MsalService
-  ) {}
+  constructor(private primengConfig: PrimeNGConfig, private store: Store) {}
 
   ngOnInit(): void {
-    // // event listeners for authentication status
-    // this.broadcastService.subscribe('msal:loginSuccess', (success) => {
-    //   // We need to reject id tokens that were not issued with the default sign-in policy.
-    //   // "acr" claim in the token tells us what policy is used (NOTE: for new policies (v2.0), use "tfp" instead of "acr")
-    //   // To learn more about b2c tokens, visit https://docs.microsoft.com/en-us/azure/active-directory-b2c/tokens-overview
-    //   if (
-    //     success.idToken.claims['acr'] === environment.b2c.names.resetPassword
-    //   ) {
-    //     window.alert(
-    //       'Password has been reset successfully. \nPlease sign-in with your new password'
-    //     );
-    //     return this.authService.logout();
-    //   }
-    // });
-
-    // this.broadcastService.subscribe('msal:loginFailure', (error) => {
-    //   if (error.errorMessage.indexOf('AADB2C90118') > -1) {
-    //     this.authService.loginRedirect(
-    //       environment.b2c.authorities.resetPassword
-    //     );
-    //   }
-    //   if (error.errorMessage.indexOf('AADB2C90077') > -1) {
-    //     this.authService.loginRedirect(
-    //       environment.b2c.authorities.signUpSignIn
-    //     );
-    //   }
-    // });
-
-    // // redirect callback for redirect flow (IE)
-    // this.authService.handleRedirectCallback((authError, response) => {
-    //   if (authError) {
-    //     console.error('Redirect Error: ', authError.errorMessage);
-    //     return;
-    //   }
-    // });
-
     this.style$ = this.store.select(getUiStyle);
     let ctx = this;
     this.style$.subscribe({
