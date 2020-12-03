@@ -1,1 +1,9 @@
-<p>roles-index works!</p>
+<div class="card">
+  <bushtrade-web-crud-table
+    [data]="roles$ | async"
+    [selectableColumns]="columns"
+    [loading]="loading$ | async"
+    [headersValue]="'Roles'"
+  >
+  </bushtrade-web-crud-table>
+</div>

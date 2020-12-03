@@ -21,6 +21,7 @@ export const administrationPortalUsersRoutes: Route[] = [];
     UiModule,
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: UsersIndexComponent },
+      { path: 'roles', component: RolesIndexComponent },
     ]),
     StoreModule.forFeature(fromUsers.USERS_FEATURE_KEY, fromUsers.reducer),
     EffectsModule.forFeature([UsersEffects]),

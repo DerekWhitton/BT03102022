@@ -1,11 +1,14 @@
 import { createAction, props } from '@ngrx/store';
-import { RolesEntity } from './roles.models';
+import {
+  IPaginatedResponse,
+  IRole,
+} from '@bushtrade/administration-portal/shared/entites';
 
 export const loadRoles = createAction('[Roles] Load Roles');
 
 export const loadRolesSuccess = createAction(
   '[Roles] Load Roles Success',
-  props<{ roles: RolesEntity[] }>()
+  props<{ payload: IPaginatedResponse<IRole> }>()
 );
 
 export const loadRolesFailure = createAction(
