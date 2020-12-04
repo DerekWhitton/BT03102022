@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 @Component({
   selector: 'bushtrade-web-home-index',
   templateUrl: './home-index.component.html',

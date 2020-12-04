@@ -6,11 +6,12 @@
 
 
 $COLOUR-GOLD: #C09A6A;
+$COLOUR-GOLD-LIGHT: #D9C2A5;
 $COLOUR-GREY: #525252;
 $COLOUR-BLUE: #717EC3;
 $COLOUR-OFFWHITE: #F6F6F6;
 $COLOUR-BROWN: #4D2A28;
-$COLOUR-ORANGE: #FF7600;
+
 
 
 *{
@@ -21,6 +22,10 @@ $COLOUR-ORANGE: #FF7600;
 
 h1,h2,h3,h4,h5,h6{
     color: $COLOUR-BROWN;
+}
+
+a{
+    color: $COLOUR-GOLD;
 }
 
 body{
@@ -101,3 +106,19 @@ h3{
         padding: 0em .5em;
     }
 }
+
+.p-button-gold {
+    color: $COLOUR-GOLD-LIGHT;
+    background: $COLOUR-BROWN;
+    border: 1px solid $COLOUR-BROWN;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 4px;
+    &:enabled:hover{
+        color: $COLOUR-BROWN;
+        background: $COLOUR-GOLD-LIGHT;
+        border: 1px solid $COLOUR-GOLD-LIGHT;
+    }
+}
+

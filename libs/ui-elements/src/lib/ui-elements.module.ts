@@ -13,7 +13,8 @@ import { TableModule } from 'primeng/table';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ChartModule } from 'primeng/chart';
 import { InputTextModule } from 'primeng/inputtext';
-
+import {CarouselModule} from 'primeng/carousel';
+import {AccordionModule} from 'primeng/accordion';
 @NgModule({
   imports: [
     CommonModule,
@@ -31,6 +32,8 @@ import { InputTextModule } from 'primeng/inputtext';
     RadioButtonModule,
     ChartModule,
     InputTextModule,
+    CarouselModule,
+    AccordionModule,
   ],
   exports: [
     RadioButtonModule,
@@ -47,6 +50,8 @@ import { InputTextModule } from 'primeng/inputtext';
     RadioButtonModule,
     ChartModule,
     InputTextModule,
+    CarouselModule,
+    AccordionModule,
   ],
 })
 export class UiElementsModule {}

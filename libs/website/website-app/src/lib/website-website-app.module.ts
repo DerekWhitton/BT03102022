@@ -65,6 +65,13 @@ import { UiModule } from '@bushtrade/ui';
             (module) => module.WebsiteFavouritesModule
           ),
       },
+      {
+        path: 'search',
+        loadChildren: () =>
+          import('@bushtrade/website/search').then(
+            (module) => module.WebsiteSearchModule
+          ),
+      },
     ]),
   ],
   declarations: [WebsiteIndexComponent],

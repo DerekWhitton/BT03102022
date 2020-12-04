@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { HomeIndexComponent } from './home-index/home-index.component';
 import { UiModule } from '@bushtrade/ui';
+import { UiElementsModule } from '@bushtrade/ui-elements';
 
 export const websiteHomeRoutes: Route[] = [];
 
@@ -10,6 +11,7 @@ export const websiteHomeRoutes: Route[] = [];
   imports: [
     CommonModule,
     UiModule,
+    UiElementsModule,
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: HomeIndexComponent },
     ]),
