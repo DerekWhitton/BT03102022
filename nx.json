@@ -151,6 +151,9 @@
     },
     "website-shared-state": {
       "tags": []
+    },
+    "website-shared-entities": {
+      "tags": []
     }
   }
 }

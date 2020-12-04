@@ -105,6 +105,9 @@
       ],
       "@bushtrade/website/shared/state": [
         "libs/website/shared/state/src/index.ts"
+      ],
+      "@bushtrade/website/shared/entites": [
+        "libs/website/shared/entities/src/index.ts"
       ]
     }
   },
