@@ -154,6 +154,9 @@
     },
     "website-shared-entities": {
       "tags": []
+    },
+    "website-shared-services": {
+      "tags": []
     }
   }
 }
