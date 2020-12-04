@@ -12,6 +12,12 @@ import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { APP_CONFIG } from '@bushtrade/app-config';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MsalInterceptor, MsalModule, MsalService } from '@azure/msal-angular';
+
+export const isIE =
+  window.navigator.userAgent.indexOf('MSIE ') > -1 ||
+  window.navigator.userAgent.indexOf('Trident/') > -1;
 
 export function localStorageSyncReducer(
   reducer: ActionReducer<any>
@@ -26,6 +32,34 @@ export function localStorageSyncReducer(
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    MsalModule.forRoot(
+      {
+        auth: {
+          clientId: environment.b2c.clientId,
+          authority: environment.b2c.authorities.signUpSignIn.authority,
+          redirectUri: window.location.origin,
+          postLogoutRedirectUri: window.location.origin,
+          navigateToLoginRequestUrl: true,
+          validateAuthority: false,
+        },
+        cache: {
+          cacheLocation: 'localStorage',
+          storeAuthStateInCookie: isIE,
+        },
+      },
+      {
+        popUp: false, //!isIE,
+        consentScopes: [
+          ...environment.b2c.scopes,
+          ...environment.b2c.b2cScopes,
+        ],
+        unprotectedResources: [],
+        protectedResourceMap: [
+          [environment.apiRoute, environment.b2c.b2cScopes],
+        ],
+        extraQueryParameters: {},
+      }
+    ),
     AdministrationPortalAdministrationAppModule,
     StoreModule.forRoot(
       {
@@ -43,7 +77,16 @@ export function localStorageSyncReducer(
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot(),
   ],
-  providers: [{ provide: APP_CONFIG, useValue: environment }],
+  providers: [
+    { provide: APP_CONFIG, useValue: environment },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MsalInterceptor,
+      multi: true,
+    },
+    MsalService,
+  ],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}

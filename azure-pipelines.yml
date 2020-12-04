@@ -1,0 +1,105 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+  branches:
+    include:
+      - development
+pool:
+  vmImage: 'windows-latest'
+
+stages:
+  - stage: 'Build'
+    jobs:
+    - job: Build
+      steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '12.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          npm install
+        displayName: 'Install Dependencies'
+
+      - script: |
+          yarn nx run-many --target=build --all --prod
+        displayName: 'Build'
+
+      - task: ArchiveFiles@2
+        displayName: ArchiveFiles
+        condition: and(succeeded(), in(variables['Build.SourceBranchName'], 'development'))
+        inputs:
+          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/apps'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/dist.zip'
+          replaceExistingArchive: true
+
+      - task: PublishBuildArtifacts@1
+        condition: and(succeeded(), in(variables['Build.SourceBranchName'], 'development'))
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)/dist.zip'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
+
+  - stage: Deploy
+    dependsOn: Build
+    condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'development'))
+    jobs:
+    - deployment: BushTradeStagingFrontend
+      environment: BushTradeStaging
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: ExtractFiles@1
+                inputs:
+                  archiveFilePatterns: '$(Pipeline.Workspace)/**/dist.zip'
+                  destinationFolder: '$(System.DefaultWorkingDirectory)/web_files'
+                  cleanDestinationFolder: true
+              - task: AzureCLI@2
+                displayName: 'Admin - Upload all files with default cache control'
+                inputs:
+                  azureSubscription: 'Bush-Trade(facf0630-1405-488c-b8d5-b25185a4e0ab)'
+                  scriptType: 'ps'
+                  scriptLocation: 'inlineScript'
+                  inlineScript: 'az storage blob upload-batch --content-cache-control ''max-age=604800'' --account-name $(AdminStorageAccountName) --account-key $(AdminStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/administration-portal'
+              - task: AzureCLI@2
+                displayName: 'Admin - Upload .js files with cache control of one day'
+                inputs:
+                  azureSubscription: 'Bush-Trade(facf0630-1405-488c-b8d5-b25185a4e0ab)'
+                  scriptType: 'ps'
+                  scriptLocation: 'inlineScript'
+                  inlineScript: 'az storage blob upload-batch --pattern ''*.js'' --content-cache-control ''max-age=86400'' --account-name $(AdminStorageAccountName) --account-key $(AdminStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/administration-portal'
+              - task: AzureCLI@2
+                displayName: 'Admin - Purge CDN'
+                inputs:
+                  azureSubscription: 'Bush-Trade(facf0630-1405-488c-b8d5-b25185a4e0ab)'
+                  scriptType: 'ps'
+                  scriptLocation: 'inlineScript'
+                  inlineScript: 'az cdn endpoint purge -g $(CdnResourceGroup) -n $(AdminCdnEndpointName) --profile-name $(CdnProfileName) --content-paths  /*'
+              - task: AzureCLI@2
+                displayName: 'Website - Upload all files with default cache control'
+                inputs:
+                  azureSubscription: 'Bush-Trade(facf0630-1405-488c-b8d5-b25185a4e0ab)'
+                  scriptType: 'ps'
+                  scriptLocation: 'inlineScript'
+                  inlineScript: 'az storage blob upload-batch --content-cache-control ''max-age=604800'' --account-name $(WebsiteStorageAccountName) --account-key $(WebsiteStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/website'
+              - task: AzureCLI@2
+                displayName: 'website - Upload .js files with cache control of one day'
+                inputs:
+                  azureSubscription: 'Bush-Trade(facf0630-1405-488c-b8d5-b25185a4e0ab)'
+                  scriptType: 'ps'
+                  scriptLocation: 'inlineScript'
+                  inlineScript: 'az storage blob upload-batch --pattern ''*.js'' --content-cache-control ''max-age=86400'' --account-name $(WebsiteStorageAccountName) --account-key $(WebsiteStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/website'
+              - task: AzureCLI@2
+                displayName: 'Website - Purge CDN'
+                inputs:
+                  azureSubscription: 'Bush-Trade(facf0630-1405-488c-b8d5-b25185a4e0ab)'
+                  scriptType: 'ps'
+                  scriptLocation: 'inlineScript'
+                  inlineScript: 'az cdn endpoint purge -g $(CdnResourceGroup) -n $(WebsiteCdnEndpointName) --profile-name $(CdnProfileName) --content-paths  /*'
+
