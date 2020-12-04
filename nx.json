@@ -148,6 +148,9 @@
     },
     "website-trophy-cabinet": {
       "tags": []
+    },
+    "website-shared-state": {
+      "tags": []
     }
   }
 }

@@ -39,5 +39,6 @@ module.exports = {
     '<rootDir>/libs/administration-portal/settings',
     '<rootDir>/libs/ui-elements',
     '<rootDir>/libs/website/trophy-cabinet',
+    '<rootDir>/libs/website/shared/state',
   ],
 };
