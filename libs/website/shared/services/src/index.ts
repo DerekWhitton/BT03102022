@@ -1,1 +1,1 @@
-export * from './lib/website-shared-services.module';
+export * from './lib/user/user.service';

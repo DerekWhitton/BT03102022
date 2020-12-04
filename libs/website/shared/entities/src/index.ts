@@ -1,1 +1,1 @@
-export * from './lib/website-shared-entities.module';
+export * from './lib//shared-entities';
