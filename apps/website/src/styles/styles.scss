@@ -8,8 +8,9 @@
 $COLOUR-GOLD: #C09A6A;
 $COLOUR-GREY: #525252;
 $COLOUR-BLUE: #717EC3;
-
-
+$COLOUR-OFFWHITE: #F6F6F6;
+$COLOUR-BROWN: #4D2A28;
+$COLOUR-ORANGE: #FF7600;
 
 
 *{
@@ -17,6 +18,15 @@ $COLOUR-BLUE: #717EC3;
     font-size: 1rem;
     font-weight: normal;
 }
+
+h1,h2,h3,h4,h5,h6{
+    color: $COLOUR-BROWN;
+}
+
+body{
+    color: $COLOUR-GREY;
+}
+
 /* COLOURS */
 .bg-gold{
     background: $COLOUR-GOLD;
@@ -25,8 +35,13 @@ $COLOUR-BLUE: #717EC3;
     background: $COLOUR-GREY;
 }
 
+.bg-white{
+    background: #fff;
+}
+
 body{
     margin: 0 auto;
+    background: $COLOUR-OFFWHITE;
 }
 
 .logo-image{
@@ -69,4 +84,20 @@ body{
     text-transform: uppercase;
 }
 
+h3{
+    font-size: 30px; 
+}
 
+.bread-crumbs{
+    a{
+        &:first-child{
+            border-left: none;
+            margin-left: 0px;
+            padding-left: 0px;
+        }
+        color: $COLOUR-GOLD;
+        text-decoration: none;
+        border-left: 1px solid $COLOUR-GREY;
+        padding: 0em .5em;
+    }
+}
