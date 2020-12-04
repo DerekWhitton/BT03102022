@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MegaMenuItem } from 'primeng/api';
 
 @Component({
@@ -9,15 +9,17 @@ import { MegaMenuItem } from 'primeng/api';
 export class WebsiteMenuComponent implements OnInit {
   items: MegaMenuItem[];
   categories = [];
+
+  @Output() signIn = new EventEmitter();
+
   constructor() {}
 
   ngOnInit(): void {
-
     this.categories = [
-      {name: 'Guns', code: 'NY', inactive: false},
-      {name: 'Ammo', code: 'RM', inactive: true},
-      {name: 'Camping', code: 'LDN', inactive: false},
-      {name: 'Clothes', code: 'IST', inactive: true}
+      { name: 'Guns', code: 'NY', inactive: false },
+      { name: 'Ammo', code: 'RM', inactive: true },
+      { name: 'Camping', code: 'LDN', inactive: false },
+      { name: 'Clothes', code: 'IST', inactive: true },
     ];
 
     this.items = [
@@ -48,7 +50,11 @@ export class WebsiteMenuComponent implements OnInit {
       {
         icon: 'pi pi-fw pi-heart',
         routerLink: ['/', 'favourites'],
-      }
+      },
     ];
+  }
+
+  login() {
+    this.signIn.emit();
   }
 }
