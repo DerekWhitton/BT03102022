@@ -111,8 +111,10 @@
                     <li><input type="checkbox"> Sunday</li>
                     <li><input type="checkbox"> Monday</li>
                 </ul>
-                <h4>Price <span><i class="pi pi-fw pi-chevron-right open"></i></span></h4>
-                <ul>
+                <h4>Price (R{{pricerangeValues[0] + ' - R' + pricerangeValues[1]}}) <span><i class="pi pi-fw pi-chevron-right open"></i></span></h4>
+                <p-slider [(ngModel)]="pricerangeValues" [range]="true" [min]="0" [max]="10000"></p-slider>
+
+                <!-- <ul>
                     <li>Min: <select>
                         <option value="">0-1000</option>
                         <option value="">1000-2000</option>
@@ -123,8 +125,22 @@
                         <option value="">1000-2000</option>
                         <option value="">2000-3000</option>
                     </select></li>
-                </ul>
+                </ul> -->
                 <h4>Mechanism <span><i class="pi pi-fw pi-chevron-right open"></i></span></h4>
+
+                <div class="p-field-checkbox">
+                    <p-checkbox name="group1" value="Back Action" [(ngModel)]="selectedMechanisms" inputId="BA"></p-checkbox>
+                    <label for="BA">Back Action</label>
+                </div>
+                <div class="p-field-checkbox">
+                    <p-checkbox name="group1" value="Back Action" [(ngModel)]="selectedMechanisms" inputId="BA"></p-checkbox>
+                    <label for="BA">Back Action</label>
+                </div>
+                <div class="p-field-checkbox">
+                    <p-checkbox name="group1" value="Back Action" [(ngModel)]="selectedMechanisms" inputId="BA"></p-checkbox>
+                    <label for="BA">Back Action</label>
+                </div>
+
                 <ul>
                     <li><input type="checkbox"> Back Action</li>
                     <li><input type="checkbox"> Folding</li>
@@ -132,13 +148,9 @@
                     <li><input type="checkbox"> Pump Action</li>
                     <li><input type="checkbox"> Semi-Automatic</li>
                 </ul>
-                <h4>Calibre <span><i class="pi pi-fw pi-chevron-right open"></i></span></h4>
-                <ul>
-                    <li><input type="checkbox"> 10 Gauge</li>
-                    <li><input type="checkbox"> 12 Gauge</li>
-                    <li><input type="checkbox"> 16 Gauge</li>
-                    <li><input type="checkbox"> .20</li>
-                </ul>
+                <h4>Calibre</h4>
+                <p-multiSelect [options]="calibres" [(ngModel)]="selectedCalibre" defaultLabel="Select Calibres" optionLabel="name" display="chip"></p-multiSelect>
+
                 <h4>Make <span><i class="pi pi-fw pi-chevron-right open"></i></span></h4>
                 <ul>
                     <li><input type="checkbox"> Armsan</li>
@@ -162,32 +174,13 @@
                     <li><input type="checkbox"> Firearm</li>
                     <li><input type="checkbox"> Shotgun</li>
                 </ul>
-                <h4>Barrel Length <span><i class="pi pi-fw pi-chevron-right open"></i></span></h4>
-                <ul>
-                    <li>Min: <select>
-                        <option value="">0-1000</option>
-                        <option value="">1000-2000</option>
-                        <option value="">2000-3000</option>
-                    </select></li>
-                    <li>Max: <select>
-                        <option value="">0-1000</option>
-                        <option value="">1000-2000</option>
-                        <option value="">2000-3000</option>
-                    </select></li>
-                </ul>
-                <h4>Stock Length <span><i class="pi pi-fw pi-chevron-right open"></i></span></h4>
-                <ul>
-                    <li>Min: <select>
-                        <option value="">0-1000</option>
-                        <option value="">1000-2000</option>
-                        <option value="">2000-3000</option>
-                    </select></li>
-                    <li>Max: <select>
-                        <option value="">0-1000</option>
-                        <option value="">1000-2000</option>
-                        <option value="">2000-3000</option>
-                    </select></li>
-                </ul>
+                <h4>Barrel Length  ({{barrelrangeValues[0] + 'cm - ' + barrelrangeValues[1]}}cm)</h4>
+
+                <p-slider [(ngModel)]="barrelrangeValues" [range]="true" [min]="0" [max]="250"></p-slider>
+
+                <h4>Stock Length ({{stockrangeValues[0] + 'cm - ' + stockrangeValues[1]}}cm)</h4>
+                <p-slider [(ngModel)]="stockrangeValues" [range]="true" [min]="0" [max]="250"></p-slider>
+
                 <h4>Trigger <span><i class="pi pi-fw pi-chevron-right open"></i></span></h4>
                 <ul>
                     <li><input type="checkbox"> 0</li>
