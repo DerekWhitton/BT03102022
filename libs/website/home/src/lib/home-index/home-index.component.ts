@@ -6,8 +6,8 @@ import { Component, OnInit  } from '@angular/core';
 })
 export class HomeIndexComponent implements OnInit {
 
-  stockSizes: stockSize[];
-  selectedStock: stockSize;
+  stockSizes: any[] = [];
+  selectedStock: any;
   pricerangeValues: number[] = [0,1000];
   barrelrangeValues: number[] = [0,200];
   stockrangeValues: number[] = [0,200];
@@ -19,6 +19,10 @@ export class HomeIndexComponent implements OnInit {
 
   constructor() {
 
+
+      this.selectedMechanisms = [
+
+      ]
 
       this.stockSizes = [
           {name: 'Small', code: 'SM', inactive: false},
