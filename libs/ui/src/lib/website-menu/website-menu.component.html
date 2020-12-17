@@ -1,18 +1,32 @@
 <div class="p-grid bg-gold">
   <div class="p-col"></div>
-  <div class="p-md-12 p-lg-8">
-    <div class="p-grid  p-mt-1 p-mb-1">
-      <div class="p-col-12 p-md-8 p-lg-8" >
+  <div class="p-md-12 p-lg-10">
+    <div class="p-grid p-mt-1 p-mb-1">
+      <div class="p-col-12 p-md-8 p-lg-8">
         <span class="p-input-icon-left ui-block">
           <i class="pi pi-search"></i>
-          <input class="ui-block" type="text" pInputText placeholder="What are you looking for?" />
+          <input
+            class="ui-block"
+            type="text"
+            pInputText
+            placeholder="What are you looking for?"
+          />
         </span>
       </div>
       <div class="p-col-12 p-md-3 p-lg-3">
-        <p-dropdown [style]="{'width':'100%'}" [options]="categories" optionLabel="name"></p-dropdown>
+        <p-dropdown
+          [style]="{ width: '100%' }"
+          [options]="categories"
+          optionLabel="name"
+        ></p-dropdown>
       </div>
       <div class="p-col-12 p-md-1 p-lg-1">
-        <button pButton type="button" label="Search" class="p-button-white p-button-outlined"></button>
+        <button
+          pButton
+          type="button"
+          label="Search"
+          class="p-button-white p-button-outlined"
+        ></button>
       </div>
     </div>
   </div>
@@ -21,20 +35,32 @@
 
 <div class="p-grid bg-grey">
   <div class="p-col"></div>
-  <div class="p-md-12 p-lg-8">
-
+  <div class="p-md-12 p-lg-10">
     <div class="p-grid">
       <div class="p-col">
-        <img id="app-logo" class="logo-image p-mr-2 ng-star-inserted  p-mt-2" src="assets/layout/images/logo-dark.png" [routerLink]="['/','home']" alt="Bush Trade" />
+        <img
+          id="app-logo"
+          class="logo-image p-mr-2 ng-star-inserted p-mt-2"
+          src="assets/layout/images/logo-dark.png"
+          [routerLink]="['/', 'home']"
+          alt="Bush Trade"
+        />
       </div>
       <div class="p-col-9 p-text-right">
-        <p-menubar  [model]="items">
-          <button pButton label="Sign In" [routerLink]="['/','home']"></button>
-        </p-menubar >
-
+        <p-menubar [model]="items">
+          <button pButton label="Sign In" (click)="login()"></button>
+        </p-menubar>
       </div>
     </div>
-
   </div>
+  <div class="p-col"></div>
+</div>
+
+<div class="p-grid bg-offwhite">
+  <div class="p-col"></div>
+  <div class="p-md-12 p-lg-10 bread-crumbs p-mt-4 p-mb-4 bread-crumbs">
+    <a href="#">Home</a> | Search Results
+  </div>
+
   <div class="p-col"></div>
 </div>

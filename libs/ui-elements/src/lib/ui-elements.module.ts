@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { MenuModule } from 'primeng/menu';
@@ -14,6 +15,9 @@ import { TableModule } from 'primeng/table';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ChartModule } from 'primeng/chart';
 import { InputTextModule } from 'primeng/inputtext';
+import { CarouselModule } from 'primeng/carousel';
+import { AccordionModule } from 'primeng/accordion';
+import { SliderModule } from 'primeng/slider';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
@@ -38,6 +42,11 @@ import { CheckboxModule } from 'primeng/checkbox';
     RadioButtonModule,
     ChartModule,
     InputTextModule,
+    CarouselModule,
+    AccordionModule,
+    SliderModule,
+    FormsModule,
+    CheckboxModule,
     CardModule,
     ButtonModule,
     DropdownModule,
@@ -64,6 +73,11 @@ import { CheckboxModule } from 'primeng/checkbox';
     RadioButtonModule,
     ChartModule,
     InputTextModule,
+    CarouselModule,
+    AccordionModule,
+    SliderModule,
+    FormsModule,
+    CheckboxModule,
     CardModule,
     ButtonModule,
     DropdownModule,
