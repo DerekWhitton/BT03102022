@@ -57,6 +57,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     ChipsModule,
     InputNumberModule,
     CheckboxModule,
+    DialogModule,
   ],
   exports: [
     RadioButtonModule,
@@ -88,6 +89,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     ChipsModule,
     InputNumberModule,
     CheckboxModule,
+    DialogModule,
   ],
 })
 export class UiElementsModule {}

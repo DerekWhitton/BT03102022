@@ -35,6 +35,15 @@ const usersReducer = createReducer(
     ...state,
     selectedSupplierId: id,
     loaded: true,
+  })),
+  on(UserActions.registerSellerSuccess, (state, { seller }) => ({
+    ...state,
+    sellers: [...state.sellers, seller],
+    loaded: true,
+  })),
+  on(UserActions.registerSellerFailure, (state, { error }) => ({
+    ...state,
+    error,
   }))
 );
 

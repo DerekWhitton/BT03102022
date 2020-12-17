@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@bushtrade/app-config';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { IUser } from '@bushtrade/website/shared/entites';
+import { ISeller, IUser } from '@bushtrade/website/shared/entites';
 @Injectable({
   providedIn: 'root',
 })
@@ -18,6 +18,15 @@ export class UserService {
   loadUser() {
     return this.httpClient.get<IUser>(
       `${this.base}api/v${this.version}/Profiles/Me`
+    );
+  }
+
+  startSelling(sellingProfile: ISeller) {
+    return this.httpClient.post<ISeller>(
+      `${this.base}api/v${this.version}/Profiles/StartSelling`,
+      {
+        ...sellingProfile,
+      }
     );
   }
 }

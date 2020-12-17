@@ -29,5 +29,30 @@ export class UserEffects {
     )
   );
 
+  registerSeller$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.registerSeller),
+      fetch({
+        run: (action) => {
+          return this.userService
+            .startSelling(action.sellerProfile)
+            .pipe(
+              map((response) =>
+                UserActions.registerSellerSuccess({ seller: response })
+              )
+            );
+        },
+        onError: (action, error) => {
+          console.error('Error', error);
+          return UserActions.registerSellerFailure({ error });
+        },
+      })
+    )
+  );
+
   constructor(private actions$: Actions, private userService: UserService) {}
+
+  // ngrxOnInitEffects(): Action {
+  //   return UserActions.loadUser();
+  // }
 }

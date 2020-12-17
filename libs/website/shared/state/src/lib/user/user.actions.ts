@@ -1,4 +1,4 @@
-import { IUser } from '@bushtrade/website/shared/entites';
+import { ISeller, IUser } from '@bushtrade/website/shared/entites';
 import { createAction, props } from '@ngrx/store';
 
 export const loadUser = createAction('[User] Load User');
@@ -16,4 +16,19 @@ export const loadUserFailure = createAction(
 export const setSelectedSupplier = createAction(
   '[User] Set Selected Supplier',
   props<{ id: string }>()
+);
+
+export const registerSeller = createAction(
+  '[Seller] Register Seller',
+  props<{ sellerProfile: ISeller }>()
+);
+
+export const registerSellerSuccess = createAction(
+  '[Seller] Register Seller Success',
+  props<{ seller: ISeller }>()
+);
+
+export const registerSellerFailure = createAction(
+  '[Seller] Register Seller Failure',
+  props<{ error: any }>()
 );
