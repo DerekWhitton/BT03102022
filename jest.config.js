@@ -42,5 +42,6 @@ module.exports = {
     '<rootDir>/libs/website/shared/state',
     '<rootDir>/libs/website/shared/entities',
     '<rootDir>/libs/website/shared/services',
+    '<rootDir>/libs/website/search',
   ],
 };

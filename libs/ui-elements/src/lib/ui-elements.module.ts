@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule }   from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ToastModule } from 'primeng/toast';
@@ -13,7 +14,10 @@ import { TableModule } from 'primeng/table';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ChartModule } from 'primeng/chart';
 import { InputTextModule } from 'primeng/inputtext';
-
+import { CarouselModule } from 'primeng/carousel';
+import { AccordionModule } from 'primeng/accordion';
+import { SliderModule } from 'primeng/slider';
+import { CheckboxModule } from 'primeng/checkbox';
 @NgModule({
   imports: [
     CommonModule,
@@ -31,6 +35,11 @@ import { InputTextModule } from 'primeng/inputtext';
     RadioButtonModule,
     ChartModule,
     InputTextModule,
+    CarouselModule,
+    AccordionModule,
+    SliderModule,
+    FormsModule,
+    CheckboxModule
   ],
   exports: [
     RadioButtonModule,
@@ -47,6 +56,11 @@ import { InputTextModule } from 'primeng/inputtext';
     RadioButtonModule,
     ChartModule,
     InputTextModule,
+    CarouselModule,
+    AccordionModule,
+    SliderModule,
+    FormsModule,
+    CheckboxModule
   ],
 })
 export class UiElementsModule {}
