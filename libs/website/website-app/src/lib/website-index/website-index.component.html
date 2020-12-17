@@ -1,4 +1,7 @@
-<bushtrade-web-menu (signIn)="login()"></bushtrade-web-menu>
+<bushtrade-web-menu
+  (signIn)="login()"
+  [loggedIn]="this.loggedIn"
+></bushtrade-web-menu>
 
 <router-outlet></router-outlet>
 

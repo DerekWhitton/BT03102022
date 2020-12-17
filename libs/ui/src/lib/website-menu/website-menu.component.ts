@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MegaMenuItem } from 'primeng/api';
 
 @Component({
@@ -7,6 +7,7 @@ import { MegaMenuItem } from 'primeng/api';
   styleUrls: ['./website-menu.component.scss'],
 })
 export class WebsiteMenuComponent implements OnInit {
+  @Input() loggedIn;
   items: MegaMenuItem[];
   categories = [];
 

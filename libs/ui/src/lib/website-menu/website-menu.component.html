@@ -48,7 +48,18 @@
       </div>
       <div class="p-col-9 p-text-right">
         <p-menubar [model]="items">
-          <button pButton label="Sign In" (click)="login()"></button>
+          <button
+            *ngIf="!loggedIn"
+            pButton
+            label="Sign In"
+            (click)="login()"
+          ></button>
+          <button
+            *ngIf="loggedIn"
+            pButton
+            icon="pi pi-user"
+            [routerLink]="['/', 'profile']"
+          ></button>
         </p-menubar>
       </div>
     </div>
