@@ -1,0 +1,89 @@
+<ng-container *ngIf="user$ | async as user; else loading">
+  <div class="card">
+    <div class="p-grid">
+      <div class="p-col">
+        <div class="box">
+          <h4>Details</h4>
+          <label for="name">Firstname : {{ user.firstName }}</label>
+          <br />
+          <label for="name">Surname : {{ user.surname }}</label>
+        </div>
+      </div>
+      <div class="p-col">
+        <div class="box">
+          <h4>Roles</h4>
+          <div *ngFor="let role of user.roles">
+            <div class="p-grid p-fluid">
+              <div class="p-col-6">
+                {{ role.name }}
+              </div>
+              <div class="p-col-6">
+                <button
+                  type="button"
+                  pButton
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-warning"
+                  (click)="removeRoleFromUser(role.id)"
+                ></button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button
+              pButton
+              pRipple
+              label="Add Role"
+              icon="pi pi-plus"
+              class="p-button-success p-mr-1"
+              (click)="this.displayAddRoleToUserDialog = true"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="roles">
+  <p-dialog
+    [(visible)]="displayAddRoleToUserDialog"
+    [style]="{ width: '450px' }"
+    header="Add Role"
+    [modal]="true"
+    styleClass="p-fluid"
+  >
+    <label>
+      Role:
+    </label>
+    <p-dropdown
+      inputId="role"
+      [options]="roles"
+      placeholder="Select"
+      optionLabel="name"
+      [(ngModel)]="roleToAdd"
+      appendTo="body"
+    ></p-dropdown>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="this.displayAddRoleToUserDialog = false"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="addRoleToUser()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+</ng-container>
+
+<ng-template #loading>
+  <progress-spinner></progress-spinner>
+</ng-template>

@@ -1,0 +1,13 @@
+<progress-spinner *ngIf="loaded == false; else view"></progress-spinner>
+
+<ng-template #view>
+  <div class="card">
+    <bushtrade-administration-categories
+      [categories]="categories$ | async"
+      (goDeeper)="handleGoDeeper($event)"
+      [loaded]="subLoaded"
+      [sub]="isSub"
+      (jumpChain)="hanldeJumpChain($event)"
+    ></bushtrade-administration-categories>
+  </div>
+</ng-template>

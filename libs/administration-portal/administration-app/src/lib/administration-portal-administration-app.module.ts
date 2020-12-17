@@ -4,10 +4,12 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { UiModule } from '@bushtrade/ui';
 import { MsalGuard } from '@azure/msal-angular';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
+    HttpClientModule,
     UiModule,
     RouterModule.forRoot([
       {

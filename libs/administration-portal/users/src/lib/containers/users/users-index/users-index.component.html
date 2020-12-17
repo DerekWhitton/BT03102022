@@ -1,0 +1,10 @@
+<div class="card">
+  <bushtrade-web-crud-table
+    [data]="users$ | async"
+    [selectableColumns]="columns"
+    [loading]="loading$ | async"
+    [headersValue]="'User'"
+    [viewable]="true"
+    (viewSelection)="onViewSelection($event)"
+  ></bushtrade-web-crud-table>
+</div>

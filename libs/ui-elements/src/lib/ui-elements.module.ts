@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MegaMenuModule } from 'primeng/megamenu';
+import { MenuModule } from 'primeng/menu';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { MegaMenuModule } from 'primeng/megamenu';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -17,6 +18,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CarouselModule } from 'primeng/carousel';
 import { AccordionModule } from 'primeng/accordion';
 import { SliderModule } from 'primeng/slider';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { MenubarModule } from 'primeng/menubar';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { ChipsModule } from 'primeng/chips';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
 @NgModule({
   imports: [
@@ -39,7 +46,17 @@ import { CheckboxModule } from 'primeng/checkbox';
     AccordionModule,
     SliderModule,
     FormsModule,
-    CheckboxModule
+    CheckboxModule,
+    CardModule,
+    ButtonModule,
+    DropdownModule,
+    InputTextModule,
+    MenubarModule,
+    MenuModule,
+    ProgressBarModule,
+    ChipsModule,
+    InputNumberModule,
+    CheckboxModule,
   ],
   exports: [
     RadioButtonModule,
@@ -60,7 +77,17 @@ import { CheckboxModule } from 'primeng/checkbox';
     AccordionModule,
     SliderModule,
     FormsModule,
-    CheckboxModule
+    CheckboxModule,
+    CardModule,
+    ButtonModule,
+    DropdownModule,
+    InputTextModule,
+    MenubarModule,
+    MenuModule,
+    ProgressBarModule,
+    ChipsModule,
+    InputNumberModule,
+    CheckboxModule,
   ],
 })
 export class UiElementsModule {}
