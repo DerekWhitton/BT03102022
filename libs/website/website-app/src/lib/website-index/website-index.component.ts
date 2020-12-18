@@ -10,9 +10,7 @@ export class WebsiteIndexComponent implements OnInit {
   @Output() loginEmit = new EventEmitter();
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.loggedIn);
-  }
+  ngOnInit(): void {}
 
   login() {
     this.loginEmit.emit();

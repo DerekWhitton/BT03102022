@@ -2,7 +2,11 @@
   *ngIf="sellers.length; else register"
   (onOpen)="loadListings(sellers[$event.index])"
 >
-  <p-accordionTab *ngFor="let seller of sellers" [header]="seller.name">
+  <p-accordionTab
+    *ngFor="let seller of sellers"
+    [header]="seller.name"
+    transitionOptions="100ms cubic-bezier(0.86, 0, 0.07, 1)"
+  >
     <bushtrade-web-crud-table
       [data]="listings$ | async"
       [selectableColumns]="columns"
@@ -12,6 +16,9 @@
       [updateFormTemplateReference]="updatingListingFormTemplate"
       (updateSubmit)="updateListing()"
       [headersValue]="'Listings'"
+      [createFormValid]="
+        addlistingFormGroup.valid && listingProperties.length > 0
+      "
       (createSubmit)="addListing()"
       [allowDelete]="true"
       (itemDeleted)="deleteListing($event)"
@@ -38,6 +45,7 @@
               customUpload="true"
               (uploadHandler)="uploadListingImage($event)"
             ></p-fileUpload>
+            {{ uploadStatus }}
           </div>
           <div class="p-field">
             <label>
@@ -118,7 +126,8 @@
                   (click)="
                     setPropertyvalue(
                       categoryProperty.value.id,
-                      propertyValue.value
+                      propertyValue.value,
+                      'add'
                     )
                   "
                 ></p-button>
@@ -137,6 +146,7 @@
       </div>
     </div>
   </form>
+  {{ addlistingFormGroup.valid }}
 </ng-template>
 
 <ng-template #updatingListingFormTemplate>
@@ -230,7 +240,8 @@
                   (click)="
                     setPropertyvalue(
                       categoryProperty.value.id,
-                      propertyValue.value
+                      propertyValue.value,
+                      'update'
                     )
                   "
                 ></p-button>

@@ -37,10 +37,12 @@ export class SellerIndexComponent implements OnInit {
   loaded$: Observable<boolean>;
   displayStartSellingDialog: boolean = false;
 
+  uploadStatus: string = '';
+
   categories$: Observable<ICategory[]>;
   showProperties: boolean = false;
   categoryProperties$: Observable<ICategoryProperty[]>;
-  listingProperties: any[] = [];
+  listingProperties: {}[] = [];
 
   imageIds: string[] = [];
 
@@ -51,8 +53,8 @@ export class SellerIndexComponent implements OnInit {
     startingPrice: new FormControl('', Validators.required),
     priceIncrement: new FormControl('', Validators.required),
     categoryId: new FormControl('', Validators.required),
-    listingImageIds: new FormControl('', Validators.required),
-    listingPropertyValues: new FormControl('', Validators.required),
+    listingImageIds: new FormControl(''),
+    listingPropertyValues: new FormControl(''),
   });
 
   updatelistingFormGroup: FormGroup = new FormGroup({
@@ -79,13 +81,15 @@ export class SellerIndexComponent implements OnInit {
     this.listingsFacade.imageIds$.subscribe({
       next(ids) {
         ctx.imageIds = ids;
+        if (ids.length > 0) {
+          ctx.uploadStatus = 'Uploaded';
+        }
       },
     });
   }
 
   loadListings(seller) {
     this.selectedSellerId = seller.id;
-    console.log(seller.id);
     this.listingsFacade.dispatch(loadListings({ sellerId: seller.id }));
     this.listings$ = this.listingsFacade.allListings$;
   }
@@ -99,27 +103,42 @@ export class SellerIndexComponent implements OnInit {
   // }
 
   uploadListingImage(event) {
+    this.uploadStatus = 'Uploading...';
     this.listingsFacade.dispatch(
       addListingImage({ sellerId: this.selectedSellerId, file: event.files[0] })
     );
+
+    this.addlistingFormGroup.patchValue({
+      ...this.addlistingFormGroup.value,
+      listingImageIds: this.imageIds,
+    });
   }
 
   updateProperties() {
     this.showProperties = true;
-    console.log(this.showProperties);
     this.categoryProperties$ = this.categoryService.loadCategoryProperties(
       '19f9d942-905c-43f9-42c3-08d8a2beaebe'
     );
   }
 
-  setPropertyvalue(id, value) {
-    console.log(this.listingProperties);
-    let property = { categoryPropertyId: id, value: value };
+  setPropertyvalue(id, value, method) {
+    let property = new Object({ categoryPropertyId: id, value: value });
     this.listingProperties.push(property);
+
+    if (method == 'add') {
+      this.addlistingFormGroup.patchValue({
+        ...this.addlistingFormGroup.value,
+        listingPropertyValues: this.listingProperties,
+      });
+    } else if (method == 'update') {
+      this.updatelistingFormGroup.patchValue({
+        ...this.updatelistingFormGroup.value,
+        listingPropertyValues: this.listingProperties,
+      });
+    }
   }
 
   handleUpdateSelection(data) {
-    console.log(data);
     this.listingsFacade.dispatch(
       loadListing({ sellerId: this.selectedSellerId, listingId: data.id })
     );
@@ -127,10 +146,7 @@ export class SellerIndexComponent implements OnInit {
     this.listingsFacade.selectedListings$.subscribe({
       next(listing) {
         if (typeof listing != 'undefined') {
-          console.log(listing);
-
           ctx.imageIds = listing.images.map((l) => l.id);
-          console.log(ctx.imageIds);
           ctx.updatelistingFormGroup.patchValue({
             ...listing,
           });
@@ -146,7 +162,6 @@ export class SellerIndexComponent implements OnInit {
       listingImageIds: this.imageIds,
       listingPropertyValues: this.listingProperties,
     });
-    console.log(this.updatelistingFormGroup.value);
     this.listingsFacade.dispatch(
       updateListing({
         sellerId: this.selectedSellerId,
@@ -159,7 +174,6 @@ export class SellerIndexComponent implements OnInit {
   }
 
   deleteListing(data) {
-    console.log(data);
     this.listingsFacade.dispatch(
       deleteListing({ sellerId: this.selectedSellerId, listingId: data.id })
     );
@@ -178,7 +192,6 @@ export class SellerIndexComponent implements OnInit {
       listingImageIds: this.imageIds,
       listingPropertyValues: this.listingProperties,
     });
-    console.log(this.addlistingFormGroup.value);
     this.listingsFacade.dispatch(
       addListing({
         sellerId: this.selectedSellerId,

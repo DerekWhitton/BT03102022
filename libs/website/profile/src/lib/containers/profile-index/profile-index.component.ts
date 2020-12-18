@@ -44,7 +44,6 @@ export class ProfileIndexComponent implements OnInit {
   }
 
   registerSeller() {
-    console.log(this.signUpSellerFormGroup.value);
     this.store.dispatch(
       registerSeller({
         sellerProfile: this.signUpSellerFormGroup.value as ISeller,
