@@ -1,0 +1,135 @@
+<p-accordion
+  *ngIf="sellers.length; else register"
+  (onOpen)="loadListings(sellers[$event.index])"
+>
+  <p-accordionTab *ngFor="let seller of sellers" [header]="seller.name">
+    <bushtrade-web-crud-table
+      [data]="listings$ | async"
+      [selectableColumns]="columns"
+      [loading]="loading$ | async"
+      [createFormTemplateReference]="addListingFormTemplate"
+      [headersValue]="'Listings'"
+      (createSubmit)="addListing()"
+    ></bushtrade-web-crud-table>
+  </p-accordionTab>
+</p-accordion>
+<ng-template #register>
+  <button
+    pButton
+    icon=""
+    label="Start Selling"
+    (click)="this.displayStartSellingDialog = true"
+  ></button>
+</ng-template>
+
+<ng-template #addListingFormTemplate>
+  <form [formGroup]="addlistingFormGroup">
+    <div class="p-grid">
+      <div class="p-col">
+        <div class="p-fluid">
+          <div class="p-field">
+            <p-fileUpload
+              name="myfile[]"
+              customUpload="true"
+              (uploadHandler)="uploadListingImage($event)"
+            ></p-fileUpload>
+          </div>
+          <div class="p-field">
+            <label>
+              Name:
+            </label>
+            <input pInputText type="text" required formControlName="name" />
+          </div>
+          <div class="p-field">
+            <label>
+              Description:
+            </label>
+            <input
+              pInputText
+              type="text"
+              required
+              formControlName="description"
+            />
+          </div>
+          <div class="p-field">
+            <label>
+              Starting Price:
+            </label>
+            <input
+              pInputText
+              type="number"
+              required
+              formControlName="startingPrice"
+            />
+          </div>
+          <div class="p-field">
+            <label>
+              Price Increment:
+            </label>
+            <input
+              pInputText
+              type="number"
+              required
+              formControlName="priceIncrement"
+            />
+          </div>
+          <div class="p-field">
+            <label>
+              Category:
+            </label>
+            <p-dropdown
+              appendTo="body"
+              placeholder="Select a category"
+              [options]="categories$ | async"
+              optionLabel="name"
+              optionValue="id"
+              formControlName="categoryId"
+              (onChange)="updateProperties()"
+            >
+            </p-dropdown>
+          </div>
+          <div class="p-field" *ngIf="showProperties == true">
+            <label>
+              Category Properties:
+            </label>
+            <p-listbox
+              [options]="categoryProperties$ | async"
+              [multiple]="true"
+              optionLabel="value"
+            >
+              <ng-template let-categoryProperty pTemplate="item">
+                {{ categoryProperty.value.name | json }}
+                <input
+                  #propertyValue
+                  pInputText
+                  type="text"
+                  required
+                  placeholder="value"
+                />
+                <p-button
+                  icon="pi pi-check"
+                  iconPos="left"
+                  [disabled]="!propertyValue.value"
+                  (click)="
+                    setPropertyvalue(
+                      categoryProperty.value.id,
+                      propertyValue.value
+                    )
+                  "
+                ></p-button>
+              </ng-template>
+            </p-listbox>
+          </div>
+
+          <div class="p-field">
+            <label>
+              Active:
+            </label>
+            <br />
+            <p-inputSwitch formControlName="active"></p-inputSwitch>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ISeller, IUser } from '@bushtrade/website/shared/entites';
+import { IListing, ISeller, IUser } from '@bushtrade/website/shared/entites';
 import {
   getUser,
+  getUserSellers,
   loadUser,
   registerSeller,
 } from '@bushtrade/website/shared/state';
@@ -16,7 +17,11 @@ import { Observable } from 'rxjs';
 })
 export class ProfileIndexComponent implements OnInit {
   user$: Observable<IUser>;
+  sellers$: Observable<ISeller[]>;
   loaded$: Observable<boolean>;
+
+  displayAddListingDialog: boolean = false;
+
   displayStartSellingDialog: boolean = false;
 
   signUpSellerFormGroup: FormGroup = new FormGroup({
@@ -35,6 +40,7 @@ export class ProfileIndexComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(loadUser());
     this.user$ = this.store.select(getUser);
+    this.sellers$ = this.store.select(getUserSellers);
   }
 
   registerSeller() {

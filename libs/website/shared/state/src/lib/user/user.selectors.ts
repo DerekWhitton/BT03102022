@@ -15,3 +15,8 @@ export const getUserLoaded = createSelector(
   getUserState,
   (state: fromUser.UserState) => state.loaded
 );
+
+export const getUserSellers = createSelector(
+  getUserState,
+  (state: fromUser.UserState) => state.sellers
+);

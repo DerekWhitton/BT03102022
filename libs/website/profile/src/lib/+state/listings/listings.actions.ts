@@ -1,0 +1,51 @@
+import { createAction, props } from '@ngrx/store';
+import {
+  IPaginatedResponse,
+  IListing,
+  ICategory,
+} from '@bushtrade/website/shared/entites';
+
+export const loadListings = createAction(
+  '[Listings] Load Listings',
+  props<{ sellerId: string }>()
+);
+
+export const loadListingsSuccess = createAction(
+  '[Listings] Load Listings Success',
+  props<{ payload: IPaginatedResponse<IListing> }>()
+);
+
+export const loadListingsFailure = createAction(
+  '[Listings] Load Listings Failure',
+  props<{ error: any }>()
+);
+
+export const addListing = createAction(
+  '[Listings] Add Listing',
+  props<{ sellerId: string; listing: IListing }>()
+);
+
+export const addListingSuccess = createAction(
+  '[Listings] Add Listings Success',
+  props<{ listing: IListing }>()
+);
+
+export const addListingFailure = createAction(
+  '[Listings] Add Listings Failure',
+  props<{ error: any }>()
+);
+
+export const addListingImage = createAction(
+  '[Listings] Add Listing Image',
+  props<{ sellerId: string; file: File }>()
+);
+
+export const addListingImageSuccess = createAction(
+  '[Listings] Add Listings Image Success',
+  props<{ imageId: string; file: File }>()
+);
+
+export const addListingImageFailure = createAction(
+  '[Listings] Add Listings Image Failure',
+  props<{ error: any }>()
+);

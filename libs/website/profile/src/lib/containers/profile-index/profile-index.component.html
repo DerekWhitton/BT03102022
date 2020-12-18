@@ -1,12 +1,11 @@
-<div *ngIf="user$ | async as user">
-  <h4>{{ user.firstName + ' ' + user.surname }}</h4>
-</div>
-<button
-  pButton
-  icon=""
-  label="Start Selling"
-  (click)="this.displayStartSellingDialog = true"
-></button>
+<p-tabView>
+  <p-tabPanel header="Details">
+    <website-user-index></website-user-index>
+  </p-tabPanel>
+  <p-tabPanel header="Listings">
+    <website-seller-index [sellers]="sellers$ | async"></website-seller-index>
+  </p-tabPanel>
+</p-tabView>
 
 <p-dialog
   [(visible)]="displayStartSellingDialog"
