@@ -55,6 +55,37 @@ const listingsReducer = createReducer(
   on(ListingsActions.addListingImageFailure, (state, { error }) => ({
     ...state,
     error,
+  })),
+  on(ListingsActions.loadListingSuccess, (state, { listing }) =>
+    listingsAdapter.upsertOne(listing, {
+      ...state,
+      selectedId: listing.id,
+      loaded: true,
+    })
+  ),
+  on(ListingsActions.loadListingFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(ListingsActions.updateListingSuccess, (state, { listing }) =>
+    listingsAdapter.upsertOne(listing, {
+      ...state,
+      loaded: true,
+    })
+  ),
+  on(ListingsActions.updateListingFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(ListingsActions.deleteListingSuccess, (state, { listingId }) =>
+    listingsAdapter.removeOne(listingId, {
+      ...state,
+      loaded: true,
+    })
+  ),
+  on(ListingsActions.deleteListingFailure, (state, { error }) => ({
+    ...state,
+    error,
   }))
 );
 

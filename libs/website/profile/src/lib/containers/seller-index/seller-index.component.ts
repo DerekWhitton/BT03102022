@@ -9,7 +9,10 @@ import { Observable, Subject } from 'rxjs';
 import {
   addListing,
   addListingImage,
+  deleteListing,
+  loadListing,
   loadListings,
+  updateListing,
 } from '../../+state/listings/listings.actions';
 import { ListingsFacade } from '../../+state/listings/listings.facade';
 import { CategoryService } from '@bushtrade/website/shared/services';
@@ -37,7 +40,7 @@ export class SellerIndexComponent implements OnInit {
   categories$: Observable<ICategory[]>;
   showProperties: boolean = false;
   categoryProperties$: Observable<ICategoryProperty[]>;
-  listingProperties: { categoryPropertyId: ''; value: '' }[] = [];
+  listingProperties: any[] = [];
 
   imageIds: string[] = [];
 
@@ -51,6 +54,18 @@ export class SellerIndexComponent implements OnInit {
     listingImageIds: new FormControl('', Validators.required),
     listingPropertyValues: new FormControl('', Validators.required),
   });
+
+  updatelistingFormGroup: FormGroup = new FormGroup({
+    name: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    active: new FormControl(false, Validators.required),
+    startingPrice: new FormControl('', Validators.required),
+    priceIncrement: new FormControl('', Validators.required),
+    categoryId: new FormControl('', Validators.required),
+    listingImageIds: new FormControl('', Validators.required),
+    listingPropertyValues: new FormControl('', Validators.required),
+  });
+
   constructor(
     private listingsFacade: ListingsFacade,
     private categoryService: CategoryService
@@ -98,8 +113,56 @@ export class SellerIndexComponent implements OnInit {
   }
 
   setPropertyvalue(id, value) {
-    console.log(value);
-    this.listingProperties.push({ categoryPropertyId: id, value: value });
+    console.log(this.listingProperties);
+    let property = { categoryPropertyId: id, value: value };
+    this.listingProperties.push(property);
+  }
+
+  handleUpdateSelection(data) {
+    console.log(data);
+    this.listingsFacade.dispatch(
+      loadListing({ sellerId: this.selectedSellerId, listingId: data.id })
+    );
+    var ctx = this;
+    this.listingsFacade.selectedListings$.subscribe({
+      next(listing) {
+        if (typeof listing != 'undefined') {
+          console.log(listing);
+
+          ctx.imageIds = listing.images.map((l) => l.id);
+          console.log(ctx.imageIds);
+          ctx.updatelistingFormGroup.patchValue({
+            ...listing,
+          });
+        }
+      },
+    });
+  }
+
+  updateListing() {
+    this.updatelistingFormGroup.patchValue({
+      ...this.updatelistingFormGroup.value,
+      categoryId: '19f9d942-905c-43f9-42c3-08d8a2beaebe',
+      listingImageIds: this.imageIds,
+      listingPropertyValues: this.listingProperties,
+    });
+    console.log(this.updatelistingFormGroup.value);
+    this.listingsFacade.dispatch(
+      updateListing({
+        sellerId: this.selectedSellerId,
+        listing: this.updatelistingFormGroup.value,
+      })
+    );
+    this.updatelistingFormGroup.reset();
+    this.listingProperties = [];
+    this.imageIds = [];
+  }
+
+  deleteListing(data) {
+    console.log(data);
+    this.listingsFacade.dispatch(
+      deleteListing({ sellerId: this.selectedSellerId, listingId: data.id })
+    );
   }
 
   addListing() {
@@ -122,5 +185,9 @@ export class SellerIndexComponent implements OnInit {
         listing: this.addlistingFormGroup.value,
       })
     );
+
+    this.addlistingFormGroup.reset();
+    this.listingProperties = [];
+    this.imageIds = [];
   }
 }

@@ -49,3 +49,48 @@ export const addListingImageFailure = createAction(
   '[Listings] Add Listings Image Failure',
   props<{ error: any }>()
 );
+
+export const loadListing = createAction(
+  '[Listings] Load Listing',
+  props<{ sellerId: string; listingId: string }>()
+);
+
+export const loadListingSuccess = createAction(
+  '[Listings] Load Listing Success',
+  props<{ listing: IListing }>()
+);
+
+export const loadListingFailure = createAction(
+  '[Listings] Load Listing Failure',
+  props<{ error: any }>()
+);
+
+export const updateListing = createAction(
+  '[Listings] Update Listing',
+  props<{ sellerId: string; listing: IListing }>()
+);
+
+export const updateListingSuccess = createAction(
+  '[Listings] Update Listing Success',
+  props<{ listing: IListing }>()
+);
+
+export const updateListingFailure = createAction(
+  '[Listings] Update Listing Failure',
+  props<{ error: any }>()
+);
+
+export const deleteListing = createAction(
+  '[Listings] Delete Listing',
+  props<{ sellerId: string; listingId: string }>()
+);
+
+export const deleteListingSuccess = createAction(
+  '[Listings] Delete Listing Success',
+  props<{ listingId: string }>()
+);
+
+export const deleteListingFailure = createAction(
+  '[Listings] Delete Listing Failure',
+  props<{ error: any }>()
+);

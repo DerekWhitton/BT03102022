@@ -81,6 +81,79 @@ export class ListingsEffects {
     )
   );
 
+  loadListing$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ListingsActions.loadListing),
+      withLatestFrom(this.store),
+      fetch({
+        run: (action, state: any) => {
+          return this.listingsService
+            .loadListing(action.sellerId, action.listingId)
+            .pipe(
+              map((response) =>
+                ListingsActions.loadListingSuccess({ listing: response })
+              )
+            );
+        },
+
+        onError: (action, error) => {
+          console.error('Error', error);
+          return ListingsActions.loadListingFailure({ error });
+        },
+      })
+    )
+  );
+
+  updateListing$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ListingsActions.updateListing),
+      withLatestFrom(this.store),
+      fetch({
+        run: (action, state: any) => {
+          const { listings } = state;
+          return this.listingsService
+            .updateListing(action.sellerId, listings.selectedId, action.listing)
+            .pipe(
+              map((response) =>
+                ListingsActions.updateListingSuccess({ listing: response })
+              )
+            );
+        },
+
+        onError: (action, error) => {
+          console.error('Error', error);
+          return ListingsActions.updateListingFailure({ error });
+        },
+      })
+    )
+  );
+
+  deleteListing$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ListingsActions.deleteListing),
+      withLatestFrom(this.store),
+      fetch({
+        run: (action, state: any) => {
+          const { listings } = state;
+          return this.listingsService
+            .deleteListing(action.sellerId, action.listingId)
+            .pipe(
+              map((response) =>
+                ListingsActions.deleteListingSuccess({
+                  listingId: action.listingId,
+                })
+              )
+            );
+        },
+
+        onError: (action, error) => {
+          console.error('Error', error);
+          return ListingsActions.deleteListingFailure({ error });
+        },
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store,

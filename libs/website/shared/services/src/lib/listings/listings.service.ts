@@ -26,6 +26,27 @@ export class ListingsService {
     );
   }
 
+  loadListing(sellerId: string, listingId: string) {
+    return this.httpClient.get<IListing>(
+      `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings/${listingId}`
+    );
+  }
+
+  updateListing(sellerId: string, listingId: string, listing: IListing) {
+    return this.httpClient.patch<IListing>(
+      `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings/${listingId}`,
+      {
+        ...listing,
+      }
+    );
+  }
+
+  deleteListing(sellerId: string, listingId: string) {
+    return this.httpClient.delete<any>(
+      `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings/${listingId}`
+    );
+  }
+
   uploadListingImage(sellerId: string, file: File) {
     let formData = new FormData();
     formData.append('file', file, file.name);
