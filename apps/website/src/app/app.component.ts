@@ -24,7 +24,6 @@ export class AppComponent implements OnInit {
     this.loggedIn = this.authService.getAccount() !== null ? true : false;
     // event listeners for authentication status
     this.broadcastService.subscribe('msal:loginSuccess', (success) => {
-      console.log(success);
       this.store.dispatch(loadUser());
       // We need to reject id tokens that were not issued with the default sign-in policy.
       // "acr" claim in the token tells us what policy is used (NOTE: for new policies (v2.0), use "tfp" instead of "acr")
