@@ -146,7 +146,6 @@
       </div>
     </div>
   </form>
-  {{ addlistingFormGroup.valid }}
 </ng-template>
 
 <ng-template #updatingListingFormTemplate>
@@ -160,6 +159,7 @@
               customUpload="true"
               (uploadHandler)="uploadListingImage($event)"
             ></p-fileUpload>
+            {{ uploadStatus }}
           </div>
           <div class="p-field">
             <label>
@@ -261,3 +261,116 @@
     </div>
   </form>
 </ng-template>
+
+<p-dialog
+  [(visible)]="displayStartSellingDialog"
+  [style]="{ width: '450px' }"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="signUpSellerFormGroup">
+      <div class="p-grid">
+        <div class="p-col">
+          <div class="p-fluid">
+            <div class="p-field">
+              <label>
+                Name:
+              </label>
+              <input pInputText type="text" required formControlName="name" />
+            </div>
+            <div class="p-field">
+              <label>
+                Bank:
+              </label>
+              <input pInputText type="text" required formControlName="bank" />
+            </div>
+            <div class="p-field">
+              <label>
+                Branch Code:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="branchCode"
+              />
+            </div>
+            <div class="p-field">
+              <label>
+                Account Type:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="accountType"
+              />
+            </div>
+            <div class="p-field">
+              <label>
+                Account Number:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="accountNumber"
+              />
+            </div>
+            <div class="p-field">
+              <label>
+                Tax Number:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="taxNumber"
+              />
+            </div>
+            <div class="p-field">
+              <label>
+                Private Individual:
+              </label>
+              <br />
+              <p-inputSwitch
+                formControlName="isPrivateIndividual"
+              ></p-inputSwitch>
+            </div>
+            <div class="p-field">
+              <label>
+                Company Number:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="ckNumber"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="this.displayStartSellingDialog = false"
+    ></button>
+    <button
+      pButton
+      pRipple
+      class="p-button-text"
+      icon="pi pi-check"
+      label="Start Selling!"
+      (click)="registerSeller()"
+    ></button>
+  </ng-template>
+</p-dialog>

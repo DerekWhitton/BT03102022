@@ -4,6 +4,7 @@ import {
   ICategory,
   ICategoryProperty,
   IListing,
+  ISeller,
 } from '@bushtrade/website/shared/entites';
 import { Observable, Subject } from 'rxjs';
 import {
@@ -16,6 +17,8 @@ import {
 } from '../../+state/listings/listings.actions';
 import { ListingsFacade } from '../../+state/listings/listings.facade';
 import { CategoryService } from '@bushtrade/website/shared/services';
+import { Store } from '@ngrx/store';
+import { registerSeller } from '@bushtrade/website/shared/state';
 
 @Component({
   selector: 'website-seller-index',
@@ -29,9 +32,12 @@ export class SellerIndexComponent implements OnInit {
   loading$: Observable<boolean>;
   selectedSellerId: string;
 
+
+  
   columns = [
     { field: 'name', header: 'Name' },
     { field: 'startingPrice', header: 'Starting Price' },
+    { field: 'category', header: 'Category' },
   ];
 
   loaded$: Observable<boolean>;
@@ -68,7 +74,20 @@ export class SellerIndexComponent implements OnInit {
     listingPropertyValues: new FormControl('', Validators.required),
   });
 
+  signUpSellerFormGroup: FormGroup = new FormGroup({
+    bank: new FormControl('', Validators.required),
+    branchCode: new FormControl('', Validators.required),
+    accountType: new FormControl('', Validators.required),
+    accountNumber: new FormControl('', Validators.required),
+    taxNumber: new FormControl('', Validators.required),
+    ckNumber: new FormControl('', Validators.required),
+    name: new FormControl('', Validators.required),
+    isPrivateIndividual: new FormControl(true, Validators.required),
+  });
+
+
   constructor(
+    private store: Store,
     private listingsFacade: ListingsFacade,
     private categoryService: CategoryService
   ) {
@@ -203,4 +222,14 @@ export class SellerIndexComponent implements OnInit {
     this.listingProperties = [];
     this.imageIds = [];
   }
+  
+  registerSeller() {
+    this.store.dispatch(
+      registerSeller({
+        sellerProfile: this.signUpSellerFormGroup.value as ISeller,
+      })
+    );
+    this.displayStartSellingDialog = false;
+  }
+
 }
