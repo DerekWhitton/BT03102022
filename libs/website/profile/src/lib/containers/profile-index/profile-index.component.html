@@ -1,0 +1,9 @@
+<p-tabView>
+  <p-tabPanel header="Details">
+    <website-user-index></website-user-index>
+  </p-tabPanel>
+  <p-tabPanel header="Listings">
+    <website-seller-index [sellers]="sellers$ | async"></website-seller-index>
+  </p-tabPanel>
+</p-tabView>
+

@@ -10,6 +10,14 @@ import {
   MsalGuard,
   MsalService,
 } from '@azure/msal-angular';
+import { StoreModule } from '@ngrx/store';
+import * as fromUser from '@bushtrade/website/shared/state';
+import { UserEffects } from '@bushtrade/website/shared/state';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { APP_CONFIG } from '@bushtrade/app-config';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -19,6 +27,7 @@ const isIE =
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     WebsiteWebsiteAppModule,
     MsalModule.forRoot(
       {
@@ -48,8 +57,22 @@ const isIE =
         extraQueryParameters: {},
       }
     ),
+    StoreModule.forRoot({
+      [fromUser.USER_FEATURE_KEY]: fromUser.userReducer,
+    }),
+    EffectsModule.forRoot([UserEffects]),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreRouterConnectingModule.forRoot(),
   ],
-  providers: [MsalService],
+  providers: [
+    { provide: APP_CONFIG, useValue: environment },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MsalInterceptor,
+      multi: true,
+    },
+    MsalService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

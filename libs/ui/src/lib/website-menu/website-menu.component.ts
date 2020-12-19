@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MegaMenuItem } from 'primeng/api';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MegaMenuItem, MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'bushtrade-web-menu',
@@ -7,7 +7,9 @@ import { MegaMenuItem } from 'primeng/api';
   styleUrls: ['./website-menu.component.scss'],
 })
 export class WebsiteMenuComponent implements OnInit {
+  @Input() loggedIn;
   items: MegaMenuItem[];
+  accountItems: MenuItem[];
   categories = [];
 
   @Output() signIn = new EventEmitter();
@@ -20,6 +22,13 @@ export class WebsiteMenuComponent implements OnInit {
       { name: 'Ammo', code: 'RM', inactive: true },
       { name: 'Camping', code: 'LDN', inactive: false },
       { name: 'Clothes', code: 'IST', inactive: true },
+    ];
+
+    this.accountItems = [
+      {
+        label: 'Profile',
+        routerLink: ['/', 'profile'],
+      },
     ];
 
     this.items = [

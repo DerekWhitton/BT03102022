@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'bushtrade-web-index',
@@ -6,6 +6,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./website-index.component.scss'],
 })
 export class WebsiteIndexComponent implements OnInit {
+  @Input() loggedIn;
   @Output() loginEmit = new EventEmitter();
   constructor() {}
 

@@ -57,12 +57,20 @@ body{
     
     background: none;
     border: none;
+
     a{
-        span {
+        span{
             color: #ffffff!important;
         }
     }
+}
 
+.p-menubar-end{
+    a{
+        span{
+            color: #495057!important;
+        }
+    }
 }
 
 .p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:not(.p-disabled):hover {

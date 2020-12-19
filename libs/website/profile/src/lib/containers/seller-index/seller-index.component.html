@@ -1,0 +1,376 @@
+<p-accordion
+  *ngIf="sellers.length; else register"
+  (onOpen)="loadListings(sellers[$event.index])"
+>
+  <p-accordionTab
+    *ngFor="let seller of sellers"
+    [header]="seller.name"
+    transitionOptions="100ms cubic-bezier(0.86, 0, 0.07, 1)"
+  >
+    <bushtrade-web-crud-table
+      [data]="listings$ | async"
+      [selectableColumns]="columns"
+      [loading]="loading$ | async"
+      [createFormTemplateReference]="addListingFormTemplate"
+      (updateSelection)="handleUpdateSelection($event)"
+      [updateFormTemplateReference]="updatingListingFormTemplate"
+      (updateSubmit)="updateListing()"
+      [headersValue]="'Listings'"
+      [createFormValid]="
+        addlistingFormGroup.valid && listingProperties.length > 0
+      "
+      (createSubmit)="addListing()"
+      [allowDelete]="true"
+      (itemDeleted)="deleteListing($event)"
+    ></bushtrade-web-crud-table>
+  </p-accordionTab>
+</p-accordion>
+<ng-template #register>
+  <button
+    pButton
+    icon=""
+    label="Start Selling"
+    (click)="this.displayStartSellingDialog = true"
+  ></button>
+</ng-template>
+
+<ng-template #addListingFormTemplate>
+  <form [formGroup]="addlistingFormGroup">
+    <div class="p-grid">
+      <div class="p-col">
+        <div class="p-fluid">
+          <div class="p-field">
+            <p-fileUpload
+              name="myfile[]"
+              customUpload="true"
+              (uploadHandler)="uploadListingImage($event)"
+            ></p-fileUpload>
+            {{ uploadStatus }}
+          </div>
+          <div class="p-field">
+            <label>
+              Name:
+            </label>
+            <input pInputText type="text" required formControlName="name" />
+          </div>
+          <div class="p-field">
+            <label>
+              Description:
+            </label>
+            <input
+              pInputText
+              type="text"
+              required
+              formControlName="description"
+            />
+          </div>
+          <div class="p-field">
+            <label>
+              Starting Price:
+            </label>
+            <input
+              pInputText
+              type="number"
+              required
+              formControlName="startingPrice"
+            />
+          </div>
+          <div class="p-field">
+            <label>
+              Price Increment:
+            </label>
+            <input
+              pInputText
+              type="number"
+              required
+              formControlName="priceIncrement"
+            />
+          </div>
+          <div class="p-field">
+            <label>
+              Category:
+            </label>
+            <p-dropdown
+              appendTo="body"
+              placeholder="Select a category"
+              [options]="categories$ | async"
+              optionLabel="name"
+              optionValue="id"
+              formControlName="categoryId"
+              (onChange)="updateProperties()"
+            >
+            </p-dropdown>
+          </div>
+          <div class="p-field" *ngIf="showProperties == true">
+            <label>
+              Category Properties:
+            </label>
+            <p-listbox
+              [options]="categoryProperties$ | async"
+              [multiple]="true"
+              optionLabel="value"
+            >
+              <ng-template let-categoryProperty pTemplate="item">
+                {{ categoryProperty.value.name | json }}
+                <input
+                  #propertyValue
+                  pInputText
+                  type="text"
+                  required
+                  placeholder="value"
+                />
+                <p-button
+                  icon="pi pi-check"
+                  iconPos="left"
+                  [disabled]="!propertyValue.value"
+                  (click)="
+                    setPropertyvalue(
+                      categoryProperty.value.id,
+                      propertyValue.value,
+                      'add'
+                    )
+                  "
+                ></p-button>
+              </ng-template>
+            </p-listbox>
+          </div>
+
+          <div class="p-field">
+            <label>
+              Active:
+            </label>
+            <br />
+            <p-inputSwitch formControlName="active"></p-inputSwitch>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #updatingListingFormTemplate>
+  <form [formGroup]="updatelistingFormGroup">
+    <div class="p-grid">
+      <div class="p-col">
+        <div class="p-fluid">
+          <div class="p-field">
+            <p-fileUpload
+              name="myfile[]"
+              customUpload="true"
+              (uploadHandler)="uploadListingImage($event)"
+            ></p-fileUpload>
+            {{ uploadStatus }}
+          </div>
+          <div class="p-field">
+            <label>
+              Name:
+            </label>
+            <input pInputText type="text" required formControlName="name" />
+          </div>
+          <div class="p-field">
+            <label>
+              Description:
+            </label>
+            <input
+              pInputText
+              type="text"
+              required
+              formControlName="description"
+            />
+          </div>
+          <div class="p-field">
+            <label>
+              Starting Price:
+            </label>
+            <input
+              pInputText
+              type="number"
+              required
+              formControlName="startingPrice"
+            />
+          </div>
+          <div class="p-field">
+            <label>
+              Price Increment:
+            </label>
+            <input
+              pInputText
+              type="number"
+              required
+              formControlName="priceIncrement"
+            />
+          </div>
+          <div class="p-field">
+            <label>
+              Category:
+            </label>
+            <p-dropdown
+              appendTo="body"
+              placeholder="Select a category"
+              [options]="categories$ | async"
+              optionLabel="name"
+              optionValue="id"
+              formControlName="categoryId"
+              (onChange)="updateProperties()"
+            >
+            </p-dropdown>
+          </div>
+          <div class="p-field" *ngIf="showProperties == true">
+            <label>
+              Category Properties:
+            </label>
+            <p-listbox
+              [options]="categoryProperties$ | async"
+              [multiple]="true"
+              optionLabel="value"
+            >
+              <ng-template let-categoryProperty pTemplate="item">
+                {{ categoryProperty.value.name | json }}
+                <input
+                  #propertyValue
+                  pInputText
+                  type="text"
+                  required
+                  placeholder="value"
+                />
+                <p-button
+                  icon="pi pi-check"
+                  iconPos="left"
+                  [disabled]="!propertyValue.value"
+                  (click)="
+                    setPropertyvalue(
+                      categoryProperty.value.id,
+                      propertyValue.value,
+                      'update'
+                    )
+                  "
+                ></p-button>
+              </ng-template>
+            </p-listbox>
+          </div>
+
+          <div class="p-field">
+            <label>
+              Active:
+            </label>
+            <br />
+            <p-inputSwitch formControlName="active"></p-inputSwitch>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<p-dialog
+  [(visible)]="displayStartSellingDialog"
+  [style]="{ width: '450px' }"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="signUpSellerFormGroup">
+      <div class="p-grid">
+        <div class="p-col">
+          <div class="p-fluid">
+            <div class="p-field">
+              <label>
+                Name:
+              </label>
+              <input pInputText type="text" required formControlName="name" />
+            </div>
+            <div class="p-field">
+              <label>
+                Bank:
+              </label>
+              <input pInputText type="text" required formControlName="bank" />
+            </div>
+            <div class="p-field">
+              <label>
+                Branch Code:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="branchCode"
+              />
+            </div>
+            <div class="p-field">
+              <label>
+                Account Type:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="accountType"
+              />
+            </div>
+            <div class="p-field">
+              <label>
+                Account Number:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="accountNumber"
+              />
+            </div>
+            <div class="p-field">
+              <label>
+                Tax Number:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="taxNumber"
+              />
+            </div>
+            <div class="p-field">
+              <label>
+                Private Individual:
+              </label>
+              <br />
+              <p-inputSwitch
+                formControlName="isPrivateIndividual"
+              ></p-inputSwitch>
+            </div>
+            <div class="p-field">
+              <label>
+                Company Number:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="ckNumber"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="this.displayStartSellingDialog = false"
+    ></button>
+    <button
+      pButton
+      pRipple
+      class="p-button-text"
+      icon="pi pi-check"
+      label="Start Selling!"
+      (click)="registerSeller()"
+    ></button>
+  </ng-template>
+</p-dialog>

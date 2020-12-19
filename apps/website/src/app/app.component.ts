@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BroadcastService, MsalService } from '@azure/msal-angular';
+import { IUser } from '@bushtrade/website/shared/entites';
+import { loadUser, getUser } from '@bushtrade/website/shared/state';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 
 @Component({
@@ -9,15 +13,18 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent implements OnInit {
   title = 'website';
-
+  loggedIn: boolean;
   constructor(
     private broadcastService: BroadcastService,
-    private authService: MsalService
+    private authService: MsalService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
+    this.loggedIn = this.authService.getAccount() !== null ? true : false;
     // event listeners for authentication status
     this.broadcastService.subscribe('msal:loginSuccess', (success) => {
+      this.store.dispatch(loadUser());
       // We need to reject id tokens that were not issued with the default sign-in policy.
       // "acr" claim in the token tells us what policy is used (NOTE: for new policies (v2.0), use "tfp" instead of "acr")
       // To learn more about b2c tokens, visit https://docs.microsoft.com/en-us/azure/active-directory-b2c/tokens-overview

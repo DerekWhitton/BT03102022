@@ -25,6 +25,10 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { ChipsModule } from 'primeng/chips';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ListboxModule } from 'primeng/listbox';
+import { FileUploadModule } from 'primeng/fileupload';
+import { TabViewModule } from 'primeng/tabview';
 @NgModule({
   imports: [
     CommonModule,
@@ -57,6 +61,11 @@ import { CheckboxModule } from 'primeng/checkbox';
     ChipsModule,
     InputNumberModule,
     CheckboxModule,
+    DialogModule,
+    AutoCompleteModule,
+    ListboxModule,
+    FileUploadModule,
+    TabViewModule,
   ],
   exports: [
     RadioButtonModule,
@@ -88,6 +97,11 @@ import { CheckboxModule } from 'primeng/checkbox';
     ChipsModule,
     InputNumberModule,
     CheckboxModule,
+    DialogModule,
+    AutoCompleteModule,
+    ListboxModule,
+    FileUploadModule,
+    TabViewModule,
   ],
 })
 export class UiElementsModule {}

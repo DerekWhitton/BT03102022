@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { WebsiteIndexComponent } from './website-index/website-index.component';
 import { UiModule } from '@bushtrade/ui';
+import { MsalGuard } from '@azure/msal-angular';
 @NgModule({
   imports: [
     CommonModule,
@@ -71,6 +72,14 @@ import { UiModule } from '@bushtrade/ui';
           import('@bushtrade/website/search').then(
             (module) => module.WebsiteSearchModule
           ),
+      },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('@bushtrade/website/profile').then(
+            (module) => module.WebsiteProfileModule
+          ),
+        canActivate: [MsalGuard],
       },
     ]),
   ],

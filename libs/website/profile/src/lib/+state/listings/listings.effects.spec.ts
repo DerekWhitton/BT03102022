@@ -8,36 +8,36 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { NxModule, DataPersistence } from '@nrwl/angular';
 import { hot } from '@nrwl/angular/testing';
 
-import { UserEffects } from './user.effects';
-import * as UserActions from './user.actions';
+import { ListingsEffects } from './listings.effects';
+import * as ListingsActions from './listings.actions';
 
-describe('UserEffects', () => {
+describe('ListingsEffects', () => {
   let actions: Observable<any>;
-  let effects: UserEffects;
+  let effects: ListingsEffects;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NxModule.forRoot()],
       providers: [
-        UserEffects,
+        ListingsEffects,
         DataPersistence,
         provideMockActions(() => actions),
         provideMockStore(),
       ],
     });
 
-    effects = TestBed.get(UserEffects);
+    effects = TestBed.get(ListingsEffects);
   });
 
-  describe('loadUser$', () => {
+  describe('loadListings$', () => {
     it('should work', () => {
-      actions = hot('-a-|', { a: UserActions.loadUser() });
+      actions = hot('-a-|', { a: ListingsActions.loadListings() });
 
       const expected = hot('-a-|', {
-        a: UserActions.loadUserSuccess({ user: [] }),
+        a: ListingsActions.loadListingsSuccess({ listings: [] }),
       });
 
-      expect(effects.loadUser$).toBeObservable(expected);
+      expect(effects.loadListings$).toBeObservable(expected);
     });
   });
 });
