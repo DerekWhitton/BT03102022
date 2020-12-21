@@ -216,11 +216,52 @@
         <label>
           Active:
         </label>
+        <br />
         <p-inputSwitch formControlName="isActive"></p-inputSwitch>
       </div>
     </form>
-
-    <form [formGroup]="addPropertyFormGroup" *ngIf="sub == true">
+    <p-table
+      [value]="categoryProperties"
+      dataKey="name"
+      *ngIf="categoryProperties.length"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            Name
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        let-categoryProperty
+        let-expanded="expanded"
+      >
+        <tr>
+          <td>
+            {{ categoryProperty.name }}
+          </td>
+          <td>
+            <button
+              type="button"
+              pButton
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-warning"
+              (click)="discardCategoryProperty(categoryProperty.name)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <form
+      [formGroup]="addPropertyFormGroup"
+      *ngIf="sub == true"
+      style="border: 1px solid #ced4da; padding: 1em;"
+    >
+      <div class="p-field">
+        <h5>Add A Property</h5>
+      </div>
       <div class="p-field">
         <label>
           Name:
@@ -237,11 +278,12 @@
         <label>
           Required:
         </label>
+        <br />
         <p-inputSwitch formControlName="required"></p-inputSwitch>
       </div>
       <div class="p-field">
         <label>
-          Options:
+          Options(click Enter after each option):
         </label>
         <p-chips formControlName="options"></p-chips>
       </div>
