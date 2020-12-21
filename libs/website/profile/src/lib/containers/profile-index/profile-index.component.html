@@ -1,9 +1,17 @@
-<p-tabView>
+<!-- <p-tabView style="margin-top: 1.5em;">
   <p-tabPanel header="Details">
     <website-user-index></website-user-index>
   </p-tabPanel>
   <p-tabPanel header="Listings">
     <website-seller-index [sellers]="sellers$ | async"></website-seller-index>
   </p-tabPanel>
-</p-tabView>
+</p-tabView> -->
 
+<div class="p-grid" style="background-color: white;">
+  <div class="p-col-3">
+    <p-panelMenu [model]="items" [style]="{ width: '300px' }"></p-panelMenu>
+  </div>
+  <div class="p-col">
+    <router-outlet></router-outlet>
+  </div>
+</div>

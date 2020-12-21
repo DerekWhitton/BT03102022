@@ -22,7 +22,14 @@ import { UserComponent } from './containers/user/user.component';
     ReactiveFormsModule,
     UiModule,
     RouterModule.forChild([
-      { path: '', pathMatch: 'full', component: ProfileIndexComponent },
+      {
+        path: '',
+        component: ProfileIndexComponent,
+        children: [
+          { path: 'account', component: UserComponent },
+          { path: 'listings', component: SellerIndexComponent },
+        ],
+      },
     ]),
 
     StoreModule.forFeature(fromShared.USER_FEATURE_KEY, fromShared.userReducer),

@@ -1,5 +1,5 @@
 <p-accordion
-  *ngIf="sellers.length; else register"
+  *ngIf="sellers$ | async as sellers; else register"
   (onOpen)="loadListings(sellers[$event.index])"
 >
   <p-accordionTab
