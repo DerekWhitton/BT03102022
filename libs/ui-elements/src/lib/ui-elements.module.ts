@@ -29,6 +29,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ListboxModule } from 'primeng/listbox';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TabViewModule } from 'primeng/tabview';
+import { PanelMenuModule } from 'primeng/panelmenu';
 @NgModule({
   imports: [
     CommonModule,
@@ -66,6 +67,7 @@ import { TabViewModule } from 'primeng/tabview';
     ListboxModule,
     FileUploadModule,
     TabViewModule,
+    PanelMenuModule,
   ],
   exports: [
     RadioButtonModule,
@@ -102,6 +104,7 @@ import { TabViewModule } from 'primeng/tabview';
     ListboxModule,
     FileUploadModule,
     TabViewModule,
+    PanelMenuModule,
   ],
 })
 export class UiElementsModule {}
