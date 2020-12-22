@@ -30,50 +30,53 @@
             anim id est laborum.</p>
           <h3>Specifications</h3>
 
-            <p-table [value]="specifications" styleClass="p-datatable-striped">
-                <ng-template pTemplate="body" let-specification>
-                    <tr>
-                        <td>{{specification.name}}</td>
-                        <td>{{specification.value}}</td>
-                    </tr>
-                </ng-template>
-            </p-table>
+          <p-table [value]="specifications" styleClass="p-datatable-striped">
+            <ng-template pTemplate="body" let-specification>
+              <tr>
+                <td>{{specification.name}}</td>
+                <td>{{specification.value}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
 
           <hr>
 
           <div class="p-grid">
             <div class="p-lg-4 p-md-12">
-                <h3>Seller</h3>
-                <div class="p-grid">
-                    <div class="p-col-3"><img src="https://via.placeholder.com/60x60.jpg" alt="" class="img-round"></div>
-                    <div class="p-col"><h3 class="p-mt-3">JohnDoe</h3></div>        
+              <h3>Seller</h3>
+              <div class="p-grid">
+                <div class="p-col-3"><img src="https://via.placeholder.com/60x60.jpg" alt="" class="img-round"></div>
+                <div class="p-col">
+                  <h3 class="p-mt-3">JohnDoe</h3>
                 </div>
-                <div class="p-grid p-mb-3">              
-                    <div class="p-col-6"><strong>Member Since:</strong></div>
-                    <div class="p-col-6">May 2021</div>
-                    <div class="p-col-6"><strong>Active ads:</strong></div>
-                    <div class="p-col-6">2</div>
-                    <div class="p-col-6"><strong>Total ads:</strong></div>
-                    <div class="p-col-6">20</div>                                        
-                </div>
+              </div>
+              <div class="p-grid p-mb-3">
+                <div class="p-col-6"><strong>Member Since:</strong></div>
+                <div class="p-col-6">May 2021</div>
+                <div class="p-col-6"><strong>Active ads:</strong></div>
+                <div class="p-col-6">2</div>
+                <div class="p-col-6"><strong>Total ads:</strong></div>
+                <div class="p-col-6">20</div>
+              </div>
 
-                <button class="p-button p-p-3">Contact Advertiser</button>
+              <button class="p-button p-p-3">Contact Advertiser</button>
 
             </div>
             <div class="p-lg-8 p-md-12">
-                <h4>Recent Reviews</h4>
-                <div class="review">
-                    <p-rating [ngModel]="val" readonly="true" stars="5" [cancel]="false"></p-rating>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                    <small>Some-User | 14 August 2020</small>
-                </div>
-                <a href="#">View all reviews</a>
+              <h4>Recent Reviews</h4>
+              <div class="review">
+                <p-rating [ngModel]="val" readonly="true" stars="5" [cancel]="false"></p-rating>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                  et dolore magna aliqua. </p>
+                <small>Some-User | 14 August 2020</small>
+              </div>
+              <a href="#">View all reviews</a>
             </div>
-        </div>
+          </div>
 
         </div>
 
-        
+
       </div>
       <div class="p-md-3 p-sm-12">
         <div class="sidebar bg-white">
@@ -104,13 +107,13 @@
           <div class="bid-history sidebar-section">
             <h3>Bid history</h3>
             <p-table [value]="bids" styleClass="p-datatable-striped ">
-                <ng-template pTemplate="body" let-bid>
-                    <tr>
-                        <td class=" p-m-0 p-p-0">{{bid.name}}</td>
-                        <td class=" p-m-0 p-p-0">{{bid.date}}</td>
-                        <td class=" p-m-0 p-p-0 p-text-right">{{bid.value}}</td>
-                    </tr>
-                </ng-template>
+              <ng-template pTemplate="body" let-bid>
+                <tr>
+                  <td class=" p-m-0 p-p-0">{{bid.name}}</td>
+                  <td class=" p-m-0 p-p-0">{{bid.date}}</td>
+                  <td class=" p-m-0 p-p-0 p-text-right">{{bid.value}}</td>
+                </tr>
+              </ng-template>
             </p-table>
             <a href="#">View all bids</a>
           </div>
@@ -120,15 +123,16 @@
           </div>
           <div class="sidebar-section">
             <h3>Buying safely</h3>
-            <p><i class="p-mr-2">ICON</i>Your payment is held until after the seller has shipped your item or made it ready for pickup.</p>
+            <p><i class="p-mr-2">ICON</i>Your payment is held until after the seller has shipped your item or made it
+              ready for pickup.</p>
             <p><i class="p-mr-2">ICON</i>All of our auctions are subject to notarial supervision.</p>
           </div>
           <div class="pay-options sidebar-section">
             <h3>Payment options</h3>
             <div class="p-grid p-m-0 p-p-0">
-                <img src="https://via.placeholder.com/100x50.jpg" alt="" class="p-col-4 p-pl-0">
-                <img src="https://via.placeholder.com/100x50.jpg" alt="" class="p-col-4">
-                <img src="https://via.placeholder.com/100x50.jpg" alt="" class="p-col-4">
+              <img src="https://via.placeholder.com/100x50.jpg" alt="" class="p-col-4 p-pl-0">
+              <img src="https://via.placeholder.com/100x50.jpg" alt="" class="p-col-4">
+              <img src="https://via.placeholder.com/100x50.jpg" alt="" class="p-col-4">
             </div>
           </div>
         </div>
