@@ -6,11 +6,14 @@ import { MegaMenuItem, MenuItem } from 'primeng/api';
   templateUrl: './website-menu.component.html',
   styleUrls: ['./website-menu.component.scss'],
 })
+
+
 export class WebsiteMenuComponent implements OnInit {
   @Input() loggedIn;
   items: MegaMenuItem[];
   accountItems: MenuItem[];
   categories = [];
+  display;
 
   @Output() signIn = new EventEmitter();
 
@@ -18,10 +21,10 @@ export class WebsiteMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.categories = [
-      { name: 'Guns', code: 'NY', inactive: false },
-      { name: 'Ammo', code: 'RM', inactive: true },
-      { name: 'Camping', code: 'LDN', inactive: false },
-      { name: 'Clothes', code: 'IST', inactive: true },
+      { name: 'Guns', code: 'GNS', inactive: false },
+      { name: 'Ammo', code: 'AMMO', inactive: true },
+      { name: 'Camping', code: 'CPM', inactive: false },
+      { name: 'Clothes', code: 'CLTH', inactive: true },
     ];
 
     this.accountItems = [
@@ -32,10 +35,11 @@ export class WebsiteMenuComponent implements OnInit {
     ];
 
     this.items = [
-      {
-        label: 'Buy & Sell',
-        routerLink: ['/', 'buy-sell'],
-      },
+      // {
+      //   label: 'Buy & Sell',
+      //   routerLink: ['/', 'buy-sell'],
+      // },
+      
       {
         label: 'Marketplace',
         routerLink: ['/', 'marketplace'],
@@ -48,10 +52,10 @@ export class WebsiteMenuComponent implements OnInit {
         label: 'Forums',
         routerLink: ['/', 'forums'],
       },
-      {
-        label: 'Trophy Cabinet',
-        routerLink: ['/', 'trophy-cabinet'],
-      },
+      // {
+      //   label: 'Trophy Cabinet',
+      //   routerLink: ['/', 'trophy-cabinet'],
+      // },
       {
         label: 'Support',
         routerLink: ['/', 'support'],

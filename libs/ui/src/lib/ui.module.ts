@@ -18,6 +18,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { WebsiteFooterComponent } from './website-footer/website-footer.component';
 import { ProductItemComponent } from './product-item/product-item.component';
 import { ProductItemMinimalComponent } from './product-item-minimal/product-item-minimal.component';
+import { CarouselListingItemComponent } from './carousel-listing-item/carousel-listing-item.component';
+import { CarouselHeroBannerComponent } from './carousel-hero-banner/carousel-hero-banner.component';
+import { CateogryBlockComponent } from './cateogry-block/cateogry-block.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, UiElementsModule],
@@ -34,6 +37,9 @@ import { ProductItemMinimalComponent } from './product-item-minimal/product-item
     ProductItemComponent,
     ProductItemMinimalComponent,
     ProgressSpinnerComponent,
+    CarouselListingItemComponent,
+    CarouselHeroBannerComponent,
+    CateogryBlockComponent,
   ],
   providers: [
     // {
@@ -57,6 +63,9 @@ import { ProductItemMinimalComponent } from './product-item-minimal/product-item
     ProductItemComponent,
     ProductItemMinimalComponent,
     ProgressSpinnerComponent,
+    CarouselHeroBannerComponent,
+    CarouselListingItemComponent,
+    CateogryBlockComponent
   ],
 })
 export class UiModule {}

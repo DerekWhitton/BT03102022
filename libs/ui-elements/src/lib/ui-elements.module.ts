@@ -29,6 +29,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ListboxModule } from 'primeng/listbox';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TabViewModule } from 'primeng/tabview';
+import { SidebarModule } from 'primeng/sidebar';
+
 import { PanelMenuModule } from 'primeng/panelmenu';
 @NgModule({
   imports: [
@@ -67,6 +69,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     ListboxModule,
     FileUploadModule,
     TabViewModule,
+    SidebarModule,
     PanelMenuModule,
   ],
   exports: [
@@ -104,6 +107,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     ListboxModule,
     FileUploadModule,
     TabViewModule,
+    SidebarModule,
     PanelMenuModule,
   ],
 })
