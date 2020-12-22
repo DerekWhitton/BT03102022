@@ -31,6 +31,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { TabViewModule } from 'primeng/tabview';
 import { SidebarModule } from 'primeng/sidebar';
 
+import { PanelMenuModule } from 'primeng/panelmenu';
 @NgModule({
   imports: [
     CommonModule,
@@ -69,6 +70,7 @@ import { SidebarModule } from 'primeng/sidebar';
     FileUploadModule,
     TabViewModule,
     SidebarModule,
+    PanelMenuModule,
   ],
   exports: [
     RadioButtonModule,
@@ -106,6 +108,7 @@ import { SidebarModule } from 'primeng/sidebar';
     FileUploadModule,
     TabViewModule,
     SidebarModule,
+    PanelMenuModule,
   ],
 })
 export class UiElementsModule {}

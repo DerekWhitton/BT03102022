@@ -48,9 +48,12 @@
         />
       </div>
       <div class="p-col-9 p-text-right">
-
         <p-menubar [model]="items" class="menu-light inline-flex">
-          <p-button type="text" (click)="display = true" label="Buy & Sell"></p-button>
+          <p-button
+            type="text"
+            (click)="display = true"
+            label="Buy & Sell"
+          ></p-button>
           <button
             *ngIf="!loggedIn"
             pButton
@@ -74,18 +77,15 @@
 </div>
 
 <p-sidebar [(visible)]="display" styleClass="p-sidebar-lg" position="top">
-
-  Place all the categories in here for easy navigation.... will have to do this in a way that works for mobile and desktop
-
+  Place all the categories in here for easy navigation.... will have to do this
+  in a way that works for mobile and desktop
 </p-sidebar>
 
-
-
-<div class="p-grid bg-offwhite">
+<!-- <div class="p-grid bg-offwhite">
   <div class="p-col"></div>
   <div class="p-md-12 p-lg-10 bread-crumbs p-mt-4 p-mb-4 bread-crumbs">
     <a href="#">Home</a> | Bread-crumb 
   </div>
 
   <div class="p-col"></div>
-</div>
+</div> -->

@@ -18,7 +18,10 @@ import {
 import { ListingsFacade } from '../../+state/listings/listings.facade';
 import { CategoryService } from '@bushtrade/website/shared/services';
 import { Store } from '@ngrx/store';
-import { registerSeller } from '@bushtrade/website/shared/state';
+import {
+  getUserSellers,
+  registerSeller,
+} from '@bushtrade/website/shared/state';
 
 @Component({
   selector: 'website-seller-index',
@@ -26,14 +29,12 @@ import { registerSeller } from '@bushtrade/website/shared/state';
   styleUrls: ['./seller-index.component.scss'],
 })
 export class SellerIndexComponent implements OnInit {
-  @Input() sellers;
+  sellers$: Observable<ISeller[]>;
 
   listings$: Observable<IListing[]>;
   loading$: Observable<boolean>;
   selectedSellerId: string;
 
-
-  
   columns = [
     { field: 'name', header: 'Name' },
     { field: 'startingPrice', header: 'Starting Price' },
@@ -85,7 +86,6 @@ export class SellerIndexComponent implements OnInit {
     isPrivateIndividual: new FormControl(true, Validators.required),
   });
 
-
   constructor(
     private store: Store,
     private listingsFacade: ListingsFacade,
@@ -95,6 +95,7 @@ export class SellerIndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sellers$ = this.store.select(getUserSellers);
     this.categories$ = this.categoryService.loadCategories();
     var ctx = this;
     this.listingsFacade.imageIds$.subscribe({
@@ -222,7 +223,7 @@ export class SellerIndexComponent implements OnInit {
     this.listingProperties = [];
     this.imageIds = [];
   }
-  
+
   registerSeller() {
     this.store.dispatch(
       registerSeller({
@@ -231,5 +232,4 @@ export class SellerIndexComponent implements OnInit {
     );
     this.displayStartSellingDialog = false;
   }
-
 }

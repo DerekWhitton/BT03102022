@@ -56,6 +56,7 @@ export class CategoriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoryProperties = [];
+    this.parentCategoryId = '';
   }
 
   onGoDeeper(data) {
@@ -79,6 +80,12 @@ export class CategoriesComponent implements OnInit {
   attachProperty() {
     this.categoryProperties.push(this.addPropertyFormGroup.value);
     this.addPropertyFormGroup.reset();
+  }
+
+  discardCategoryProperty(name) {
+    this.categoryProperties = this.categoryProperties.filter(
+      (prop) => prop['name'] != name
+    );
   }
 
   createCategory() {
