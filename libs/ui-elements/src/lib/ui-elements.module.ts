@@ -30,8 +30,12 @@ import { ListboxModule } from 'primeng/listbox';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TabViewModule } from 'primeng/tabview';
 import { SidebarModule } from 'primeng/sidebar';
-
 import { PanelMenuModule } from 'primeng/panelmenu';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { GalleriaModule } from 'primeng/galleria';
+import { RatingModule } from 'primeng/rating';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -71,6 +75,10 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     TabViewModule,
     SidebarModule,
     PanelMenuModule,
+    MessagesModule,
+    MessageModule,
+    GalleriaModule,
+    RatingModule
   ],
   exports: [
     RadioButtonModule,
@@ -109,6 +117,10 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     TabViewModule,
     SidebarModule,
     PanelMenuModule,
+    MessagesModule,
+    MessageModule,
+    GalleriaModule,
+    RatingModule
   ],
 })
 export class UiElementsModule {}

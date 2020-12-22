@@ -5,29 +5,15 @@
       <div class="p-col-12 p-md-8 p-lg-8">
         <span class="p-input-icon-left ui-block">
           <i class="pi pi-search"></i>
-          <input
-            class="ui-block"
-            type="text"
-            pInputText
-            placeholder="What are you looking for?"
-          />
+          <input class="ui-block" type="text" pInputText placeholder="What are you looking for?" />
         </span>
       </div>
       <div class="p-col-12 p-md-3 p-lg-3">
-        <p-dropdown
-          [style]="{ width: '100%' }"
-          [options]="categories"
-          optionLabel="name"
-        ></p-dropdown>
+        <p-dropdown [style]="{ width: '100%' }" [options]="categories" optionLabel="name"></p-dropdown>
       </div>
       <div class="p-col-12 p-md-1 p-lg-1">
-        <button
-          pButton
-          type="button"
-          label="Search"
-          class="p-button-white p-button-outlined"
-          [routerLink]="['/', 'search']"
-        ></button>
+        <button pButton type="button" label="Search" class="p-button-white p-button-outlined"
+          [routerLink]="['/', 'search']"></button>
       </div>
     </div>
   </div>
@@ -39,35 +25,15 @@
   <div class="p-md-12 p-lg-10">
     <div class="p-grid">
       <div class="p-col">
-        <img
-          id="app-logo"
-          class="logo-image p-mr-2 ng-star-inserted p-mt-2"
-          src="assets/layout/images/logo-dark.png"
-          [routerLink]="['/', 'home']"
-          alt="Bush Trade"
-        />
+        <img id="app-logo" class="logo-image p-mr-2 ng-star-inserted p-mt-2" src="assets/layout/images/logo-dark.png"
+          [routerLink]="['/', 'home']" alt="Bush Trade" />
       </div>
       <div class="p-col-9 p-text-right">
         <p-menubar [model]="items" class="menu-light inline-flex">
-          <p-button
-            type="text"
-            (click)="display = true"
-            label="Buy & Sell"
-          ></p-button>
-          <button
-            *ngIf="!loggedIn"
-            pButton
-            label="Sign In"
-            (click)="login()"
-          ></button>
+          <p-button type="text" (click)="display = true" label="Buy & Sell"></p-button>
+          <button *ngIf="!loggedIn" pButton label="Sign In" (click)="login()"></button>
 
-          <button
-            *ngIf="loggedIn"
-            type="button"
-            pButton
-            icon="pi pi-user"
-            (click)="menu.toggle($event)"
-          ></button>
+          <button *ngIf="loggedIn" type="button" pButton icon="pi pi-user" (click)="menu.toggle($event)"></button>
           <p-menu #menu [popup]="true" [model]="accountItems"></p-menu>
         </p-menubar>
       </div>
