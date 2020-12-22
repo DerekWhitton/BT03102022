@@ -33,6 +33,9 @@ import { SidebarModule } from 'primeng/sidebar';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import { GalleriaModule } from 'primeng/galleria';
+import { RatingModule } from 'primeng/rating';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -73,7 +76,9 @@ import { MessageModule } from 'primeng/message';
     SidebarModule,
     PanelMenuModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    GalleriaModule,
+    RatingModule
   ],
   exports: [
     RadioButtonModule,
@@ -113,7 +118,9 @@ import { MessageModule } from 'primeng/message';
     SidebarModule,
     PanelMenuModule,
     MessagesModule,
-    MessageModule    
+    MessageModule,
+    GalleriaModule,
+    RatingModule
   ],
 })
 export class UiElementsModule {}

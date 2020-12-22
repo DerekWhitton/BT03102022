@@ -117,10 +117,29 @@ body{
     text-transform: uppercase;
 }
 
-h3{
-    font-size: 30px; 
+
+h1{
+    font-size: 2em; 
 }
 
+h2{
+    font-size: 1.2em; 
+}
+
+
+h3{
+    font-size: 1.3em; 
+}
+
+h4{
+    font-size: 1em;
+}
+h5{
+    font-size: 0.8em;
+}
+h6{
+    font-size: 0.7em
+}
 .bread-crumbs{
     a{
         &:first-child{
@@ -195,4 +214,13 @@ button{
     position: absolute;
     bottom: 0px;
     right: 0px;
+}
+
+
+.img-round{
+    border-radius: 50%;
+}
+
+strong{
+    font-weight: bold;
 }
