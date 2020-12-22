@@ -1,0 +1,17 @@
+<p-carousel [value]="products" [numVisible]="4" [numScroll]="3" [circular]="true" [responsiveOptions]="responsiveOptions">
+    <ng-template let-product pTemplate="item">
+
+        <div class="product-item p-m-2">
+            <div class="product-item-content {{product.type}}">
+                <div class="p-mb-3">
+                    <img src="{{product.image}}" [alt]="product.name" class="product-image" />
+                </div>
+                <div class="item-details ">
+                    <p>{{product.name}}</p>
+                    <p style="font-weight:bold">R{{product.price}}</p>
+                    <p class="p-d-flex">{{product.location}} <span class="p-ml-auto ">{{product.date}}</span></p>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-carousel>

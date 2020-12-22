@@ -1,4 +1,5 @@
 import { Component, OnInit  } from '@angular/core';
+
 @Component({
   selector: 'bushtrade-web-home-index',
   templateUrl: './home-index.component.html',
@@ -6,30 +7,27 @@ import { Component, OnInit  } from '@angular/core';
 })
 export class HomeIndexComponent implements OnInit {
 
-  stockSizes: any[] = [];
-  selectedStock: any;
   pricerangeValues: number[] = [0,1000];
-  barrelrangeValues: number[] = [0,200];
-  stockrangeValues: number[] = [0,200];
-  selectedMechanisms: string[] = ['Back Action','Folding', 'Hammer', 'Pump Action'];
-  selectedCalibre: string[] = [];
   selectedMake: string[] = ['Armsan','Baikal', 'Baretta', 'Bora Arms'];
-  cities = [];
-  calibres = [];
+  cities:any = [];
+  calibres:any = [];
+  categories:any = [
+    {name: 'Guns', image:'https://via.placeholder.com/290'},
+    {name: 'Bows', image:'https://via.placeholder.com/290'},
+    {name: 'Makes', image:'https://via.placeholder.com/290'},
+    {name: 'Sound Moderators', image:'https://via.placeholder.com/290'},
+    {name: 'Sights & Optics', image:'https://via.placeholder.com/290'},
+    {name: 'Equipment', image:'https://via.placeholder.com/290'},
+    {name: 'Fishing', image:'https://via.placeholder.com/290'},
+    {name: 'Adventure', image:'https://via.placeholder.com/290'}
+  ];
+  latestItems = [];
+  closingItems = [];
+
+	responsiveOptions;
 
   constructor() {
 
-
-      this.selectedMechanisms = [
-
-      ]
-
-      this.stockSizes = [
-          {name: 'Small', code: 'SM', inactive: false},
-          {name: 'Medium', code: 'MD', inactive: true},
-          {name: 'Large', code: 'LG', inactive: false}
-      ];
-      
       this.cities = [
           {name: 'Benoni'},
           {name: 'Boksburg'},
@@ -59,10 +57,37 @@ export class HomeIndexComponent implements OnInit {
           {name: '.204 RUGER'}
       ];
 
+      this.responsiveOptions = [
+        {
+            breakpoint: '1024px',
+            numVisible: 3,
+            numScroll: 3
+        },
+        {
+            breakpoint: '768px',
+            numVisible: 2,
+            numScroll: 2
+        },
+        {
+            breakpoint: '560px',
+            numVisible: 1,
+            numScroll: 1
+        }
+    ];
+
+      
   }
 
 
+
+
+
+	
+
+
   ngOnInit(): void {
+
+    
   }
 
 }

@@ -7,6 +7,7 @@
 
 $COLOUR-GOLD: #C09A6A;
 $COLOUR-GOLD-LIGHT: #D9C2A5;
+$COLOUR-GOLD-DARK: #9f8058;
 $COLOUR-GREY: #525252;
 $COLOUR-BLUE: #717EC3;
 $COLOUR-OFFWHITE: #F6F6F6;
@@ -116,6 +117,21 @@ h3{
 }
 
 .p-button-gold {
+    color: #FFF;
+    background: $COLOUR-GOLD;
+    border: 1px solid $COLOUR-GOLD-LIGHT;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 4px;
+    &:enabled:hover{
+        color: #FFF;
+        background: $COLOUR-GOLD-DARK;
+        border: 1px solid $COLOUR-GOLD;
+    }
+}
+
+.p-button-brown {
     color: $COLOUR-GOLD-LIGHT;
     background: $COLOUR-BROWN;
     border: 1px solid $COLOUR-BROWN;
@@ -130,3 +146,34 @@ h3{
     }
 }
 
+// just for consistancy the designs had various uppcase lowercase inconcitancies.
+button{
+    text-transform: uppercase;
+}
+
+
+
+.p-ml-7{
+    margin-left: 58px;
+}
+
+.p-mr-7{
+    margin-right: 58px;
+}
+
+.position-relative-parent{
+    position: relative;
+}
+
+.position-cc{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.position-br{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
