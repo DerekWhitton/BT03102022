@@ -1,0 +1,21 @@
+<ng-template #loadingIndicator>
+  <progress-spinner></progress-spinner>
+</ng-template>
+
+<div *ngIf="thread$ | async as thread; else loadingIndicator">
+  <h3>{{ thread.name }}</h3>
+
+  <ng-container *ngFor="let post of thread.posts">
+    {{ post | json }}
+
+    <br />
+  </ng-container>
+</div>
+
+<a (click)="showAddPost = !showAddPost">Add Post</a>
+
+<div *ngIf="showAddPost">
+  <label for="">Content</label>
+  <textarea [(ngModel)]="content" name="" id="" cols="30" rows="10"></textarea>
+  <button (click)="createPost()">Save</button>
+</div>

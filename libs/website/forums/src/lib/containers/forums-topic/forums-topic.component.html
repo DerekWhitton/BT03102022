@@ -1,0 +1,23 @@
+<ng-template #loadingIndicator>
+  <progress-spinner></progress-spinner>
+</ng-template>
+
+<div *ngIf="topic$ | async as topic; else loadingIndicator">
+  <h3>{{ topic.name }}</h3>
+
+  <ng-container *ngFor="let thread of topic.threads">
+    <a
+      [routerLink]="['/', 'forums', 'topic', topic.id, 'threads', thread.id]"
+      >{{ thread | json }}</a
+    >
+    <br />
+  </ng-container>
+</div>
+
+<a (click)="showAddThread = !showAddThread">Add Thread</a>
+
+<div *ngIf="showAddThread">
+  <label for="">Thread Name</label>
+  <input [(ngModel)]="name" type="text" />
+  <button (click)="createThread()">Save</button>
+</div>
