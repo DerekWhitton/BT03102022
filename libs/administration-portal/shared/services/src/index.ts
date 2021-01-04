@@ -3,3 +3,4 @@ export * from './lib/users/users.service';
 export * from './lib/roles/roles.service';
 export * from './lib/listings/listings.service';
 export * from './lib/categories/categories.service';
+export * from './lib/forums/forums.service';

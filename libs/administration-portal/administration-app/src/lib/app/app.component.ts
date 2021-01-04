@@ -85,12 +85,19 @@ export class AppComponent implements OnInit {
     //   routerLink: ['/', 'escrow'],
     // },
     // { separator: true },
-    // {
-    //   label: 'Forums',
-    //   icon: 'pi pi-user',
-    //   routerLink: ['/', 'forums'],
-    // },
-    // { separator: true },
+    {
+      label: 'Forums',
+      icon: 'pi pi-user',
+      routerLink: ['/', 'forums'],
+      items: [
+        {
+          label: 'Topics',
+          icon: 'pi pi-fw pi-list',
+          routerLink: ['/', 'forums'],
+        },
+      ],
+    },
+    { separator: true },
     {
       label: 'Listings',
       icon: 'pi pi-user',
