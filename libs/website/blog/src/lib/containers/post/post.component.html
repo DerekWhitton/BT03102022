@@ -1,0 +1,15 @@
+<link
+  rel="stylesheet"
+  href="http://blog.bushtrade.co.za/wp-includes/css/dist/block-library/style.min.css?ver=5.5.3"
+/>
+
+<progress-spinner
+  *ngIf="!(loaded$ | async) || !(post$ | async)"
+></progress-spinner>
+
+<div *ngIf="post$ | async as post">
+  <h1>
+    {{ post.title.rendered }}
+  </h1>
+  <div [innerHtml]="post.content.rendered | safeHtml"></div>
+</div>

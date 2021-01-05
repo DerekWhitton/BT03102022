@@ -6,8 +6,6 @@ import { MegaMenuItem, MenuItem } from 'primeng/api';
   templateUrl: './website-menu.component.html',
   styleUrls: ['./website-menu.component.scss'],
 })
-
-
 export class WebsiteMenuComponent implements OnInit {
   @Input() loggedIn;
   items: MegaMenuItem[];
@@ -39,7 +37,7 @@ export class WebsiteMenuComponent implements OnInit {
       //   label: 'Buy & Sell',
       //   routerLink: ['/', 'buy-sell'],
       // },
-      
+
       {
         label: 'Marketplace',
         routerLink: ['/', 'marketplace'],
@@ -59,6 +57,10 @@ export class WebsiteMenuComponent implements OnInit {
       {
         label: 'Support',
         routerLink: ['/', 'support'],
+      },
+      {
+        label: 'Blog',
+        routerLink: ['/', 'blog'],
       },
       {
         icon: 'pi pi-fw pi-heart',

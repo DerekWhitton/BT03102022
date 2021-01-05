@@ -44,5 +44,6 @@ module.exports = {
     '<rootDir>/libs/website/shared/services',
     '<rootDir>/libs/website/search',
     '<rootDir>/libs/website/profile',
+    '<rootDir>/libs/website/blog',
   ],
 };

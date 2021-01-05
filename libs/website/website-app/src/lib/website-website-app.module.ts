@@ -81,6 +81,13 @@ import { MsalGuard } from '@azure/msal-angular';
           ),
         canActivate: [MsalGuard],
       },
+      {
+        path: 'blog',
+        loadChildren: () =>
+          import('@bushtrade/website/blog').then(
+            (module) => module.WebsiteBlogModule
+          ),
+      },
     ]),
   ],
   declarations: [WebsiteIndexComponent],

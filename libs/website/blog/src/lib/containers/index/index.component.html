@@ -1,0 +1,14 @@
+<progress-spinner *ngIf="!(loaded$ | async)"></progress-spinner>
+
+<ng-container *ngFor="let blog of blogs$ | async">
+  <a [routerLink]="['/', 'blog', blog.id]">
+    <h2>
+      {{ blog.title.rendered }}
+    </h2>
+  </a>
+  <div [innerHtml]="blog.excerpt.rendered | safeHtml"></div>
+  <a [routerLink]="['/', 'blog', blog.id]">Read Post</a>
+</ng-container>
+
+<br />
+<br />
