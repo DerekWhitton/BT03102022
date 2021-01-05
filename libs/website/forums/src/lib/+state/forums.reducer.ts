@@ -115,8 +115,8 @@ const forumsReducer = createReducer(
     return forumsAdapter.upsertOne(entity, {
       ...state,
       threadPage: action.page,
-      previousThreadPage: action.previousPage,
-      nextThreadPage: action.nextPage,
+      previousThreadPostsPage: action.previousPage,
+      nextThreadPostsPage: action.nextPage,
     });
   }),
   on(ForumsActions.createThreadPostSuccess, (state, action) => {

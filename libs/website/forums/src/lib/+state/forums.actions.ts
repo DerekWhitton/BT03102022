@@ -18,7 +18,10 @@ export const setSelectedTopic = createAction(
   props<{ id: string }>()
 );
 
-export const loadTopicThreads = createAction('[Forums] Load Topic Threads');
+export const loadTopicThreads = createAction(
+  '[Forums] Load Topic Threads',
+  props<{ page?: number }>()
+);
 
 export const loadTopicThreadsSuccess = createAction(
   '[Forums] Load Topic Threads Success',
@@ -55,7 +58,10 @@ export const setSelectedThread = createAction(
   props<{ topicId: string; threadId }>()
 );
 
-export const loadThreadPosts = createAction('[Forums] Load Thread Posts');
+export const loadThreadPosts = createAction(
+  '[Forums] Load Thread Posts',
+  props<{ page?: number }>()
+);
 
 export const loadThreadPostsSuccess = createAction(
   '[Forums] Load  Thread Posts Success',

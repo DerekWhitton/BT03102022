@@ -9,13 +9,21 @@
     {{ post | json }}
 
     <br />
+    <br />
   </ng-container>
 </div>
-
+<br />
+<a *ngIf="previousPage$ | async as page" (click)="loadPage(page)"
+  >Previous Page</a
+>
+<br />
+<a *ngIf="nextPage$ | async as page" (click)="loadPage(page)">Next Page</a>
+<br />
 <a (click)="showAddPost = !showAddPost">Add Post</a>
-
+<br />
 <div *ngIf="showAddPost">
   <label for="">Content</label>
   <textarea [(ngModel)]="content" name="" id="" cols="30" rows="10"></textarea>
   <button (click)="createPost()">Save</button>
 </div>
+<br />

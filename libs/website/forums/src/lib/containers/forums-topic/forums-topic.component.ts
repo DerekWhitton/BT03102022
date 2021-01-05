@@ -17,6 +17,8 @@ export class ForumsTopicComponent implements OnInit {
   showAddThread: boolean;
   name: string;
   topic$ = this.forumsFacade.selectedTopics$;
+  nextPage$ = this.forumsFacade.nextThreadPage$;
+  previousPage$ = this.forumsFacade.previousThreadPage$;
 
   constructor(
     private forumsFacade: ForumsFacade,
@@ -27,12 +29,17 @@ export class ForumsTopicComponent implements OnInit {
     var params = this.route.snapshot.params;
 
     this.forumsFacade.dispatch(setSelectedTopic({ id: params.topicId }));
-    this.forumsFacade.dispatch(loadTopicThreads());
+    this.forumsFacade.dispatch(loadTopicThreads({ page: null }));
 
     console.log(params);
   }
 
   createThread() {
     this.forumsFacade.dispatch(createTopicThread({ name: this.name }));
+    this.name = '';
+  }
+
+  loadPage(page: number) {
+    this.forumsFacade.dispatch(loadTopicThreads({ page }));
   }
 }

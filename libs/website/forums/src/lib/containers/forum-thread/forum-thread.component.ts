@@ -20,6 +20,8 @@ export class ForumThreadComponent implements OnInit {
   showAddPost: boolean = false;
   content: string;
   thread$ = this.forumsFacade.selectedThread$;
+  nextPage$ = this.forumsFacade.nextThreadPostPage$;
+  previousPage$ = this.forumsFacade.previousThreadPostPage$;
 
   constructor(
     private forumsFacade: ForumsFacade,
@@ -66,7 +68,7 @@ export class ForumThreadComponent implements OnInit {
       }
     }
 
-    this.forumsFacade.dispatch(loadThreadPosts());
+    this.forumsFacade.dispatch(loadThreadPosts(null));
   }
 
   private async threadExists() {
@@ -75,5 +77,11 @@ export class ForumThreadComponent implements OnInit {
 
   createPost() {
     this.forumsFacade.dispatch(createThreadPost({ content: this.content }));
+
+    this.content = '';
+  }
+
+  loadPage(page: number) {
+    this.forumsFacade.dispatch(loadThreadPosts({ page }));
   }
 }

@@ -1,6 +1,7 @@
 <progress-spinner *ngIf="!(loaded$ | async)"></progress-spinner>
 
 <ng-container *ngFor="let topic of topics$ | async">
-  <a [routerLink]="['/', 'forums', 'topic', topic.id]">{{ topic | json }}</a
-  ><br />
+  <a [routerLink]="['/', 'forums', 'topic', topic.id]"><h2>
+    {{topic.name}}
+  </h2></a>
 </ng-container>

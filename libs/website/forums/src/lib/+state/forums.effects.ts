@@ -35,7 +35,7 @@ export class ForumsEffects implements OnInitEffects {
         run: (action, state: any) => {
           const { forums } = state;
           return this.forumSvc
-            .listTopicThreads(forums.selectedId, forums.threadPage)
+            .listTopicThreads(forums.selectedId, action.page ?? 1)
             .pipe(
               map((response) =>
                 ForumsActions.loadTopicThreadsSuccess({
@@ -92,7 +92,7 @@ export class ForumsEffects implements OnInitEffects {
             .listThreadPosts(
               forums.selectedId,
               forums.selectedThreadId,
-              forums.threadPostsPage
+              action.page ?? 1
             )
             .pipe(
               map((response) =>

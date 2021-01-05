@@ -1644,6 +1644,34 @@
           "style": "scss"
         }
       }
+    },
+    "website-shared-interceptors": {
+      "root": "libs/website/shared/interceptors",
+      "sourceRoot": "libs/website/shared/interceptors/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/shared/interceptors/tsconfig.lib.json",
+              "libs/website/shared/interceptors/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/shared/interceptors/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/shared/interceptors/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

@@ -6,18 +6,29 @@
   <h3>{{ topic.name }}</h3>
 
   <ng-container *ngFor="let thread of topic.threads">
-    <a
-      [routerLink]="['/', 'forums', 'topic', topic.id, 'threads', thread.id]"
-      >{{ thread | json }}</a
-    >
-    <br />
+    <a [routerLink]="['/', 'forums', 'topic', topic.id, 'threads', thread.id]">
+      <h2>{{ thread.name }}</h2>
+      <small>{{ thread.user?.name }} on {{ thread.createdAt | date }}</small>
+    </a>
   </ng-container>
 </div>
 
+<br />
+<a *ngIf="previousPage$ | async as page" (click)="loadPage(page)"
+  >Previous Page</a
+>
+<br />
+<a *ngIf="nextPage$ | async as page" (click)="loadPage(page)">Next Page</a>
+<br />
+
 <a (click)="showAddThread = !showAddThread">Add Thread</a>
+
+<br />
 
 <div *ngIf="showAddThread">
   <label for="">Thread Name</label>
   <input [(ngModel)]="name" type="text" />
   <button (click)="createThread()">Save</button>
 </div>
+
+<br />

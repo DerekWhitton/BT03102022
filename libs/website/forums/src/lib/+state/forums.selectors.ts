@@ -60,3 +60,23 @@ export const getSelectedThread = createSelector(
       ? entities[selectedId].threads.filter((t) => t.id == selectedThreadId)[0]
       : null
 );
+
+export const getNextThreadPostsPageNumber = createSelector(
+  getForumsState,
+  (state) => state.nextThreadPostsPage
+);
+
+export const getPreviousThreadPostsPageNumber = createSelector(
+  getForumsState,
+  (state) => state.previousThreadPostsPage
+);
+
+export const getNextThreadPage = createSelector(
+  getForumsState,
+  (state) => state.nextThreadPage
+);
+
+export const getPreviousThreadPage = createSelector(
+  getForumsState,
+  (state) => state.previousThreadPage
+);
