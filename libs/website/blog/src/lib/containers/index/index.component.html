@@ -5,29 +5,32 @@
     <h1>Blogs and Articles</h1>
     <hr class="p-mb-3">
     
+
+
     <progress-spinner *ngIf="!(loaded$ | async)"></progress-spinner>
     <div class="p-grid">
+     
+
     <ng-container *ngFor="let blog of blogs$ | async">
+ 
+      <div class="p-col-12 p-sm-6 p-md-4 p-lg-3">
+          <p-card [header]="blog.title.rendered" [subheader]="blog._embedded.author[0].name || 'unknown'" [style]="{width: '100%'}" styleClass="p-shadow-1 p-card-shadow p-m-2">
+            <p-header>
+              <ng-container *ngIf="(blog._embedded['wp:featuredmedia']!=undefined); else random_picture">
+                 <img alt="Card"  [src]="blog._embedded['wp:featuredmedia']['0'].source_url">
+              </ng-container>
+              <ng-template #random_picture>
+                <img alt="Card"  [src]="'https://source.unsplash.com/640x480/?hunt'">
+              </ng-template>
+            </p-header>
+    
+    
+            <div [innerHtml]="blog.excerpt.rendered | safeHtml"></div>
+            <ng-template pTemplate="footer">
+                <p-button label="Read More" [routerLink]="['/', 'blog', blog.id]"></p-button>
+            </ng-template>
+          </p-card>
 
-
-      <div class="p-mb-3">
-
-      <p-card [header]="blog.title.rendered" [subheader]="blog._embedded.author[0].name || 'unknown'" [style]="{width: '360px'}" styleClass="p-card-shadow p-m-2 p-shadow-1 ">
-        <p-header>
-          <ng-container *ngIf="(blog._embedded['wp:featuredmedia']!=undefined); else random_picture">
-             <img alt="Card"  [src]="blog._embedded['wp:featuredmedia']['0'].source_url">
-          </ng-container>
-          <ng-template #random_picture>
-            <img alt="Card"  [src]="'https://source.unsplash.com/640x480/?hunt'">
-          </ng-template>
-        </p-header>
-
-
-        <div [innerHtml]="blog.excerpt.rendered | safeHtml"></div>
-        <ng-template pTemplate="footer">
-            <p-button label="Read More" [routerLink]="['/', 'blog', blog.id]"></p-button>
-        </ng-template>
-      </p-card>
     </div>
 
     </ng-container>
