@@ -16,7 +16,7 @@ export class BlogService {
   }
 
   listPosts(page: number = null) {
-    var query = `?page=${page ?? 1}`;
+    var query = `?page=${page ?? 1}&_embed`;
     return this.httpClient.get<IBlogPost[]>(
       `${this.base}wp-json/wp/v2/posts${query}`,
       {

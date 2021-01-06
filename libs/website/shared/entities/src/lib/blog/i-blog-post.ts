@@ -24,4 +24,5 @@ export interface IBlogPost {
   meta: any[];
   categories: number[];
   tags: any[];
+  _embedded: any;
 }
