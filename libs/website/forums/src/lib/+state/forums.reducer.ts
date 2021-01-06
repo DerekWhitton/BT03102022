@@ -133,7 +133,7 @@ const forumsReducer = createReducer(
 
     const updatedThread = {
       ...threadToUpdate,
-      posts: [action.post].concat(threadToUpdate.posts),
+      posts: threadToUpdate.posts.concat([action.post]),
     };
     const updatedThreads = entityThreads.map((e) =>
       e.id != state.selectedThreadId ? e : updatedThread
