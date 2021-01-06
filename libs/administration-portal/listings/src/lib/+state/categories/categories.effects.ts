@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import { createEffect, Actions, ofType, OnInitEffects } from '@ngrx/effects';
-import { fetch } from '@nrwl/angular';
-
-import * as fromCategories from './categories.reducer';
-import * as CategoriesActions from './categories.actions';
-import { catchError, exhaustMap, map } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { CategoriesService } from '@bushtrade/administration-portal/shared/services';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
+import { of } from 'rxjs';
+import { catchError, exhaustMap, map } from 'rxjs/operators';
+import * as CategoriesActions from './categories.actions';
 
 @Injectable()
 export class CategoriesEffects implements OnInitEffects {

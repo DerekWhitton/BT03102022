@@ -35,6 +35,7 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { GalleriaModule } from 'primeng/galleria';
 import { RatingModule } from 'primeng/rating';
+import { EditorModule } from 'primeng/editor';
 
 @NgModule({
   imports: [
@@ -78,7 +79,8 @@ import { RatingModule } from 'primeng/rating';
     MessagesModule,
     MessageModule,
     GalleriaModule,
-    RatingModule
+    RatingModule,
+    EditorModule
   ],
   exports: [
     RadioButtonModule,
@@ -120,7 +122,8 @@ import { RatingModule } from 'primeng/rating';
     MessagesModule,
     MessageModule,
     GalleriaModule,
-    RatingModule
+    RatingModule,
+    EditorModule
   ],
 })
 export class UiElementsModule {}

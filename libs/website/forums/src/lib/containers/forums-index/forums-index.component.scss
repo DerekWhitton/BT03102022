@@ -1,0 +1,15 @@
+.forum-thread{
+    a{
+        text-decoration: none;
+        font-weight: bold;
+    }
+    &:last-child{
+        margin-bottom: 2em;
+    }
+}
+
+
+
+tr{
+    cursor:pointer;
+}
