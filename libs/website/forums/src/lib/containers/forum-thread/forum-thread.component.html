@@ -5,6 +5,7 @@
       <progress-spinner></progress-spinner>
     </ng-template>
 
+
     <div *ngIf="thread$ | async as thread; else loadingIndicator">
       <div class="thread p-card p-p-5 p-mt-5 p-mb-5">
         <h1>{{ thread.name }}</h1>
@@ -14,7 +15,7 @@
         <ng-container *ngFor="let post of thread.posts">
 
           <div class="forum-post p-card p-mb-2">
-            <div class="p-grid">
+            <div class="p-grid p-ai-stretch vertical-container">
               <div class="p-col">
                 <div class="post-meta p-p-3">
                   <h4 class="p-m-0"><i class="pi pi-user p-mr-1" style="font-size: 1rem"></i>{{ post.user.name}}<br><i
