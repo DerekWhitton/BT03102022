@@ -37,6 +37,7 @@ export class ForumsTopicComponent implements OnInit {
   createThread() {
     this.forumsFacade.dispatch(createTopicThread({ name: this.name }));
     this.name = '';
+    this.showAddThread = false;
   }
 
   loadPage(page: number) {

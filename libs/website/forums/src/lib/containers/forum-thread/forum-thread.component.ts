@@ -79,9 +79,13 @@ export class ForumThreadComponent implements OnInit {
     this.forumsFacade.dispatch(createThreadPost({ content: this.content }));
 
     this.content = '';
+
+    this.showAddPost = false;
   }
 
   loadPage(page: number) {
     this.forumsFacade.dispatch(loadThreadPosts({ page }));
   }
 }
+
+
