@@ -19,9 +19,11 @@ export class CategoryService {
     this.base = configuration.apiRoute;
     this.version = configuration.apiVersion;
   }
-  loadCategories() {
+  loadCategories(parentId: string = null) {
+    const query = parentId ? `?parentId=${parentId}` : '';
+
     return this.httpClient.get<ICategory[]>(
-      `${this.base}api/v${this.version}/Categories`
+      `${this.base}api/v${this.version}/Categories${query}`
     );
   }
 

@@ -15,6 +15,8 @@ export class CrudTableComponent implements OnInit {
   @Input() loading = true;
   @Input() queryParam = '';
   @Input() nextPage: number = undefined;
+  @Input() modalWidth: string = '450px';
+
   @Output() createSubmit = new EventEmitter();
   @Output() updateSubmit = new EventEmitter();
   @Output() updateSelection = new EventEmitter();

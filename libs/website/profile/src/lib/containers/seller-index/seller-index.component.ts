@@ -1,27 +1,33 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  CategoryPropertyType,
   ICategory,
   ICategoryProperty,
+  ICreateListing,
   IListing,
   ISeller,
+  ListingType,
 } from '@bushtrade/website/shared/entites';
-import { Observable, Subject } from 'rxjs';
-import {
-  addListing,
-  addListingImage,
-  deleteListing,
-  loadListing,
-  loadListings,
-  updateListing,
-} from '../../+state/listings/listings.actions';
-import { ListingsFacade } from '../../+state/listings/listings.facade';
 import { CategoryService } from '@bushtrade/website/shared/services';
-import { Store } from '@ngrx/store';
 import {
   getUserSellers,
   registerSeller,
 } from '@bushtrade/website/shared/state';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import {
+  addListing,
+  addListingImage,
+  deleteListing,
+  loadListings,
+} from '../../+state/listings/listings.actions';
+import { ListingsFacade } from '../../+state/listings/listings.facade';
+
+interface ICategoryPropertyWithUserSelectedValue extends ICategoryProperty {
+  value: string;
+  selectableOptions: { label: string; value: string }[];
+}
 
 @Component({
   selector: 'website-seller-index',
@@ -46,34 +52,23 @@ export class SellerIndexComponent implements OnInit {
 
   uploadStatus: string = '';
 
-  categories$: Observable<ICategory[]>;
+  CategoryPropertyType = CategoryPropertyType;
+  ListingType = ListingType;
+  selectableListingTypeOptions: { label: string; value: ListingType }[] = [
+    { label: 'Auction', value: ListingType.Auction },
+    { label: 'Sale', value: ListingType.Sale },
+  ];
+
   showProperties: boolean = false;
-  categoryProperties$: Observable<ICategoryProperty[]>;
-  listingProperties: {}[] = [];
+  categoryProperties: ICategoryPropertyWithUserSelectedValue[];
 
   imageIds: string[] = [];
 
-  addlistingFormGroup: FormGroup = new FormGroup({
-    name: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
-    active: new FormControl(false, Validators.required),
-    startingPrice: new FormControl('', Validators.required),
-    priceIncrement: new FormControl('', Validators.required),
-    categoryId: new FormControl('', Validators.required),
-    listingImageIds: new FormControl(''),
-    listingPropertyValues: new FormControl(''),
-  });
+  categoryTree: ICategory[] = [];
+  loadingCategories: boolean = false;
+  selectedCategoryId: string = null;
 
-  updatelistingFormGroup: FormGroup = new FormGroup({
-    name: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
-    active: new FormControl(false, Validators.required),
-    startingPrice: new FormControl('', Validators.required),
-    priceIncrement: new FormControl('', Validators.required),
-    categoryId: new FormControl('', Validators.required),
-    listingImageIds: new FormControl('', Validators.required),
-    listingPropertyValues: new FormControl('', Validators.required),
-  });
+  addlistingFormGroup: FormGroup;
 
   signUpSellerFormGroup: FormGroup = new FormGroup({
     bank: new FormControl('', Validators.required),
@@ -96,7 +91,7 @@ export class SellerIndexComponent implements OnInit {
 
   ngOnInit(): void {
     this.sellers$ = this.store.select(getUserSellers);
-    this.categories$ = this.categoryService.loadCategories();
+    this.initializeListingForm();
     var ctx = this;
     this.listingsFacade.imageIds$.subscribe({
       next(ids) {
@@ -106,6 +101,8 @@ export class SellerIndexComponent implements OnInit {
         }
       },
     });
+
+    this.loadCategories();
   }
 
   loadListings(seller) {
@@ -113,14 +110,6 @@ export class SellerIndexComponent implements OnInit {
     this.listingsFacade.dispatch(loadListings({ sellerId: seller.id }));
     this.listings$ = this.listingsFacade.allListings$;
   }
-
-  // updateProperties(category) {
-  //   this.showProperties = true;
-  //   console.log(this.showProperties);
-  //   this.categoryProperties$ = this.categoryService.loadCategoryProperties(
-  //     category.id
-  //   );
-  // }
 
   uploadListingImage(event) {
     this.uploadStatus = 'Uploading...';
@@ -134,63 +123,39 @@ export class SellerIndexComponent implements OnInit {
     });
   }
 
-  updateProperties() {
-    this.showProperties = true;
-    this.categoryProperties$ = this.categoryService.loadCategoryProperties(
-      '19f9d942-905c-43f9-42c3-08d8a2beaebe'
-    );
-  }
-
-  setPropertyvalue(id, value, method) {
-    let property = new Object({ categoryPropertyId: id, value: value });
-    this.listingProperties.push(property);
-
-    if (method == 'add') {
-      this.addlistingFormGroup.patchValue({
-        ...this.addlistingFormGroup.value,
-        listingPropertyValues: this.listingProperties,
-      });
-    } else if (method == 'update') {
-      this.updatelistingFormGroup.patchValue({
-        ...this.updatelistingFormGroup.value,
-        listingPropertyValues: this.listingProperties,
-      });
-    }
-  }
-
   handleUpdateSelection(data) {
-    this.listingsFacade.dispatch(
-      loadListing({ sellerId: this.selectedSellerId, listingId: data.id })
-    );
-    var ctx = this;
-    this.listingsFacade.selectedListings$.subscribe({
-      next(listing) {
-        if (typeof listing != 'undefined') {
-          ctx.imageIds = listing.images.map((l) => l.id);
-          ctx.updatelistingFormGroup.patchValue({
-            ...listing,
-          });
-        }
-      },
-    });
+    // this.listingsFacade.dispatch(
+    //   loadListing({ sellerId: this.selectedSellerId, listingId: data.id })
+    // );
+    // var ctx = this;
+    // this.listingsFacade.selectedListings$.subscribe({
+    //   next(listing) {
+    //     if (typeof listing != 'undefined') {
+    //       ctx.imageIds = listing.images.map((l) => l.id);
+    //       ctx.updatelistingFormGroup.patchValue({
+    //         ...listing,
+    //       });
+    //     }
+    //   },
+    // });
   }
 
   updateListing() {
-    this.updatelistingFormGroup.patchValue({
-      ...this.updatelistingFormGroup.value,
-      categoryId: '19f9d942-905c-43f9-42c3-08d8a2beaebe',
-      listingImageIds: this.imageIds,
-      listingPropertyValues: this.listingProperties,
-    });
-    this.listingsFacade.dispatch(
-      updateListing({
-        sellerId: this.selectedSellerId,
-        listing: this.updatelistingFormGroup.value,
-      })
-    );
-    this.updatelistingFormGroup.reset();
-    this.listingProperties = [];
-    this.imageIds = [];
+    // this.updatelistingFormGroup.patchValue({
+    //   ...this.updatelistingFormGroup.value,
+    //   categoryId: '19f9d942-905c-43f9-42c3-08d8a2beaebe',
+    //   listingImageIds: this.imageIds,
+    //   listingPropertyValues: this.listingProperties,
+    // });
+    // this.listingsFacade.dispatch(
+    //   updateListing({
+    //     sellerId: this.selectedSellerId,
+    //     listing: this.updatelistingFormGroup.value,
+    //   })
+    // );
+    // this.updatelistingFormGroup.reset();
+    // this.listingProperties = [];
+    // this.imageIds = [];
   }
 
   deleteListing(data) {
@@ -199,28 +164,23 @@ export class SellerIndexComponent implements OnInit {
     );
   }
 
-  addListing() {
-    // this.addlistingFormGroup.patchValue({
-    //   ...this.addlistingFormGroup.value,
-    //   categoryId: this.addlistingFormGroup.get('categoryId').value.id,
-    // listingImageIds: this.imageIds,
-    //    listingPropertyValues : this.listingProperties
-    // });
-    this.addlistingFormGroup.patchValue({
-      ...this.addlistingFormGroup.value,
-      categoryId: '19f9d942-905c-43f9-42c3-08d8a2beaebe',
-      listingImageIds: this.imageIds,
-      listingPropertyValues: this.listingProperties,
-    });
+  saveListing() {
+    let listing = this.addlistingFormGroup.value as ICreateListing;
+
+    listing.listingImageIds = this.imageIds;
+    listing.listingPropertyValues = this.categoryProperties.map((p) => ({
+      categoryPropertyId: p.id,
+      value: p.value,
+    }));
+
     this.listingsFacade.dispatch(
       addListing({
         sellerId: this.selectedSellerId,
         listing: this.addlistingFormGroup.value,
       })
     );
-
-    this.addlistingFormGroup.reset();
-    this.listingProperties = [];
+    // this.addlistingFormGroup.reset();
+    this.categoryProperties = [];
     this.imageIds = [];
   }
 
@@ -231,5 +191,93 @@ export class SellerIndexComponent implements OnInit {
       })
     );
     this.displayStartSellingDialog = false;
+  }
+
+  private async loadCategories(parentId: string = null) {
+    this.loadingCategories = true;
+
+    const categoryResult = await this.categoryService
+      .loadCategories(parentId)
+      .toPromise();
+
+    this.categoryTree = !this.categoryTree.length
+      ? categoryResult
+      : this.insertCategoryChildrenAtNode(
+          parentId,
+          this.categoryTree,
+          categoryResult
+        );
+
+    this.loadingCategories = false;
+  }
+
+  private insertCategoryChildrenAtNode(
+    categoryId: string,
+    tree: ICategory[],
+    children: ICategory[]
+  ) {
+    if (!tree) {
+      return tree;
+    }
+    for (let i = 0; i < tree.length; i++) {
+      if (tree[i].id == categoryId) {
+        tree[i].children = children;
+      } else {
+        tree[i].children = this.insertCategoryChildrenAtNode(
+          categoryId,
+          tree[i].children,
+          children
+        );
+      }
+    }
+
+    return tree;
+  }
+
+  handleCategorySelection(id) {
+    this.selectedCategoryId = id;
+    this.loadCategories(id);
+  }
+
+  async handleCategoryChainComplete(isComplete) {
+    this.showProperties = isComplete;
+    this.addlistingFormGroup.patchValue({
+      categoryId: isComplete ? this.selectedCategoryId : '',
+    });
+    if (isComplete) {
+      this.categoryProperties = (
+        await this.categoryService
+          .loadCategoryProperties(this.selectedCategoryId)
+          .toPromise()
+      ).map(
+        (c) =>
+          ({
+            ...c,
+            value: null,
+            selectableOptions: c.options.length
+              ? [{ label: 'Select a value', value: null }].concat(
+                  c.options.map((o) => ({ label: o, value: o }))
+                )
+              : [],
+          } as ICategoryPropertyWithUserSelectedValue)
+      );
+    } else {
+      this.categoryProperties = [];
+    }
+  }
+
+  private initializeListingForm() {
+    this.addlistingFormGroup = new FormGroup({
+      name: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+      active: new FormControl(false, Validators.required),
+      startingPrice: new FormControl('', Validators.required),
+      priceIncrement: new FormControl('', Validators.required),
+      quantity: new FormControl(1, Validators.required),
+      startDate: new FormControl('', Validators.required),
+      endDate: new FormControl('', Validators.required),
+      type: new FormControl(ListingType.Auction, Validators.required),
+      categoryId: new FormControl('', Validators.required),
+    });
   }
 }

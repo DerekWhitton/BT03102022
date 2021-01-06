@@ -9,3 +9,8 @@ export interface IListingImage {
   id: string,
   storageUri: string
 }
+
+export enum ListingType {
+  Auction,
+  Sale,
+}

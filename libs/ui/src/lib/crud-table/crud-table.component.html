@@ -92,7 +92,7 @@
   <!-- Create Dialog -->
   <p-dialog
     [(visible)]="displayCreateDialog"
-    [style]="{ width: '450px' }"
+    [style]="{ width: modalWidth }"
     [header]="'Add ' + headersValue"
     [modal]="true"
     styleClass="p-fluid"
@@ -126,7 +126,7 @@
   <!-- Update Dialog -->
   <p-dialog
     [(visible)]="displayUpdateDialog"
-    [style]="{ width: '450px' }"
+    [style]="{ width: modalWidth }"
     [header]="'Update ' + headersValue"
     [modal]="true"
     styleClass="p-fluid"

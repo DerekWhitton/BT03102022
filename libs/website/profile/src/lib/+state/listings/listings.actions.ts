@@ -3,6 +3,7 @@ import {
   IPaginatedResponse,
   IListing,
   ICategory,
+  ICreateListing,
 } from '@bushtrade/website/shared/entites';
 
 export const loadListings = createAction(
@@ -22,7 +23,7 @@ export const loadListingsFailure = createAction(
 
 export const addListing = createAction(
   '[Listings] Add Listing',
-  props<{ sellerId: string; listing: IListing }>()
+  props<{ sellerId: string; listing: ICreateListing }>()
 );
 
 export const addListingSuccess = createAction(

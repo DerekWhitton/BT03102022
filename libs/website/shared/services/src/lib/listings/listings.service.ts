@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@bushtrade/app-config';
 import {
+  ICreateListing,
   IListing,
   IPaginatedResponse,
 } from '@bushtrade/website/shared/entites';
@@ -56,7 +57,7 @@ export class ListingsService {
     );
   }
 
-  addListing(sellerId: string, listing: IListing) {
+  addListing(sellerId: string, listing: ICreateListing) {
     return this.httpClient.post<IListing>(
       `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings`,
       {

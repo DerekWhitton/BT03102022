@@ -1,0 +1,20 @@
+<span
+  (click)="returnToNode(item.id)"
+  *ngFor="let item of selectedPath; let last = last"
+>
+  {{ item.name }}
+  <span *ngIf="!last">
+    &nbsp;>&nbsp;
+  </span>
+</span>
+
+<ng-container *ngIf="!isChainComplete">
+  <span *ngIf="selectedPath.length">
+    &nbsp;>&nbsp;
+  </span>
+  <p-dropdown
+    [options]="categoryOptions"
+    [(ngModel)]="selectedCategoryOption"
+    (onChange)="handleCategorySelectionChange()"
+  ></p-dropdown>
+</ng-container>
