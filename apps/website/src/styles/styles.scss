@@ -85,23 +85,36 @@ body{
     }
 }
 
-.p-menubar-end{
-    a{
-        span{
-            color: #495057!important;
+@media screen and (max-width: 960px){
+    .p-menubar{
+    
+        background: none;
+        border: none;
+    
+        a{
+            span{
+                color: #525252!important;
+            }
         }
+        .p-menubar-button {
+            color: #fff;
+            :hover{
+                color: #525252!important;
+            }
+        }
+
     }
 }
 
-.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:not(.p-disabled):hover {
-    background: #c09a6a;
-}
+// .p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:not(.p-disabled):hover {
+//     background: #c09a6a;
+// }
 
-.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:focus {
-    outline: 0 none;
-    outline-offset: 0;
-    box-shadow: none;
-}
+// .p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:focus {
+//     outline: 0 none;
+//     outline-offset: 0;
+//     box-shadow: none;
+// }
 
 .ui-block{
     width: 100%!important;
