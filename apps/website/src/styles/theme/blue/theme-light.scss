@@ -3,8 +3,9 @@ $primaryLightColor: scale-color($primaryColor, $lightness: 60%) !default;
 $primaryDarkColor: scale-color($primaryColor, $lightness: -10%) !default;
 $primaryDarkerColor: scale-color($primaryColor, $lightness: -20%) !default;
 $primaryTextColor: #ffffff;
+$primaryGold: #C09A6A;
 
 $highlightBg: #E3F2FD;
-$highlightTextColor: #495057;
+$highlightTextColor: #1585f5;
 
 @import '../../sass/theme/_theme_light';

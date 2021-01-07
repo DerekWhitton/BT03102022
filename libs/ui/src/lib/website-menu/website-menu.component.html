@@ -1,6 +1,6 @@
 <div class="p-grid bg-gold">
-  <div class="p-col"></div>
-  <div class="p-md-12 p-lg-10">
+
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
     <div class="p-grid p-mt-1 p-mb-1">
       <div class="p-col-12 p-md-8 p-lg-8">
         <span class="p-input-icon-left ui-block">
@@ -17,35 +17,29 @@
       </div>
     </div>
   </div>
-  <div class="p-col"></div>
+
 </div>
 
 <div class="p-grid bg-grey">
-  <div class="p-col"></div>
-  <div class="p-md-12 p-lg-10">
-    <div class="p-grid">
-      <div class="p-col">
-        <img id="app-logo" class="logo-image p-mr-2 ng-star-inserted p-mt-2" src="assets/layout/images/logo-dark.png"
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+      <div class="p-col p-text-right p-m-2">
+        <p-menubar [model]="items" class="menu-light" styleClass="dark-menu">
+          <ng-template pTemplate="start">
+            <img id="app-logo" class="logo-image p-mr-2 ng-star-inserted p-mt-2" src="assets/layout/images/logo-dark.png"
           [routerLink]="['/', 'home']" alt="Bush Trade" />
-      </div>
-      <div class="p-col-9 p-text-right">
-        <p-menubar [model]="items" class="menu-light inline-flex">
-          <p-button type="text" (click)="display = true" label="Buy & Sell"></p-button>
-          <button *ngIf="!loggedIn" pButton label="Sign In" (click)="login()"></button>
+          </ng-template>
+          
+          <ng-template pTemplate="end">  
+            <button *ngIf="!loggedIn" pButton label="Sign In" (click)="login()"></button>     
+            <button *ngIf="loggedIn" type="button" pButton icon="pi pi-user" class="p-ml-3" (click)="menu.toggle($event)"></button>
+            <p-menu #menu [popup]="true" [model]="accountItems"></p-menu>
+          </ng-template>
 
-          <button *ngIf="loggedIn" type="button" pButton icon="pi pi-user" class="p-ml-3" (click)="menu.toggle($event)"></button>
-          <p-menu #menu [popup]="true" [model]="accountItems"></p-menu>
         </p-menubar>
       </div>
     </div>
-  </div>
-  <div class="p-col"></div>
 </div>
 
-<p-sidebar [(visible)]="display" styleClass="p-sidebar-lg" position="top">
-  Place all the categories in here for easy navigation.... will have to do this
-  in a way that works for mobile and desktop
-</p-sidebar>
 
 <!-- <div class="p-grid bg-offwhite">
   <div class="p-col"></div>
