@@ -2,11 +2,11 @@ import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import * as ListingsActions from './listings.actions';
-import { IListing } from '@bushtrade/website/shared/entites';
+import { ISellerListing } from '@bushtrade/website/shared/entites';
 
 export const LISTINGS_FEATURE_KEY = 'listings';
 
-export interface State extends EntityState<IListing> {
+export interface State extends EntityState<ISellerListing> {
   imageIds?: any[];
   selectedId?: string | number; // which Listings record has been selected
   loaded: boolean; // has the Listings list been loaded
@@ -17,8 +17,8 @@ export interface ListingsPartialState {
   readonly [LISTINGS_FEATURE_KEY]: State;
 }
 
-export const listingsAdapter: EntityAdapter<IListing> = createEntityAdapter<
-  IListing
+export const listingsAdapter: EntityAdapter<ISellerListing> = createEntityAdapter<
+  ISellerListing
 >();
 
 export const initialState: State = listingsAdapter.getInitialState({
@@ -45,14 +45,6 @@ const listingsReducer = createReducer(
     listingsAdapter.upsertOne(listing, { ...state, loaded: true })
   ),
   on(ListingsActions.addListingFailure, (state, { error }) => ({
-    ...state,
-    error,
-  })),
-  on(ListingsActions.addListingImageSuccess, (state, { imageId }) => ({
-    ...state,
-    imageIds: [...state.imageIds, imageId],
-  })),
-  on(ListingsActions.addListingImageFailure, (state, { error }) => ({
     ...state,
     error,
   })),

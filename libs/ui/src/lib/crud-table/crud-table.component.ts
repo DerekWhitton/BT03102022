@@ -10,6 +10,7 @@ export class CrudTableComponent implements OnInit {
   @Input() updateFormTemplateReference;
   @Input() allowDelete = false;
   @Input() viewable = false;
+  @Input() searchable = true;
   @Input() data;
   @Input() selectableColumns;
   @Input() loading = true;
@@ -19,6 +20,7 @@ export class CrudTableComponent implements OnInit {
 
   @Output() createSubmit = new EventEmitter();
   @Output() updateSubmit = new EventEmitter();
+  @Output() createSelection = new EventEmitter();
   @Output() updateSelection = new EventEmitter();
   @Output() viewSelection = new EventEmitter();
   @Output() itemDeleted = new EventEmitter();
@@ -65,6 +67,11 @@ export class CrudTableComponent implements OnInit {
   handleItemUpdateSelection(data: Object) {
     this.updateSelection.emit(data);
     this.displayUpdateDialog = true;
+  }
+
+  handleCreateSelection() {
+    this.displayCreateDialog = true;
+    this.createSelection.emit();
   }
 
   handleItemView(data: any) {

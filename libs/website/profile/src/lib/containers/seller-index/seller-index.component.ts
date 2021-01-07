@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CategoryPropertyType,
   ICategory,
   ICategoryProperty,
-  ICreateListing,
-  IListing,
+  ICreateOrUpdateListing,
   ISeller,
+  ISellerListing,
+  ISellerListingPropertyValue,
   ListingType,
 } from '@bushtrade/website/shared/entites';
-import { CategoryService } from '@bushtrade/website/shared/services';
+import {
+  CategoryService,
+  ListingsService,
+} from '@bushtrade/website/shared/services';
 import {
   getUserSellers,
   registerSeller,
@@ -18,9 +22,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
   addListing,
-  addListingImage,
   deleteListing,
   loadListings,
+  updateListing,
 } from '../../+state/listings/listings.actions';
 import { ListingsFacade } from '../../+state/listings/listings.facade';
 
@@ -35,22 +39,20 @@ interface ICategoryPropertyWithUserSelectedValue extends ICategoryProperty {
   styleUrls: ['./seller-index.component.scss'],
 })
 export class SellerIndexComponent implements OnInit {
+  @ViewChild('fileUpload') fileUpload: any;
   sellers$: Observable<ISeller[]>;
 
-  listings$: Observable<IListing[]>;
+  listings$: Observable<ISellerListing[]>;
   loading$: Observable<boolean>;
   selectedSellerId: string;
 
   columns = [
     { field: 'name', header: 'Name' },
     { field: 'startingPrice', header: 'Starting Price' },
-    { field: 'category', header: 'Category' },
   ];
 
   loaded$: Observable<boolean>;
   displayStartSellingDialog: boolean = false;
-
-  uploadStatus: string = '';
 
   CategoryPropertyType = CategoryPropertyType;
   ListingType = ListingType;
@@ -62,7 +64,7 @@ export class SellerIndexComponent implements OnInit {
   showProperties: boolean = false;
   categoryProperties: ICategoryPropertyWithUserSelectedValue[];
 
-  imageIds: string[] = [];
+  images: { id: string; src: string }[] = [];
 
   categoryTree: ICategory[] = [];
   loadingCategories: boolean = false;
@@ -80,10 +82,14 @@ export class SellerIndexComponent implements OnInit {
     name: new FormControl('', Validators.required),
     isPrivateIndividual: new FormControl(true, Validators.required),
   });
+  editModalDataIsInitializing: boolean;
+  editListingPropertyValues: ISellerListingPropertyValue[] = [];
+  isUploadingImageFiles: boolean;
 
   constructor(
     private store: Store,
     private listingsFacade: ListingsFacade,
+    private listingSvc: ListingsService,
     private categoryService: CategoryService
   ) {
     this.loading$ = this.listingsFacade.loaded$;
@@ -92,16 +98,6 @@ export class SellerIndexComponent implements OnInit {
   ngOnInit(): void {
     this.sellers$ = this.store.select(getUserSellers);
     this.initializeListingForm();
-    var ctx = this;
-    this.listingsFacade.imageIds$.subscribe({
-      next(ids) {
-        ctx.imageIds = ids;
-        if (ids.length > 0) {
-          ctx.uploadStatus = 'Uploaded';
-        }
-      },
-    });
-
     this.loadCategories();
   }
 
@@ -111,51 +107,77 @@ export class SellerIndexComponent implements OnInit {
     this.listings$ = this.listingsFacade.allListings$;
   }
 
-  uploadListingImage(event) {
-    this.uploadStatus = 'Uploading...';
-    this.listingsFacade.dispatch(
-      addListingImage({ sellerId: this.selectedSellerId, file: event.files[0] })
+  async uploadListingImage(event) {
+    const files = [...event.files];
+
+    this.isUploadingImageFiles = true;
+    this.fileUpload.clear();
+
+    for (let i = 0; i < files.length; i++) {
+      const imageId = await this.listingSvc
+        .uploadSellerListingImage(this.selectedSellerId, files[i])
+        .toPromise();
+
+      let ctx = this;
+
+      let reader = new FileReader();
+      reader.readAsDataURL(files[i]);
+      reader.onload = function () {
+        ctx.images.push({ id: imageId, src: reader.result as string });
+      };
+    }
+
+    this.isUploadingImageFiles = false;
+  }
+
+  handleCreateSelection() {
+    this.editListingPropertyValues = [];
+    this.initializeListingForm();
+  }
+
+  handleImageRemoval(idForRemoval) {
+    this.images = this.images.filter((i) => i.id != idForRemoval);
+  }
+
+  async handleUpdateSelection(data) {
+    this.editModalDataIsInitializing = true;
+
+    const listing = await this.listingSvc
+      .loadSellerListing(this.selectedSellerId, data.id)
+      .toPromise();
+
+    // we need to reconstruct the category tree at this point
+    const pathAsssimilationIds = await this.buildCategoryTreeAssimilationPath(
+      listing.categoryId
     );
 
-    this.addlistingFormGroup.patchValue({
-      ...this.addlistingFormGroup.value,
-      listingImageIds: this.imageIds,
-    });
+    for (let i = 0; i < pathAsssimilationIds.length; i++) {
+      await this.loadCategories(pathAsssimilationIds[i]);
+    }
+
+    this.initializeListingForm(listing);
+    this.editListingPropertyValues = listing.listingPropertyValues;
+    this.editModalDataIsInitializing = false;
   }
 
-  handleUpdateSelection(data) {
-    // this.listingsFacade.dispatch(
-    //   loadListing({ sellerId: this.selectedSellerId, listingId: data.id })
-    // );
-    // var ctx = this;
-    // this.listingsFacade.selectedListings$.subscribe({
-    //   next(listing) {
-    //     if (typeof listing != 'undefined') {
-    //       ctx.imageIds = listing.images.map((l) => l.id);
-    //       ctx.updatelistingFormGroup.patchValue({
-    //         ...listing,
-    //       });
-    //     }
-    //   },
-    // });
-  }
+  private async buildCategoryTreeAssimilationPath(idOfCategoryToReach: string) {
+    let category = await this.categoryService
+      .getCategoryById(idOfCategoryToReach)
+      .toPromise();
 
-  updateListing() {
-    // this.updatelistingFormGroup.patchValue({
-    //   ...this.updatelistingFormGroup.value,
-    //   categoryId: '19f9d942-905c-43f9-42c3-08d8a2beaebe',
-    //   listingImageIds: this.imageIds,
-    //   listingPropertyValues: this.listingProperties,
-    // });
-    // this.listingsFacade.dispatch(
-    //   updateListing({
-    //     sellerId: this.selectedSellerId,
-    //     listing: this.updatelistingFormGroup.value,
-    //   })
-    // );
-    // this.updatelistingFormGroup.reset();
-    // this.listingProperties = [];
-    // this.imageIds = [];
+    let path: string[] = [];
+
+    while (
+      category.parentId &&
+      category.parentId != '00000000-0000-0000-0000-000000000000'
+    ) {
+      path = [category.parentId].concat(path);
+      category = await this.categoryService
+        .getCategoryById(category.parentId)
+        .toPromise();
+    }
+
+    return path;
   }
 
   deleteListing(data) {
@@ -165,23 +187,34 @@ export class SellerIndexComponent implements OnInit {
   }
 
   saveListing() {
-    let listing = this.addlistingFormGroup.value as ICreateListing;
-
-    listing.listingImageIds = this.imageIds;
+    let listing = this.addlistingFormGroup.value as ICreateOrUpdateListing;
+    listing.listingImageIds = this.images.map((i) => i.id);
     listing.listingPropertyValues = this.categoryProperties.map((p) => ({
       categoryPropertyId: p.id,
-      value: p.value,
+      value:
+        p.value && typeof p.value !== typeof '' ? p.value.toString() : p.value,
     }));
 
-    this.listingsFacade.dispatch(
-      addListing({
-        sellerId: this.selectedSellerId,
-        listing: this.addlistingFormGroup.value,
-      })
-    );
-    // this.addlistingFormGroup.reset();
+    if (listing.id && listing.id != '00000000-0000-0000-0000-000000000000') {
+      this.listingsFacade.dispatch(
+        updateListing({
+          sellerId: this.selectedSellerId,
+          listingId: listing.id,
+          listing: listing,
+        })
+      );
+    } else {
+      this.listingsFacade.dispatch(
+        addListing({
+          sellerId: this.selectedSellerId,
+          listing: this.addlistingFormGroup.value,
+        })
+      );
+    }
+
+    this.initializeListingForm();
     this.categoryProperties = [];
-    this.imageIds = [];
+    this.images = [];
   }
 
   registerSeller() {
@@ -261,23 +294,59 @@ export class SellerIndexComponent implements OnInit {
               : [],
           } as ICategoryPropertyWithUserSelectedValue)
       );
+
+      // assign old values
+      for (let i = 0; i < this.categoryProperties.length; i++) {
+        if (
+          this.editListingPropertyValues.findIndex(
+            (v) => v.categoryPropertyId == this.categoryProperties[i].id
+          ) !== -1
+        ) {
+          this.categoryProperties[
+            i
+          ].value = this.editListingPropertyValues.find(
+            (v) => v.categoryPropertyId == this.categoryProperties[i].id
+          ).value;
+        }
+      }
     } else {
       this.categoryProperties = [];
     }
   }
 
-  private initializeListingForm() {
+  private initializeListingForm(listing: ISellerListing = null) {
+    this.selectedCategoryId = listing?.categoryId;
+    this.images = listing?.images.map((i) => ({ id: i.id, src: i.url })) ?? [];
     this.addlistingFormGroup = new FormGroup({
-      name: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
-      active: new FormControl(false, Validators.required),
-      startingPrice: new FormControl('', Validators.required),
-      priceIncrement: new FormControl('', Validators.required),
-      quantity: new FormControl(1, Validators.required),
-      startDate: new FormControl('', Validators.required),
-      endDate: new FormControl('', Validators.required),
-      type: new FormControl(ListingType.Auction, Validators.required),
-      categoryId: new FormControl('', Validators.required),
+      id: new FormControl(listing?.id),
+      name: new FormControl(listing?.name, Validators.required),
+      description: new FormControl(listing?.description, Validators.required),
+      active: new FormControl(listing?.active ?? false, Validators.required),
+      startingPrice: new FormControl(
+        listing?.startingPrice,
+        Validators.required
+      ),
+      reservePrice: new FormControl(listing?.reservePrice),
+      priceIncrement: new FormControl(listing?.priceIncrement),
+      quantity: new FormControl(listing?.quantity, Validators.required),
+      startDate: new FormControl(
+        listing?.startDate
+          ? new Date(listing.startDate).toISOString().substring(0, 10)
+          : ''
+      ),
+      endDate: new FormControl(
+        listing?.endDate
+          ? new Date(listing.endDate).toISOString().substring(0, 10)
+          : ''
+      ),
+      type: new FormControl(
+        listing?.type ?? ListingType.Auction,
+        Validators.required
+      ),
+      categoryId: new FormControl(
+        listing?.categoryId ?? '',
+        Validators.required
+      ),
     });
   }
 }

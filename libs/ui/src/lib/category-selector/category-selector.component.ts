@@ -15,6 +15,7 @@ import { ICategory } from '@bushtrade/website/shared/entites';
 export class CategorySelectorComponent implements OnInit {
   @Input() categoryTree: ICategory[];
   @Input() loading: boolean = false;
+  @Input() selectedCategoryId: string = null;
   @Output() categorySelected = new EventEmitter<string>();
   @Output() chainComplete = new EventEmitter<boolean>();
 
@@ -29,11 +30,17 @@ export class CategorySelectorComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.setSelectionOptions();
+    console.log(changes);
   }
 
   private setSelectionOptions(): void {
     if (!this.categoryTree.length || this.loading) {
       return;
+    }
+
+    if (this.selectedPath.length <= 0 && this.selectedCategoryId) {
+      this.reconstructSelectedPath(this.selectedCategoryId);
+      this.selectedCategoryOption = this.selectedCategoryId;
     }
 
     if (this.selectedPath.length <= 0) {
@@ -60,7 +67,6 @@ export class CategorySelectorComponent implements OnInit {
       this.isChainComplete =
         subCategoryOptions && subCategoryOptions.length <= 0 && !this.loading;
     }
-
     this.chainComplete.emit(this.isChainComplete);
   }
 
@@ -75,6 +81,20 @@ export class CategorySelectorComponent implements OnInit {
     ]);
 
     this.setSelectionOptions();
+  }
+
+  private reconstructSelectedPath(categoryId: string) {
+    let category = this.getCategoryFromTreeById(categoryId);
+    let path = [category];
+    while (
+      category.parentId &&
+      category.parentId != '00000000-0000-0000-0000-000000000000'
+    ) {
+      category = this.getCategoryFromTreeById(category.parentId);
+      path = [category].concat(path);
+    }
+
+    this.selectedPath = path;
   }
 
   private getFlatCategoryList(tree: ICategory[]) {
@@ -105,6 +125,7 @@ export class CategorySelectorComponent implements OnInit {
     this.selectedCategoryOption = this.selectedPath.length
       ? this.selectedPath[index - 1].id
       : null;
+    //this.selectedCategoryId = this.selectedCategoryOption;
 
     this.setSelectionOptions();
   }

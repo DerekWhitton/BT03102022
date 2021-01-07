@@ -20,6 +20,7 @@ import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.co
 import { SafeHtmlPipe } from './shared/pipes/safe-html.pipe';
 import { WebsiteFooterComponent } from './website-footer/website-footer.component';
 import { WebsiteMenuComponent } from './website-menu/website-menu.component';
+import { ListingImagePreviewComponent } from './listing-image-preview/listing-image-preview.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, UiElementsModule],
@@ -41,6 +42,7 @@ import { WebsiteMenuComponent } from './website-menu/website-menu.component';
     CateogryBlockComponent,
     CategorySelectorComponent,
     SafeHtmlPipe,
+    ListingImagePreviewComponent,
   ],
   providers: [MessageService, ConfirmationService],
   exports: [
@@ -61,6 +63,7 @@ import { WebsiteMenuComponent } from './website-menu/website-menu.component';
     CateogryBlockComponent,
     CategorySelectorComponent,
     SafeHtmlPipe,
+    ListingImagePreviewComponent,
   ],
 })
 export class UiModule {}

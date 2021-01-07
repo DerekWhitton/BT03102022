@@ -12,7 +12,7 @@
         [style]="{ minWidth: '200px' }"
         defaultLabel="Choose Columns"
       ></p-multiSelect>
-      <span class="p-input-icon-left p-mr-1">
+      <span class="p-input-icon-left p-mr-1" *ngIf="searchable == true">
         <i class="pi pi-search"></i>
         <input
           type="text"
@@ -29,7 +29,7 @@
         label="New"
         icon="pi pi-plus"
         class="p-button-success p-mr-1"
-        (click)="this.displayCreateDialog = true"
+        (click)="handleCreateSelection()"
       ></button>
     </ng-template>
   </p-toolbar>

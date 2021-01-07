@@ -1,6 +1,7 @@
 import { ListingType } from '../definitions/i-listing';
 
-export interface ICreateListing {
+export interface ICreateOrUpdateListing {
+  id: string;
   name: string;
   description: string;
   active: boolean;

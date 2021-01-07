@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@bushtrade/app-config';
 import {
-  ICreateListing,
+  ICreateOrUpdateListing,
   IListing,
   IPaginatedResponse,
+  ISellerListing,
 } from '@bushtrade/website/shared/entites';
 
 @Injectable({
@@ -21,20 +22,24 @@ export class ListingsService {
     this.version = configuration.apiVersion;
   }
 
-  loadListings(sellerId: string) {
-    return this.httpClient.get<IPaginatedResponse<IListing>>(
+  loadSellerListings(sellerId: string) {
+    return this.httpClient.get<IPaginatedResponse<ISellerListing>>(
       `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings`
     );
   }
 
-  loadListing(sellerId: string, listingId: string) {
-    return this.httpClient.get<IListing>(
+  loadSellerListing(sellerId: string, listingId: string) {
+    return this.httpClient.get<ISellerListing>(
       `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings/${listingId}`
     );
   }
 
-  updateListing(sellerId: string, listingId: string, listing: IListing) {
-    return this.httpClient.patch<IListing>(
+  updateSellerListing(
+    sellerId: string,
+    listingId: string,
+    listing: ICreateOrUpdateListing
+  ) {
+    return this.httpClient.patch<ISellerListing>(
       `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings/${listingId}`,
       {
         ...listing,
@@ -42,13 +47,13 @@ export class ListingsService {
     );
   }
 
-  deleteListing(sellerId: string, listingId: string) {
+  deleteSellerListing(sellerId: string, listingId: string) {
     return this.httpClient.delete<any>(
       `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings/${listingId}`
     );
   }
 
-  uploadListingImage(sellerId: string, file: File) {
+  uploadSellerListingImage(sellerId: string, file: File) {
     let formData = new FormData();
     formData.append('file', file, file.name);
     return this.httpClient.post<string>(
@@ -57,8 +62,8 @@ export class ListingsService {
     );
   }
 
-  addListing(sellerId: string, listing: ICreateListing) {
-    return this.httpClient.post<IListing>(
+  AddSellerListing(sellerId: string, listing: ICreateOrUpdateListing) {
+    return this.httpClient.post<ISellerListing>(
       `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings`,
       {
         ...listing,

@@ -14,14 +14,16 @@
         [loading]="loading$ | async"
         [createFormTemplateReference]="addOrUpdateListingTemplate"
         (updateSelection)="handleUpdateSelection($event)"
+        (createSelection)="handleCreateSelection()"
         [updateFormTemplateReference]="addOrUpdateListingTemplate"
-        (updateSubmit)="updateListing()"
+        (updateSubmit)="saveListing()"
         [headersValue]="'Listing'"
         [createFormValid]="addlistingFormGroup.valid"
         (createSubmit)="saveListing()"
         [allowDelete]="true"
         (itemDeleted)="deleteListing($event)"
-        modalWidth="600px"
+        modalWidth="460px"
+        searchable="false"
       ></bushtrade-web-crud-table>
     </p-accordionTab>
   </p-accordion>
@@ -37,18 +39,16 @@
 </ng-template>
 
 <ng-template #addOrUpdateListingTemplate>
-  <form [formGroup]="addlistingFormGroup">
+  <ng-template #initializingEditModalData>
+    <progress-spinner></progress-spinner>
+  </ng-template>
+  <form
+    [formGroup]="addlistingFormGroup"
+    *ngIf="!editModalDataIsInitializing; else initializingEditModalData"
+  >
     <div class="p-grid">
       <div class="p-col">
         <div class="p-fluid">
-          <div class="p-field">
-            <p-fileUpload
-              name="myfile[]"
-              customUpload="true"
-              (uploadHandler)="uploadListingImage($event)"
-            ></p-fileUpload>
-            {{ uploadStatus }}
-          </div>
           <!-- name -->
           <div class="p-field">
             <label>
@@ -56,18 +56,48 @@
             </label>
             <input pInputText type="text" required formControlName="name" />
           </div>
+
+          <!-- images -->
+          <div class="p-field">
+            <label>
+              Images:
+            </label>
+            <p-fileUpload
+              #fileUpload
+              name="myfile[]"
+              customUpload="true"
+              (uploadHandler)="uploadListingImage($event)"
+              multiple="multiple"
+            ></p-fileUpload>
+
+            <p *ngIf="isUploadingImageFiles">
+              Uploading...
+            </p>
+            <div class="p-grid p-mt-2">
+              <div class="p-col-3" *ngFor="let image of images">
+                <bushtrade-listing-image-preview
+                  (removed)="handleImageRemoval(image.id)"
+                  [src]="image.src"
+                ></bushtrade-listing-image-preview>
+              </div>
+            </div>
+          </div>
+
           <!-- description -->
           <div class="p-field">
             <label>
               Description:
             </label>
-            <input
-              pInputText
+            <textarea
+              style="width: 100%;"
+              pInputTextarea
               type="text"
               required
               formControlName="description"
-            />
+              autoResize="autoResize"
+            ></textarea>
           </div>
+
           <!-- category -->
           <div class="p-field">
             <label>
@@ -76,10 +106,12 @@
             <bushtrade-category-selector
               [categoryTree]="categoryTree"
               [loading]="loadingCategories"
+              [selectedCategoryId]="addlistingFormGroup.get('categoryId').value"
               (categorySelected)="handleCategorySelection($event)"
               (chainComplete)="handleCategoryChainComplete($event)"
             ></bushtrade-category-selector>
           </div>
+
           <!-- starting price -->
           <div class="p-field">
             <label>
@@ -92,6 +124,20 @@
               formControlName="startingPrice"
             />
           </div>
+
+          <!-- starting price -->
+          <div class="p-field">
+            <label>
+              Reserve Price:
+            </label>
+            <input
+              pInputText
+              type="number"
+              required
+              formControlName="reservePrice"
+            />
+          </div>
+
           <!-- increment -->
           <div class="p-field">
             <label>
@@ -104,6 +150,7 @@
               formControlName="priceIncrement"
             />
           </div>
+
           <!-- quantity -->
           <div class="p-field">
             <label>
@@ -131,12 +178,11 @@
             <p-calendar
               formControlName="startDate"
               inline="true"
-              showTime="true"
-              hourFormat="24"
+              dateFormat="yy-mm-dd"
             ></p-calendar>
           </div>
 
-          <!-- start date -->
+          <!-- end date -->
           <div class="p-field">
             <label>
               End at:
@@ -144,8 +190,7 @@
             <p-calendar
               formControlName="endDate"
               inline="true"
-              showTime="true"
-              hourFormat="24"
+              dateFormat="yy-mm-dd"
             ></p-calendar>
           </div>
 
