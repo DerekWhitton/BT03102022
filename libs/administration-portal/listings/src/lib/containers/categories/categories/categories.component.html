@@ -1,8 +1,8 @@
 <div class="chain-link">
   <span
-    *ngFor="let link of categoryChain; index as i"
+    *ngFor="let link of categoryChain; index as i; last as isLast"
     (click)="onJumpChain(link.id, link.name, i)"
-    >{{ link.name }} -
+    >{{ link.name }} <span *ngIf="!isLast">-&nbsp;</span>
   </span>
 </div>
 
@@ -10,22 +10,12 @@
   <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="left">
       <button
-        *ngIf="sub == false"
         pButton
         pRipple
-        label="Add Category"
+        [label]="!sub ? 'Add Category' : 'Add Subcategory'"
         icon="pi pi-plus"
         class="p-button-success p-mr-1"
-        (click)="this.displayCreateDialog = true"
-      ></button>
-      <button
-        *ngIf="sub == true"
-        pButton
-        pRipple
-        label="Add Subcategory"
-        icon="pi pi-plus"
-        class="p-button-success p-mr-1"
-        (click)="this.displayCreateDialog = true"
+        (click)="initializeCategoryCreation()"
       ></button>
     </ng-template>
   </p-toolbar>
@@ -38,26 +28,15 @@
       <p-table [value]="categories" dataKey="id">
         <ng-template pTemplate="header">
           <tr>
-            <th style="width: 3rem;"></th>
+            <th></th>
             <th pSortableColumn="name">
               Name
-              <!-- <p-sortIcon field="name"></p-sortIcon> -->
             </th>
             <th></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-category let-expanded="expanded">
           <tr>
-            <td>
-              <!-- <button
-                type="button"
-                pButton
-                pRipple
-                [pRowToggler]="category"
-                class="p-button-text p-button-rounded p-button-plain"
-                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-              ></button> -->
-            </td>
             <td>
               {{ category.name }}
             </td>
@@ -89,25 +68,13 @@
               <th style="width: 3rem;"></th>
               <th pSortableColumn="name">
                 Name
-                <!-- <p-sortIcon field="name"></p-sortIcon> -->
               </th>
               <th></th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-category let-expanded="expanded">
             <tr>
-              <td>
-                <!-- <button
-                  type="button"
-                  pButton
-                  pRipple
-                  [pRowToggler]="category"
-                  class="p-button-text p-button-rounded p-button-plain"
-                  [icon]="
-                    expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
-                  "
-                ></button> -->
-              </td>
+              <td></td>
               <td>
                 {{ category.name }}
               </td>
@@ -120,6 +87,13 @@
                   (click)="onGoDeeper(category)"
                 ></button>
                 <button
+                  pButton
+                  pRipple
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success p-mr-2"
+                  (click)="handleCategoryUpdateSelection(category.id)"
+                ></button>
+                <button
                   type="button"
                   pButton
                   icon="pi pi-trash"
@@ -129,64 +103,6 @@
               </td>
             </tr>
           </ng-template>
-          <!-- <ng-template pTemplate="rowexpansion" let-children>
-            <tr>
-              <td colspan="3">
-                <div class="p-p-3">
-                  <p-table
-                    [value]="children.categoryLocaleMetadata"
-                    dataKey="id"
-                  >
-                    <ng-template pTemplate="header">
-                      <tr>
-                        <th pSortableColumn="name">
-                          Name
-                          <p-sortIcon field="name"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="local">
-                          Local
-                          <p-sortIcon field="local"></p-sortIcon>
-                        </th>
-                        <th style="width: 4rem;"></th>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-categoryLocaleMetadata>
-                      <tr>
-                        <td>{{ categoryLocaleMetadata.name }}</td>
-                        <td>{{ categoryLocaleMetadata.locale }}</td>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="footer" let-categoryLocaleMetadata>
-                      <tr>
-                        <td colspan="2">
-                          <button
-                            pButton
-                            pRipple
-                            label="Add Locale"
-                            icon="pi pi-plus"
-                            class="p-button-success p-mr-1"
-                            (click)="
-                              curentItemLocalMetadata =
-                                children.categoryLocaleMetadata;
-                              localAddId = children.id;
-                              this.displayAddLocaleDialog = true
-                            "
-                          ></button>
-                        </td>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                      <tr>
-                        <td colspan="6">
-                          There are no order for this product yet.
-                        </td>
-                      </tr>
-                    </ng-template>
-                  </p-table>
-                </div>
-              </td>
-            </tr>
-          </ng-template> -->
         </p-table>
       </div>
 
@@ -205,7 +121,7 @@
   styleClass="p-fluid"
 >
   <ng-template pTemplate="content">
-    <form [formGroup]="createFormGroup">
+    <form [formGroup]="categoryForm">
       <div class="p-field">
         <label>
           Name:
@@ -272,7 +188,22 @@
         <label>
           Type:
         </label>
-        <p-inputNumber required formControlName="type"></p-inputNumber>
+        <p-dropdown
+          [options]="categoryPropertyTypeOptions"
+          formControlName="type"
+        ></p-dropdown>
+      </div>
+      <div
+        class="p-field"
+        *ngIf="
+          addPropertyFormGroup.get('type').value ==
+          CategoryPropertyType.SingleSelect
+        "
+      >
+        <label>
+          Options(press enter after each option):
+        </label>
+        <p-chips formControlName="options"></p-chips>
       </div>
       <div class="p-field">
         <label>
@@ -280,12 +211,6 @@
         </label>
         <br />
         <p-inputSwitch formControlName="required"></p-inputSwitch>
-      </div>
-      <div class="p-field">
-        <label>
-          Options(click Enter after each option):
-        </label>
-        <p-chips formControlName="options"></p-chips>
       </div>
       <p-button
         label="Add Property"
@@ -310,8 +235,8 @@
       label="Add"
       icon="pi pi-check"
       class="p-button-text"
-      [disabled]="!this.createFormGroup.valid"
-      (click)="createCategory()"
+      [disabled]="!this.categoryForm.valid"
+      (click)="saveCategory()"
     ></button>
   </ng-template>
 </p-dialog>

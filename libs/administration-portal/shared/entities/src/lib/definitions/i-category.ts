@@ -13,3 +13,9 @@ export interface ICategoryProperty {
   required: boolean;
   options: string[];
 }
+
+export enum CategoryPropertyType {
+  Text,
+  Numeric,
+  SingleSelect,
+}

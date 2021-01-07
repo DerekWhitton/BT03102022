@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { createEffect, Actions, ofType, OnInitEffects } from '@ngrx/effects';
+import {
+  createEffect,
+  Actions,
+  ofType,
+  OnInitEffects,
+  act,
+} from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
 
 import * as fromListings from './listings.reducer';
@@ -16,7 +22,7 @@ export class ListingsEffects {
       fetch({
         run: (action) => {
           return this.listingsService
-            .loadListings(action.sellerId)
+            .loadSellerListings(action.sellerId)
             .pipe(
               map((response) =>
                 ListingsActions.loadListingsSuccess({ payload: response })
@@ -32,32 +38,6 @@ export class ListingsEffects {
     )
   );
 
-  addListingImage$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ListingsActions.addListingImage),
-      withLatestFrom(this.store),
-      fetch({
-        run: (action, state: any) => {
-          return this.listingsService
-            .uploadListingImage(action.sellerId, action.file)
-            .pipe(
-              map((response) =>
-                ListingsActions.addListingImageSuccess({
-                  imageId: response,
-                  file: action.file,
-                })
-              )
-            );
-        },
-
-        onError: (action, error) => {
-          console.error('Error', error);
-          return ListingsActions.addListingImageFailure({ error });
-        },
-      })
-    )
-  );
-
   addListings$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ListingsActions.addListing),
@@ -65,7 +45,7 @@ export class ListingsEffects {
       fetch({
         run: (action, state: any) => {
           return this.listingsService
-            .addListing(action.sellerId, action.listing)
+            .AddSellerListing(action.sellerId, action.listing)
             .pipe(
               map((response) =>
                 ListingsActions.addListingSuccess({ listing: response })
@@ -88,7 +68,7 @@ export class ListingsEffects {
       fetch({
         run: (action, state: any) => {
           return this.listingsService
-            .loadListing(action.sellerId, action.listingId)
+            .loadSellerListing(action.sellerId, action.listingId)
             .pipe(
               map((response) =>
                 ListingsActions.loadListingSuccess({ listing: response })
@@ -112,7 +92,11 @@ export class ListingsEffects {
         run: (action, state: any) => {
           const { listings } = state;
           return this.listingsService
-            .updateListing(action.sellerId, listings.selectedId, action.listing)
+            .updateSellerListing(
+              action.sellerId,
+              action.listingId,
+              action.listing
+            )
             .pipe(
               map((response) =>
                 ListingsActions.updateListingSuccess({ listing: response })
@@ -136,7 +120,7 @@ export class ListingsEffects {
         run: (action, state: any) => {
           const { listings } = state;
           return this.listingsService
-            .deleteListing(action.sellerId, action.listingId)
+            .deleteSellerListing(action.sellerId, action.listingId)
             .pipe(
               map((response) =>
                 ListingsActions.deleteListingSuccess({

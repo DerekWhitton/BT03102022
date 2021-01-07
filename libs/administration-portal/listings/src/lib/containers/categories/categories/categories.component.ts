@@ -1,6 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ICategory } from '@bushtrade/administration-portal/shared/entites';
+import {
+  CategoryPropertyType,
+  ICategory,
+  ICategoryProperty,
+} from '@bushtrade/administration-portal/shared/entites';
+import { CategoriesService } from '@bushtrade/administration-portal/shared/services';
 import { Store } from '@ngrx/store';
 import { ConfirmationService } from 'primeng/api';
 import {
@@ -8,7 +13,6 @@ import {
   deleteCategory,
   updateCategory,
 } from '../../../+state/categories/categories.actions';
-
 @Component({
   selector: 'bushtrade-administration-categories',
   templateUrl: './categories.component.html',
@@ -35,27 +39,30 @@ export class CategoriesComponent implements OnInit {
 
   parentCategoryId: string = '';
 
+  CategoryPropertyType = CategoryPropertyType;
+
+  categoryPropertyTypeOptions: {
+    label: string;
+    value: CategoryPropertyType;
+  }[] = [
+    { label: 'Text', value: CategoryPropertyType.Text },
+    { label: 'Numeric', value: CategoryPropertyType.Numeric },
+    { label: 'Option Selection', value: CategoryPropertyType.SingleSelect },
+  ];
   categoryProperties: object[];
 
-  createFormGroup: FormGroup = new FormGroup({
-    parentId: new FormControl(''),
-    name: new FormControl('', Validators.required),
-    isActive: new FormControl(false, Validators.required),
-    properties: new FormControl(''),
-  });
-  addPropertyFormGroup: FormGroup = new FormGroup({
-    name: new FormControl('', Validators.required),
-    type: new FormControl('', Validators.required),
-    required: new FormControl(false, Validators.required),
-    options: new FormControl('', Validators.required),
-  });
+  categoryForm: FormGroup;
+  addPropertyFormGroup: FormGroup;
+
   constructor(
     private store: Store,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private categorySvc: CategoriesService
   ) {}
 
   ngOnInit(): void {
-    this.categoryProperties = [];
+    this.initializeCategoryForm();
+    this.initializeCategoryProperyForm();
     this.parentCategoryId = '';
   }
 
@@ -78,8 +85,13 @@ export class CategoriesComponent implements OnInit {
   }
 
   attachProperty() {
-    this.categoryProperties.push(this.addPropertyFormGroup.value);
-    this.addPropertyFormGroup.reset();
+    let property = this.addPropertyFormGroup.value;
+    if (!property.options || typeof property.options === typeof '') {
+      property.options = [];
+    }
+
+    this.categoryProperties.push(property);
+    this.initializeCategoryProperyForm();
   }
 
   discardCategoryProperty(name) {
@@ -88,27 +100,40 @@ export class CategoriesComponent implements OnInit {
     );
   }
 
-  createCategory() {
-    this.createFormGroup.patchValue({
+  saveCategory() {
+    this.categoryForm.patchValue({
       parentId: this.parentCategoryId != '' ? this.parentCategoryId : null,
       properties: this.categoryProperties,
     });
-    console.log(this.createFormGroup.value);
-    this.store.dispatch(
-      createCategory({
-        category: this.createFormGroup.value as ICategory,
-        parent: this.parentCategoryId != '' ? false : true,
-      })
-    );
-    this.categoryProperties = [];
-    this.createFormGroup.reset();
+
+    let category = this.categoryForm.value as ICategory;
+    category.properties = this.categoryProperties as ICategoryProperty[];
+
+    if (category?.id) {
+      this.store.dispatch(
+        updateCategory({
+          category: category,
+          categoryId: category.id,
+          parent: this.parentCategoryId != '' ? false : true,
+        })
+      );
+    } else {
+      this.store.dispatch(
+        createCategory({
+          category: category,
+          parent: this.parentCategoryId != '' ? false : true,
+        })
+      );
+    }
+
+    this.initializeCategoryForm();
     this.displayCreateDialog = false;
   }
 
   deleteCategory(categoryId: string) {
     this.confirmationService.confirm({
       message:
-        'Deleting this category will delete all subcategories and information relating to it. Are you sure you like to proceed?',
+        'Deleting this category will delete all subcategories and information relating to it. Are you sure you would like to proceed?',
       accept: () => {
         this.store.dispatch(
           deleteCategory({
@@ -116,6 +141,42 @@ export class CategoriesComponent implements OnInit {
           })
         );
       },
+    });
+  }
+
+  async handleCategoryUpdateSelection(categoryId: string) {
+    const category = await this.categorySvc
+      .getCategoryDetails(categoryId)
+      .toPromise();
+
+    this.initializeCategoryForm(category);
+    this.displayCreateDialog = true;
+  }
+
+  initializeCategoryCreation() {
+    this.initializeCategoryForm();
+    this.displayCreateDialog = true;
+  }
+
+  private initializeCategoryForm(category: ICategory = null) {
+    this.categoryForm = new FormGroup({
+      id: new FormControl(category?.id ?? null),
+      parentId: new FormControl(category?.parentId ?? ''),
+      name: new FormControl(category?.name ?? '', Validators.required),
+      isActive: new FormControl(
+        category?.isActive ?? false,
+        Validators.required
+      ),
+    });
+    this.categoryProperties = category ? category.properties : [];
+  }
+
+  private initializeCategoryProperyForm() {
+    this.addPropertyFormGroup = new FormGroup({
+      name: new FormControl('', Validators.required),
+      type: new FormControl('', Validators.required),
+      required: new FormControl(false, Validators.required),
+      options: new FormControl('', Validators.required),
     });
   }
 }

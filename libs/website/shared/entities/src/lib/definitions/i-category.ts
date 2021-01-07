@@ -1,10 +1,20 @@
 export interface ICategory {
   id: string;
   name: string;
+  parentId: string;
   children: ICategory[];
 }
 
 export interface ICategoryProperty {
-  categoryPropertyId: string;
-  value: string;
+  id: string;
+  name: string;
+  type: CategoryPropertyType;
+  required: boolean;
+  options: string[];
+}
+
+export enum CategoryPropertyType {
+  Text,
+  Numeric,
+  SingleSelect,
 }

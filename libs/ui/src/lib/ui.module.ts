@@ -5,6 +5,7 @@ import { UiElementsModule } from '@bushtrade/ui-elements';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CarouselHeroBannerComponent } from './carousel-hero-banner/carousel-hero-banner.component';
 import { CarouselListingItemComponent } from './carousel-listing-item/carousel-listing-item.component';
+import { CategorySelectorComponent } from './category-selector/category-selector.component';
 import { CateogryBlockComponent } from './cateogry-block/cateogry-block.component';
 import { CrudTableComponent } from './crud-table/crud-table.component';
 import { FooterComponent } from './footer/footer.component';
@@ -19,6 +20,7 @@ import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.co
 import { SafeHtmlPipe } from './shared/pipes/safe-html.pipe';
 import { WebsiteFooterComponent } from './website-footer/website-footer.component';
 import { WebsiteMenuComponent } from './website-menu/website-menu.component';
+import { ListingImagePreviewComponent } from './listing-image-preview/listing-image-preview.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, UiElementsModule],
@@ -38,7 +40,9 @@ import { WebsiteMenuComponent } from './website-menu/website-menu.component';
     CarouselListingItemComponent,
     CarouselHeroBannerComponent,
     CateogryBlockComponent,
+    CategorySelectorComponent,
     SafeHtmlPipe,
+    ListingImagePreviewComponent,
   ],
   providers: [MessageService, ConfirmationService],
   exports: [
@@ -57,7 +61,9 @@ import { WebsiteMenuComponent } from './website-menu/website-menu.component';
     CarouselHeroBannerComponent,
     CarouselListingItemComponent,
     CateogryBlockComponent,
+    CategorySelectorComponent,
     SafeHtmlPipe,
+    ListingImagePreviewComponent,
   ],
 })
 export class UiModule {}

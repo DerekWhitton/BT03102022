@@ -27,7 +27,7 @@ export class WebsiteMenuComponent implements OnInit {
     this.accountItems = [
       {
         label: 'Profile',
-        routerLink: ['/', 'profile'],
+        routerLink: ['/', 'profile', 'account'],
       },
     ];
 
