@@ -11,7 +11,6 @@ export class WebsiteMenuComponent implements OnInit {
   items: MegaMenuItem[];
   accountItems: MenuItem[];
   categories = [];
-  display;
 
   @Output() signIn = new EventEmitter();
 
@@ -33,10 +32,10 @@ export class WebsiteMenuComponent implements OnInit {
     ];
 
     this.items = [
-      // {
-      //   label: 'Buy & Sell',
-      //   routerLink: ['/', 'buy-sell'],
-      // },
+      {
+        label: 'Buy & Sell',
+        routerLink: ['/', 'buy-sell'],
+      },
 
       {
         label: 'Marketplace',
