@@ -1647,6 +1647,36 @@
         }
       }
     },
+    "website-blog": {
+      "projectType": "library",
+      "root": "libs/website/blog",
+      "sourceRoot": "libs/website/blog/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/blog/tsconfig.lib.json",
+              "libs/website/blog/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/blog/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/blog/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
     "website-shared-interceptors": {
       "root": "libs/website/shared/interceptors",
       "sourceRoot": "libs/website/shared/interceptors/src",

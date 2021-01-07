@@ -33,7 +33,7 @@
           <p-button type="text" (click)="display = true" label="Buy & Sell"></p-button>
           <button *ngIf="!loggedIn" pButton label="Sign In" (click)="login()"></button>
 
-          <button *ngIf="loggedIn" type="button" pButton icon="pi pi-user" (click)="menu.toggle($event)"></button>
+          <button *ngIf="loggedIn" type="button" pButton icon="pi pi-user" class="p-ml-3" (click)="menu.toggle($event)"></button>
           <p-menu #menu [popup]="true" [model]="accountItems"></p-menu>
         </p-menubar>
       </div>

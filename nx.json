@@ -164,6 +164,9 @@
     "website-profile": {
       "tags": []
     },
+    "website-blog": {
+      "tags": []
+    },
     "website-shared-interceptors": {
       "tags": []
     }

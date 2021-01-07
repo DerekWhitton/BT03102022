@@ -1,26 +1,24 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UiElementsModule } from '@bushtrade/ui-elements';
-
-import { PortalMenuComponent } from './portal-menu/portal-menu.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { CarouselHeroBannerComponent } from './carousel-hero-banner/carousel-hero-banner.component';
+import { CarouselListingItemComponent } from './carousel-listing-item/carousel-listing-item.component';
+import { CateogryBlockComponent } from './cateogry-block/cateogry-block.component';
 import { CrudTableComponent } from './crud-table/crud-table.component';
-import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { WebsiteMenuComponent } from './website-menu/website-menu.component';
+import { HeaderComponent } from './header/header.component';
 import { PortalFooterComponent } from './portal-footer/portal-footer.component';
 import { PortalMenuItemComponent } from './portal-menu-item/portal-menu-item.component';
+import { PortalMenuComponent } from './portal-menu/portal-menu.component';
 import { PortalTopBarComponent } from './portal-top-bar/portal-top-bar.component';
-import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { WebsiteFooterComponent } from './website-footer/website-footer.component';
-import { ProductItemComponent } from './product-item/product-item.component';
 import { ProductItemMinimalComponent } from './product-item-minimal/product-item-minimal.component';
-import { CarouselListingItemComponent } from './carousel-listing-item/carousel-listing-item.component';
-import { CarouselHeroBannerComponent } from './carousel-hero-banner/carousel-hero-banner.component';
-import { CateogryBlockComponent } from './cateogry-block/cateogry-block.component';
+import { ProductItemComponent } from './product-item/product-item.component';
+import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
+import { SafeHtmlPipe } from './shared/pipes/safe-html.pipe';
+import { WebsiteFooterComponent } from './website-footer/website-footer.component';
+import { WebsiteMenuComponent } from './website-menu/website-menu.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, UiElementsModule],
@@ -40,16 +38,9 @@ import { CateogryBlockComponent } from './cateogry-block/cateogry-block.componen
     CarouselListingItemComponent,
     CarouselHeroBannerComponent,
     CateogryBlockComponent,
+    SafeHtmlPipe,
   ],
-  providers: [
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: ExceptionInterceptor,
-    //   multi: true,
-    // },
-    MessageService,
-    ConfirmationService,
-  ],
+  providers: [MessageService, ConfirmationService],
   exports: [
     PortalMenuComponent,
     CrudTableComponent,
@@ -65,7 +56,8 @@ import { CateogryBlockComponent } from './cateogry-block/cateogry-block.componen
     ProgressSpinnerComponent,
     CarouselHeroBannerComponent,
     CarouselListingItemComponent,
-    CateogryBlockComponent
+    CateogryBlockComponent,
+    SafeHtmlPipe,
   ],
 })
 export class UiModule {}
