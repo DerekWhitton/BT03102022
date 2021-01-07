@@ -45,5 +45,6 @@ module.exports = {
     '<rootDir>/libs/website/search',
     '<rootDir>/libs/website/profile',
     '<rootDir>/libs/website/blog',
+    '<rootDir>/libs/website/shared/interceptors'
   ],
 };

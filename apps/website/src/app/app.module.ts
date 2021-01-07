@@ -19,6 +19,8 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { APP_CONFIG } from '@bushtrade/app-config';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { OptionalMsalInterceptor } from '@bushtrade/website/shared/interceptors';
+
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
   window.navigator.userAgent.indexOf('Trident/') > -1;
@@ -68,9 +70,10 @@ const isIE =
     { provide: APP_CONFIG, useValue: environment },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: MsalInterceptor,
+      useClass: OptionalMsalInterceptor,
       multi: true,
     },
+    MsalInterceptor,
     MsalService,
   ],
   bootstrap: [AppComponent],

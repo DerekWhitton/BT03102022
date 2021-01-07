@@ -166,6 +166,9 @@
     },
     "website-blog": {
       "tags": []
+    },
+    "website-shared-interceptors": {
+      "tags": []
     }
   }
 }
