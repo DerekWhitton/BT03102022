@@ -936,8 +936,10 @@
                 "output": "./assets"
               }
             ],
-            "styles": ["apps/website/src/styles/styles.scss"],
-            "scripts": []
+            "styles": ["apps/website/src/styles/styles.scss", "./node_modules/quill/dist/quill.core.css", "./node_modules/quill/dist/quill.snow.css"],
+            "scripts": [
+              "./node_modules/quill/dist/quill.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -1642,6 +1644,64 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
+        }
+      }
+    },
+    "website-blog": {
+      "projectType": "library",
+      "root": "libs/website/blog",
+      "sourceRoot": "libs/website/blog/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/blog/tsconfig.lib.json",
+              "libs/website/blog/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/blog/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/blog/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-shared-interceptors": {
+      "root": "libs/website/shared/interceptors",
+      "sourceRoot": "libs/website/shared/interceptors/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/shared/interceptors/tsconfig.lib.json",
+              "libs/website/shared/interceptors/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/shared/interceptors/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/shared/interceptors/jest.config.js",
+            "passWithNoTests": true
+          }
         }
       }
     }

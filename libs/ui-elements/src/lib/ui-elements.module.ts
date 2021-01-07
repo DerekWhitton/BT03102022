@@ -36,6 +36,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CalendarModule } from 'primeng/calendar';
+import { EditorModule } from 'primeng/editor';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -80,6 +82,7 @@ import { CalendarModule } from 'primeng/calendar';
     GalleriaModule,
     RatingModule,
     CalendarModule,
+    EditorModule,
   ],
   exports: [
     RadioButtonModule,
@@ -123,6 +126,7 @@ import { CalendarModule } from 'primeng/calendar';
     GalleriaModule,
     RatingModule,
     CalendarModule,
+    EditorModule,
   ],
 })
 export class UiElementsModule {}

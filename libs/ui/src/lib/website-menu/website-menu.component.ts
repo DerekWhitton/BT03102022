@@ -59,6 +59,10 @@ export class WebsiteMenuComponent implements OnInit {
         routerLink: ['/', 'support'],
       },
       {
+        label: 'Blog',
+        routerLink: ['/', 'blog'],
+      },
+      {
         icon: 'pi pi-fw pi-heart',
         routerLink: ['/', 'favourites'],
       },

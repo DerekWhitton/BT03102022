@@ -17,6 +17,7 @@ import { PortalTopBarComponent } from './portal-top-bar/portal-top-bar.component
 import { ProductItemMinimalComponent } from './product-item-minimal/product-item-minimal.component';
 import { ProductItemComponent } from './product-item/product-item.component';
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
+import { SafeHtmlPipe } from './shared/pipes/safe-html.pipe';
 import { WebsiteFooterComponent } from './website-footer/website-footer.component';
 import { WebsiteMenuComponent } from './website-menu/website-menu.component';
 
@@ -39,6 +40,7 @@ import { WebsiteMenuComponent } from './website-menu/website-menu.component';
     CarouselHeroBannerComponent,
     CateogryBlockComponent,
     CategorySelectorComponent,
+    SafeHtmlPipe,
   ],
   providers: [MessageService, ConfirmationService],
   exports: [
@@ -58,6 +60,7 @@ import { WebsiteMenuComponent } from './website-menu/website-menu.component';
     CarouselListingItemComponent,
     CateogryBlockComponent,
     CategorySelectorComponent,
+    SafeHtmlPipe,
   ],
 })
 export class UiModule {}

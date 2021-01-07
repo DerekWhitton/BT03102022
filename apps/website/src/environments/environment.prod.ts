@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  blogRoute: 'http://blog.bushtrade.co.za/',
   apiRoute: 'https://staging-bush-trade-api.azurewebsites.net/',
   apiVersion: '1.0',
   b2c: {
