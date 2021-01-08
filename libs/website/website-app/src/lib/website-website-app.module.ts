@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Route } from '@angular/router';
-import { WebsiteIndexComponent } from './website-index/website-index.component';
-import { UiModule } from '@bushtrade/ui';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { MsalGuard } from '@azure/msal-angular';
+import { UiModule } from '@bushtrade/ui';
+import { WebsiteIndexComponent } from './website-index/website-index.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,20 +22,6 @@ import { MsalGuard } from '@azure/msal-angular';
         loadChildren: () =>
           import('@bushtrade/website/buy-sell').then(
             (module) => module.WebsiteBuySellModule
-          ),
-      },
-      {
-        path: 'marketplace',
-        loadChildren: () =>
-          import('@bushtrade/website/marketplace').then(
-            (module) => module.WebsiteMarketplaceModule
-          ),
-      },
-      {
-        path: 'auctions',
-        loadChildren: () =>
-          import('@bushtrade/website/auctions').then(
-            (module) => module.WebsiteAuctionsModule
           ),
       },
       {
@@ -67,10 +53,10 @@ import { MsalGuard } from '@azure/msal-angular';
           ),
       },
       {
-        path: 'search',
+        path: 'listings',
         loadChildren: () =>
-          import('@bushtrade/website/search').then(
-            (module) => module.WebsiteSearchModule
+          import('@bushtrade/website/listings').then(
+            (module) => module.WebsiteListingsModule
           ),
       },
       {

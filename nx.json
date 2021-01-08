@@ -98,12 +98,6 @@
     "website-buy-sell": {
       "tags": []
     },
-    "website-marketplace": {
-      "tags": []
-    },
-    "website-auctions": {
-      "tags": []
-    },
     "website-forums": {
       "tags": []
     },
@@ -146,9 +140,6 @@
     "website-shared-services": {
       "tags": []
     },
-    "website-search": {
-      "tags": []
-    },
     "website-profile": {
       "tags": []
     },
@@ -156,6 +147,9 @@
       "tags": []
     },
     "website-shared-interceptors": {
+      "tags": []
+    },
+    "website-listings": {
       "tags": []
     }
   }

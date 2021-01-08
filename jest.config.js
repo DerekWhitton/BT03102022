@@ -26,8 +26,6 @@ module.exports = {
     '<rootDir>/apps/website',
     '<rootDir>/libs/website/home',
     '<rootDir>/libs/website/buy-sell',
-    '<rootDir>/libs/website/marketplace',
-    '<rootDir>/libs/website/auctions',
     '<rootDir>/libs/website/forums',
     '<rootDir>/libs/website/favourites',
     '<rootDir>/libs/website/support',
@@ -42,9 +40,9 @@ module.exports = {
     '<rootDir>/libs/website/shared/state',
     '<rootDir>/libs/website/shared/entities',
     '<rootDir>/libs/website/shared/services',
-    '<rootDir>/libs/website/search',
     '<rootDir>/libs/website/profile',
     '<rootDir>/libs/website/blog',
-    '<rootDir>/libs/website/shared/interceptors'
+    '<rootDir>/libs/website/shared/interceptors',
+    '<rootDir>/libs/website/listings',
   ],
 };

@@ -57,6 +57,17 @@
             <input pInputText type="text" required formControlName="name" />
           </div>
 
+          <!-- type -->
+          <div class="p-field">
+            <label>
+              Type:
+            </label>
+            <p-dropdown
+              [options]="selectableListingTypeOptions"
+              formControlName="type"
+            ></p-dropdown>
+          </div>
+
           <!-- images -->
           <div class="p-field">
             <label>
@@ -115,7 +126,11 @@
           <!-- starting price -->
           <div class="p-field">
             <label>
-              Starting Price:
+              {{
+                addlistingFormGroup.get('type').value == ListingType.Auction
+                  ? 'Starting Price'
+                  : 'Price'
+              }}
             </label>
             <input
               pInputText
@@ -126,7 +141,10 @@
           </div>
 
           <!-- starting price -->
-          <div class="p-field">
+          <div
+            class="p-field"
+            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+          >
             <label>
               Reserve Price:
             </label>
@@ -139,7 +157,10 @@
           </div>
 
           <!-- increment -->
-          <div class="p-field">
+          <div
+            class="p-field"
+            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+          >
             <label>
               Price Increment:
             </label>
@@ -159,19 +180,11 @@
             <p-inputNumber formControlName="quantity"></p-inputNumber>
           </div>
 
-          <!-- type -->
-          <div class="p-field">
-            <label>
-              Type:
-            </label>
-            <p-dropdown
-              [options]="selectableListingTypeOptions"
-              formControlName="type"
-            ></p-dropdown>
-          </div>
-
           <!-- start date -->
-          <div class="p-field">
+          <div
+            class="p-field"
+            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+          >
             <label>
               Start at:
             </label>
@@ -183,7 +196,10 @@
           </div>
 
           <!-- end date -->
-          <div class="p-field">
+          <div
+            class="p-field"
+            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+          >
             <label>
               End at:
             </label>

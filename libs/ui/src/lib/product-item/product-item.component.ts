@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IListing, ListingType } from '@bushtrade/website/shared/entites';
 
 @Component({
   selector: 'bushtrade-web-product-item',
@@ -6,7 +7,9 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./product-item.component.scss'],
 })
 export class ProductItemComponent implements OnInit {
-  @Input() item: any; // TODO: add type
+  @Input() item: IListing;
+
+  ListingType = ListingType;
   constructor() {}
 
   ngOnInit(): void {}

@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
+import { CategoryService } from '@bushtrade/website/shared/services';
+import { NavigationEnd, Router } from '@angular/router';
+import { ListingType } from '@bushtrade/website/shared/entites';
 
 @Component({
   selector: 'bushtrade-web-menu',
@@ -10,18 +13,23 @@ export class WebsiteMenuComponent implements OnInit {
   @Input() loggedIn;
   items: MegaMenuItem[];
   accountItems: MenuItem[];
-  categories = [];
-
+  searchCategories = [];
+  selectedSearchCategory: string;
+  searchQuery: string;
   @Output() signIn = new EventEmitter();
+  showMegaSearchMenu: boolean;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.categories = [
-      { name: 'Guns', code: 'GNS', inactive: false },
-      { name: 'Ammo', code: 'AMMO', inactive: true },
-      { name: 'Camping', code: 'CPM', inactive: false },
-      { name: 'Clothes', code: 'CLTH', inactive: true },
+    this.router.events.subscribe((nEvent) => {
+      if (nEvent instanceof NavigationEnd)
+        this.showMegaSearchMenu = !nEvent.url.startsWith('/listings');
+    });
+
+    this.searchCategories = [
+      { name: 'Marketplace', inactive: false },
+      { name: 'Auctions', inactive: false },
     ];
 
     this.accountItems = [
@@ -39,11 +47,19 @@ export class WebsiteMenuComponent implements OnInit {
 
       {
         label: 'Marketplace',
-        routerLink: ['/', 'marketplace'],
+        command: (_) => {
+          this.router.navigate(['/', 'listings'], {
+            queryParams: { type: ListingType.Sale },
+          });
+        },
       },
       {
         label: 'Auctions',
-        routerLink: ['/', 'auctions'],
+        command: (_) => {
+          this.router.navigate(['/', 'listings'], {
+            queryParams: { type: ListingType.Auction },
+          });
+        },
       },
       {
         label: 'Forums',
@@ -70,5 +86,21 @@ export class WebsiteMenuComponent implements OnInit {
 
   login() {
     this.signIn.emit();
+  }
+
+  handleSearch() {
+    let type =
+      this.selectedSearchCategory == 'Marketplace'
+        ? ListingType.Sale
+        : ListingType.Auction;
+
+    let queryParams = { type: ListingType.Auction };
+    if (this.searchQuery && this.searchQuery.trim().length) {
+      queryParams['q'] = this.searchQuery;
+    }
+
+    this.router.navigate(['/', 'listings'], {
+      queryParams,
+    });
   }
 }
