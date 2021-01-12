@@ -1,0 +1,17 @@
+ul {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+h4 {
+  // border-top: 1px solid #52525242;
+  padding-top: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  span {
+    float: right;
+    .open {
+      transform: rotate(90deg);
+    }
+  }
+}

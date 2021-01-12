@@ -30,8 +30,6 @@ export class ForumsTopicComponent implements OnInit {
 
     this.forumsFacade.dispatch(setSelectedTopic({ id: params.topicId }));
     this.forumsFacade.dispatch(loadTopicThreads({ page: null }));
-
-    console.log(params);
   }
 
   createThread() {

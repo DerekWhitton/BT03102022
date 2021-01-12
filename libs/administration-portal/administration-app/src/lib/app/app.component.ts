@@ -158,7 +158,6 @@ export class AppComponent implements OnInit {
             res.componentTheme != '' ? res.componentTheme : 'blue'
           );
 
-          console.log(res);
           if (res.colorScheme != '') {
             ctx.changeStyleSheetsColor(
               'layout-css',

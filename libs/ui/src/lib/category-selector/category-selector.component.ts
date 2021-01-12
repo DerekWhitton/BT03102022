@@ -30,7 +30,6 @@ export class CategorySelectorComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.setSelectionOptions();
-    console.log(changes);
   }
 
   private setSelectionOptions(): void {

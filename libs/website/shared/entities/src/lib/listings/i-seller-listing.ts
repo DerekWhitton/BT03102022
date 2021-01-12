@@ -1,4 +1,4 @@
-import { ListingType } from '../definitions/i-listing';
+import { ListingType } from '../listings/i-listing';
 
 export interface ISellerListingPropertyValue {
   categoryPropertyId: string;

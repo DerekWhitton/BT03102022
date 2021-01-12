@@ -10,6 +10,7 @@ import { CateogryBlockComponent } from './cateogry-block/cateogry-block.componen
 import { CrudTableComponent } from './crud-table/crud-table.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { ListingImagePreviewComponent } from './listing-image-preview/listing-image-preview.component';
 import { PortalFooterComponent } from './portal-footer/portal-footer.component';
 import { PortalMenuItemComponent } from './portal-menu-item/portal-menu-item.component';
 import { PortalMenuComponent } from './portal-menu/portal-menu.component';
@@ -18,9 +19,10 @@ import { ProductItemMinimalComponent } from './product-item-minimal/product-item
 import { ProductItemComponent } from './product-item/product-item.component';
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 import { SafeHtmlPipe } from './shared/pipes/safe-html.pipe';
+import { TruncateTextPipe } from './shared/pipes/truncate-text.pipe';
 import { WebsiteFooterComponent } from './website-footer/website-footer.component';
 import { WebsiteMenuComponent } from './website-menu/website-menu.component';
-import { ListingImagePreviewComponent } from './listing-image-preview/listing-image-preview.component';
+import { SearchFacetComponent } from './search-facet/search-facet.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, UiElementsModule],
@@ -42,7 +44,9 @@ import { ListingImagePreviewComponent } from './listing-image-preview/listing-im
     CateogryBlockComponent,
     CategorySelectorComponent,
     SafeHtmlPipe,
+    TruncateTextPipe,
     ListingImagePreviewComponent,
+    SearchFacetComponent,
   ],
   providers: [MessageService, ConfirmationService],
   exports: [
@@ -63,7 +67,9 @@ import { ListingImagePreviewComponent } from './listing-image-preview/listing-im
     CateogryBlockComponent,
     CategorySelectorComponent,
     SafeHtmlPipe,
+    TruncateTextPipe,
     ListingImagePreviewComponent,
+    SearchFacetComponent,
   ],
 })
 export class UiModule {}

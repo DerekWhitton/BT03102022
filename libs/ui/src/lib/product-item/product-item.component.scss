@@ -1,29 +1,27 @@
+$COLOUR-ORANGE: #ff7600;
 
-$COLOUR-ORANGE: #FF7600;
-
-.listing-label{
-    position: absolute;
-    top: -2px;
-    left: -2px;
+.listing-label {
+  position: absolute;
+  top: -2px;
+  left: -2px;
 }
 
-
-.countdown-timer{
-    color: $COLOUR-ORANGE;
-    font-weight: bold;
+.countdown-timer {
+  color: $COLOUR-ORANGE;
+  font-weight: bold;
 }
 
-.share-box{
-    padding: 2em;
-    position: absolute;
-    top: 0;
-    right: 0;
+.share-box {
+  padding: 2em;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
-h4{
-    font-weight: bold;
+h4 {
+  font-weight: bold;
 }
 
-.p-card{
-    border-radius: 0px;
+.p-card {
+  border-radius: 0px;
 }

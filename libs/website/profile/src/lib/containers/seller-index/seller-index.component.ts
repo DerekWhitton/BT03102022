@@ -48,7 +48,12 @@ export class SellerIndexComponent implements OnInit {
 
   columns = [
     { field: 'name', header: 'Name' },
-    { field: 'startingPrice', header: 'Starting Price' },
+    {
+      field: 'startingPrice',
+      header: 'Starting Price',
+      converter: (val) => `R${val}`,
+    },
+    { field: 'type', header: 'Type', converter: (val) => ListingType[val] },
   ];
 
   loaded$: Observable<boolean>;
@@ -188,6 +193,8 @@ export class SellerIndexComponent implements OnInit {
 
   saveListing() {
     let listing = this.addlistingFormGroup.value as ICreateOrUpdateListing;
+    listing.startDate = listing.startDate ? listing.startDate : null;
+    listing.endDate = listing.endDate ? listing.endDate : null;
     listing.listingImageIds = this.images.map((i) => i.id);
     listing.listingPropertyValues = this.categoryProperties.map((p) => ({
       categoryPropertyId: p.id,
@@ -326,9 +333,9 @@ export class SellerIndexComponent implements OnInit {
         listing?.startingPrice,
         Validators.required
       ),
-      reservePrice: new FormControl(listing?.reservePrice),
-      priceIncrement: new FormControl(listing?.priceIncrement),
-      quantity: new FormControl(listing?.quantity, Validators.required),
+      reservePrice: new FormControl(listing?.reservePrice ?? 1),
+      priceIncrement: new FormControl(listing?.priceIncrement ?? 1),
+      quantity: new FormControl(listing?.quantity ?? 1),
       startDate: new FormControl(
         listing?.startDate
           ? new Date(listing.startDate).toISOString().substring(0, 10)

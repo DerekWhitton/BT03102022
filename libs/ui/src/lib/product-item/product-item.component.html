@@ -1,37 +1,53 @@
-<p-card
-  styleClass="p-mb-4 p-col-12"
-  [style]="{'position':'relative'}"
->    
+<p-card styleClass="p-mb-4 p-col-12" [style]="{ position: 'relative' }">
   <img
     src="assets/layout/images/listing-label.png"
-    style="max-width:100%;"
+    style="max-width: 100%;"
     alt="listing"
     class="listing-label"
+    *ngIf="item.type == ListingType.Auction"
   />
 
   <div class="p-grid">
-
     <div class="p-col-12 p-md-3 p-lg-3">
-
       <img
-        src="assets/layout/images/listing.png"
-        style="max-width:100%;"
+        *ngIf="item.images && item.images.length"
+        [src]="item.images[0].url"
+        style="max-width: 100%;"
         alt="listing"
       />
-
+      <img
+        *ngIf="!item.images || !item.images.length"
+        src="https://place-hold.it/600x300&text=No%20Image%20Available"
+        style="max-width: 100%;"
+        alt="listing"
+      />
     </div>
     <div class="p-col-12 p-md-7 p-lg-7">
-      <h4>Beretta 12 gauge 686 White Onyx Sporting</h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna…</p>
-      <p class="countdown-timer">Closes in 4d 9h 16m 43s</p>
+      <h4>{{ item.name }}</h4>
+      <p>
+        {{ item.description | truncatetext: 100 }}
+      </p>
+      <p class="countdown-timer" *ngIf="item.type == ListingType.Auction">
+        Closes in 4d 9h 16m 43s
+      </p>
     </div>
     <div class="p-col-12 p-md-2 p-lg-2 p-text-right">
       <div class="share-box">
         <a href="#"><i class="pi pi-heart"></i></a>
       </div>
-      
-      <h3>R1,600</h3>
-      <button pButton type="button" class="p-button-raised p-button-brown" label="View this item"></button>
+
+      <h3>
+        {{ item.type == ListingType.Auction ? 'Starting at ' : '' }} R{{
+          item.startingPrice
+        }}
+      </h3>
+      <button
+        pButton
+        type="button"
+        class="p-button-raised p-button-brown"
+        label="View this item"
+        [routerLink]="['/', 'listings', item.id]"
+      ></button>
     </div>
   </div>
 </p-card>
