@@ -39,6 +39,8 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
     this.timeDifference = this.parsedEndDate.getTime() - new Date().getTime();
     if (this.timeDifference >= 0) {
       this.allocateTimeUnits(this.timeDifference);
+    } else {
+      this.subscription.unsubscribe();
     }
   }
 
