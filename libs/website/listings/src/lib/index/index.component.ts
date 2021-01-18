@@ -26,6 +26,7 @@ export class IndexComponent implements OnInit {
   facetSubscription$: Subscription;
   facetsResponse: ISearchFacet[];
   isLoadingFacets: boolean;
+  categories: any[];
 
   constructor(
     private router: Router,
@@ -43,7 +44,74 @@ export class IndexComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    this.categories = [
+      {
+        "id": "8d060890-94ed-41e3-9bdd-08d897b9f511",
+        "parentId": "00000000-0000-0000-0000-000000000000",
+        "name": "Test",
+        "children": [
+          {
+            "id": "19f9d942-905c-43f9-42c3-08d8a2beaebe",
+            "name": "But Stock"
+          }
+        ]
+      },
+      {
+        "id": "d6ac6c2e-0ee7-40f3-9c22-08d8a26ea33f",
+        "parentId": "00000000-0000-0000-0000-000000000000",
+        "name": "Camping Equipment",
+        "children": [
+          {
+            "id": "c8dc4529-6710-4ec2-6189-08d8a4181233",
+            "name": "Tents"
+          },
+          {
+            "id": "025cc306-4529-4663-cb6c-08d8a5e01319",
+            "name": "Sleeping Bags"
+          },
+          {
+            "id": "56067ba0-adbd-4eee-cb6d-08d8a5e01319",
+            "name": "Gas Stove"
+          },
+          {
+            "id": "1fbaad32-25ab-4e9d-cb6e-08d8a5e01319",
+            "name": "Chairs"
+          },
+          {
+            "id": "38c345c3-031a-4d7e-3aa4-08d8a7361fe8",
+            "name": "test"
+          }
+        ]
+      },
+      {
+        "id": "0a855d1a-fd10-4c4e-618a-08d8a4181233",
+        "parentId": "00000000-0000-0000-0000-000000000000",
+        "name": "Guns",
+        "children": [
+          {
+            "id": "f164bb36-3c3a-4d1c-618b-08d8a4181233",
+            "name": "Handguns"
+          },
+          {
+            "id": "829636eb-ae9c-4d3d-a690-08d8b22b6c4b",
+            "name": "Rifles"
+          },
+          {
+            "id": "e204ab2a-1205-463a-a696-08d8b22b6c4b",
+            "name": "Revolvers"
+          },
+          {
+            "id": "bcf092bf-0a14-4ea6-9fbd-08d8b6ff35f2",
+            "name": "Air Rifles"
+          }
+        ]
+      }
+    ];
+
+
+  }
 
   handleSearch() {
     this.searchResponse = null;

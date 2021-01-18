@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'bushtrade-web-footer',
@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./website-footer.component.scss']
 })
 export class WebsiteFooterComponent implements OnInit {
-
+  @Input() loggedIn;
+  @Output() signIn = new EventEmitter();
+  
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  login() {
+    this.signIn.emit();
   }
 
 }

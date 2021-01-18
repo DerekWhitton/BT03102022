@@ -12,6 +12,7 @@
       <img
         *ngIf="item.images && item.images.length"
         [src]="item.images[0].url"
+        (error)="updateUrl($event)"
         style="max-width: 100%;"
         alt="listing"
       />

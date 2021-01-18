@@ -35,9 +35,9 @@
           <ul>
             <li><a href="">About Bush Trade</a></li>
             <!-- <li><a href="">Affiliates</a></li> -->
-            <li><a href="">Forum</a></li>
+            <li><a [routerLink]="['/', 'forums']">Forum</a></li>
             <!-- <li><a href="">Trophy Cabinet</a></li> -->
-            <li><a href="">Blog</a></li>
+            <li><a [routerLink]="['/', 'blog']">Blog</a></li>
             <li><a href="">Contact Us</a></li>
           </ul>
         </div>
@@ -60,11 +60,18 @@
             <li><a href="">Submission guidelines</a></li>
           </ul>
         </div>
+
         <div class="p-col-12 p-lg-3">
           <h3>My Account</h3>
           <ul>
-            <li><a href="">Sign in</a></li>
-            <li><a href="">Register for free</a></li>
+            <ng-container *ngIf="!loggedIn">
+              <li (click)="login()"><a href="">Sign in</a></li>
+              <li><a href="">Register for free</a></li>
+            </ng-container>
+            <ng-container *ngIf="loggedIn">
+              <li [routerLink]="['/', 'profile', 'account']"><a>Profile</a></li>
+              <li [routerLink]="['/', 'profile', 'listings']"><a>My Listings</a></li>
+            </ng-container>
           </ul>
         </div>
       </div>

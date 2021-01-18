@@ -5,10 +5,17 @@
 
   img {
     display: block;
+    margin: 0 auto;
     margin-bottom: 0.5em;
+    max-width: 60px;
+
   }
 }
 
 .sidebar {
   padding-right: 30px;
+}
+
+.bt-all-caps{
+  text-transform: uppercase;
 }

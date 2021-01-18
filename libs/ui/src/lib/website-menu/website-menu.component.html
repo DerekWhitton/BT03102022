@@ -10,6 +10,7 @@
             pInputText
             placeholder="What are you looking for?"
             [(ngModel)]="searchQuery"
+            (keydown.enter)="handleSearch()"
           />
         </span>
       </div>

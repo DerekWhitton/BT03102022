@@ -1,28 +1,21 @@
-<div class="p-grid bg-white">
+<div class="p-grid bg-white bt-all-caps p-text-left" *ngIf="query != ''">
     <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
       <div class="p-grid p-mt-1 p-mb-1">
-        <div class="p-col-12 p-md-11 p-lg-11">
-          <span class="p-input-icon-left ui-block">
-            <i class="pi pi-search"></i>
-            <input
-              class="ui-block"
-              type="text"
-              pInputText
-              placeholder="What are you looking for?"
-              [(ngModel)]="query"
-            />
-          </span>
+        <div class="p-col-12">
+          <ng-container  *ngIf="searchResponse; else noSearchResponseHeader">
+            <h3 *ngIf="searchResponse.items && searchResponse.items.length < 1">
+              No Search Results were found for "{{query}}", try another term, or select a category.
+            </h3>
+            <h3 *ngIf="searchResponse.items && searchResponse.items.length > 0">
+              {{searchResponse.items.length}} Results for "{{query}}"
+            </h3>
+          </ng-container>
+
+          <ng-template #noSearchResponseHeader>
+              <h3>Searching for {{query}}</h3>
+          </ng-template> 
         </div>
-  
-        <div class="p-col-12 p-md-1 p-lg-1">
-          <button
-            pButton
-            type="button"
-            label="Search"
-            class="p-button-raised p-button-brown"
-            (click)="handleSearch()"
-          ></button>
-        </div>
+
       </div>
   
       <!-- <h3>
@@ -41,66 +34,32 @@
         caps, beretta 12 gauge 686 onyx
       </p> -->
     </div>
-  </div>
+</div>
   
   <div class="p-grid">
     <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
       <div class="p-grid">
-        <!-- <div class="p-col-12 p-mb-4">
+        <div class="p-col-12 p-mb-4">
           <h3 class="p-text-center">Browse by category</h3>
-          <div class="p-d-flex p-jc-evenly p-text-center p-flex-wrap">
-            <div class="p-mr-2 p-mb-2">
+          <div class="p-d-flex p-jc-evenly p-flex-wrap">
+            <div class="p-mr-2 p-mb-2 p-text-center" *ngFor="let category of categories">
               <a href="#" class="category-icon">
                 <img src="assets/layout/images/cat-001.png" alt="category one" />
-                Category Name
-              </a>
-            </div>
-            <div class="p-mr-2 p-mb-2">
-              <a href="#" class="category-icon">
-                <img src="assets/layout/images/cat-001.png" alt="category one" />
-                Category Name
-              </a>
-            </div>
-            <div class="p-mr-2 p-mb-2">
-              <a href="#" class="category-icon">
-                <img src="assets/layout/images/cat-001.png" alt="category one" />
-                Category Name
-              </a>
-            </div>
-            <div class="p-mr-2 p-mb-2">
-              <a href="#" class="category-icon">
-                <img src="assets/layout/images/cat-001.png" alt="category one" />
-                Category Name
-              </a>
-            </div>
-            <div class="p-mr-2 p-mb-2">
-              <a href="#" class="category-icon">
-                <img src="assets/layout/images/cat-001.png" alt="category one" />
-                Category Name
-              </a>
-            </div>
-            <div class="p-mr-2 p-mb-2">
-              <a href="#" class="category-icon">
-                <img src="assets/layout/images/cat-001.png" alt="category one" />
-                Category Name
-              </a>
-            </div>
-            <div class="p-mr-2 p-mb-2">
-              <a href="#" class="category-icon">
-                <img src="assets/layout/images/cat-001.png" alt="category one" />
-                Category Name
-              </a>
-            </div>
-            <div class="p-mr-2 p-mb-2">
-              <a href="#" class="category-icon">
-                <img src="assets/layout/images/cat-001.png" alt="category one" />
-                Category Name
+                {{category.name}}
               </a>
             </div>
           </div>
-        </div> -->
+        </div>
   
+
+        <ng-template #noSearchResponse>
+          <div class="p-col-12 p-text-center">
+            <progress-spinner></progress-spinner>
+          </div>
+        </ng-template>
+
         <div class="p-md-12 p-lg-3 sidebar">
+          <p>{{searchResponse.items.length * searchResponse.page}}/{{searchResponse.totalItems}} items</p>
           <bushtrade-search-facet
             [facet]="facet"
             *ngFor="let facet of facetsResponse"
@@ -108,10 +67,6 @@
             (facetSelected)="handleFacetSelection($event)"
           ></bushtrade-search-facet>
         </div>
-  
-        <ng-template #noSearchResponse>
-          <progress-spinner></progress-spinner>
-        </ng-template>
   
         <div class="p-md-12 p-lg-9" *ngIf="searchResponse; else noSearchResponse">
           <div class="p-grid">

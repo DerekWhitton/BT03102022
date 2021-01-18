@@ -24,7 +24,7 @@ export class WebsiteMenuComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe((nEvent) => {
       if (nEvent instanceof NavigationEnd)
-        this.showMegaSearchMenu = !nEvent.url.startsWith('/listings');
+        this.showMegaSearchMenu = true; //!nEvent.url.startsWith('/listings');
     });
 
     this.searchCategories = [

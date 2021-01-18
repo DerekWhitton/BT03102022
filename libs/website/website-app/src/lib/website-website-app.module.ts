@@ -74,7 +74,8 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
             (module) => module.WebsiteBlogModule
           ),
       },
-    ]),
+    ],
+    { scrollPositionRestoration: 'top' }),
   ],
   declarations: [WebsiteIndexComponent],
   entryComponents: [WebsiteIndexComponent],
