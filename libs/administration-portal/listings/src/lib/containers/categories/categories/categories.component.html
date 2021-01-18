@@ -28,7 +28,6 @@
       <p-table [value]="categories" dataKey="id">
         <ng-template pTemplate="header">
           <tr>
-            <th></th>
             <th pSortableColumn="name">
               Name
             </th>
@@ -38,9 +37,9 @@
         <ng-template pTemplate="body" let-category let-expanded="expanded">
           <tr>
             <td>
-              {{ category.name }}
+              <a  (click)="onGoDeeper(category)">{{ category.name }}</a>
             </td>
-            <td>
+            <td  class="p-text-right">
               <button
                 type="button"
                 pButton
@@ -65,7 +64,6 @@
         <p-table [value]="categories" dataKey="id">
           <ng-template pTemplate="header">
             <tr>
-              <th style="width: 3rem;"></th>
               <th pSortableColumn="name">
                 Name
               </th>
@@ -74,11 +72,10 @@
           </ng-template>
           <ng-template pTemplate="body" let-category let-expanded="expanded">
             <tr>
-              <td></td>
               <td>
-                {{ category.name }}
+                <a (click)="onGoDeeper(category)">{{ category.name }}</a>
               </td>
-              <td>
+              <td  class="p-text-right">
                 <button
                   type="button"
                   pButton

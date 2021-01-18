@@ -36,103 +36,95 @@ export class AppComponent implements OnInit {
   style$: Observable<IUiStyle>;
 
   menuItems: any = [
-    {
-      label: 'Favourites',
-      icon: 'pi pi-fw pi-home',
-      items: [
-        {
-          label: 'Dashboard',
-          icon: 'pi pi-fw pi-home',
-          routerLink: ['/', 'dashboard'],
-        },
-      ],
-      routerLink: ['/', 'dashboard'],
-    },
-    { separator: true },
-    {
-      label: 'Users',
-      icon: 'pi pi-pw pi-users',
-      items: [
-        {
-          label: 'All',
-          icon: 'pi pi-fw pi-home',
-          routerLink: ['/', 'users'],
-        },
-        {
-          label: 'Roles',
-          icon: 'pi pi-fw pi-home',
-          routerLink: ['/', 'users', 'roles'],
-        },
-      ],
-      routerLink: ['/', 'users'],
-    },
-    { separator: true },
-    // {
-    //   label: 'Advertisments',
-    //   icon: 'pi pi-user',
-    //   routerLink: ['/', 'advertisments'],
-    // },
-    // { separator: true },
-    // {
-    //   label: 'Articles',
-    //   icon: 'pi pi-user',
-    //   routerLink: ['/', 'articles'],
-    // },
-    // { separator: true },
-    // {
-    //   label: 'Escrow',
-    //   icon: 'pi pi-user',
-    //   routerLink: ['/', 'escrow'],
-    // },
-    // { separator: true },
-    {
-      label: 'Forums',
-      icon: 'pi pi-user',
-      routerLink: ['/', 'forums'],
-      items: [
-        {
-          label: 'Topics',
-          icon: 'pi pi-fw pi-list',
-          routerLink: ['/', 'forums'],
-        },
-      ],
-    },
-    { separator: true },
+
     {
       label: 'Listings',
-      icon: 'pi pi-user',
+      icon: 'pi pi-fw pi-list',
       items: [
         {
-          label: 'All',
-          icon: 'pi pi-fw pi-home',
+          label: 'Listings',
+          icon: 'pi pi-fw pi-list',
           routerLink: ['/', 'listings'],
         },
         {
           label: 'Categories',
-          icon: 'pi pi-fw pi-home',
+          icon: 'pi pi-fw pi-tags',
           routerLink: ['/', 'listings', 'categories'],
         },
       ],
       routerLink: ['/', 'listings'],
     },
-    // { separator: true },
-    // {
-    //   label: 'Messages',
-    //   icon: 'pi pi-user',
-    //   routerLink: ['/', 'messages'],
-    // },
-    // { separator: true },
-    // {
-    //   label: 'Reports',
-    //   icon: 'pi pi-user',
-    //   routerLink: ['/', 'reports'],
-    // },
-    // { separator: true },
-    // {
-    //   label: 'Support',
-    //   icon: 'pi pi-user',
-    //   routerLink: ['/', 'support'],
-    // },
+
+    { separator: true },
+
+    {
+      label: 'General',
+      icon: 'pi pi-fw pi-home',
+      items: [
+        {
+          label: 'Users',
+          icon: 'pi pi-fw pi-id-card',
+          routerLink: ['/', 'users'],
+        },        
+        {
+          label: 'Roles',
+          icon: 'pi pi-fw pi-lock',
+          routerLink: ['/', 'users', 'roles'],
+        },
+        {
+          label: 'Forums',
+          icon: 'pi pi-fw pi-comments',
+          routerLink: ['/', 'forums'],
+        },
+      ],
+      routerLink: ['/', 'dashboard'],
+    },
+
+    { separator: true },
+    {
+      label: 'Under Development',
+      icon: 'pi pi-fw pi-home',
+      items: [
+        {
+          label: 'Advertisments',
+          icon: 'pi pi-briefcase',
+          routerLink: ['/', 'advertisments'],
+        },
+        // Using wordpress for this, we might integrate wp api later.
+        // {
+        //   label: 'Articles',
+        //   icon: 'pi pi-user',
+        //   routerLink: ['/', 'articles'],
+        // },
+        {
+          label: 'Escrow',
+          icon: 'pi pi-money-bill',
+          routerLink: ['/', 'escrow'],
+        },
+        {
+          label: 'Messages',
+          icon: 'pi pi-comment',
+          routerLink: ['/', 'messages'],
+        },
+        {
+          label: 'Reports',
+          icon: 'pi pi-chart-line',
+          routerLink: ['/', 'reports'],
+        },
+        {
+          label: 'Support',
+          icon: 'pi pi-question-circle',
+          routerLink: ['/', 'support'],
+        },
+      ],
+      routerLink: ['/', 'dashboard'],
+    }
+
+
+
+
+
+
   ];
   constructor(private primengConfig: PrimeNGConfig, private store: Store) {}
 
