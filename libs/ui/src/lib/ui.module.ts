@@ -23,6 +23,7 @@ import { TruncateTextPipe } from './shared/pipes/truncate-text.pipe';
 import { WebsiteFooterComponent } from './website-footer/website-footer.component';
 import { WebsiteMenuComponent } from './website-menu/website-menu.component';
 import { SearchFacetComponent } from './search-facet/search-facet.component';
+import { CountdownTimerComponent } from './countdown-timer/countdown-timer.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, UiElementsModule],
@@ -47,6 +48,7 @@ import { SearchFacetComponent } from './search-facet/search-facet.component';
     TruncateTextPipe,
     ListingImagePreviewComponent,
     SearchFacetComponent,
+    CountdownTimerComponent,
   ],
   providers: [MessageService, ConfirmationService],
   exports: [
@@ -70,6 +72,7 @@ import { SearchFacetComponent } from './search-facet/search-facet.component';
     TruncateTextPipe,
     ListingImagePreviewComponent,
     SearchFacetComponent,
+    CountdownTimerComponent,
   ],
 })
 export class UiModule {}

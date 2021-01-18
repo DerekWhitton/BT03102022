@@ -27,9 +27,10 @@
       <p>
         {{ item.description | truncatetext: 100 }}
       </p>
-      <p class="countdown-timer" *ngIf="item.type == ListingType.Auction">
-        Closes in 4d 9h 16m 43s
-      </p>
+      <bushtrade-web-countdown-timer
+        *ngIf="item.type == ListingType.Auction"
+        [endDate] = item.endDate
+      ></bushtrade-web-countdown-timer>
     </div>
     <div class="p-col-12 p-md-2 p-lg-2 p-text-right">
       <div class="share-box">

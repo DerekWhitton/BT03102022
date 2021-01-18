@@ -1,0 +1,6 @@
+<p class="countdown-timer" *ngIf="timeDifference >= 0">
+  Closes in {{daysToDday}}d {{hoursToDday}}h {{minutesToDday}}m {{secondsToDday}}s
+</p>
+<p class="countdown-timer" *ngIf="timeDifference < 0">
+  CLOSED
+</p>
