@@ -10,3 +10,6 @@ export * from './forums/i-thread';
 export * from './forums/i-post';
 export * from './search/i-search-facet';
 export * from './listings/i-seller-listing';
+export * from './listings/i-listing-details';
+export * from './listings/i-listing-seller';
+export * from './bidding/i-bid';

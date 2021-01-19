@@ -1,3 +1,5 @@
+$COLOUR-ORANGE: #ff7600;
+
 .category-icon {
   text-align: center;
   text-decoration: none;
@@ -10,6 +12,11 @@
     max-width: 60px;
 
   }
+}
+
+.countdown-timer {
+  color: $COLOUR-ORANGE;
+  font-weight: bold;
 }
 
 .sidebar {

@@ -4,6 +4,8 @@ import { APP_CONFIG } from '@bushtrade/app-config';
 import {
   ICreateOrUpdateListing,
   IListing,
+  IListingDetails,
+  IListingSeller,
   IPaginatedResponse,
   ISellerListing,
 } from '@bushtrade/website/shared/entites';
@@ -31,6 +33,18 @@ export class ListingsService {
   loadSellerListing(sellerId: string, listingId: string) {
     return this.httpClient.get<ISellerListing>(
       `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings/${listingId}`
+    );
+  }
+
+  loadListingDetails(listingId: string) {
+    return this.httpClient.get<IListingDetails>(
+      `${this.base}api/v${this.version}/Listing/ListingDetails/${listingId}`
+    );
+  }
+
+  getSellerSummary(listingId: string) {
+    return this.httpClient.get<IListingSeller>(
+      `${this.base}api/v${this.version}/Listing/GetSellerSummary/${listingId}`
     );
   }
 
