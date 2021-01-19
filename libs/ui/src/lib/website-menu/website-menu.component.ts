@@ -95,14 +95,10 @@ export class WebsiteMenuComponent implements OnInit {
         ? ListingType.Sale
         : ListingType.Auction;
 
-        console.log(this.selectedSearchCategory['name']);
-
     let queryParams = { type: marketType };
     if (this.searchQuery && this.searchQuery.trim().length) {
       queryParams['q'] = this.searchQuery;
     }
-
-    console.log(queryParams);
 
     this.router.navigate(['/', 'listings'], {
       queryParams,
