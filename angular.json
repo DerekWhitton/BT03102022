@@ -1562,6 +1562,66 @@
           "style": "scss"
         }
       }
+    },
+    "website-buying": {
+      "projectType": "library",
+      "root": "libs/website/buying",
+      "sourceRoot": "libs/website/buying/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/buying/tsconfig.lib.json",
+              "libs/website/buying/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/buying/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/buying/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-selling": {
+      "projectType": "library",
+      "root": "libs/website/selling",
+      "sourceRoot": "libs/website/selling/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/selling/tsconfig.lib.json",
+              "libs/website/selling/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/selling/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/selling/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

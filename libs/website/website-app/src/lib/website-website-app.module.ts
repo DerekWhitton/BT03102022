@@ -32,12 +32,26 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
           ),
       },
       {
-        path: 'trophy-cabinet',
+        path: 'buying',
         loadChildren: () =>
-          import('@bushtrade/website/trophy-cabinet').then(
-            (module) => module.WebsiteTrophyCabinetModule
+          import('@bushtrade/website/buying').then(
+            (module) => module.WebsiteBuyingModule
           ),
       },
+      {
+        path: 'selling',
+        loadChildren: () =>
+          import('@bushtrade/website/selling').then(
+            (module) => module.WebsiteSellingModule
+          ),
+      },
+      // {
+      //   path: 'trophy-cabinet',
+      //   loadChildren: () =>
+      //     import('@bushtrade/website/trophy-cabinet').then(
+      //       (module) => module.WebsiteTrophyCabinetModule
+      //     ),
+      // },
       {
         path: 'support',
         loadChildren: () =>

@@ -118,7 +118,9 @@
       "@bushtrade/website/shared/interceptors": [
         "libs/website/shared/interceptors/src/index.ts"
       ],
-      "@bushtrade/website/listings": ["libs/website/listings/src/index.ts"]
+      "@bushtrade/website/listings": ["libs/website/listings/src/index.ts"],
+      "@bushtrade/website/buying": ["libs/website/buying/src/index.ts"],
+      "@bushtrade/website/selling": ["libs/website/selling/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
