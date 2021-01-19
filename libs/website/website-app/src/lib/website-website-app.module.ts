@@ -1,3 +1,4 @@
+import { WebsiteAboutModule } from './../../../about/src/lib/website-about.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -45,6 +46,14 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
             (module) => module.WebsiteSellingModule
           ),
       },
+      {
+        path: 'about',
+        loadChildren: () =>
+          import('@bushtrade/website/about').then(
+            (module) => module.WebsiteAboutModule
+          ),
+      },
+
       // {
       //   path: 'trophy-cabinet',
       //   loadChildren: () =>
@@ -89,7 +98,8 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
           ),
       },
     ],
-    { scrollPositionRestoration: 'top' }),
+    { scrollPositionRestoration: 'top' }
+    ),
   ],
   declarations: [WebsiteIndexComponent],
   entryComponents: [WebsiteIndexComponent],
