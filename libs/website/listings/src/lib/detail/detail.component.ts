@@ -1,31 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import {
+  IBid,
+  IListingDetails,
+  IListingSeller,
+} from '@bushtrade/website/shared/entites';
+import {
+  BiddingService,
+  ListingsService,
+  SearchService,
+} from '@bushtrade/website/shared/services';
+import { forkJoin, Observable, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'bushtrade.web-detail',
+  selector: 'bushtrade-web-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss'],
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
+  constructor(
+    private route: ActivatedRoute,
+    private listingsService: ListingsService,
+    private biddingService: BiddingService
+  ) {}
   relatedItems = [];
 
-  val: number = 3;
-
-  bids: any = [
-    { name: 'Bidder 123', date: '13 Aug 2020', value: 'R1600' },
-    { name: 'Bidder 123', date: '13 Aug 2020', value: 'R2600' },
-    { name: 'Bidder 123', date: '13 Aug 2020', value: 'R3600' },
-    { name: 'Bidder 123', date: '13 Aug 2020', value: 'R4600' },
-  ];
-
-  specifications: any = [
-    { name: 'Make', value: 'Beretta' },
-    { name: 'Model', value: '694' },
-    { name: 'License', value: 'Shotgun' },
-    { name: 'Orient', value: 'Right Handed' },
-    { name: 'Stock', value: '32"' },
-  ];
-
-  msgs: any = [
+  messages: any = [
     {
       severity: 'warn',
       summary: 'Warning',
@@ -34,34 +34,74 @@ export class DetailComponent implements OnInit {
     },
   ];
   // https://via.placeholder.com/290
-  images: any = [
-    {
-      previewImageSrc: 'https://via.placeholder.com/865x360.jpg',
-      thumbnailImageSrc: 'https://via.placeholder.com/50x50.jpg',
-      alt: 'Description for Image 1',
-      title: 'Title 1',
-    },
-    {
-      previewImageSrc: 'https://via.placeholder.com/863x360.jpg',
-      thumbnailImageSrc: 'https://via.placeholder.com/50x50.jpg',
-      alt: 'Description for Image 2',
-      title: 'Title 2',
-    },
-    {
-      previewImageSrc: 'https://via.placeholder.com/862x360.jpg',
-      thumbnailImageSrc: 'https://via.placeholder.com/50x50.jpg',
-      alt: 'Description for Image 3',
-      title: 'Title 3',
-    },
-    {
-      previewImageSrc: 'https://via.placeholder.com/861x360.jpg',
-      thumbnailImageSrc: 'https://via.placeholder.com/50x50.jpg',
-      alt: 'Description for Image 4',
-      title: 'Title 4',
-    },
-  ];
 
-  constructor() {}
+  detailsLoading: boolean;
+  listingDetails: IListingDetails;
+  listingBids: IBid[];
+  highestBid: IBid;
+  bidRecommendations: number[] = [];
+  listingSellerSummary: IListingSeller;
+  routeSubscription$: Subscription;
 
-  ngOnInit(): void {}
+  private void;
+  ngOnInit(): void {
+    this.routeSubscription$ = this.route.params.subscribe((params) => {
+      this.detailsLoading = true;
+      const listingId = params['id'];
+      if (listingId != null && listingId !== '') {
+        const listingDetails$ = this.listingsService.loadListingDetails(
+          listingId
+        );
+        const listingBids$ = this.biddingService.getListingBids(listingId);
+        const sellerSummary$ = this.listingsService.getSellerSummary(listingId);
+
+        forkJoin([listingDetails$, listingBids$, sellerSummary$]).subscribe(
+          ([listingDetails, listingBids, sellerSummary]) => {
+            this.listingDetails = listingDetails;
+            this.listingBids = listingBids;
+            this.listingSellerSummary = sellerSummary;
+          },
+          () => {
+            this.messages.push({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'There was an error loading Listing Details',
+            });
+          },
+          () => {
+            this.detailsLoading = false;
+            if (new Date() < new Date(this.listingDetails.endDate)) {
+              this.biddingService.getHighestBid(listingId).subscribe(
+                (res) => {
+                  this.highestBid = res;
+                  this.calculateBidRecommendations();
+                },
+                (error) => {
+                  console.log('Error loading highest bid');
+                }
+              );
+            }
+          }
+        );
+      }
+    });
+  }
+
+  calculateBidRecommendations() {
+    this.bidRecommendations = [];
+    let startBid =
+      this.listingDetails.startingPrice - this.listingDetails.priceIncrement;
+    if (this.highestBid != null) {
+      startBid = this.highestBid.amount;
+    }
+    for (let i = 1; i <= 3; i++) {
+      this.bidRecommendations.push(
+        startBid + this.listingDetails.priceIncrement * i
+      );
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.routeSubscription$.unsubscribe();
+  }
 }
