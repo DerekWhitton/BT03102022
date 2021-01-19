@@ -89,12 +89,13 @@ export class WebsiteMenuComponent implements OnInit {
   }
 
   handleSearch() {
-    let type =
-      this.selectedSearchCategory == 'Marketplace'
+
+    let marketType =
+      this.selectedSearchCategory['name'] == 'Marketplace'
         ? ListingType.Sale
         : ListingType.Auction;
 
-    let queryParams = { type: ListingType.Auction };
+    let queryParams = { type: marketType };
     if (this.searchQuery && this.searchQuery.trim().length) {
       queryParams['q'] = this.searchQuery;
     }
