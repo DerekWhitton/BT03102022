@@ -6,4 +6,7 @@
 
 <router-outlet></router-outlet>
 
-<bushtrade-web-footer></bushtrade-web-footer>
+<bushtrade-web-footer
+(signIn)="login()"
+[loggedIn]="this.loggedIn"
+></bushtrade-web-footer>

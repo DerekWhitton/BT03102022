@@ -8,7 +8,7 @@ import { FavouritesIndexComponent } from './favourites-index/favourites-index.co
     CommonModule,
 
     RouterModule.forChild([
-      { path: '', pathMatch: 'full', component: FavouritesIndexComponent },
+      // { path: '', pathMatch: 'full', component: FavouritesIndexComponent },
     ]),
   ],
   declarations: [FavouritesIndexComponent],

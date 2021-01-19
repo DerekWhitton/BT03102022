@@ -1,3 +1,4 @@
+import { WebsiteAboutModule } from './../../../about/src/lib/website-about.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -32,12 +33,34 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
           ),
       },
       {
-        path: 'trophy-cabinet',
+        path: 'buying',
         loadChildren: () =>
-          import('@bushtrade/website/trophy-cabinet').then(
-            (module) => module.WebsiteTrophyCabinetModule
+          import('@bushtrade/website/buying').then(
+            (module) => module.WebsiteBuyingModule
           ),
       },
+      {
+        path: 'selling',
+        loadChildren: () =>
+          import('@bushtrade/website/selling').then(
+            (module) => module.WebsiteSellingModule
+          ),
+      },
+      {
+        path: 'about',
+        loadChildren: () =>
+          import('@bushtrade/website/about').then(
+            (module) => module.WebsiteAboutModule
+          ),
+      },
+
+      // {
+      //   path: 'trophy-cabinet',
+      //   loadChildren: () =>
+      //     import('@bushtrade/website/trophy-cabinet').then(
+      //       (module) => module.WebsiteTrophyCabinetModule
+      //     ),
+      // },
       {
         path: 'support',
         loadChildren: () =>
@@ -74,7 +97,9 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
             (module) => module.WebsiteBlogModule
           ),
       },
-    ]),
+    ],
+    { scrollPositionRestoration: 'top' }
+    ),
   ],
   declarations: [WebsiteIndexComponent],
   entryComponents: [WebsiteIndexComponent],

@@ -151,6 +151,15 @@
     },
     "website-listings": {
       "tags": []
+    },
+    "website-buying": {
+      "tags": []
+    },
+    "website-selling": {
+      "tags": []
+    },
+    "website-about": {
+      "tags": []
     }
   }
 }

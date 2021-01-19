@@ -9,8 +9,13 @@ import { IListing, ListingType } from '@bushtrade/website/shared/entites';
 export class ProductItemComponent implements OnInit {
   @Input() item: IListing;
 
+
   ListingType = ListingType;
   constructor() {}
 
   ngOnInit(): void {}
+  updateUrl() {
+    this.item.images[0].url = "https://place-hold.it/600x300&text=No%20Image%20Available";
+  }
+  
 }
