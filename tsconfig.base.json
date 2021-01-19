@@ -121,7 +121,8 @@
       "@bushtrade/website/listings": ["libs/website/listings/src/index.ts"],
       "@bushtrade/website/buying": ["libs/website/buying/src/index.ts"],
       "@bushtrade/website/selling": ["libs/website/selling/src/index.ts"],
-      "@bushtrade/website/about": ["libs/website/about/src/index.ts"]
+      "@bushtrade/website/about": ["libs/website/about/src/index.ts"],
+      "@bushtrade/website/contact-us": ["libs/website/contact-us/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

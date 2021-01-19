@@ -1,3 +1,4 @@
+import { WebsiteContactUsModule } from './../../../contact-us/src/lib/website-contact-us.module';
 import { WebsiteAboutModule } from './../../../about/src/lib/website-about.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -53,7 +54,13 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
             (module) => module.WebsiteAboutModule
           ),
       },
-
+      {
+        path: 'contact-us',
+        loadChildren: () =>
+          import('@bushtrade/website/contact-us').then(
+            (module) => module.WebsiteContactUsModule
+          ),
+      },
       // {
       //   path: 'trophy-cabinet',
       //   loadChildren: () =>
