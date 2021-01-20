@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@bushtrade/app-config';
-import { IBid } from '@bushtrade/website/shared/entites';
+import { IBid, IBidRequest } from '@bushtrade/website/shared/entites';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +26,15 @@ export class BiddingService {
   getHighestBid(listingId: string) {
     return this.httpClient.get<IBid>(
       `${this.base}api/v${this.version}/Bidding/GetHighest/${listingId}`
+    );
+  }
+
+  placeBid(bid: IBidRequest) {
+    return this.httpClient.post<IBid>(
+      `${this.base}api/v${this.version}/Bidding/PlaceBid`,
+      {
+        ...bid,
+      }
     );
   }
 }
