@@ -50,7 +50,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.detailsLoading = true;
       this.listingId = params['id'];
 
-      if (this.listingId != null && this.listingId !== '') {
+      if (this.listingId) {
         const listingDetails$ = this.listingsService.loadListingDetails(this.listingId);
         const sellerSummary$ = this.listingsService.getSellerSummary(this.listingId);
 
