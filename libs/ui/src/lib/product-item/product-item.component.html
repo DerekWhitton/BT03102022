@@ -35,7 +35,9 @@
     </div>
     <div class="p-col-12 p-md-2 p-lg-2 p-text-right">
       <div class="share-box">
-        <a href="#"><i class="pi pi-heart"></i></a>
+        <a (click)="toggleFavorite()">
+          <i class="pi pi-heart" [ngClass]="item.isFavorite ? 'favorite' : ''"></i>
+        </a>
       </div>
 
       <h3>
