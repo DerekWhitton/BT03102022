@@ -45,7 +45,7 @@ export class ListingsEffects {
       fetch({
         run: (action, state: any) => {
           return this.listingsService
-            .AddSellerListing(action.sellerId, action.listing)
+            .addSellerListing(action.sellerId, action.listing)
             .pipe(
               map((response) =>
                 ListingsActions.addListingSuccess({ listing: response })

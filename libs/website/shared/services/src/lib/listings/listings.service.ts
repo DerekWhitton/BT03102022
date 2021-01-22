@@ -76,11 +76,29 @@ export class ListingsService {
     );
   }
 
-  AddSellerListing(sellerId: string, listing: ICreateOrUpdateListing) {
+  addSellerListing(sellerId: string, listing: ICreateOrUpdateListing) {
     return this.httpClient.post<ISellerListing>(
       `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings`,
       {
         ...listing,
+      }
+    );
+  }
+
+  addFavorite(listingId: string) {
+    return this.httpClient.post<string>(
+      `${this.base}api/v${this.version}/Listing/AddFavorite`,
+      {
+        listingId
+      }
+    );
+  }
+
+  removeFavorite(listingId: string) {
+    return this.httpClient.post<string>(
+      `${this.base}api/v${this.version}/Listing/RemoveFavorite`,
+      {
+        listingId
       }
     );
   }

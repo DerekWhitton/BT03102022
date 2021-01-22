@@ -12,6 +12,7 @@ export interface IListing {
   name: string;
   description: string;
   active: boolean;
+  isFavorite: boolean;
   startingPrice: number;
   type: ListingType;
   startDate: Date;
