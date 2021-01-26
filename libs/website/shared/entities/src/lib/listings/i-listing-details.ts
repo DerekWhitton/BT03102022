@@ -11,6 +11,7 @@ export interface IListingDetails {
   description: string;
   active: boolean;
   category: string;
+  isSold: boolean;
   startingPrice: number;
   reservePrice: number;
   priceIncrement: number;

@@ -12,6 +12,7 @@ import {
   ListingsService,
 } from '@bushtrade/website/shared/services';
 import { forkJoin, Subscription } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'bushtrade-web-detail',
@@ -22,10 +23,12 @@ export class DetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private listingsService: ListingsService,
-    private biddingService: BiddingService
+    private biddingService: BiddingService,
+    private messageService: MessageService
   ) {}
-  relatedItems = [];
 
+  listingType = ListingType;
+  relatedItems = [];
   messages: any = [
     {
       severity: 'warn',
@@ -36,13 +39,17 @@ export class DetailComponent implements OnInit, OnDestroy {
   ];
 
   detailsLoading: boolean;
-  refreshingBids: boolean;
+  refreshingSidebar: boolean;
+  showConfirmModal: boolean;
+  showBidsModal: boolean;
+  timesUp: boolean;
   listingId: string;
   listingDetails: IListingDetails;
   listingBids: IBid[];
   highestBid: IBid;
   biddingRecommendations: number[] = [];
   listingSellerSummary: IListingSeller;
+  reservationExpiration: Date;
   routeSubscription$: Subscription;
 
   ngOnInit(): void {
@@ -60,14 +67,13 @@ export class DetailComponent implements OnInit, OnDestroy {
             this.listingSellerSummary = sellerSummary;
 
             if (listingDetails.type === ListingType.Auction) {
-              this.refreshingBids = true;
+              this.refreshingSidebar = true;
               this.biddingService.getListingBids(this.listingId)
                 .subscribe(
                   (bids) => this.listingBids = bids,
                   () => {
-                    this.messages.push({
+                    this.messageService.add({
                       severity: 'error',
-                      summary: 'Error',
                       detail: 'There was an error loading auction bids',
                     });
                   },
@@ -78,9 +84,8 @@ export class DetailComponent implements OnInit, OnDestroy {
             }
           },
           () => {
-            this.messages.push({
-              severity: 'error',
-              summary: 'Error',
+            this.messageService.add({
+              severity: 'err',
               detail: 'There was an error loading listing details',
             });
           },
@@ -94,9 +99,8 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   placeBid(amount: number): void {
     if (this.isAuctionClosed()) {
-      this.messages.push({
-        severity: 'error',
-        summary: 'Error',
+      this.messageService.add({
+        severity: 'err',
         detail: 'This auction has closed!',
       });
       this.biddingRecommendations = [];
@@ -109,11 +113,15 @@ export class DetailComponent implements OnInit, OnDestroy {
       amount: amount,
     };
     this.biddingService.placeBid(bidRequest).subscribe(
-      () => {},
       () => {
-        this.messages.push({
-          severity: 'error',
-          summary: 'Error',
+        this.messageService.add({
+          severity: 'success',
+          detail: 'Bid placed successfully',
+        });
+      },
+      () => {
+        this.messageService.add({
+          severity: 'err',
           detail: 'There was an error placing your bid',
         });
       },
@@ -123,18 +131,83 @@ export class DetailComponent implements OnInit, OnDestroy {
     );
   }
 
+  reservePurchase(): void {
+    this.biddingService.reservePurchase(this.listingId)
+      .subscribe(
+        (bid) => {
+          this.timesUp = false;
+          const endDate = new Date(bid.placedAt);
+          endDate.setSeconds(endDate.getSeconds() + 30);
+          this.reservationExpiration = endDate;
+          this.showConfirmModal = true;
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'error',
+            detail: error.error });
+        }
+      );
+  }
+
+  confirmPurchase(): void {
+    this.timesUp = true;
+    this.biddingService.purchaseListing(this.listingId)
+      .subscribe(
+        (purchase) => {
+          this.showConfirmModal = false;
+          this.listingDetails.isSold = true;
+          this.messageService.add({
+            severity: 'success',
+            detail: 'You successfully purchased this item',
+          });
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'error',
+            detail: error.error,
+          });
+        }
+      );
+  }
+
+  cancelPurchase(): void {
+    this.showConfirmModal = false;
+    this.biddingService.cancelPurchase(this.listingId)
+      .subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'info',
+            detail: 'Purchase was cancelled'
+          });
+        }
+      );
+  }
+
+  checkTimeRemaining($event) {
+    if ($event <= 0) {
+      this.timesUp = true;
+
+      if (this.showConfirmModal) {
+        this.showConfirmModal = false;
+        this.messageService.add({
+          severity: 'warn',
+          detail: 'The confirmation time expired',
+        });
+      }
+    }
+  }
+
   private refreshAuctionBids(): void {
-    this.refreshingBids = true;
+    this.refreshingSidebar = true;
     this.biddingService.getListingBids(this.listingId).subscribe(
       (bids) => {
         this.listingBids = bids;
         this.getHighestBidAndSetRecommendations(false);
       },
       () => {
-        this.refreshingBids = false;
-        this.messages.push({
+        this.refreshingSidebar = false;
+        this.messageService.add({
           severity: 'error',
-          summary: 'Error',
           detail: 'There was an error refreshing bids',
         });
       }
@@ -153,11 +226,11 @@ export class DetailComponent implements OnInit, OnDestroy {
           console.log('Error loading highest bid');
         },
         () => {
-          this.refreshingBids = false;
+          this.refreshingSidebar = false;
         }
       );
     } else if (auctionClosed) {
-      this.refreshingBids = false;
+      this.refreshingSidebar = false;
       this.biddingRecommendations = [];
     }
   }

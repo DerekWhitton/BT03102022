@@ -37,4 +37,31 @@ export class BiddingService {
       }
     );
   }
+
+  reservePurchase(listingId: string) {
+    return this.httpClient.post<IBid>(
+      `${this.base}api/v${this.version}/Bidding/ReservePurchase`,
+      {
+        listingId
+      }
+    );
+  }
+
+  cancelPurchase(listingId: string) {
+    return this.httpClient.post(
+      `${this.base}api/v${this.version}/Bidding/RemoveReservePurchase`,
+      {
+        listingId
+      }
+    );
+  }
+
+  purchaseListing(listingId: string) {
+    return this.httpClient.post<IBid>(
+      `${this.base}api/v${this.version}/Bidding/Purchase`,
+      {
+        listingId
+      }
+    );
+  }
 }
