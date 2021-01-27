@@ -59,7 +59,7 @@
         </ng-template>
 
         <div class="p-md-12 p-lg-3 sidebar">
-          <p>{{searchResponse.items.length * searchResponse.page}}/{{searchResponse.totalItems}} items</p>
+          <p>{{searchResponse?.items.length * searchResponse?.page}}/{{searchResponse?.totalItems}} items</p>
           <bushtrade-search-facet
             [facet]="facet"
             *ngFor="let facet of facetsResponse"

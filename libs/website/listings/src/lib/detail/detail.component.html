@@ -4,8 +4,8 @@
       <progress-spinner></progress-spinner>
     </div>
     <div class="thread p-card p-p-5 p-mt-5 p-mb-5" *ngIf="!detailsLoading">
-      <p-messages [(value)]="messages"></p-messages>
-
+      <!-- <p-messages [(value)]="messages"></p-messages> -->
+      <p-toast position="top-center"></p-toast>
       <div class="p-grid">
         <div class="p-md-9 p-sm-12">
           <div class="p-p-3 bg-white p-mb-5">
@@ -103,14 +103,20 @@
         </div>
         <div class="p-md-3 p-sm-12">
           <div class="sidebar bg-white">
-            <div class="bg-gold p-p-5 p-text-center">
-              <bushtrade-web-countdown-timer
-                [endDate]="listingDetails.endDate"
-              ></bushtrade-web-countdown-timer>
+            <div *ngIf="listingDetails.type == listingType.Auction" class="bg-gold p-p-5 p-text-center">
+              <div *ngIf="!timesUp">
+                Closes in <bushtrade-web-countdown-timer
+                  [endDate]="listingDetails.endDate"
+                  (timeDifferenceRemaining)="checkTimeRemaining($event)"
+                ></bushtrade-web-countdown-timer>
+              </div>
+              <div *ngIf="timesUp">
+                CLOSED
+              </div>
               <!-- <p class="p-text-bold text-timeout">Closes in 7h 08m 24s</p> -->
               <p>You haven't bid on this lot yet.</p>
             </div>
-            <div *ngIf="!refreshingBids">
+            <div *ngIf="listingDetails.type == listingType.Auction && !refreshingSidebar">
               <div class="current-bid sidebar-section">
                 <h3>Current Bid</h3>
                 <h3 class="price" *ngIf="highestBid != null">
@@ -143,8 +149,8 @@
               <div class="bid-history sidebar-section">
                 <h3>Bid history</h3>
                 <p-table
-                  [value]="listingBids"
-                  styleClass="p-datatable-striped "
+                  [value]="listingBids.slice(0, 3)"
+                  styleClass="p-datatable-striped"
                 >
                   <ng-template pTemplate="body" let-bid>
                     <tr>
@@ -158,10 +164,17 @@
                     </tr>
                   </ng-template>
                 </p-table>
-                <a href="#">View all bids</a>
+                <a (click)="showBidsModal = true;">View all bids</a>
               </div>
             </div>
-            <div *ngIf="refreshingBids">
+            <div *ngIf="listingDetails.type == listingType.Sale && !refreshingSidebar">
+                <h3>Price</h3>
+                <h3 class="price">
+                  R {{ listingDetails.startingPrice }}
+                </h3>
+                <p-button [disabled]="listingDetails.isSold" (click)="reservePurchase()">Reserve purchase</p-button>
+            </div>
+            <div *ngIf="refreshingSidebar">
               <progress-spinner></progress-spinner>
             </div>
             <div class="sidebar-section">
@@ -215,3 +228,82 @@
     </div>
   </div>
 </div>
+
+<!-- Create Dialog -->
+<p-dialog
+  [(visible)]="showConfirmModal"
+  [style]="'width: 400px;'"
+  [header]="'Confirm Purchase'"
+  [modal]="true"
+  [closable]="false"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div *ngIf="!timesUp">
+      <p>You have <bushtrade-web-countdown-timer
+        [endDate]="reservationExpiration"
+        (timeDifferenceRemaining) = "checkTimeRemaining($event)"
+      ></bushtrade-web-countdown-timer> to confirm the purchase</p>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="cancelPurchase()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Confirm"
+      icon="pi pi-check"
+      class="p-button-text"
+      [disabled]="timesUp"
+      (click)="confirmPurchase()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="showBidsModal"
+  [style]="{ width: '50vw' }"
+  [header]="'Bid history'"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div>
+      <p-table
+        [value]="listingBids"
+        styleClass="p-datatable-striped"
+      >
+        <ng-template pTemplate="body" let-bid>
+          <tr>
+            <td class="p-m-0 p-p-0">{{ bid.firstName }}</td>
+            <td class="p-m-0 p-p-0">
+              {{ bid.placedAt | date: 'dd MMM yyyy hh:mm:ss' }}
+            </td>
+            <td class="p-m-0 p-p-0 p-text-right price">
+              R {{ bid.amount }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="showBidsModal = false;"
+    ></button>
+  </ng-template>
+</p-dialog>

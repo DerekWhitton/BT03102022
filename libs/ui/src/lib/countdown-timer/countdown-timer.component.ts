@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
@@ -8,6 +8,7 @@ import { interval, Subscription } from 'rxjs';
 })
 export class CountdownTimerComponent implements OnInit, OnDestroy {
   @Input() endDate: Date;
+  @Output() timeDifferenceRemaining: EventEmitter<number> = new EventEmitter();
 
   private subscription: Subscription;
 
@@ -37,7 +38,8 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
 
   private getTimeDifference() {
     this.timeDifference = this.parsedEndDate.getTime() - new Date().getTime();
-    if (this.timeDifference >= 0) {
+    this.timeDifferenceRemaining.emit(this.timeDifference);
+    if (this.timeDifference > 0) {
       this.allocateTimeUnits(this.timeDifference);
     } else {
       this.subscription.unsubscribe();
