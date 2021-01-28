@@ -57,6 +57,14 @@ body {
   color: $COLOUR-GREY;
 }
 
+/* ADVERTISEMENTS */
+
+.advertisement-horizontal-banner{
+  img{
+    max-width:100%;
+  }
+}
+
 /* COLOURS */
 .bg-gold {
   background: $COLOUR-GOLD;

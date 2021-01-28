@@ -172,7 +172,7 @@
                 <h3 class="price">
                   R {{ listingDetails.startingPrice }}
                 </h3>
-                <p-button [disabled]="listingDetails.isSold" (click)="reservePurchase()">Reserve purchase</p-button>
+                <p-button [disabled]="listingDetails.isSold" [label]="listingDetails.isSold ? 'Item Reserved' : 'Purchase'" (click)="reservePurchase()"></p-button>
             </div>
             <div *ngIf="refreshingSidebar">
               <progress-spinner></progress-spinner>
@@ -215,8 +215,8 @@
           </div>
         </div>
       </div>
-      <div class="p-col-12 p-text-center">
-        <img
+      <div class="p-col-12 p-text-center advertisement-horizontal-banner">
+        <img 
           src="https://via.placeholder.com/1404x100.jpg"
           alt="Advertise Here"
         />

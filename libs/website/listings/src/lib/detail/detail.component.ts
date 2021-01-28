@@ -176,7 +176,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       .subscribe(
         () => {
           this.messageService.add({
-            severity: 'info',
+            severity: 'warn',
             detail: 'Purchase was cancelled'
           });
         }
