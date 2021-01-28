@@ -85,7 +85,15 @@ body {
 
   a {
     span {
-      color: #ffffff !important;
+      color: #ffffff!important;
+    }
+  }
+
+  .p-menubar-end{
+    a {
+      span {
+        color: #333!important;
+      }
     }
   }
 }

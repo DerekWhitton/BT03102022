@@ -1,17 +1,30 @@
-<!-- <p-tabView style="margin-top: 1.5em;">
-  <p-tabPanel header="Details">
-    <website-user-index></website-user-index>
-  </p-tabPanel>
-  <p-tabPanel header="Listings">
-    <website-seller-index [sellers]="sellers$ | async"></website-seller-index>
-  </p-tabPanel>
-</p-tabView> -->
 
-<div class="p-grid" style="background-color: white;">
-  <div class="p-col-3">
-    <p-panelMenu [model]="items" [style]="{ width: '300px' }"></p-panelMenu>
-  </div>
-  <div class="p-col">
-    <router-outlet></router-outlet>
+
+<div class="p-grid bg-white bt-all-caps p-text-left">
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+    <div class="p-grid p-mt-1 p-mb-1">
+
+<!-- 
+      <div class="p-col-12">
+        <p-tabView style="margin-top: 1.5em;">
+          <p-tabPanel header="Details">
+            <website-user-index></website-user-index>
+          </p-tabPanel>
+          <p-tabPanel header="Listings">
+            <website-seller-index [sellers]="sellers$ | async"></website-seller-index>
+          </p-tabPanel>
+        </p-tabView>
+      </div> -->
+
+      <div class="p-col-4">
+
+        <p-panelMenu [model]="items" [style]="{ width: '300px' }"></p-panelMenu>
+
+      </div>
+      <div class="p-col">
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
   </div>
 </div>

@@ -33,15 +33,9 @@ export class ProfileIndexComponent implements OnInit {
         routerLink: 'account',
       },
       {
-        label: 'Trade',
-        icon: 'pi pi-fw pi-pencil',
-        items: [
-          {
-            label: 'Listings',
-            icon: 'pi pi-fw pi-trash',
-            routerLink: 'listings',
-          },
-        ],
+        label: 'Listings',
+        icon: 'pi pi-fw pi-list',
+        routerLink: 'listings',
       },
     ];
     this.store.dispatch(loadUser());
