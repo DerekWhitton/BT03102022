@@ -86,13 +86,21 @@ body {
   a {
     span {
       color: #ffffff!important;
+
+    }
+    &:hover{
+      span{
+        color:#525252!important;
+      }
+
     }
   }
+
 
   .p-menubar-end{
     a {
       span {
-        color: #333!important;
+        color: #525252!important;
       }
     }
   }
