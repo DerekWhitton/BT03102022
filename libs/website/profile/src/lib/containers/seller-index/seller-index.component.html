@@ -31,12 +31,14 @@
 
 <ng-template #register>
   <button
-    pButton
-    icon=""
-    label="Start Selling"
-    (click)="this.displayStartSellingDialog = true"
+  pButton
+  icon=""
+  label="Start Selling"
+  (click)="this.displayStartSellingDialog = true"
   ></button>
 </ng-template>
+
+
 
 <ng-template #addOrUpdateListingTemplate>
   <ng-template #initializingEditModalData>
@@ -257,6 +259,7 @@
 
 <p-dialog
   [(visible)]="displayStartSellingDialog"
+  header="Create Seller Profile" 
   [style]="{ width: '450px' }"
   [modal]="true"
   styleClass="p-fluid"
@@ -266,12 +269,53 @@
       <div class="p-grid">
         <div class="p-col">
           <div class="p-fluid">
-            <div class="p-field">
+          </div>
+          <div class="p-field">
+            <label>
+              Trade in your Private Capacity:
+            </label>
+            <br />
+            <p-inputSwitch 
+              (onChange)="handleChange($event)"
+              formControlName="isPrivateIndividual"
+            ></p-inputSwitch> 
+          </div>
+
+          <div [ngStyle]="{'display': isPrivate ? 'none' : 'block' }" >
+            
+            <h2>Trading Details</h2>
+            <div class="p-field" >
               <label>
                 Name:
               </label>
               <input pInputText type="text" required formControlName="name" />
             </div>
+            <div class="p-field" >
+              <label>
+                Company Number:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="ckNumber"
+              />
+            </div>
+            <div class="p-field">
+              <label>
+                Tax Number:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="taxNumber"
+              />
+          </div>
+
+          </div>
+
+            <h2>Banking Details</h2>
             <div class="p-field">
               <label>
                 Bank:
@@ -311,38 +355,7 @@
                 formControlName="accountNumber"
               />
             </div>
-            <div class="p-field">
-              <label>
-                Tax Number:
-              </label>
-              <input
-                pInputText
-                type="text"
-                required
-                formControlName="taxNumber"
-              />
-            </div>
-            <div class="p-field">
-              <label>
-                Private Individual:
-              </label>
-              <br />
-              <p-inputSwitch
-                formControlName="isPrivateIndividual"
-              ></p-inputSwitch>
-            </div>
-            <div class="p-field">
-              <label>
-                Company Number:
-              </label>
-              <input
-                pInputText
-                type="text"
-                required
-                formControlName="ckNumber"
-              />
-            </div>
-          </div>
+
         </div>
       </div>
     </form>
@@ -354,8 +367,9 @@
       pRipple
       label="Cancel"
       icon="pi pi-times"
-      class="p-button-text"
+      class="p-button-text p-button-danger"
       (click)="this.displayStartSellingDialog = false"
+
     ></button>
     <button
       pButton

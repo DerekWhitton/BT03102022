@@ -46,6 +46,8 @@ export class SellerIndexComponent implements OnInit {
   loading$: Observable<boolean>;
   selectedSellerId: string;
 
+  isPrivate: boolean = true;
+
   columns = [
     { field: 'name', header: 'Name' },
     {
@@ -84,12 +86,14 @@ export class SellerIndexComponent implements OnInit {
     accountNumber: new FormControl('', Validators.required),
     taxNumber: new FormControl('', Validators.required),
     ckNumber: new FormControl('', Validators.required),
-    name: new FormControl('', Validators.required),
+    name: new FormControl('username', Validators.required),
     isPrivateIndividual: new FormControl(true, Validators.required),
   });
   editModalDataIsInitializing: boolean;
   editListingPropertyValues: ISellerListingPropertyValue[] = [];
   isUploadingImageFiles: boolean;
+
+
 
   constructor(
     private store: Store,
@@ -110,6 +114,19 @@ export class SellerIndexComponent implements OnInit {
     this.selectedSellerId = seller.id;
     this.listingsFacade.dispatch(loadListings({ sellerId: seller.id }));
     this.listings$ = this.listingsFacade.allListings$;
+  }
+
+  handleChange(e) {
+    this.isPrivate = e.checked;
+    if(e.checked){
+      this.signUpSellerFormGroup.patchValue({
+        name: "username"
+      });
+    }else{
+      this.signUpSellerFormGroup.patchValue({
+        name: ""
+      });
+    }
   }
 
   async uploadListingImage(event) {
