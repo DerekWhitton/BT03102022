@@ -17,6 +17,7 @@ export class WebsiteMenuComponent implements OnInit {
   selectedSearchCategory: string;
   searchQuery: string;
   @Output() signIn = new EventEmitter();
+  @Output() signOut = new EventEmitter();
   showMegaSearchMenu: boolean;
 
   constructor(private router: Router) {}
@@ -37,6 +38,10 @@ export class WebsiteMenuComponent implements OnInit {
         label: 'Profile',
         routerLink: ['/', 'profile', 'account'],
       },
+      {
+        label: 'Log Out',
+        command: () => this.logout()
+      }
     ];
 
     this.items = [
@@ -86,6 +91,10 @@ export class WebsiteMenuComponent implements OnInit {
 
   login() {
     this.signIn.emit();
+  }
+
+  logout() {
+    this.signOut.emit();
   }
 
   handleSearch() {

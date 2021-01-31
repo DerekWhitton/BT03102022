@@ -8,11 +8,15 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class WebsiteIndexComponent implements OnInit {
   @Input() loggedIn;
   @Output() loginEmit = new EventEmitter();
+  @Output() logoutEmit = new EventEmitter();
   constructor() {}
 
   ngOnInit(): void {}
 
   login() {
     this.loginEmit.emit();
+  }
+  logout() {
+    this.logoutEmit.emit();
   }
 }
