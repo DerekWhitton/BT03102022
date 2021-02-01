@@ -45,19 +45,12 @@ export class SupportTicketsEffects {
       withLatestFrom(this.store),
       fetch({
         run: (action, state: any) => {
-          this.supportService
-            .addSupportTicket(action.supportTicket).subscribe();
-            // .pipe(
-            //   map((supportTicketDetails) => {
-            //     return SupportTicketsActions.loadSupportTickets({
-            //       page: state.supportTickets.page,
-            //       perPage: state.supportTickets.perPage,
-            //       query: state.supportTickets.query,
-            //       category: state.supportTickets.category,
-            //       includeClosed: state.supportTickets.includeClosed
-            //     })
-            //   })
-            // );
+          return this.supportService.addSupportTicket(action.supportTicket).pipe(
+            map((supportTicketDetails) =>
+              SupportTicketsActions.createSupportTicketSuccess({
+                supportTicketDetails
+              })
+            ));
         },
         onError: (action, error) => {
           console.error('Error', error);

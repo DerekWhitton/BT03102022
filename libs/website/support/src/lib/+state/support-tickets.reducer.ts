@@ -10,6 +10,7 @@ export interface State extends EntityState<ISupportTicket> {
   selectedId?: string | number; // which SupportTickets record has been selected
   loaded: boolean; // has the SupportTickets list been loaded
   error?: any | null; // last known error (if any)
+  supportTicketAdded: boolean; // has the support ticket been added successfully
   page: number;
   perPage: number;
   query?: string | null;
@@ -34,6 +35,7 @@ export const initialState: State = supportTicketsAdapter.getInitialState({
   previousSupportTicketsPage: null,
   nextSupportTicketsPage: null,
   loaded: false,
+  supportTicketAdded: false,
   selectedTicketDetails: null,
 });
 
@@ -90,12 +92,15 @@ const supportTicketsReducer = createReducer(
   on(SupportTicketsActions.createSupportTicket, (state) => ({
     ...state,
     loaded: false,
+    supportTicketAdded: false,
     error: null,
   })),
   on(
     SupportTicketsActions.createSupportTicketSuccess,
-    (state, { supportTicketDetails }) =>
-      supportTicketsAdapter.upsertOne(supportTicketDetails, { ...state })
+    (state, { supportTicketDetails }) => ({
+      ...state,
+      supportTicketAdded: true
+    })
   ),
   on(SupportTicketsActions.createSupportTicketFailure, (state, { error }) => ({
     ...state,

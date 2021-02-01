@@ -19,6 +19,11 @@ export const getSupportTicketsLoaded = createSelector(
   (state: State) => state.loaded
 );
 
+export const getSupportTicketAdded = createSelector(
+  getSupportTicketsState,
+  (state: State) => state.supportTicketAdded
+);
+
 export const getSupportTicketsError = createSelector(
   getSupportTicketsState,
   (state: State) => state.error

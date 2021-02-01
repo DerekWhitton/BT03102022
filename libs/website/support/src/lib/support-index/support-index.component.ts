@@ -40,6 +40,12 @@ export class SupportIndexComponent implements OnInit {
       .map(s => {
         return { label: s, value: SupportTicketCategory[s] };
       });
+    this.supportTicketsFacade.supportTicketAdded$.subscribe(
+      (isAdded) => {
+        if (isAdded)
+          this.loadPage(this.currentPage);
+      }
+    );
     this.loadPage(1);
   }
 
@@ -67,7 +73,6 @@ export class SupportIndexComponent implements OnInit {
     this.supportTicketsFacade.dispatch(
       createSupportTicket({ supportTicket: this.addSupportTicketFormGroup.value as ICreateSupportTicket })
     );
-    this.loadPage(this.currentPage);
     this.hideCreateSupportTicketModal();
   }
 
