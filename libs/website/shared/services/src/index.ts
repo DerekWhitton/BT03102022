@@ -5,3 +5,4 @@ export * from './lib/blog/blog.service';
 export * from './lib/forums/forums.service';
 export * from './lib/search/search.service';
 export * from './lib/bidding/bidding.service';
+export * from './lib/support/support.service';
