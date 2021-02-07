@@ -19,3 +19,7 @@ export interface IListing {
   endDate: Date;
   images: Image[];
 }
+
+export interface IDynamicListing extends IListing {
+  timeRemaining: number;
+}

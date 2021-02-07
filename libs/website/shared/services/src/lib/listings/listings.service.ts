@@ -8,6 +8,7 @@ import {
   IListingSeller,
   IPaginatedResponse,
   ISellerListing,
+  ListingType,
 } from '@bushtrade/website/shared/entites';
 
 @Injectable({
@@ -45,6 +46,14 @@ export class ListingsService {
   getSellerSummary(listingId: string) {
     return this.httpClient.get<IListingSeller>(
       `${this.base}api/v${this.version}/Listing/GetSellerSummary/${listingId}`
+    );
+  }
+
+  getFavorites(listingType: ListingType) {
+    return this.httpClient.get<IListing[]>(
+      `${this.base}api/v${this.version}/Listing/GetFavorites${
+        listingType != null ? `?type=${listingType}` : ''
+      }`
     );
   }
 
