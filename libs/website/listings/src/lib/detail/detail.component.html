@@ -37,7 +37,8 @@
 
             <p-table
               [value]="listingDetails.listingPropertyValues"
-              styleClass="p-datatable-striped">
+              styleClass="p-datatable-striped"
+            >
               <ng-template pTemplate="body" let-specification>
                 <tr>
                   <td>{{ specification.categoryPropertyName }}</td>
@@ -103,9 +104,13 @@
         </div>
         <div class="p-md-3 p-sm-12">
           <div class="sidebar bg-white">
-            <div *ngIf="listingDetails.type == listingType.Auction" class="bg-gold p-p-5 p-text-center">
+            <div
+              *ngIf="listingDetails.type == listingType.Auction"
+              class="bg-gold p-p-5 p-text-center"
+            >
               <div *ngIf="!timesUp">
-                Closes in <bushtrade-web-countdown-timer
+                Closes in
+                <bushtrade-web-countdown-timer
                   [endDate]="listingDetails.endDate"
                   (timeDifferenceRemaining)="checkTimeRemaining($event)"
                 ></bushtrade-web-countdown-timer>
@@ -116,14 +121,23 @@
               <!-- <p class="p-text-bold text-timeout">Closes in 7h 08m 24s</p> -->
               <p>You haven't bid on this lot yet.</p>
             </div>
-            <div *ngIf="listingDetails.type == listingType.Auction && !refreshingSidebar">
+            <div
+              *ngIf="
+                listingDetails.type == listingType.Auction && !refreshingSidebar
+              "
+            >
               <div class="current-bid sidebar-section">
                 <h3>Current Bid</h3>
                 <h3 class="price" *ngIf="highestBid != null">
                   {{ highestBid.amount }}
                 </h3>
                 <p *ngIf="highestBid == null">There is no current bid</p>
-                <p *ngIf="highestBid != null && highestBid.amount < listingDetails.reservePrice">
+                <p
+                  *ngIf="
+                    highestBid != null &&
+                    highestBid.amount < listingDetails.reservePrice
+                  "
+                >
                   The current bid for this lot falls below its reserve price.
                 </p>
               </div>
@@ -164,15 +178,35 @@
                     </tr>
                   </ng-template>
                 </p-table>
-                <a (click)="showBidsModal = true;">View all bids</a>
+                <a (click)="showBidsModal = true">View all bids</a>
               </div>
             </div>
-            <div *ngIf="listingDetails.type == listingType.Sale && !refreshingSidebar">
-                <h3>Price</h3>
-                <h3 class="price">
-                  R {{ listingDetails.startingPrice }}
-                </h3>
-                <p-button [disabled]="listingDetails.isSold" [label]="listingDetails.isSold ? 'Item Reserved' : 'Purchase'" (click)="reservePurchase()"></p-button>
+            <div
+              *ngIf="
+                listingDetails.type == listingType.Sale && !refreshingSidebar
+              "
+            >
+              <h3>Price</h3>
+              <h3 class="price">R {{ listingDetails.startingPrice }}</h3>
+              <p-button
+                [disabled]="listingBids && listingBids.length"
+                [label]="
+                  listingBids && listingBids.length
+                    ? 'Item Reserved'
+                    : 'Purchase'
+                "
+                (click)="showConfirmModal = true"
+              ></p-button>
+              <p
+                *ngIf="
+                  listingBids && listingBids.length && listingBids[0].expiresAt
+                "
+              >
+                Reservation ends in
+                <bushtrade-web-countdown-timer
+                  [endDate]="listingBids[0].expiresAt"
+                ></bushtrade-web-countdown-timer>
+              </p>
             </div>
             <div *ngIf="refreshingSidebar">
               <progress-spinner></progress-spinner>
@@ -216,7 +250,7 @@
         </div>
       </div>
       <div class="p-col-12 p-text-center advertisement-horizontal-banner">
-        <img 
+        <img
           src="https://via.placeholder.com/1404x100.jpg"
           alt="Advertise Here"
         />
@@ -239,12 +273,11 @@
   styleClass="p-fluid"
 >
   <ng-template pTemplate="content">
-    <div *ngIf="!timesUp">
-      <p>You have <bushtrade-web-countdown-timer
-        [endDate]="reservationExpiration"
-        (timeDifferenceRemaining) = "checkTimeRemaining($event)"
-      ></bushtrade-web-countdown-timer> to confirm the purchase</p>
-    </div>
+    <p>
+      After clicking confirm you will have one hour to complete the purchase of
+      this item. Thereafter your reservation will be removed and the item will
+      become available to other members again.
+    </p>
   </ng-template>
 
   <ng-template pTemplate="footer">
@@ -254,7 +287,7 @@
       label="Cancel"
       icon="pi pi-times"
       class="p-button-text"
-      (click)="cancelPurchase()"
+      (click)="showConfirmModal = false"
     ></button>
     <button
       pButton
@@ -263,7 +296,7 @@
       icon="pi pi-check"
       class="p-button-text"
       [disabled]="timesUp"
-      (click)="confirmPurchase()"
+      (click)="purchase()"
     ></button>
   </ng-template>
 </p-dialog>
@@ -277,19 +310,14 @@
 >
   <ng-template pTemplate="content">
     <div>
-      <p-table
-        [value]="listingBids"
-        styleClass="p-datatable-striped"
-      >
+      <p-table [value]="listingBids" styleClass="p-datatable-striped">
         <ng-template pTemplate="body" let-bid>
           <tr>
             <td class="p-m-0 p-p-0">{{ bid.firstName }}</td>
             <td class="p-m-0 p-p-0">
               {{ bid.placedAt | date: 'dd MMM yyyy hh:mm:ss' }}
             </td>
-            <td class="p-m-0 p-p-0 p-text-right price">
-              R {{ bid.amount }}
-            </td>
+            <td class="p-m-0 p-p-0 p-text-right price">R {{ bid.amount }}</td>
           </tr>
         </ng-template>
       </p-table>
@@ -303,7 +331,7 @@
       label="Cancel"
       icon="pi pi-times"
       class="p-button-text"
-      (click)="showBidsModal = false;"
+      (click)="showBidsModal = false"
     ></button>
   </ng-template>
 </p-dialog>
