@@ -20,6 +20,8 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit, OnDestroy {
+  refreshInterval: number;
+  visibilityChangedListenerFunction: any;
   constructor(
     private route: ActivatedRoute,
     private listingsService: ListingsService,
@@ -49,52 +51,61 @@ export class DetailComponent implements OnInit, OnDestroy {
   highestBid: IBid;
   biddingRecommendations: number[] = [];
   listingSellerSummary: IListingSeller;
-  reservationExpiration: Date;
-  routeSubscription$: Subscription;
 
   ngOnInit(): void {
-    this.routeSubscription$ = this.route.params.subscribe((params) => {
-      this.detailsLoading = true;
-      this.listingId = params['id'];
+    const { params } = this.route.snapshot;
+    this.listingId = params.id;
 
-      if (this.listingId) {
-        const listingDetails$ = this.listingsService.loadListingDetails(this.listingId);
-        const sellerSummary$ = this.listingsService.getSellerSummary(this.listingId);
+    this.visibilityChangedListenerFunction = function (ev) {
+      this.handleVisibilityChange();
+    }.bind(this);
+    document.addEventListener(
+      'visibilitychange',
+      this.visibilityChangedListenerFunction,
+      false
+    );
+    this.handleVisibilityChange();
 
-        forkJoin([listingDetails$, sellerSummary$]).subscribe(
-          ([listingDetails, sellerSummary]) => {
-            this.listingDetails = listingDetails;
-            this.listingSellerSummary = sellerSummary;
+    this.detailsLoading = true;
 
-            if (listingDetails.type === ListingType.Auction) {
-              this.refreshingSidebar = true;
-              this.biddingService.getListingBids(this.listingId)
-                .subscribe(
-                  (bids) => this.listingBids = bids,
-                  () => {
-                    this.messageService.add({
-                      severity: 'error',
-                      detail: 'There was an error loading auction bids',
-                    });
-                  },
-                  () => {
-                    this.getHighestBidAndSetRecommendations();
-                  }
-                )
+    if (this.listingId) {
+      const listingDetails$ = this.listingsService.loadListingDetails(
+        this.listingId
+      );
+      const sellerSummary$ = this.listingsService.getSellerSummary(
+        this.listingId
+      );
+
+      forkJoin([listingDetails$, sellerSummary$]).subscribe(
+        ([listingDetails, sellerSummary]) => {
+          this.listingDetails = listingDetails;
+          this.listingSellerSummary = sellerSummary;
+
+          this.refreshingSidebar = true;
+          this.biddingService.getListingBids(this.listingId).subscribe(
+            (bids) => (this.listingBids = bids),
+            () => {
+              this.messageService.add({
+                severity: 'error',
+                detail: 'There was an error loading auction bids',
+              });
+            },
+            () => {
+              this.getHighestBidAndSetRecommendations();
             }
-          },
-          () => {
-            this.messageService.add({
-              severity: 'err',
-              detail: 'There was an error loading listing details',
-            });
-          },
-          () => {
-            this.detailsLoading = false;
-          }
-        );
-      }
-    });
+          );
+        },
+        () => {
+          this.messageService.add({
+            severity: 'err',
+            detail: 'There was an error loading listing details',
+          });
+        },
+        () => {
+          this.detailsLoading = false;
+        }
+      );
+    }
   }
 
   placeBid(amount: number): void {
@@ -131,56 +142,26 @@ export class DetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  reservePurchase(): void {
-    this.biddingService.reservePurchase(this.listingId)
-      .subscribe(
-        (bid) => {
-          this.timesUp = false;
-          const endDate = new Date(bid.placedAt);
-          endDate.setSeconds(endDate.getSeconds() + 30);
-          this.reservationExpiration = endDate;
-          this.showConfirmModal = true;
-        },
-        (error) => {
-          this.messageService.add({
-            severity: 'error',
-            detail: error.error });
-        }
-      );
-  }
-
-  confirmPurchase(): void {
+  purchase(): void {
     this.timesUp = true;
-    this.biddingService.purchaseListing(this.listingId)
-      .subscribe(
-        (purchase) => {
-          this.showConfirmModal = false;
-          this.listingDetails.isSold = true;
-          this.messageService.add({
-            severity: 'success',
-            detail: 'You successfully purchased this item',
-          });
-        },
-        (error) => {
-          this.messageService.add({
-            severity: 'error',
-            detail: error.error,
-          });
-        }
-      );
-  }
-
-  cancelPurchase(): void {
-    this.showConfirmModal = false;
-    this.biddingService.cancelPurchase(this.listingId)
-      .subscribe(
-        () => {
-          this.messageService.add({
-            severity: 'warn',
-            detail: 'Purchase was cancelled'
-          });
-        }
-      );
+    this.biddingService.purchaseListing(this.listingId).subscribe(
+      (purchase) => {
+        this.showConfirmModal = false;
+        this.listingDetails.isSold = true;
+        this.messageService.add({
+          severity: 'success',
+          detail: 'You successfully purchased this item',
+        });
+        this.listingBids = [purchase];
+      },
+      (error) => {
+        this.showConfirmModal = false;
+        this.messageService.add({
+          severity: 'error',
+          detail: error.error,
+        });
+      }
+    );
   }
 
   checkTimeRemaining($event) {
@@ -214,7 +195,9 @@ export class DetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getHighestBidAndSetRecommendations(checkAuctionClosed: boolean = true): void {
+  private getHighestBidAndSetRecommendations(
+    checkAuctionClosed: boolean = true
+  ): void {
     const auctionClosed = this.isAuctionClosed();
     if (!checkAuctionClosed || !auctionClosed) {
       this.biddingService.getHighestBid(this.listingId).subscribe(
@@ -236,7 +219,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   private calculateBidRecommendations(): void {
-    let startBid = this.listingDetails.startingPrice - this.listingDetails.priceIncrement;
+    let startBid =
+      this.listingDetails.startingPrice - this.listingDetails.priceIncrement;
     if (this.highestBid != null) {
       startBid = this.highestBid.amount;
     }
@@ -251,7 +235,25 @@ export class DetailComponent implements OnInit, OnDestroy {
     return new Date() > new Date(this.listingDetails.endDate);
   }
 
+  private handleVisibilityChange() {
+    if (document.hidden) {
+      clearInterval(this.refreshInterval);
+    } else {
+      this.refreshAuctionBids();
+      this.refreshInterval = setInterval(() => {
+        this.refreshAuctionBids();
+      }, 30 * 1000);
+    }
+  }
+
   ngOnDestroy(): void {
-    this.routeSubscription$.unsubscribe();
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+    }
+    document.removeEventListener(
+      'visibilitychange',
+      this.visibilityChangedListenerFunction,
+      false
+    );
   }
 }
