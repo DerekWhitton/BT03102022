@@ -1,7 +1,6 @@
-import { createSupportTicketMessage, loadSupportTicketDetails } from './../+state/support-tickets.actions';
+import { closeSupportTicket, createSupportTicketMessage, loadSupportTicketDetails, setSelectedTicket } from './../+state/support-tickets.actions';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { setSelectedTicket } from '../+state/support-tickets.actions';
 import { SupportTicketsFacade } from '../+state/support-tickets.facade';
 
 @Component({
@@ -31,6 +30,12 @@ export class SupportTicketDetailsComponent implements OnInit {
   addTicketMessage(message: string) {
     this.supportTicketsFacade.dispatch(
       createSupportTicketMessage({ supportTicketMessage: message })
+    );
+  }
+
+  closeTicket(ticketId: string) {
+    this.supportTicketsFacade.dispatch(
+      closeSupportTicket({ ticketId })
     );
   }
 }
