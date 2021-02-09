@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@bushtrade/app-config';
-import { IBid, IBidRequest } from '@bushtrade/website/shared/entites';
+import {
+  IBid,
+  IBidRequest,
+  IPurchase,
+} from '@bushtrade/website/shared/entites';
 
 @Injectable({
   providedIn: 'root',
@@ -38,29 +42,11 @@ export class BiddingService {
     );
   }
 
-  reservePurchase(listingId: string) {
-    return this.httpClient.post<IBid>(
-      `${this.base}api/v${this.version}/Bidding/ReservePurchase`,
-      {
-        listingId
-      }
-    );
-  }
-
-  cancelPurchase(listingId: string) {
-    return this.httpClient.post(
-      `${this.base}api/v${this.version}/Bidding/RemoveReservePurchase`,
-      {
-        listingId
-      }
-    );
-  }
-
   purchaseListing(listingId: string) {
-    return this.httpClient.post<IBid>(
+    return this.httpClient.post<IPurchase>(
       `${this.base}api/v${this.version}/Bidding/Purchase`,
       {
-        listingId
+        listingId,
       }
     );
   }

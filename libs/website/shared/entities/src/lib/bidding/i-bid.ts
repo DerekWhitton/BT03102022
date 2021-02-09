@@ -8,3 +8,7 @@ export interface IBid {
   amount: number;
   placedAt: Date;
 }
+
+export interface IPurchase extends IBid {
+  expiresAt: Date;
+}
