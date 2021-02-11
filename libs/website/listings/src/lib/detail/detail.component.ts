@@ -152,7 +152,7 @@ export class DetailComponent implements OnInit, OnDestroy {
           severity: 'success',
           detail: 'You successfully purchased this item',
         });
-        this.listingBids = [purchase];
+        this.listingBids = [purchase.bid];
       },
       (error) => {
         this.showConfirmModal = false;
@@ -183,7 +183,9 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.biddingService.getListingBids(this.listingId).subscribe(
       (bids) => {
         this.listingBids = bids;
-        this.getHighestBidAndSetRecommendations(false);
+        if (this.listingDetails) {
+          this.getHighestBidAndSetRecommendations(false);
+        }
       },
       () => {
         this.refreshingSidebar = false;

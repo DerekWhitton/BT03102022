@@ -29,13 +29,18 @@ export class ProfileIndexComponent implements OnInit {
     this.items = [
       {
         label: 'Account',
-        icon: 'pi pi-pw pi-file',
+        icon: 'pi pi-pw pi-user-edit',
         routerLink: 'account',
       },
       {
         label: 'Listings',
         icon: 'pi pi-fw pi-list',
         routerLink: 'listings',
+      },
+      {
+        label: 'Purchases',
+        icon: 'pi pi-fw pi-dollar',
+        routerLink: 'purchases',
       },
     ];
     this.store.dispatch(loadUser());

@@ -188,25 +188,32 @@
             >
               <h3>Price</h3>
               <h3 class="price">R {{ listingDetails.startingPrice }}</h3>
-              <p-button
-                [disabled]="listingBids && listingBids.length"
-                [label]="
-                  listingBids && listingBids.length
-                    ? 'Item Reserved'
-                    : 'Purchase'
-                "
-                (click)="showConfirmModal = true"
-              ></p-button>
-              <p
-                *ngIf="
-                  listingBids && listingBids.length && listingBids[0].expiresAt
-                "
-              >
-                Reservation ends in
-                <bushtrade-web-countdown-timer
-                  [endDate]="listingBids[0].expiresAt"
-                ></bushtrade-web-countdown-timer>
+              <p *ngIf="listingDetails.isSold">
+                This item has been sold.
               </p>
+              <div *ngIf="!listingDetails.isSold">
+                <p-button
+                  [disabled]="listingBids && listingBids.length"
+                  [label]="
+                    listingBids && listingBids.length
+                      ? 'Item Reserved'
+                      : 'Purchase'
+                  "
+                  (click)="showConfirmModal = true"
+                ></p-button>
+                <p
+                  *ngIf="
+                    listingBids &&
+                    listingBids.length &&
+                    listingBids[0].expiresAt
+                  "
+                >
+                  Reservation ends in
+                  <bushtrade-web-countdown-timer
+                    [endDate]="listingBids[0].expiresAt"
+                  ></bushtrade-web-countdown-timer>
+                </p>
+              </div>
             </div>
             <div *ngIf="refreshingSidebar">
               <progress-spinner></progress-spinner>

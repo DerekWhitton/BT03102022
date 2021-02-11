@@ -1,17 +1,21 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Route } from '@angular/router';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Store, StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import * as fromShared from '@bushtrade/website/shared/state';
-import { ProfileIndexComponent } from './containers/profile-index/profile-index.component';
-import { UiElementsModule } from '@bushtrade/ui-elements';
+import { RouterModule } from '@angular/router';
 import { UiModule } from '@bushtrade/ui';
-import { SellerIndexComponent } from './containers/seller-index/seller-index.component';
-import * as fromListings from './+state/listings/listings.reducer';
+import { UiElementsModule } from '@bushtrade/ui-elements';
+import * as fromShared from '@bushtrade/website/shared/state';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { ListingsEffects } from './+state/listings/listings.effects';
 import { ListingsFacade } from './+state/listings/listings.facade';
+import * as fromListings from './+state/listings/listings.reducer';
+import { PurchasesEffects } from './+state/purchases/purchases.effects';
+import { PurchasesFacade } from './+state/purchases/purchases.facade';
+import * as fromPurchases from './+state/purchases/purchases.reducer';
+import { ProfileIndexComponent } from './containers/profile-index/profile-index.component';
+import { PurchasesIndexComponent } from './containers/purchases-index/purchases-index.component';
+import { SellerIndexComponent } from './containers/seller-index/seller-index.component';
 import { UserComponent } from './containers/user/user.component';
 
 @NgModule({
@@ -28,6 +32,7 @@ import { UserComponent } from './containers/user/user.component';
         children: [
           { path: 'account', component: UserComponent },
           { path: 'listings', component: SellerIndexComponent },
+          { path: 'purchases', component: PurchasesIndexComponent },
         ],
       },
     ]),
@@ -39,8 +44,18 @@ import { UserComponent } from './containers/user/user.component';
       fromListings.reducer
     ),
     EffectsModule.forFeature([ListingsEffects]),
+    StoreModule.forFeature(
+      fromPurchases.PURCHASES_FEATURE_KEY,
+      fromPurchases.reducer
+    ),
+    EffectsModule.forFeature([PurchasesEffects]),
   ],
-  declarations: [ProfileIndexComponent, SellerIndexComponent, UserComponent],
-  providers: [ListingsFacade],
+  declarations: [
+    ProfileIndexComponent,
+    SellerIndexComponent,
+    UserComponent,
+    PurchasesIndexComponent,
+  ],
+  providers: [ListingsFacade, PurchasesFacade],
 })
 export class WebsiteProfileModule {}
