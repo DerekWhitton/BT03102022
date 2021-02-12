@@ -93,8 +93,6 @@ export class SellerIndexComponent implements OnInit {
   editListingPropertyValues: ISellerListingPropertyValue[] = [];
   isUploadingImageFiles: boolean;
 
-
-
   constructor(
     private store: Store,
     private listingsFacade: ListingsFacade,
@@ -118,13 +116,13 @@ export class SellerIndexComponent implements OnInit {
 
   handleChange(e) {
     this.isPrivate = e.checked;
-    if(e.checked){
+    if (e.checked) {
       this.signUpSellerFormGroup.patchValue({
-        name: "username"
+        name: 'username',
       });
-    }else{
+    } else {
       this.signUpSellerFormGroup.patchValue({
-        name: ""
+        name: '',
       });
     }
   }
@@ -210,8 +208,6 @@ export class SellerIndexComponent implements OnInit {
 
   saveListing() {
     let listing = this.addlistingFormGroup.value as ICreateOrUpdateListing;
-    listing.startDate = listing.startDate ? listing.startDate : null;
-    listing.endDate = listing.endDate ? listing.endDate : null;
     listing.listingImageIds = this.images.map((i) => i.id);
     listing.listingPropertyValues = this.categoryProperties.map((p) => ({
       categoryPropertyId: p.id,
