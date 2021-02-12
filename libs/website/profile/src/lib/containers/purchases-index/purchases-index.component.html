@@ -1,0 +1,118 @@
+<div class="p-col-12 p-text-center" *ngIf="!(loaded$ | async)">
+  <progress-spinner></progress-spinner>
+</div>
+
+<div *ngIf="(loaded$ | async) && purchases$ | async as purchases">
+  <p *ngIf="purchases.length <= 0">
+    We couldn't find any purchases associated with your account.
+  </p>
+  <p-table [value]="purchases" *ngIf="purchases.length > 0">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>
+          Listing
+        </th>
+        <th>
+          Amount
+        </th>
+        <th>
+          Paid
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-purchase>
+      <tr>
+        <td>
+          {{ purchase.listing.name }}
+        </td>
+        <td>R{{ purchase.bid.amount.toFixed(2) }}</td>
+        <td *ngIf="purchase.paidAt; else notPaid">
+          {{ purchase.paidAt | date }}
+        </td>
+        <ng-template #notPaid>
+          <td>Not Paid</td>
+        </ng-template>
+
+        <td>
+          <p-button
+            *ngIf="!purchase.paidAt"
+            label="Pay Now"
+            (click)="initiatePayment(purchase.id)"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [(visible)]="showPurchaseDetailDialog"
+  header="Pay Now"
+  [style]="{ width: '450px' }"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div
+      class="p-col-12 p-text-center"
+      *ngIf="!(paymentDetailsLoaded$ | async)"
+    >
+      <progress-spinner></progress-spinner>
+    </div>
+
+    <form
+      ngNoForm
+      target="_blank"
+      method="POST"
+      [action]="paymentDetails.url"
+      *ngIf="
+        (paymentDetailsLoaded$ | async) && paymentDetails$
+          | async as paymentDetails
+      "
+    >
+      <div *ngIf="!paymentDetails.paid">
+        <input
+          type="hidden"
+          [value]="field.value"
+          [name]="field.key"
+          [id]="field.key"
+          *ngFor="let field of paymentDetails.fields | keyvalue: 0"
+        />
+
+        <p>
+          You will be redirected to PayFast to complete your payment of R{{
+            paymentDetails.total | number: '1.2'
+          }}
+        </p>
+
+        <p-button label="Proceed to PayFast" type="submit"></p-button>
+      </div>
+
+      <div *ngIf="paymentDetails.paid">
+        <p>
+          You have already paid.
+        </p>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <!-- <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text p-button-danger"
+      (click)="this.displayStartSellingDialog = false"
+    ></button>
+    <button
+      pButton
+      pRipple
+      class="p-button-text"
+      icon="pi pi-check"
+      label="Start Selling!"
+      (click)="registerSeller()"
+    ></button> -->
+  </ng-template>
+</p-dialog>
