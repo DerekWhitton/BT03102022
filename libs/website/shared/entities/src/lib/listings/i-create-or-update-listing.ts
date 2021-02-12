@@ -8,8 +8,6 @@ export interface ICreateOrUpdateListing {
   startingPrice: number;
   priceIncrement: number;
   quantity: number;
-  startDate: Date;
-  endDate: Date;
   type: ListingType;
   categoryId: string;
   listingImageIds: string[];
