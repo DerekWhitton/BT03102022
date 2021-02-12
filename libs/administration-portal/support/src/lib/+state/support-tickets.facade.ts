@@ -6,7 +6,6 @@ import * as SupportTicketsSelectors from './support-tickets.selectors';
 @Injectable()
 export class SupportTicketsFacade {
   loaded$ = this.store.pipe(select(SupportTicketsSelectors.getSupportTicketsLoaded));
-  supportTicketAdded$ = this.store.pipe(select(SupportTicketsSelectors.getSupportTicketAdded));
   allSupportTickets$ = this.store.pipe(select(SupportTicketsSelectors.getAllSupportTickets));
   selectedSupportTicket$ = this.store.pipe(select(SupportTicketsSelectors.getSelected));
   lastKnownError$ = this.store.pipe(select(SupportTicketsSelectors.getSupportTicketsError));

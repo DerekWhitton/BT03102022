@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
-import { SupportService } from '@bushtrade/website/shared/services';
 import { map, withLatestFrom } from 'rxjs/operators';
 import * as SupportTicketsActions from './support-tickets.actions';
 import { Store } from '@ngrx/store';
+import { SupportService } from '@bushtrade/administration-portal/shared/services';
 
 @Injectable()
 export class SupportTicketsEffects {
   loadSupportTickets$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SupportTicketsActions.loadSupportTickets),
-      withLatestFrom(this.store),
       fetch({
         run: (action) => {
           return this.supportService
@@ -21,7 +20,8 @@ export class SupportTicketsEffects {
               action.query,
               action.category,
               action.includeClosed
-            ).pipe(
+            )
+            .pipe(
               map((supportTickets) =>
                 SupportTicketsActions.loadSupportTicketsSuccess({
                   supportTickets,
@@ -37,47 +37,31 @@ export class SupportTicketsEffects {
     )
   );
 
-  createSupportTicket$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(SupportTicketsActions.createSupportTicket),
-      withLatestFrom(this.store),
-      fetch({
-        run: (action) => {
-          return this.supportService.addSupportTicket(action.supportTicket).pipe(
-            map((supportTicketDetails) =>
-              SupportTicketsActions.createSupportTicketSuccess({
-                supportTicketDetails
-              })
-            ));
-        },
-        onError: (action, error) => {
-          console.error('Error', error);
-          return SupportTicketsActions.createSupportTicketFailure({ error });
-        },
-      })
-    )
-  );
-
   loadSupportTicketDetails$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SupportTicketsActions.loadSupportTicketDetails),
       withLatestFrom(this.store),
       fetch({
         run: (action) => {
-          return this.supportService.getSupportTicketDetails(action.ticketId).pipe(
-            map((supportTicketDetails) =>
-              SupportTicketsActions.loadSupportTicketDetailsSuccess({
-                supportTicketDetails
-              })
-            )
-          );
+          return this.supportService
+            .getSupportTicketDetails(action.ticketId)
+            .pipe(
+              map((supportTicketDetails) =>
+                SupportTicketsActions.loadSupportTicketDetailsSuccess({
+                  supportTicketDetails,
+                })
+              )
+            );
         },
         onError: (action, error) => {
           console.error('Error', error);
-          return SupportTicketsActions.loadSupportTicketDetailsFailure({ error });
-        }
+          return SupportTicketsActions.loadSupportTicketDetailsFailure({
+            error,
+          });
+        },
       })
-    ));
+    )
+  );
 
   createSupportTicketMessage$ = createEffect(() =>
     this.actions$.pipe(
@@ -87,7 +71,7 @@ export class SupportTicketsEffects {
         run: (action, state: any) => {
           var message = {
             message: action.supportTicketMessage,
-            supportTicketId: state.supportTickets.selectedId
+            supportTicketId: state.supportTickets.selectedId,
           };
           return this.supportService.addSupportTicketMessage(message).pipe(
             map((supportTicketMessage) =>
@@ -100,6 +84,30 @@ export class SupportTicketsEffects {
         onError: (action, error) => {
           console.error('Error', error);
           return SupportTicketsActions.createSupportTicketMessageFailure({
+            error,
+          });
+        },
+      })
+    )
+  );
+
+  closeSupportTicketMessage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SupportTicketsActions.closeSupportTicket),
+      withLatestFrom(this.store),
+      fetch({
+        run: (action) => {
+          return this.supportService.closeSupportTicket(action.ticketId).pipe(
+            map((supportTicket) =>
+              SupportTicketsActions.closeSupportTicketSuccess({
+                supportTicket,
+              })
+            )
+          );
+        },
+        onError: (action, error) => {
+          console.error('Error', error);
+          return SupportTicketsActions.closeSupportTicketFailure({
             error,
           });
         },

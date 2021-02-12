@@ -1,5 +1,6 @@
+
+import { IPaginatedResponse, ISupportTicket, ISupportTicketMessage, SupportTicketCategory } from '@bushtrade/administration-portal/shared/entites';
 import { createAction, props } from '@ngrx/store';
-import { ICreateSupportTicket, IPaginatedResponse, ISupportTicket, ISupportTicketMessage, SupportTicketCategory } from '@bushtrade/website/shared/entites';
 
 export const loadSupportTickets = createAction(
   '[SupportTickets] Load SupportTickets',
@@ -41,21 +42,6 @@ export const loadSupportTicketDetailsFailure = createAction(
   props<{ error: any }>()
 );
 
-export const createSupportTicket = createAction(
-  '[SupportTicket] Create Support Ticket',
-  props<{ supportTicket: ICreateSupportTicket }>()
-);
-
-export const createSupportTicketSuccess = createAction(
-  '[SupportTicket] Create Support Ticket Success',
-  props<{ supportTicketDetails: ISupportTicket }>()
-);
-
-export const createSupportTicketFailure = createAction(
-  '[SupportTicket] Create Support Ticket Failure',
-  props<{ error: any }>()
-);
-
 export const createSupportTicketMessage = createAction(
   '[SupportTicketMessage] Create Support Ticket Message',
   props<{ supportTicketMessage: string }>()
@@ -68,5 +54,20 @@ export const createSupportTicketMessageSuccess = createAction(
 
 export const createSupportTicketMessageFailure = createAction(
   '[SupportTicketMessage] Create Support Ticket Message Failure',
+  props<{ error: any }>()
+);
+
+export const closeSupportTicket = createAction(
+  '[SupportTicket] Close Support Ticket',
+  props<{ ticketId: string }>()
+);
+
+export const closeSupportTicketSuccess = createAction(
+  '[SupportTicket] Close Support Ticket Success',
+  props<{ supportTicket: ISupportTicket }>()
+);
+
+export const closeSupportTicketFailure = createAction(
+  '[SupportTicket] Close Support Ticket Failure',
   props<{ error: any }>()
 );

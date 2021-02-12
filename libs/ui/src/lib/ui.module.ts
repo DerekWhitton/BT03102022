@@ -24,6 +24,8 @@ import { WebsiteFooterComponent } from './website-footer/website-footer.componen
 import { WebsiteMenuComponent } from './website-menu/website-menu.component';
 import { SearchFacetComponent } from './search-facet/search-facet.component';
 import { CountdownTimerComponent } from './countdown-timer/countdown-timer.component';
+import { SupportComponent } from './support/support.component';
+import { SupportTicketComponent } from './support-ticket/support-ticket.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, UiElementsModule],
@@ -49,6 +51,8 @@ import { CountdownTimerComponent } from './countdown-timer/countdown-timer.compo
     ListingImagePreviewComponent,
     SearchFacetComponent,
     CountdownTimerComponent,
+    SupportComponent,
+    SupportTicketComponent,
   ],
   providers: [MessageService, ConfirmationService],
   exports: [
@@ -73,6 +77,8 @@ import { CountdownTimerComponent } from './countdown-timer/countdown-timer.compo
     ListingImagePreviewComponent,
     SearchFacetComponent,
     CountdownTimerComponent,
+    SupportComponent,
+    SupportTicketComponent,
   ],
 })
 export class UiModule {}

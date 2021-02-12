@@ -1,5 +1,7 @@
 <bushtrade-web-support-ticket
   [supportTicket]="selectedSupportTicket$ | async"
+  [isAdmin]="true"
   (addMessage)="addTicketMessage($event)"
+  (closeTicket)="closeTicket($event)"
 >
 </bushtrade-web-support-ticket>
