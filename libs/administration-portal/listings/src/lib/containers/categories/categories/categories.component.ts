@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CategoryPropertyType,
@@ -24,6 +31,8 @@ export class CategoriesComponent implements OnInit {
   @Input() loaded;
   @Output() goDeeper = new EventEmitter();
   @Output() jumpChain = new EventEmitter();
+  @ViewChild('categoryIconUpload') categoryIconUpload: any;
+  @ViewChild('categoryBannerUpload') categoryBannerUpload: any;
 
   categoryChain: Array<any> = [
     {
@@ -50,6 +59,7 @@ export class CategoriesComponent implements OnInit {
     { label: 'Option Selection', value: CategoryPropertyType.SingleSelect },
   ];
   categoryProperties: object[];
+  isUploadingImageFiles: boolean;
 
   categoryForm: FormGroup;
   addPropertyFormGroup: FormGroup;
@@ -158,6 +168,35 @@ export class CategoriesComponent implements OnInit {
     this.displayCreateDialog = true;
   }
 
+  async uploadListingImage(event, isBanner: boolean) {
+    const file = event.files[0];
+
+    this.isUploadingImageFiles = true;
+    if (isBanner) {
+      this.categoryBannerUpload.clear();
+    } else {
+      this.categoryIconUpload.clear();
+    }
+
+    await this.categorySvc
+      .uploadCategoryImage(file)
+      .subscribe((res) => {
+        if (isBanner)
+          this.categoryForm.controls.categoryBannerUri.setValue(res.imageUri);
+        else this.categoryForm.controls.categoryIconUri.setValue(res.imageUri);
+      });
+
+    this.isUploadingImageFiles = false;
+  }
+
+  removeCategoryIcon() {
+    this.categoryForm.controls.categoryIconUri.setValue(null);
+  }
+
+  removeCategoryBanner() {
+    this.categoryForm.controls.categoryBannerUri.setValue(null);
+  }
+
   private initializeCategoryForm(category: ICategory = null) {
     this.categoryForm = new FormGroup({
       id: new FormControl(category?.id ?? null),
@@ -167,6 +206,9 @@ export class CategoriesComponent implements OnInit {
         category?.isActive ?? false,
         Validators.required
       ),
+      isFeatured: new FormControl(category?.isFeatured ?? false, Validators.required),
+      categoryIconUri: new FormControl(category?.categoryIconUri),
+      categoryBannerUri: new FormControl(category?.categoryBannerUri),
     });
     this.categoryProperties = category ? category.properties : [];
   }

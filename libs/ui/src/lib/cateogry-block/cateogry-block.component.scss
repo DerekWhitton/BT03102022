@@ -1,23 +1,25 @@
-.categories{
-    position: relative;
+.categories {
+  position: relative;
 }
 
-.category-block{
-    position: relative;
-    max-width: 100%;
-    min-height: 250px;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+.category-block {
+  position: relative;
+  max-width: 100%;
+  min-height: 100px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  filter: brightness(50%);
+}
 
-    h3{
-        text-align: center;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        line-height: 1.2em;
-        transform: translate(-50%, -90%);
-    }
-
+h3 {
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  line-height: 2.2em;
+  transform: translate(-50%, -90%);
 }

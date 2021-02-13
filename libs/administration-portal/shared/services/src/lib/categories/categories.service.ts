@@ -1,6 +1,6 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { ICategory } from '@bushtrade/administration-portal/shared/entites';
+import { ICategory, ICategoryImage } from '@bushtrade/administration-portal/shared/entites';
 import { APP_CONFIG } from '@bushtrade/app-config';
 
 @Injectable({
@@ -38,6 +38,7 @@ export class CategoriesService {
 
   createCategory(category: any) {
     return this.httpClient.post<ICategory>(
+      
       `${this.base}api/v${this.version}/Categories`,
       {
         ...category,
@@ -58,5 +59,14 @@ export class CategoriesService {
     return this.httpClient.delete<HttpResponse<any>>(
       `${this.base}api/v${this.version}/Categories/${categoryId}`
     );
+  }
+
+  uploadCategoryImage(file: File) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.httpClient.post<ICategoryImage>(
+      `${this.base}api/v${this.version}/Categories/UploadCategoryImage`,
+      formData
+    )
   }
 }

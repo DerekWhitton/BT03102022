@@ -5,6 +5,9 @@ export interface ICategory {
   children: ICategory[];
   properties: ICategoryProperty[];
   isActive: boolean;
+  isFeatured: boolean;
+  categoryIconUri: string;
+  categoryBannerUri: string;
 }
 
 export interface ICategoryProperty {
@@ -12,6 +15,10 @@ export interface ICategoryProperty {
   type: number;
   required: boolean;
   options: string[];
+}
+
+export interface ICategoryImage {
+  imageUri: string;
 }
 
 export enum CategoryPropertyType {

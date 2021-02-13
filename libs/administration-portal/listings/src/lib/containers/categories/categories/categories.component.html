@@ -48,6 +48,13 @@
                 (click)="onGoDeeper(category)"
               ></button>
               <button
+                  pButton
+                  pRipple
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success p-mr-2"
+                  (click)="handleCategoryUpdateSelection(category.id)"
+                ></button>
+              <button
                 type="button"
                 pButton
                 icon="pi pi-trash"
@@ -131,6 +138,63 @@
         </label>
         <br />
         <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+      </div>
+      <div class="p-field" *ngIf="sub == false">
+        <label>
+          Featured:
+        </label>
+        <br />
+        <p-inputSwitch formControlName="isFeatured"></p-inputSwitch>
+      </div>
+      <div class="p-field" *ngIf="sub == false">
+        <label>
+          Category icon:
+        </label>
+        <p-fileUpload
+          *ngIf="!categoryForm.controls.categoryIconUri.value"
+          #categoryIconUpload
+          name="categoryIcon"
+          customUpload="true"
+          (uploadHandler)="uploadListingImage($event, false)"
+        ></p-fileUpload>
+
+        <p *ngIf="isUploadingImageFiles">
+          Uploading...
+        </p>
+        <div class="p-grid p-mt-2">
+          <div class="p-col-3">
+            <bushtrade-listing-image-preview
+              *ngIf="categoryForm.controls.categoryIconUri.value"
+              (removed)="removeCategoryIcon()"
+              [src]="categoryForm.controls.categoryIconUri.value"
+            ></bushtrade-listing-image-preview>
+          </div>
+        </div>
+      </div>
+      <div class="p-field" *ngIf="sub == false">
+        <label>
+          Category banner:
+        </label>
+        <p-fileUpload
+          *ngIf="!categoryForm.controls.categoryBannerUri.value"
+          #categoryBannerUpload
+          name="categoryBanner"
+          customUpload="true"
+          (uploadHandler)="uploadListingImage($event, true)"
+        ></p-fileUpload>
+
+        <p *ngIf="isUploadingImageFiles">
+          Uploading...
+        </p>
+        <div class="p-grid p-mt-2">
+          <div class="p-col-3">
+            <bushtrade-listing-image-preview
+              *ngIf="categoryForm.controls.categoryBannerUri.value"
+              (removed)="removeCategoryBanner()"
+              [src]="categoryForm.controls.categoryBannerUri.value"
+            ></bushtrade-listing-image-preview>
+          </div>
+        </div>
       </div>
     </form>
     <p-table

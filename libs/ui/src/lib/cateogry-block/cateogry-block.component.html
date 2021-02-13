@@ -1,9 +1,13 @@
 <div class="p-grid categories">
-    <div class="p-lg-3 p-md-12" *ngFor="let category of categories;" >
-        <div class="category-block" style="background-image:url({{category.image}})">
-            <h3>{{category.name}}</h3>
-        </div>
-        
+  <div class="p-lg-3 p-md-12" *ngFor="let category of categories">
+    <div style="position: relative">
+      <div
+        class="category-block"
+        [ngStyle]="{
+          'background-image': 'url(' + category.categoryBannerUri + ')'
+        }"
+      ></div>
+      <h3>{{ category.name }}</h3>
     </div>
+  </div>
 </div>
-

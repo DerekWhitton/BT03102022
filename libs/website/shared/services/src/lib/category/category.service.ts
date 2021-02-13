@@ -28,6 +28,12 @@ export class CategoryService {
     );
   }
 
+  loadFeaturedCategories(limitNumber: number) {
+    return this.httpClient.get<ICategory[]>(
+      `${this.base}api/v${this.version}/Categories/Featured?limitNumber=${limitNumber}`
+    );
+  }
+
   getCategoryById(id: string = null) {
     return this.httpClient.get<ICategory>(
       `${this.base}api/v${this.version}/Categories/${id}`
