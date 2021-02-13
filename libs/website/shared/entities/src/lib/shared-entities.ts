@@ -13,6 +13,8 @@ export * from './listings/i-seller-listing';
 export * from './listings/i-listing-details';
 export * from './listings/i-listing-seller';
 export * from './bidding/i-bid';
+export * from './bidding/i-purchase';
+export * from './bidding/i-payment-details';
 export * from './support/i-support-ticket';
 export * from './support/i-create-support-ticket';
 export * from './support/i-support-ticket-message';

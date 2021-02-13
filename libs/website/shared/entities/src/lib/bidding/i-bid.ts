@@ -5,10 +5,8 @@ export interface IBidRequest {
 
 export interface IBid {
   firstName: string;
+  userId: string;
   amount: number;
   placedAt: Date;
-}
-
-export interface IPurchase extends IBid {
-  expiresAt: Date;
+  expiresAt?: Date;
 }

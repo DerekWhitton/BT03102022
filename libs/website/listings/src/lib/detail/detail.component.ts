@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MsalService } from '@azure/msal-angular';
 import {
   IBid,
   IBidRequest,
@@ -11,8 +12,8 @@ import {
   BiddingService,
   ListingsService,
 } from '@bushtrade/website/shared/services';
-import { forkJoin, Subscription } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'bushtrade-web-detail',
@@ -22,24 +23,6 @@ import { MessageService } from 'primeng/api';
 export class DetailComponent implements OnInit, OnDestroy {
   refreshInterval: number;
   visibilityChangedListenerFunction: any;
-  constructor(
-    private route: ActivatedRoute,
-    private listingsService: ListingsService,
-    private biddingService: BiddingService,
-    private messageService: MessageService
-  ) {}
-
-  listingType = ListingType;
-  relatedItems = [];
-  messages: any = [
-    {
-      severity: 'warn',
-      summary: 'Warning',
-      detail:
-        "You'll need to Sign in or Create a free account before you can purchase.",
-    },
-  ];
-
   detailsLoading: boolean;
   refreshingSidebar: boolean;
   showConfirmModal: boolean;
@@ -51,10 +34,33 @@ export class DetailComponent implements OnInit, OnDestroy {
   highestBid: IBid;
   biddingRecommendations: number[] = [];
   listingSellerSummary: IListingSeller;
+  listingType = ListingType;
+  relatedItems = [];
+  userId: string;
+  userHasPlacedBid: boolean = false;
+  userHasWinningBid: boolean = false;
+
+  constructor(
+    private route: ActivatedRoute,
+    private listingsService: ListingsService,
+    private biddingService: BiddingService,
+    private messageService: MessageService,
+    private msalService: MsalService
+  ) {}
+
+  messages: any = [
+    {
+      severity: 'warn',
+      summary: 'Warning',
+      detail:
+        "You'll need to Sign in or Create a free account before you can purchase.",
+    },
+  ];
 
   ngOnInit(): void {
     const { params } = this.route.snapshot;
     this.listingId = params.id;
+    this.userId = this.msalService.getAccount()?.accountIdentifier;
 
     this.visibilityChangedListenerFunction = function (ev) {
       this.handleVisibilityChange();
@@ -83,7 +89,13 @@ export class DetailComponent implements OnInit, OnDestroy {
 
           this.refreshingSidebar = true;
           this.biddingService.getListingBids(this.listingId).subscribe(
-            (bids) => (this.listingBids = bids),
+            (bids) => {
+              this.listingBids = bids;
+              this.userHasPlacedBid = this.userId
+                ? this.listingBids?.filter((b) => b.userId == this.userId)
+                    ?.length > 0 ?? false
+                : false;
+            },
             () => {
               this.messageService.add({
                 severity: 'error',
@@ -147,12 +159,11 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.biddingService.purchaseListing(this.listingId).subscribe(
       (purchase) => {
         this.showConfirmModal = false;
-        this.listingDetails.isSold = true;
         this.messageService.add({
           severity: 'success',
           detail: 'You successfully purchased this item',
         });
-        this.listingBids = [purchase];
+        this.listingBids = [purchase.bid];
       },
       (error) => {
         this.showConfirmModal = false;
@@ -183,7 +194,13 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.biddingService.getListingBids(this.listingId).subscribe(
       (bids) => {
         this.listingBids = bids;
-        this.getHighestBidAndSetRecommendations(false);
+        this.userHasPlacedBid = this.userId
+          ? this.listingBids?.filter((b) => b.userId == this.userId)?.length >
+              0 ?? false
+          : false;
+        if (this.listingDetails) {
+          this.getHighestBidAndSetRecommendations(false);
+        }
       },
       () => {
         this.refreshingSidebar = false;
@@ -204,6 +221,7 @@ export class DetailComponent implements OnInit, OnDestroy {
         (res) => {
           this.highestBid = res;
           this.calculateBidRecommendations();
+          this.userHasWinningBid = this.userId == this.highestBid?.userId;
         },
         () => {
           console.log('Error loading highest bid');

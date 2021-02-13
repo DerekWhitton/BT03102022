@@ -182,36 +182,6 @@
             <p-inputNumber formControlName="quantity"></p-inputNumber>
           </div>
 
-          <!-- start date -->
-          <div
-            class="p-field"
-            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
-          >
-            <label>
-              Start at:
-            </label>
-            <p-calendar
-              formControlName="startDate"
-              inline="true"
-              dateFormat="yy-mm-dd"
-            ></p-calendar>
-          </div>
-
-          <!-- end date -->
-          <div
-            class="p-field"
-            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
-          >
-            <label>
-              End at:
-            </label>
-            <p-calendar
-              formControlName="endDate"
-              inline="true"
-              dateFormat="yy-mm-dd"
-            ></p-calendar>
-          </div>
-
           <!-- other category properties -->
           <ng-container *ngIf="showProperties == true">
             <div
