@@ -15,6 +15,7 @@ export interface IListing {
   isFavorite: boolean;
   startingPrice: number;
   type: ListingType;
+  createdAt: Date;
   startDate: Date;
   endDate: Date;
   images: Image[];

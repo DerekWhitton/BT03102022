@@ -57,6 +57,18 @@ export class ListingsService {
     );
   }
 
+  loadLatestListings(limitNumber: number) {
+    return this.httpClient.get<IListing[]>(
+      `${this.base}api/v${this.version}/Listing/Latest?numberOfListings=${limitNumber}`
+    );
+  }
+
+  loadAuctionsClosing(limitNumber: number) {
+    return this.httpClient.get<IListing[]>(
+      `${this.base}api/v${this.version}/Listing/AuctionsClosing?numberOfListings=${limitNumber}`
+    );
+  }
+
   updateSellerListing(
     sellerId: string,
     listingId: string,
