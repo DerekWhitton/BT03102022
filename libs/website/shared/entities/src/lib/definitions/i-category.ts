@@ -2,6 +2,8 @@ export interface ICategory {
   id: string;
   name: string;
   parentId: string;
+  categoryIconUri: string;
+  categoryBannerUri: string;
   children: ICategory[];
 }
 
