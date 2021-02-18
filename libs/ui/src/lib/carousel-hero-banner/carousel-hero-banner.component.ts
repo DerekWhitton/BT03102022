@@ -7,62 +7,59 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CarouselHeroBannerComponent implements OnInit {
 
-
-  responsiveOptions;
+  mobile: boolean;
 
   banners:any = [
     {
       "id": "1000",
       "image": "https://via.placeholder.com/1200x380.jpg",
-      "title": "2000+ Hunting Aids"
+      "title": "2000+ Hunting Aids",
+      "label": "View More"
     },
+    {
+      "id": "1000",
+      "image": "https://via.placeholder.com/1200x380.jpg",
+      "title": "Big Ammo Sale!",
+      "label": "Stock Up"
+    },
+    {
+      "id": "1000",
+      "image": "https://via.placeholder.com/1200x380.jpg",
+      "title": "Carnivore Month",
+      "label": "View Meats"
+    },            
   ];
   pricerange:any =[
-    {name: 'R1000'},
-    {name: 'R2000'},
-    {name: 'R3000'},
-    {name: 'R4000'},
-    {name: 'R5000'},
+    {price: 'R1000'},
+    {price: 'R2000'},
+    {price: 'R3000'},
+    {price: 'R4000'},
+    {price: 'R5000'},
   ];
   types:any =[
-    {name: 'Type 001'},
-    {name: 'Type 002'},
-    {name: 'Type 003'},
-    {name: 'Type 004'},
-    {name: 'Type 005'},
+    {type: 'Type 001'},
+    {type: 'Type 002'},
+    {type: 'Type 003'},
+    {type: 'Type 004'},
+    {type: 'Type 005'},
   ];
   makes:any =[
-    {name: 'Make 001'},
-    {name: 'Make 002'},
-    {name: 'Make 003'},
-    {name: 'Make 004'},
-    {name: 'Make 005'},
+    {make: 'Make 001'},
+    {make: 'Make 002'},
+    {make: 'Make 003'},
+    {make: 'Make 004'},
+    {make: 'Make 005'},
   ];
 
 
-  constructor() { 
-
-    this.responsiveOptions = [
-      {
-          breakpoint: '1024px',
-          numVisible: 3,
-          numScroll: 3
-      },
-      {
-          breakpoint: '768px',
-          numVisible: 2,
-          numScroll: 2
-      },
-      {
-          breakpoint: '560px',
-          numVisible: 1,
-          numScroll: 1
-      }
-  ];
-
-  }
+  constructor() { }
 
   ngOnInit(): void {
+      console.log(window.screen.width);
+    if (window.screen.width < 512) { // 768px portrait
+      this.mobile = true;
+    }
+
   }
 
 }

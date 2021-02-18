@@ -1,37 +1,37 @@
 <div class="p-grid bg-gold" *ngIf="showMegaSearchMenu">
   <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
-    <div class="p-grid p-mt-1 p-mb-1">
-      <div class="p-col-12 p-md-8 p-lg-8">
-        <span class="p-input-icon-left ui-block">
+    <div class="p-d-flex p-flex-column p-flex-md-row p-pt-2 p-pb-2">
+
+        <span class="p-input-icon-left p-mt-1 p-mb-1 p-mr-md-2" style="flex-grow: 1">
           <i class="pi pi-search"></i>
           <input
-            class="ui-block"
             type="text"
+            class="ui-block"
             pInputText
             placeholder="What are you looking for?"
             [(ngModel)]="searchQuery"
             (keydown.enter)="handleSearch()"
           />
         </span>
-      </div>
-      <div class="p-col-12 p-md-3 p-lg-3">
+
         <p-dropdown
           [style]="{ width: '100%' }"
           [options]="searchCategories"
+          class="p-mt-1 p-mb-1 p-mr-md-2"
           optionLabel="name"
           [(ngModel)]="selectedSearchCategory"
         ></p-dropdown>
-      </div>
-      <div class="p-col-12 p-md-1 p-lg-1">
+
         <button
           pButton
           type="button"
           label="Search"
-          class="p-button-white p-button-outlined"
+          class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-ml-auto"
           (click)="handleSearch()"
         ></button>
-      </div>
+
     </div>
+
   </div>
 </div>
 
@@ -48,7 +48,6 @@
             alt="Bush Trade"
           />
         </ng-template>
-
         <ng-template pTemplate="end">
           <button
             *ngIf="!loggedIn"
@@ -56,12 +55,6 @@
             label="Sign In"
             (click)="login()"
           ></button>
-          <!-- <button
-            *ngIf="loggedIn"
-            pButton
-            label="Sign Out"
-            (click)="logout()"
-          ></button> -->
           <button
             *ngIf="loggedIn"
             type="button"
@@ -73,6 +66,7 @@
           <p-menu #menu [popup]="true" [model]="accountItems"></p-menu>
         </ng-template>
       </p-menubar>
+
     </div>
   </div>
 </div>

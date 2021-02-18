@@ -1,5 +1,5 @@
 <div class="p-grid">
-  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+  <div class="p-col-12 p-offset-0 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
     <div class="p-grid">
       <div class="p-col-12">
         <carousel-hero-banner> </carousel-hero-banner>
@@ -27,7 +27,7 @@
       <div class="p-col-12">
         <h3 class="p-text-center">Popular Categories</h3>
 
-        <cateogry-block [categories]="categories"> </cateogry-block>
+        <category-block [categories]="categories"> </category-block>
 
         <h3 class="p-text-left p-ml-7 p-mr-7">
           Latest listings added<span style="float: right;"
@@ -48,23 +48,4 @@
   </div>
 </div>
 
-<div class="p-grid bg-white p-pt-5 p-pb-5">
-  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
-    <div class="p-grid">
-      <div class="p-sm-12 p-md-6">
-        <img
-          src="https://via.placeholder.com/590x300.jpg"
-          class="advert"
-          alt=""
-        />
-      </div>
-      <div class="p-sm-12 p-md-6">
-        <img
-          src="https://via.placeholder.com/590x300.jpg"
-          class="advert"
-          alt=""
-        />
-      </div>
-    </div>
-  </div>
-</div>
+<advertisement-blocks></advertisement-blocks>

@@ -1,39 +1,43 @@
-<p-carousel [value]="banners" [numVisible]="1" [numScroll]="1" [circular]="false" [responsiveOptions]="responsiveOptions">
-    <ng-template let-banner pTemplate="item">
-        <div class="banner-item" style="background-image:url({{banner.image}})">
-            <div class="banner-item-content p-grid" >
-                <div class="p-col-6">
+<div class="p-col-12" style="position:relative">
+
+
                    
-                    <div class="p-fluid p-formgrid p-grid p-m-5 form-box">
-                        <div class="p-field p-col-12 p-md-12">
-                            <h3 class="p-text-center">Quick Search</h3>
+        <div class="p-col p-md-4 p-fluid p-formgrid p-grid p-m-5 form-box " *ngIf="!mobile">
+            <div class="p-field p-col-12">
+                <h3 class="p-text-center">Quick Search</h3>
+            </div>
+            
+            <div class="p-field p-col-12">
+                <p-dropdown [options]="types" optionLabel="type" optionValue="type"></p-dropdown>
+            </div>                        
+            <div class="p-field p-col-12 p-md-6">
+                <p-dropdown [options]="pricerange" optionLabel="price" optionValue="price"></p-dropdown>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <p-dropdown [options]="pricerange" optionLabel="price" optionValue="price"></p-dropdown>
+            </div>
+            <div class="p-field p-col-12">
+                <p-dropdown [options]="makes" optionLabel="make" optionValue="make"></p-dropdown>
+            </div>
+            <div class="p-field p-col-12">
+                <button pButton type="button" label="Search" class="p-button-gold"  [routerLink]="['/', 'search']"></button>
+            </div>
+        </div>
+        
+    
+    
+    <p-carousel [value]="banners" [circular]="true">
+        <ng-template let-banner pTemplate="item">
+            <div class="banner-item" style="background-image:url({{banner.image}}); position:relative">
+                <div class="banner-item-content p-grid" >
+                    <div class="p-col-12 p-md-6 p-m-offset-6 p-text-right">
+                        <div class="p-m-5 position-br">
+                            <h3>{{banner.title}}</h3>
+                            <button pButton type="button" label="{{banner.label}}"></button>
                         </div>
-                        
-                        <div class="p-field p-col-12 p-md-12">
-                            <p-dropdown [options]="types" optionLabel="name" optionValue="name"></p-dropdown>
-                        </div>                        
-                        <div class="p-field p-col-12 p-md-6">
-                            <p-dropdown [options]="pricerange" optionLabel="name" optionValue="name"></p-dropdown>
-                        </div>
-                        <div class="p-field p-col-12 p-md-6">
-                            <p-dropdown [options]="pricerange" optionLabel="name" optionValue="name"></p-dropdown>
-                        </div>
-                        <div class="p-field p-col-12 p-md-12">
-                            <p-dropdown [options]="makes" optionLabel="name" optionValue="name"></p-dropdown>
-                        </div>
-                        <div class="p-field p-col-12 p-md-12">
-                            <button pButton type="button" label="Search" class="p-button-gold"  [routerLink]="['/', 'search']"></button>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="p-col-6 p-text-right position-relative-parent">
-                    <div class="p-m-5 position-br">
-                        <h3>{{banner.title}}</h3>
-                        <button pButton type="button" label="View Equipment"></button>
                     </div>
                 </div>
             </div>
-        </div>
-    </ng-template>
-</p-carousel>
+        </ng-template>
+    </p-carousel>
+</div>

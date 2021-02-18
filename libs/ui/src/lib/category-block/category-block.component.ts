@@ -2,11 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ICategory } from '@bushtrade/website/shared/entites';
 
 @Component({
-  selector: 'cateogry-block',
-  templateUrl: './cateogry-block.component.html',
-  styleUrls: ['./cateogry-block.component.scss'],
+  selector: 'category-block',
+  templateUrl: './category-block.component.html',
+  styleUrls: ['./category-block.component.scss'],
 })
-export class CateogryBlockComponent implements OnInit {
+export class CategoryBlockComponent implements OnInit {
   @Input() categories: ICategory[];
   constructor() {}
 
