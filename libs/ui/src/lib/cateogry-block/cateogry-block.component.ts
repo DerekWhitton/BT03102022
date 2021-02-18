@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ICategory } from '@bushtrade/website/shared/entites';
+import { Router } from '@angular/router';
+import { ICategory, ListingType } from '@bushtrade/website/shared/entites';
 
 @Component({
   selector: 'cateogry-block',
@@ -8,7 +9,16 @@ import { ICategory } from '@bushtrade/website/shared/entites';
 })
 export class CateogryBlockComponent implements OnInit {
   @Input() categories: ICategory[];
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
+
+  navigateToCategory(categoryId): void {
+    this.router.navigate(['/', 'listings'], {
+      queryParams: { 
+        type: ListingType.Auction,
+        categoryId: categoryId
+      },
+    });
+  }
 }
