@@ -163,6 +163,9 @@
     },
     "website-contact-us": {
       "tags": []
+    },
+    "website-payments": {
+      "tags": []
     }
   }
 }

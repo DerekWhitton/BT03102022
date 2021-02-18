@@ -48,5 +48,6 @@ module.exports = {
     '<rootDir>/libs/website/selling',
     '<rootDir>/libs/website/about',
     '<rootDir>/libs/website/contact-us',
+    '<rootDir>/libs/website/payments',
   ],
 };
