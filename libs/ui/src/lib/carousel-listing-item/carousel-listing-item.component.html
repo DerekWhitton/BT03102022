@@ -1,17 +1,55 @@
-<p-carousel [value]="products" [numVisible]="4" [numScroll]="3" [circular]="true" [responsiveOptions]="responsiveOptions">
-    <ng-template let-product pTemplate="item">
-
-        <div class="product-item p-m-2">
-            <div class="product-item-content {{product.type}}">
-                <div class="p-mb-3">
-                    <img src="{{product.image}}" [alt]="product.name" class="product-image" />
-                </div>
-                <div class="item-details ">
-                    <p>{{product.name}}</p>
-                    <p style="font-weight:bold">R{{product.price}}</p>
-                    <p class="p-d-flex">{{product.location}} <span class="p-ml-auto ">{{product.date}}</span></p>
-                </div>
-            </div>
+<p-carousel
+  [value]="processedlistings"
+  [numVisible]="4"
+  [numScroll]="3"
+  [circular]="true"
+  [responsiveOptions]="responsiveOptions"
+>
+  <ng-template let-product pTemplate="item">
+    <div
+      class="product-item p-m-2"
+      [routerLink]="['/', 'listings', product.id]"
+    >
+      <img
+        src="assets/layout/images/listing-label.png"
+        alt="listing"
+        class="listing-label"
+        *ngIf="product.type == listingTypes.Auction"
+      />
+      <div class="product-item-content {{ product.type }}">
+        <div class="p-mb-3">
+          <img
+            *ngIf="(product?.images)[0]?.url"
+            src="{{ (product?.images)[0]?.url }}"
+            [alt]="product.name"
+            class="product-image"
+          />
+          <img
+            *ngIf="!(product?.images)[0]?.url"
+            src="https://via.placeholder.com/229x152.jpg"
+            [alt]="product.name"
+            class="product-image"
+          />
         </div>
-    </ng-template>
+        <div class="item-details">
+          <p>{{ product.name }}</p>
+          <p
+            *ngIf="product.type == listingTypes.Sale"
+            style="font-weight: bold;"
+          >
+            R{{ product.startingPrice }}
+          </p>
+          <div class="p-d-flex card-footer-text">
+            <span class="p-ml-auto" *ngIf="product.type == listingTypes.Sale">{{product.timeAgoCreated}}</span>
+            <div class="p-ml-auto" *ngIf="product.type == listingTypes.Auction">
+              <p style="display: inline;">Closes in </p>
+              <bushtrade-web-countdown-timer
+                [endDate]="product.endDate"
+              ></bushtrade-web-countdown-timer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </p-carousel>

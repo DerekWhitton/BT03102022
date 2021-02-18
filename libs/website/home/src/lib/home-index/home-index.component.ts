@@ -1,5 +1,7 @@
+import { ActivatedRoute } from '@angular/router';
+import { IListing, ListingType } from './../../../../shared/entities/src/lib/listings/i-listing';
 import { ICategory } from '@bushtrade/website/shared/entites';
-import { CategoryService } from '@bushtrade/website/shared/services';
+import { CategoryService, ListingsService } from '@bushtrade/website/shared/services';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,18 +10,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home-index.component.scss'],
 })
 export class HomeIndexComponent implements OnInit {
+  listingTypes = ListingType;
   maxFeaturedCategories: number = 8;
+  maxLatestListings: number = 16;
+  maxClosingAuctions: number = 16;
   pricerangeValues: number[] = [0, 1000];
   selectedMake: string[] = ['Armsan', 'Baikal', 'Baretta', 'Bora Arms'];
   cities: any = [];
   calibres: any = [];
   categories: ICategory[];
-  latestItems = [];
-  closingItems = [];
+  latestItems: IListing[];
+  closingAuctions: IListing[];
 
   responsiveOptions;
 
-  constructor(private categoryService: CategoryService) {
+  constructor(
+    private categoryService: CategoryService,
+    private listingsService: ListingsService
+  ) {
     this.cities = [
       { name: 'Benoni' },
       { name: 'Boksburg' },
@@ -71,6 +79,12 @@ export class HomeIndexComponent implements OnInit {
   ngOnInit(): void {
     this.categoryService.loadFeaturedCategories(this.maxFeaturedCategories).subscribe((categories) => {
       this.categories = categories;
+    });
+    this.listingsService.loadLatestListings(this.maxFeaturedCategories).subscribe((categories) => {
+      this.latestItems = categories;
+    });
+    this.listingsService.loadAuctionsClosing(this.maxFeaturedCategories).subscribe((categories) => {
+      this.closingAuctions = categories;
     });
   }
 }
