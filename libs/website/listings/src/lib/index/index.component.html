@@ -1,80 +1,73 @@
 <div class="p-grid bg-white bt-all-caps p-text-left" *ngIf="query != ''">
-    <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
-      <div class="p-grid p-mt-1 p-mb-1">
-        <div class="p-col-12">
-          <ng-container  *ngIf="searchResponse; else noSearchResponseHeader">
-            <h3 *ngIf="searchResponse.items && searchResponse.items.length < 1">
-              No Search Results were found for "{{query}}", try another term, or select a category.
-            </h3>
-            <h3 *ngIf="searchResponse.items && searchResponse.items.length > 0">
-              {{searchResponse.items.length}} Results for "{{query}}"
-            </h3>
-          </ng-container>
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+    <div class="p-grid p-mt-1 p-mb-1">
+      <div class="p-col-12">
+        <ng-container *ngIf="searchResponse; else noSearchResponseHeader">
+          <h3 *ngIf="searchResponse.items && searchResponse.items.length < 1">
+            No Search Results were found for "{{ query }}", try another term, or
+            select a category.
+          </h3>
+          <h3 *ngIf="searchResponse.items && searchResponse.items.length > 0">
+            {{ searchResponse.items.length }} Results for "{{ query }}"
+          </h3>
+        </ng-container>
 
-          <ng-template #noSearchResponseHeader>
-              <h3>Searching for {{query}}</h3>
-          </ng-template> 
-        </div>
-
+        <ng-template #noSearchResponseHeader>
+          <h3>Searching for {{ query }}</h3>
+        </ng-template>
       </div>
-  
-      <!-- <h3>
-        Results for "BERETTA 12 gauge"
-        <button
-          pButton
-          type="button"
-          class="p-button-raised p-button-brown"
-          style="float: right;"
-          label="Set Auction Alert"
-        ></button>
-      </h3>
-      <p>
-        Related search terms: beretta 12 gauge semi automatic shotgun, beretta 12
-        gauge a300 outlander, beretta 12 gauge al391 teknys, beretta 12 gauge snap
-        caps, beretta 12 gauge 686 onyx
-      </p> -->
     </div>
+  </div>
 </div>
-  
-  <div class="p-grid">
 
+<div class="p-grid">
+  <ng-template #noSearchResponse>
+    <div class="p-col-12 p-text-center">
+      <progress-spinner></progress-spinner>
+    </div>
+  </ng-template>
 
-    <ng-template #noSearchResponse>
-      <div class="p-col-12 p-text-center">
-        <progress-spinner></progress-spinner>
-      </div>
-    </ng-template>
-
-
-    <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2" *ngIf="searchResponse; else noSearchResponse">
-      <div class="p-grid">
-        <div class="p-col-12 p-mb-4">
-          <h3 class="p-text-center">Browse by category</h3>
-          <div class="p-d-flex p-jc-evenly p-flex-wrap">
-            <div class="p-mr-2 p-mb-2 p-text-center" *ngFor="let category of categories">
-              <a href="#" class="category-icon">
-                <img src="assets/layout/images/cat-001.png" alt="category one" />
-                {{category.name}}
-              </a>
+  <div
+    class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2"
+    *ngIf="searchResponse; else noSearchResponse"
+  >
+    <div class="p-grid">
+      <div class="p-col-12 p-mb-4">
+        <h3 class="p-text-center">Browse by category</h3>
+        <div class="p-d-flex p-jc-evenly p-flex-wrap">
+          <div
+            class="p-mr-2 p-mb-2 p-text-center category-button"
+            *ngFor="let category of categories"
+            (click)="handleCategorySelection(category.id)"
+            [ngClass]="categoryId == category.id ? 'selected-category' : ''"
+          >
+            <div class="category-icon">
+              <img *ngIf="category.categoryIconUri" src="{{category.categoryIconUri}}" />
+              <img *ngIf="!category.categoryIconUri" src="assets/layout/images/cat-001.png" />
+              {{ category.name }}
             </div>
           </div>
         </div>
-  
+      </div>
 
+      <div class="p-md-12 p-lg-3 sidebar">
+        <p>
+          {{ searchResponse?.items.length * searchResponse?.page }}/{{
+            searchResponse?.totalItems
+          }}
+          items
+        </p>
+        <bushtrade-search-facet
+          [facet]="facet"
+          *ngFor="let facet of facetsResponse"
+          [selectedFacets]="facets"
+          (facetSelected)="handleFacetSelection($event)"
+        ></bushtrade-search-facet>
+      </div>
 
-        <div class="p-md-12 p-lg-3 sidebar">
-          <p>{{searchResponse?.items.length * searchResponse?.page}}/{{searchResponse?.totalItems}} items</p>
-          <bushtrade-search-facet
-            [facet]="facet"
-            *ngFor="let facet of facetsResponse"
-            [selectedFacets]="facets"
-            (facetSelected)="handleFacetSelection($event)"
-          ></bushtrade-search-facet>
-        </div>
-  
-        <div class="p-md-12 p-lg-9" >
-          <div class="p-grid">
-            <!-- <div class="p-col-12">
+      <div class="p-md-12 p-lg-9">
+        <div class="p-grid">
+          <!-- <div class="p-col-12">
               <h3 class="p-mt-0">Auctions closing soon</h3>
             </div>
             <div class="p-md-12 p-lg-3">
@@ -89,12 +82,12 @@
             <div class="p-md-12 p-lg-3">
               <bushtrade-web-product-item-minimal></bushtrade-web-product-item-minimal>
             </div> -->
-  
-            <!-- <div class="p-col-12">
+
+          <!-- <div class="p-col-12">
               <h3 class="p-mb-0">140 items</h3>
             </div> -->
-  
-            <!-- <div class="p-md-12 p-lg-6 p-text-left">
+
+          <!-- <div class="p-md-12 p-lg-6 p-text-left">
               View: <a href=""><i class="pi pi-table"></i></a> |
               <a href=""><i class="pi pi-list"></i></a>
             </div>
@@ -102,15 +95,14 @@
               Sort by: <a href="#">Price</a> | <a href="#">Relevancy</a> |
               <a href="#">Closing Date</a>
             </div> -->
-  
-            <bushtrade-web-product-item
-              class="p-mb-4 p-col-12"
-              *ngFor="let item of searchResponse.items"
-              [item]="item"
-            ></bushtrade-web-product-item>
-          </div>
+
+          <bushtrade-web-product-item
+            class="p-mb-4 p-col-12"
+            *ngFor="let item of searchResponse.items"
+            [item]="item"
+          ></bushtrade-web-product-item>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

@@ -10,7 +10,6 @@ $COLOUR-ORANGE: #ff7600;
     margin: 0 auto;
     margin-bottom: 0.5em;
     max-width: 60px;
-
   }
 }
 
@@ -23,6 +22,16 @@ $COLOUR-ORANGE: #ff7600;
   padding-right: 30px;
 }
 
-.bt-all-caps{
+.bt-all-caps {
   text-transform: uppercase;
+}
+
+.category-button {
+  cursor: pointer;
+  outline: none;
+}
+
+.selected-category {
+  box-shadow: 5px 5px 7px 0px grey;
+  border-radius: 15px 15px 5px 5px;
 }

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import {
+  ICategory,
   IListing,
   IPaginatedResponse,
   ISearchFacet,
   ListingType,
 } from '@bushtrade/website/shared/entites';
-import { SearchService } from '@bushtrade/website/shared/services';
+import { SearchService, CategoryService } from '@bushtrade/website/shared/services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -16,8 +17,10 @@ import { Subscription } from 'rxjs';
 })
 export class IndexComponent implements OnInit {
   type: ListingType;
+  maxFeaturedCategories = 8;
   query: string = '';
   facets: { key: string; value: string }[] = [];
+  categoryId: string;
 
   routerSubscription$: Subscription;
   searchSubscription$: Subscription;
@@ -26,12 +29,13 @@ export class IndexComponent implements OnInit {
   facetSubscription$: Subscription;
   facetsResponse: ISearchFacet[];
   isLoadingFacets: boolean;
-  categories: any[];
+  categories: ICategory[];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private categoryService: CategoryService
   ) {
     this.routerSubscription$ = router.events.subscribe((ev) => {
       if (
@@ -45,77 +49,22 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.categories = [
-      {
-        "id": "8d060890-94ed-41e3-9bdd-08d897b9f511",
-        "parentId": "00000000-0000-0000-0000-000000000000",
-        "name": "Test",
-        "children": [
-          {
-            "id": "19f9d942-905c-43f9-42c3-08d8a2beaebe",
-            "name": "But Stock"
-          }
-        ]
-      },
-      {
-        "id": "d6ac6c2e-0ee7-40f3-9c22-08d8a26ea33f",
-        "parentId": "00000000-0000-0000-0000-000000000000",
-        "name": "Camping Equipment",
-        "children": [
-          {
-            "id": "c8dc4529-6710-4ec2-6189-08d8a4181233",
-            "name": "Tents"
-          },
-          {
-            "id": "025cc306-4529-4663-cb6c-08d8a5e01319",
-            "name": "Sleeping Bags"
-          },
-          {
-            "id": "56067ba0-adbd-4eee-cb6d-08d8a5e01319",
-            "name": "Gas Stove"
-          },
-          {
-            "id": "1fbaad32-25ab-4e9d-cb6e-08d8a5e01319",
-            "name": "Chairs"
-          },
-          {
-            "id": "38c345c3-031a-4d7e-3aa4-08d8a7361fe8",
-            "name": "test"
-          }
-        ]
-      },
-      {
-        "id": "0a855d1a-fd10-4c4e-618a-08d8a4181233",
-        "parentId": "00000000-0000-0000-0000-000000000000",
-        "name": "Guns",
-        "children": [
-          {
-            "id": "f164bb36-3c3a-4d1c-618b-08d8a4181233",
-            "name": "Handguns"
-          },
-          {
-            "id": "829636eb-ae9c-4d3d-a690-08d8b22b6c4b",
-            "name": "Rifles"
-          },
-          {
-            "id": "e204ab2a-1205-463a-a696-08d8b22b6c4b",
-            "name": "Revolvers"
-          },
-          {
-            "id": "bcf092bf-0a14-4ea6-9fbd-08d8b6ff35f2",
-            "name": "Air Rifles"
-          }
-        ]
-      }
-    ];
-
-
+    this.categoryService.loadFeaturedCategories(this.maxFeaturedCategories).subscribe((categories) => {
+      this.categories = categories;
+    });
   }
 
   handleSearch() {
     this.searchResponse = null;
     this.facetsResponse = null;
+    this.navigate();
+  }
+
+  handleCategorySelection(categoryId: string) {
+    this.categoryId = categoryId;
+    this.query = null;
+    this.facets = null;
+
     this.navigate();
   }
 
@@ -135,9 +84,9 @@ export class IndexComponent implements OnInit {
   }
 
   private navigate() {
-    const { query, type, facets } = this;
+    const { query, type, categoryId, facets } = this;
 
-    let queryParams = { type };
+    let queryParams = { type, categoryId };
     if (query && query.trim().length) {
       queryParams['q'] = query;
     }
@@ -154,6 +103,7 @@ export class IndexComponent implements OnInit {
     const queryParams = this.route.snapshot.queryParams;
 
     this.type = queryParams?.type;
+    this.categoryId = queryParams?.categoryId;
     this.query = queryParams?.q ? queryParams.q : '';
 
     if (queryParams?.filter && typeof queryParams.filter === typeof '') {
@@ -174,10 +124,10 @@ export class IndexComponent implements OnInit {
     }
 
     this.isSearching = true;
-    const { query, type, facets } = this;
+    const { query, type, categoryId, facets } = this;
 
     this.searchSubscription$ = this.searchService
-      .searchListings(type, query, null, facets)
+      .searchListings(type, query, categoryId, facets)
       .subscribe(
         (res) => {
           this.searchResponse = res;
