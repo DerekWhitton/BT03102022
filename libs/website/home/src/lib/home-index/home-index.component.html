@@ -35,14 +35,20 @@
           >
         </h3>
 
-        <carousel-listing-item> </carousel-listing-item>
+        <carousel-listing-item [listings]="latestItems"></carousel-listing-item>
 
         <h3 class="p-text-left p-ml-7 p-mr-7">
           Auctions closing Soon<span style="float: right;"
-            ><a href="">View All</a></span
+            ><a
+              [routerLink]="['/', 'listings']"
+              [queryParams]="{ type: listingTypes.Auction }"
+              >View All</a
+            ></span
           >
         </h3>
-        <carousel-listing-item> </carousel-listing-item>
+        <carousel-listing-item
+          [listings]="closingAuctions"
+        ></carousel-listing-item>
       </div>
     </div>
   </div>
