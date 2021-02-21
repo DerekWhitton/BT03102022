@@ -1,15 +1,26 @@
-.banner-item{
- min-height: 380px;
+.banner-item {
+  min-height: 380px;
 }
 
-.form-box{
-    background: #170C0CE6;
-    h3{
-        color: #fff;
-    }
-    
-    label{
-         display: none;
-    }
-    
+.form-box {
+  background: #170c0ce6;
+  h3 {
+    color: #fff;
+  }
+
+  label {
+    display: none;
+  }
+
+  .price-range {
+    color: #fff;
+    margin-bottom: 20px;
+  }
+}
+
+:host ::ng-deep {
+  .p-slider {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }

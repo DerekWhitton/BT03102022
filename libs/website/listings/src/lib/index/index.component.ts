@@ -7,7 +7,10 @@ import {
   ISearchFacet,
   ListingType,
 } from '@bushtrade/website/shared/entites';
-import { SearchService, CategoryService } from '@bushtrade/website/shared/services';
+import {
+  SearchService,
+  CategoryService,
+} from '@bushtrade/website/shared/services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -21,6 +24,7 @@ export class IndexComponent implements OnInit {
   query: string = '';
   facets: { key: string; value: string }[] = [];
   categoryId: string;
+  maxPrice: number;
 
   routerSubscription$: Subscription;
   searchSubscription$: Subscription;
@@ -30,6 +34,7 @@ export class IndexComponent implements OnInit {
   facetsResponse: ISearchFacet[];
   isLoadingFacets: boolean;
   categories: ICategory[];
+  searchPriceRange: number[] = [];
 
   constructor(
     private router: Router,
@@ -49,9 +54,11 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoryService.loadFeaturedCategories(this.maxFeaturedCategories).subscribe((categories) => {
-      this.categories = categories;
-    });
+    this.categoryService
+      .loadFeaturedCategories(this.maxFeaturedCategories)
+      .subscribe((categories) => {
+        this.categories = categories;
+      });
   }
 
   handleSearch() {
@@ -86,7 +93,12 @@ export class IndexComponent implements OnInit {
   private navigate() {
     const { query, type, categoryId, facets } = this;
 
-    let queryParams = { type, categoryId };
+    let queryParams = {
+      type,
+      categoryId,
+      minPrice: this.searchPriceRange[0],
+      maxPrice: this.searchPriceRange[1],
+    };
     if (query && query.trim().length) {
       queryParams['q'] = query;
     }
@@ -102,6 +114,14 @@ export class IndexComponent implements OnInit {
   private buildAndActionQueries() {
     const queryParams = this.route.snapshot.queryParams;
 
+    if (!this.maxPrice || this.type != queryParams?.type) {
+      this.searchService.getMaxPrice(queryParams?.type).subscribe((maxPrice) => {
+        this.maxPrice = maxPrice ?? 0;
+        this.setPriceRange(queryParams?.minPrice, queryParams?.maxPrice);
+      });
+    } else {
+      this.setPriceRange(queryParams?.minPrice, queryParams?.maxPrice);
+    }
     this.type = queryParams?.type;
     this.categoryId = queryParams?.categoryId;
     this.query = queryParams?.q ? queryParams.q : '';
@@ -124,10 +144,17 @@ export class IndexComponent implements OnInit {
     }
 
     this.isSearching = true;
-    const { query, type, categoryId, facets } = this;
+    const { query, type, categoryId, facets, searchPriceRange } = this;
 
     this.searchSubscription$ = this.searchService
-      .searchListings(type, query, categoryId, facets)
+      .searchListings(
+        type,
+        query,
+        categoryId,
+        facets,
+        searchPriceRange[0],
+        searchPriceRange[1]
+      )
       .subscribe(
         (res) => {
           this.searchResponse = res;
@@ -165,6 +192,23 @@ export class IndexComponent implements OnInit {
       key: parts[0],
       value: parts[1],
     };
+  }
+
+  private setPriceRange(lowPrice: number, highPrice: number) {
+    let intervalStart: number;
+    let intervalEnd: number;
+    if (lowPrice && !isNaN(lowPrice)) {
+      intervalStart = lowPrice > this.maxPrice ? 0 : lowPrice;
+    } else {
+      intervalStart = 0;
+    }
+    if (highPrice && !isNaN(highPrice)) {
+      intervalEnd = highPrice > this.maxPrice ? this.maxPrice : highPrice;
+    } else {
+      intervalEnd = this.maxPrice;
+    }
+
+    this.searchPriceRange = [intervalStart, intervalEnd];
   }
 
   ngOnDestroy(): void {
