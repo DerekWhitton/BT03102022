@@ -42,8 +42,14 @@
             [ngClass]="categoryId == category.id ? 'selected-category' : ''"
           >
             <div class="category-icon">
-              <img *ngIf="category.categoryIconUri" src="{{category.categoryIconUri}}" />
-              <img *ngIf="!category.categoryIconUri" src="assets/layout/images/cat-001.png" />
+              <img
+                *ngIf="category.categoryIconUri"
+                src="{{ category.categoryIconUri }}"
+              />
+              <img
+                *ngIf="!category.categoryIconUri"
+                src="assets/layout/images/cat-001.png"
+              />
               {{ category.name }}
             </div>
           </div>
@@ -57,6 +63,25 @@
           }}
           items
         </p>
+        <hr />
+        <h4 class="p-pt-0 p-mt-1">
+          PRICE
+        </h4>
+        <div class="p-grid">
+          <div class="p-col">
+            <div class="p-mb-2" *ngIf="searchPriceRange">
+              {{ searchPriceRange[0] + ' - ' + searchPriceRange[1] }}
+            </div>
+            <p-slider
+              [(ngModel)]="searchPriceRange"
+              [range]="true"
+              [step]="100"
+              [min]="0"
+              [max]="maxPrice"
+              (onSlideEnd)="navigate()"
+            ></p-slider>
+          </div>
+        </div>
         <bushtrade-search-facet
           [facet]="facet"
           *ngFor="let facet of facetsResponse"

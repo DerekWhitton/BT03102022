@@ -1,68 +1,89 @@
+import { ListingType } from '@bushtrade/website/shared/entites';
 import { Component, OnInit } from '@angular/core';
+import {
+  CategoryService,
+  SearchService,
+} from '@bushtrade/website/shared/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'carousel-hero-banner',
   templateUrl: './carousel-hero-banner.component.html',
-  styleUrls: ['./carousel-hero-banner.component.scss']
+  styleUrls: ['./carousel-hero-banner.component.scss'],
 })
 export class CarouselHeroBannerComponent implements OnInit {
-
-
+  searchCategoryId: string;
+  searchPriceRange: number[] = [];
+  searchListingType: ListingType;
+  maxPrice: number = null;
+  selectableListingTypes: any[];
+  categories: any[];
   responsiveOptions;
 
-  banners:any = [
+  banners: any = [
     {
-      "id": "1000",
-      "image": "https://via.placeholder.com/1200x380.jpg",
-      "title": "2000+ Hunting Aids"
+      id: '1000',
+      image: 'https://via.placeholder.com/1200x380.jpg',
+      title: '2000+ Hunting Aids',
     },
   ];
-  pricerange:any =[
-    {name: 'R1000'},
-    {name: 'R2000'},
-    {name: 'R3000'},
-    {name: 'R4000'},
-    {name: 'R5000'},
-  ];
-  types:any =[
-    {name: 'Type 001'},
-    {name: 'Type 002'},
-    {name: 'Type 003'},
-    {name: 'Type 004'},
-    {name: 'Type 005'},
-  ];
-  makes:any =[
-    {name: 'Make 001'},
-    {name: 'Make 002'},
-    {name: 'Make 003'},
-    {name: 'Make 004'},
-    {name: 'Make 005'},
-  ];
 
-
-  constructor() { 
-
+  constructor(
+    private categoryService: CategoryService,
+    private router: Router,
+    private searchService: SearchService
+  ) {
+    this.selectableListingTypes = Object.keys(ListingType)
+      .filter((s) => isNaN(Number(s)))
+      .map((s) => {
+        return { label: s, value: ListingType[s] };
+      });
     this.responsiveOptions = [
       {
-          breakpoint: '1024px',
-          numVisible: 3,
-          numScroll: 3
+        breakpoint: '1024px',
+        numVisible: 3,
+        numScroll: 3,
       },
       {
-          breakpoint: '768px',
-          numVisible: 2,
-          numScroll: 2
+        breakpoint: '768px',
+        numVisible: 2,
+        numScroll: 2,
       },
       {
-          breakpoint: '560px',
-          numVisible: 1,
-          numScroll: 1
-      }
-  ];
-
+        breakpoint: '560px',
+        numVisible: 1,
+        numScroll: 1,
+      },
+    ];
   }
 
   ngOnInit(): void {
+    this.categoryService.loadCategories().subscribe((categories) => {
+      this.categories = categories.map((c) => {
+        return { label: c.name, value: c.id };
+      });
+    });
+    this.searchListingType = ListingType.Auction;
+    this.setMaxPrice();
   }
 
+  submitQuickSearch() {
+    this.router.navigate(['/', 'listings'], {
+      queryParams: {
+        type: this.searchListingType,
+        categoryId: this.searchCategoryId,
+        minPrice: this.searchPriceRange[0],
+        maxPrice: this.searchPriceRange[1],
+      },
+    });
+  }
+
+  private setMaxPrice() {
+    this.searchService
+      .getMaxPrice(this.searchListingType)
+      .subscribe((maxPrice) => {
+        this.maxPrice = maxPrice ?? 0;
+        this.searchPriceRange = [0, maxPrice];
+      });
+  }
 }

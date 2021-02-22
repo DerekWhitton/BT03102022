@@ -26,7 +26,9 @@ export class SearchService {
     type: ListingType,
     query: string,
     categoryId: string = null,
-    facets: { key: string; value: string }[] = []
+    facets: { key: string; value: string }[] = [],
+    minPrice: number = null,
+    maxPrice: number = null
   ) {
     let queryParams = `?type=${type}`;
     if (query) {
@@ -38,6 +40,12 @@ export class SearchService {
     if (facets && facets.length) {
       const filterValue = facets.map((f) => `${f.key}:${f.value}`).join('|');
       queryParams += `&filters=${filterValue}`;
+    }
+    if (minPrice) {
+      queryParams += `&minPrice=${minPrice}`;
+    }
+    if (maxPrice) {
+      queryParams += `&maxPrice=${maxPrice}`;
     }
     return this.httpClient.get<IPaginatedResponse<IListing>>(
       `${this.base}api/v${this.version}/Search/Listings${queryParams}`
@@ -59,6 +67,12 @@ export class SearchService {
 
     return this.httpClient.get<ISearchFacet[]>(
       `${this.base}api/v${this.version}/Search/Listings/Facets${queryParams}`
+    );
+  }
+
+  getMaxPrice(type: ListingType) {
+    return this.httpClient.get<number>(
+      `${this.base}api/v${this.version}/Search/Listings/MaxPrice?type=${type}`
     );
   }
 }
