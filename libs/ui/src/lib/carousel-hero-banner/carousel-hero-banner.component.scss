@@ -1,23 +1,35 @@
-.banner-item{
- min-height: 380px;
+.banner-item {
+  min-height: 380px;
 }
 
-.form-box{
-    z-index: 999;
-    background: #170c0ccc;
-    position: absolute;
-    left: 3.5em;
-    h3{
-        color: #fff;
-    }
-    
-    label{
-         display: none;
-    }
+.form-box {
+  z-index: 999;
+  background: #170c0ccc;
+  position: absolute;
+  left: 3.5em;
+  h3 {
+    color: #fff;
+  }
 
-    @media screen and (max-width: 768px) {
-        position: relative;
-        left: unset;
-      }
-    
+  label {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    position: relative;
+    left: unset;
+  }
+
+  .price-range {
+    color: #fff;
+    margin-bottom: 20px;
+  }
 }
+
+:host ::ng-deep {
+  .p-slider {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
