@@ -1,5 +1,5 @@
 <div class="p-grid">
-  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2"  *ngIf="loggedIn else notLoggedIn">
     <div class="thread p-card p-p-5 p-mt-5 p-mb-5">
       <p-toast position="top-center"></p-toast>
       <div class="p-grid p-fluid">
@@ -10,7 +10,6 @@
           <span class="p-float-label">
             <p-dropdown
               id="listingTypeSelect"
-              [showClear]="true"
               [options]="selectableListingTypes"
               [autoDisplayFirst]="false"
               [(ngModel)]="selectedListingType"
@@ -22,7 +21,11 @@
       </div>
       <hr />
       <div class="p-grid">
-        <div class="p-lg-4 p-md-6" style="position: relative;" *ngFor="let listing of favouriteListings">
+
+
+
+        <div class="p-col-12 p-lg-4" *ngFor="let listing of favouriteListings">
+            
           <img
             src="assets/layout/images/listing-label.png"
             style="max-width: 100%;"
@@ -30,8 +33,8 @@
             class="listing-label"
             *ngIf="listing.type == listingType.Auction"
           />
-          <p-card class="favourite-card">
-            <ng-template pTemplate="header">
+          <p-card header="{{ listing.name }}" subheader="{{ listing.description }}" [style]="{width: '360px'}" styleClass="p-card-shadow p-shadow-2 p-m-2">
+            <p-header>
               <p-galleria
                 *ngIf="listing.images.length > 0"
                 [(value)]="listing.images"
@@ -57,48 +60,41 @@
                   </div>
                 </ng-template>
               </p-galleria>
-            </ng-template>
-            <h4>{{ listing.name }}</h4>
-            <div *ngIf="listing.type == listingType.Sale" class="p-p-2 favorite-body-text">
-              <label>Price: R {{ listing.startingPrice }}</label>
-            </div>
-            <div *ngIf="listing.type == listingType.Auction" class="p-p-2 favorite-body-text">
-              Ends in:
-              <bushtrade-web-countdown-timer
-                *ngIf="listing.timeRemaining > 0"
+            </p-header>
+            <p *ngIf="listing.type == listingType.Sale" class="p-p-2 favorite-body-text">
+              Price: R {{ listing.startingPrice }}
+            </p>
+            <p *ngIf="listing.type == listingType.Auction" class="p-p-2 favorite-body-text">
+              <ng-container  *ngIf="listing.timeRemaining > 0">
+                Ends in:
+                <bushtrade-web-countdown-timer
+               
                 [endDate]="listing.endDate"
                 (timeDifferenceRemaining)="listing.timeRemaining = $event"
               ></bushtrade-web-countdown-timer>
-              <label *ngIf="listing.timeRemaining <= 0">
-                CLOSED
-              </label>
-            </div>
-            <div *ngIf="listing.type == listingType.Auction && listing.timeRemaining <= 0">
+              </ng-container>
 
-            </div>
+              <span *ngIf="listing.timeRemaining <= 0">
+                CLOSED
+              </span>
+            </p>
             <ng-template pTemplate="footer">
-              <div class="p-grid">
-                <div class="p-lg-12">
-                  <button
-                    pButton
-                    class="p-button-raised"
-                    [label]="'View details'"
-                    [routerLink]="['/', 'listings', listing.id]"
-                  ></button>
-                </div>
-                <div class="p-lg-12">
-                  <button
-                    pButton
-                    class="p-button-raised p-button-danger"
-                    [label]="'Remove'"
-                    (click)="removeFavourite(listing.id)"
-                  ></button>
-                </div>
-              </div>
+                <p-button label="View" [routerLink]="['/', 'listings', listing.id]"></p-button>
+                <p-button label="Unfavourite" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"></p-button>
             </ng-template>
-          </p-card>
-        </div>
+        </p-card>
+
+      </div>
+
       </div>
     </div>
   </div>
+  <ng-template  #notLoggedIn>
+  <div class="p-mx-auto">
+    <h3>You need to sign in to view your favourites</h3>
+  </div>
+
+</ng-template>
+
 </div>
+

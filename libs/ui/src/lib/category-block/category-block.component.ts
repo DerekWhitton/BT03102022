@@ -1,15 +1,16 @@
+import { Router, RouterModule } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ICategory, ListingType } from '@bushtrade/website/shared/entites';
 
 @Component({
-  selector: 'cateogry-block',
-  templateUrl: './cateogry-block.component.html',
-  styleUrls: ['./cateogry-block.component.scss'],
+  selector: 'category-block',
+  templateUrl: './category-block.component.html',
+  styleUrls: ['./category-block.component.scss'],
 })
-export class CateogryBlockComponent implements OnInit {
+export class CategoryBlockComponent implements OnInit {
   @Input() categories: ICategory[];
-  constructor(private router: Router) {}
+  
+  constructor(private router:Router) {}
 
   ngOnInit(): void {}
 
@@ -22,3 +23,5 @@ export class CateogryBlockComponent implements OnInit {
     });
   }
 }
+
+

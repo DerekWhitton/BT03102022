@@ -3,13 +3,21 @@
 }
 
 .form-box {
-  background: #170c0ce6;
+  z-index: 999;
+  background: #170c0ccc;
+  position: absolute;
+  left: 3.5em;
   h3 {
     color: #fff;
   }
 
   label {
     display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    position: relative;
+    left: unset;
   }
 
   .price-range {
@@ -24,3 +32,4 @@
     margin-right: 10px;
   }
 }
+

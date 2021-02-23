@@ -6,7 +6,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { CarouselHeroBannerComponent } from './carousel-hero-banner/carousel-hero-banner.component';
 import { CarouselListingItemComponent } from './carousel-listing-item/carousel-listing-item.component';
 import { CategorySelectorComponent } from './category-selector/category-selector.component';
-import { CateogryBlockComponent } from './cateogry-block/cateogry-block.component';
+import { CategoryBlockComponent } from './category-block/category-block.component';
 import { CrudTableComponent } from './crud-table/crud-table.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
@@ -26,6 +26,7 @@ import { SearchFacetComponent } from './search-facet/search-facet.component';
 import { CountdownTimerComponent } from './countdown-timer/countdown-timer.component';
 import { SupportComponent } from './support/support.component';
 import { SupportTicketComponent } from './support-ticket/support-ticket.component';
+import { AdvertisementBlocksComponent } from './advertisement-blocks/advertisement-blocks.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, UiElementsModule],
@@ -44,7 +45,7 @@ import { SupportTicketComponent } from './support-ticket/support-ticket.componen
     ProgressSpinnerComponent,
     CarouselListingItemComponent,
     CarouselHeroBannerComponent,
-    CateogryBlockComponent,
+    CategoryBlockComponent,
     CategorySelectorComponent,
     SafeHtmlPipe,
     TruncateTextPipe,
@@ -53,6 +54,7 @@ import { SupportTicketComponent } from './support-ticket/support-ticket.componen
     CountdownTimerComponent,
     SupportComponent,
     SupportTicketComponent,
+    AdvertisementBlocksComponent,
   ],
   providers: [MessageService, ConfirmationService],
   exports: [
@@ -70,7 +72,7 @@ import { SupportTicketComponent } from './support-ticket/support-ticket.componen
     ProgressSpinnerComponent,
     CarouselHeroBannerComponent,
     CarouselListingItemComponent,
-    CateogryBlockComponent,
+    CategoryBlockComponent,
     CategorySelectorComponent,
     SafeHtmlPipe,
     TruncateTextPipe,
@@ -79,6 +81,7 @@ import { SupportTicketComponent } from './support-ticket/support-ticket.componen
     CountdownTimerComponent,
     SupportComponent,
     SupportTicketComponent,
+    AdvertisementBlocksComponent,
   ],
 })
 export class UiModule {}

@@ -20,11 +20,11 @@ h3 {
   position: absolute;
   top: 50%;
   left: 50%;
-  line-height: 2.2em;
-  transform: translate(-50%, -90%);
+  transform: translate(-50%, -50%);
+  margin: 0;
 }
 
 .category-wrapper {
   position: relative;
   cursor: pointer;
-}
+} 

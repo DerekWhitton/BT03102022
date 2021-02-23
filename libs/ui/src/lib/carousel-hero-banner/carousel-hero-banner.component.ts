@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./carousel-hero-banner.component.scss'],
 })
 export class CarouselHeroBannerComponent implements OnInit {
+  mobile: boolean;
   searchCategoryId: string;
   searchPriceRange: number[] = [];
   searchListingType: ListingType;
@@ -25,6 +26,19 @@ export class CarouselHeroBannerComponent implements OnInit {
       id: '1000',
       image: 'https://via.placeholder.com/1200x380.jpg',
       title: '2000+ Hunting Aids',
+      label: 'View More',
+    },
+    {
+      id: '1000',
+      image: 'https://via.placeholder.com/1200x380.jpg',
+      title: 'Big Ammo Sale!',
+      label: 'Stock Up',
+    },
+    {
+      id: '1000',
+      image: 'https://via.placeholder.com/1200x380.jpg',
+      title: 'Carnivore Month',
+      label: 'View Meats',
     },
   ];
 
@@ -33,6 +47,10 @@ export class CarouselHeroBannerComponent implements OnInit {
     private router: Router,
     private searchService: SearchService
   ) {
+    if (window.screen.width < 512) {
+      // 768px portrait
+      this.mobile = true;
+    }
     this.selectableListingTypes = Object.keys(ListingType)
       .filter((s) => isNaN(Number(s)))
       .map((s) => {

@@ -1,3 +1,4 @@
+import { MsalService } from '@azure/msal-angular';
 import { IDynamicListing, IListing, ListingType } from '@bushtrade/website/shared/entites';
 import { MessageService } from 'primeng/api';
 import { ListingsService } from '@bushtrade/website/shared/services';
@@ -9,6 +10,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./favourites-index.component.scss'],
 })
 export class FavouritesIndexComponent implements OnInit {
+  
+  loggedIn = false;
   listingType = ListingType;
   selectableListingTypes: any[];
   favouriteListings: IDynamicListing[];
@@ -30,16 +33,27 @@ export class FavouritesIndexComponent implements OnInit {
 
   constructor(
     private listingService: ListingsService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private msalSvc: MsalService
   ) {}
 
   ngOnInit(): void {
+
+
+    if (this.msalSvc.getAccount()) {
+      this.loggedIn  = true;
+    }
+
+    console.log(this.loggedIn);
+
     this.selectableListingTypes = Object.keys(ListingType)
       .filter((s) => isNaN(Number(s)))
       .map((s) => {
         return { label: s, value: ListingType[s] };
       });
     this.selectedListingType = ListingType.Auction;
+    this.selectableListingTypes.push({label: 'All', value: ""});
+    this.selectedListingType = this.selectableListingTypes[this.selectableListingTypes.length-1].value;
     this.loadFavorites();
   }
 
