@@ -24,22 +24,18 @@ export class CarouselHeroBannerComponent implements OnInit {
   banners: any = [
     {
       id: '1000',
-      image: 'https://via.placeholder.com/1200x380.jpg',
+      image: '/assets/layout/images/banners/banner.jpg',
       title: '2000+ Hunting Aids',
       label: 'View More',
+      url: '/listings?type=0&categoryId=0a855d1a-fd10-4c4e-618a-08d8a4181233',
     },
     {
-      id: '1000',
-      image: 'https://via.placeholder.com/1200x380.jpg',
+      id: '1100',
+      image: '/assets/layout/images/banners/banner2.jpg',
       title: 'Big Ammo Sale!',
       label: 'Stock Up',
-    },
-    {
-      id: '1000',
-      image: 'https://via.placeholder.com/1200x380.jpg',
-      title: 'Carnivore Month',
-      label: 'View Meats',
-    },
+      url: '/listings?type=0&categoryId=0a855d1a-fd10-4c4e-618a-08d8a4181233',
+    }
   ];
 
   constructor(
