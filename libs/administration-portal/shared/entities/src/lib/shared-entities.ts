@@ -5,3 +5,5 @@ export * from './definitions/i-role';
 export * from './definitions/i-listing';
 export * from './definitions/i-category';
 export * from './forums/i-topic';
+export * from './advertisments/i-dashboard-advertisment';
+export * from './advertisments/i-create-dashboard-advertisment';
