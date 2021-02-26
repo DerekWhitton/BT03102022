@@ -1,6 +1,7 @@
 import { ListingType } from '@bushtrade/website/shared/entites';
 import { Component, OnInit } from '@angular/core';
 import {
+  AdvertismentsService,
   CategoryService,
   SearchService,
 } from '@bushtrade/website/shared/services';
@@ -20,28 +21,13 @@ export class CarouselHeroBannerComponent implements OnInit {
   selectableListingTypes: any[];
   categories: any[];
   responsiveOptions;
-
-  banners: any = [
-    {
-      id: '1000',
-      image: '/assets/layout/images/banners/banner.jpg',
-      title: '2000+ Hunting Aids',
-      label: 'View More',
-      url: '/listings?type=0&categoryId=0a855d1a-fd10-4c4e-618a-08d8a4181233',
-    },
-    {
-      id: '1100',
-      image: '/assets/layout/images/banners/banner2.jpg',
-      title: 'Big Ammo Sale!',
-      label: 'Stock Up',
-      url: '/listings?type=0&categoryId=0a855d1a-fd10-4c4e-618a-08d8a4181233',
-    }
-  ];
+  banners: any = [];
 
   constructor(
     private categoryService: CategoryService,
     private router: Router,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private advertismentsService: AdvertismentsService
   ) {
     if (window.screen.width < 512) {
       // 768px portrait
@@ -77,6 +63,12 @@ export class CarouselHeroBannerComponent implements OnInit {
         return { label: c.name, value: c.id };
       });
     });
+    this.advertismentsService.listDashboardAdvertisments(5, true)
+      .subscribe(
+        result => {
+          this.banners = result;
+        }
+      )
     this.searchListingType = ListingType.Auction;
     this.setMaxPrice();
   }

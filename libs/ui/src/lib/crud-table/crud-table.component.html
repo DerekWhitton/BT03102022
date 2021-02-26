@@ -3,7 +3,6 @@
 <ng-template #table>
   <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="left">
-
       <span class="p-input-icon-left p-mr-1" *ngIf="searchable == true">
         <i class="pi pi-search"></i>
         <input
@@ -23,7 +22,6 @@
         class="p-button-success p-mr-1"
         (click)="handleCreateSelection()"
       ></button>
-
     </ng-template>
     <ng-template pTemplate="right">
       <p-multiSelect
@@ -33,10 +31,9 @@
         optionLabel="header"
         selectedItemsLabel="{0} columns selected"
         [style]="{ minWidth: '200px' }"
-      defaultLabel="Choose Columns"
+        defaultLabel="Choose Columns"
       ></p-multiSelect>
     </ng-template>
-
   </p-toolbar>
   <p-table [columns]="selectedColumns" [value]="data">
     <ng-template pTemplate="header" let-columns>
@@ -49,15 +46,19 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr>
-        <td *ngFor="let col of columns">
-          {{
+        <td
+          *ngFor="let col of columns"
+          [innerHtml]="
             col.converter
               ? col.converter(rowData[col.field])
               : rowData[col.field]
-          }}
-        </td>
+          "
+        ></td>
 
-        <td *ngIf="updateFormTemplateReference || allowDelete || viewable"  class="p-text-right">
+        <td
+          *ngIf="updateFormTemplateReference || allowDelete || viewable"
+          class="p-text-right"
+        >
           <button
             pButton
             pRipple
