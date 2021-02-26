@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { CategoryService } from '@bushtrade/website/shared/services';
 import { NavigationEnd, Router } from '@angular/router';
-import { ListingType } from '@bushtrade/website/shared/entites';
+import { ICategory, ListingType } from '@bushtrade/website/shared/entites';
 
 @Component({
   selector: 'bushtrade-web-menu',
@@ -19,14 +19,22 @@ export class WebsiteMenuComponent implements OnInit {
   @Output() signIn = new EventEmitter();
   @Output() signOut = new EventEmitter();
   showMegaSearchMenu: boolean;
+  showBuySellMenu: boolean = false;
+  categories: ICategory[];
+  
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private categoryService: CategoryService) {}
 
   ngOnInit(): void {
     this.router.events.subscribe((nEvent) => {
       if (nEvent instanceof NavigationEnd)
         this.showMegaSearchMenu = true; //!nEvent.url.startsWith('/listings');
     });
+
+    this.categoryService.loadCategories().subscribe((categories) => {
+      this.categories = categories;
+    });
+
 
     this.searchCategories = [
       { name: 'Marketplace', inactive: false },
@@ -49,28 +57,7 @@ export class WebsiteMenuComponent implements OnInit {
     this.items = [
       {
         label: 'Buy & Sell',
-        items: [
-          [
-              {
-                  label: 'Video 1',
-                  items: [{label: 'Video 1.1'}, {label: 'Video 1.2'}]
-              },
-              {
-                  label: 'Video 2',
-                  items: [{label: 'Video 2.1'}, {label: 'Video 2.2'}]
-              }
-          ],
-          [
-              {
-                  label: 'Video 3',
-                  items: [{label: 'Video 3.1'}, {label: 'Video 3.2'}]
-              },
-              {
-                  label: 'Video 4',
-                  items: [{label: 'Video 4.1'}, {label: 'Video 4.2'}]
-              }
-          ]
-      ]
+        command: () => this.showBuySell(),
       },
 
       {
@@ -112,6 +99,10 @@ export class WebsiteMenuComponent implements OnInit {
     ];
   }
 
+  showBuySell(){
+    this.showBuySellMenu = true;
+ }
+
   login() {
     this.signIn.emit();
   }
@@ -119,6 +110,18 @@ export class WebsiteMenuComponent implements OnInit {
   logout() {
     this.signOut.emit();
   }
+
+  navigateToCategory(categoryId): void {
+    this.showBuySellMenu = false;
+    this.router.navigate(['/', 'listings'], {
+      queryParams: { 
+        type: ListingType.Auction,
+        categoryId: categoryId
+      },
+    });
+
+  }
+
 
   handleSearch() {
 
