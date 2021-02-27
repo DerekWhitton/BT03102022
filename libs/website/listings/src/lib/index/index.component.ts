@@ -67,6 +67,14 @@ export class IndexComponent implements OnInit {
     
   }
 
+
+  changeType(val){
+    this.type = val;
+    this.maxPrice = null;
+    this.searchPriceRange[1] = null;
+    this.navigate();
+  }
+
   changeSubCategory(value = "") {
     this.parentCategory.push(value);
     this.updateSubCategory(value);

@@ -33,7 +33,7 @@
   >
     <div class="p-grid">
       <div class="p-col-12 p-mb-4">
-        <h3 class="p-text-center">Browse by category</h3>
+        <h3 class="p-text-center">Browse <ng-container  *ngIf="type == 0">auctions</ng-container> <ng-container  *ngIf="type == 1">the marketplace</ng-container> by category</h3>
         <div class="p-d-flex p-jc-evenly p-flex-wrap">
           <div
             class="p-mr-2 p-mb-2 p-text-center category-button"
@@ -66,10 +66,12 @@
         </p>
 
 
-        <h4>Categories <span *ngIf="parentCategory != ''" style="float:right"><a (click)="getParentCategory()">Back</a></span></h4>
+        <h4>Categories <span *ngIf="parentCategory != ''" style="float:right"><a (click)="getParentCategory()">
+          Back</a></span></h4>
 
         <ul class="category-list">
           <li *ngFor="let category of subCategories" ><a (click)="changeSubCategory(category.id)" >{{category.name}}</a></li>
+         
           <li *ngIf="parentCategory != ''" ><a (click)="getParentCategory()">Back</a></li>
         </ul>
 
@@ -101,13 +103,28 @@
       </div>
 
       <div class="p-md-12 p-lg-9">
-        <div class="p-grid">
+ 
+        <div class="p-grid" >
+
+          <ng-container *ngIf=" searchResponse?.items.length > 0; else noItems">
+
+
+          
           <bushtrade-web-product-item
             class="p-mb-4 p-col-12"
-            *ngFor="let item of searchResponse.items"
+            *ngFor="let item of searchResponse.items" 
             [item]="item"
+            
           ></bushtrade-web-product-item>
+        </ng-container>
+
+        <ng-template #noItems></ng-template>
+          <h3>There are currently no listings for this category in <ng-container  *ngIf="type == 0">auctions</ng-container> <ng-container  *ngIf="type == 1">the marketplace</ng-container>.</h3>
+          <p>Try adjusting your price range, filter or check for more results on <a *ngIf="type == 1" (click)="changeType(0)">auctions</a> <a *ngIf="type == 0"  (click)="changeType(1)">the marketplace</a></p>
+          
         </div>
+
+
       </div>
     </div>
   </div>
