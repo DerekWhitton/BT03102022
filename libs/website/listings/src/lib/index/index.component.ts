@@ -11,7 +11,7 @@ import {
   SearchService,
   CategoryService,
 } from '@bushtrade/website/shared/services';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'bushtrade.web-index',
@@ -33,8 +33,10 @@ export class IndexComponent implements OnInit {
   facetSubscription$: Subscription;
   facetsResponse: ISearchFacet[];
   isLoadingFacets: boolean;
-  categories: ICategory[];
+  featuredCategories: ICategory[];
   searchPriceRange: number[] = [];
+  subCategories: ICategory[];
+  parentCategory: any[] = [];
 
   constructor(
     private router: Router,
@@ -57,8 +59,32 @@ export class IndexComponent implements OnInit {
     this.categoryService
       .loadFeaturedCategories(this.maxFeaturedCategories)
       .subscribe((categories) => {
-        this.categories = categories;
+        this.featuredCategories = categories;
       });
+    
+    this.parentCategory.push(this.categoryId);
+    this.updateSubCategory(this.categoryId);
+    
+  }
+
+
+  changeType(val){
+    this.type = val;
+    this.maxPrice = null;
+    this.searchPriceRange[1] = null;
+    this.navigate();
+  }
+
+  changeSubCategory(value = "") {
+    this.parentCategory.push(value);
+    this.updateSubCategory(value);
+    this.categoryId = value;
+    this.navigate();
+  }
+
+  getParentCategory() {
+    this.parentCategory.pop();
+    this.updateSubCategory(this.parentCategory[this.parentCategory.length-1]);
   }
 
   handleSearch() {
@@ -109,16 +135,20 @@ export class IndexComponent implements OnInit {
     this.router.navigate(['/', 'listings'], {
       queryParams,
     });
+
+    this.updateSubCategory(this.categoryId);
   }
 
   private buildAndActionQueries() {
     const queryParams = this.route.snapshot.queryParams;
 
     if (!this.maxPrice || this.type != queryParams?.type) {
-      this.searchService.getMaxPrice(queryParams?.type).subscribe((maxPrice) => {
-        this.maxPrice = maxPrice ?? 0;
-        this.setPriceRange(queryParams?.minPrice, queryParams?.maxPrice);
-      });
+      this.searchService
+        .getMaxPrice(queryParams?.type)
+        .subscribe((maxPrice) => {
+          this.maxPrice = maxPrice ?? 0;
+          this.setPriceRange(queryParams?.minPrice, queryParams?.maxPrice);
+        });
     } else {
       this.setPriceRange(queryParams?.minPrice, queryParams?.maxPrice);
     }
@@ -209,6 +239,12 @@ export class IndexComponent implements OnInit {
     }
 
     this.searchPriceRange = [intervalStart, intervalEnd];
+  }
+
+  private updateSubCategory(categoryToGet) {
+    this.categoryService.loadCategories(categoryToGet).subscribe((categories) => {
+      this.subCategories = categories;
+    });
   }
 
   ngOnDestroy(): void {

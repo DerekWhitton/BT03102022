@@ -1,7 +1,7 @@
-<div class="p-col-12" style="position: relative;">
+<div class="p-col-12" class="pos-relative"  [ngClass]="(banners.length == 0)?'no-banner-loaded p-pt-5':'banner-loaded'">
   <div
-    class="p-col p-md-4 p-fluid p-formgrid p-grid p-m-5 form-box"
-    *ngIf="!mobile"
+    class="p-col p-md-4 p-fluid p-formgrid p-grid  form-box p-text-center"
+    *ngIf="!mobile" [ngClass]="(banners.length > 0)?'pos-absolute p-m-5':'pos-relative p-mx-auto'"
   >
     <div class="p-field p-col-12">
       <h3 class="p-text-center">Quick Search</h3>
@@ -19,7 +19,6 @@
     <div class="p-field p-col-12">
       <p-dropdown
         [options]="selectableListingTypes"
-        [showClear]="true"
         [placeholder]="'Listing type'"
         [(ngModel)]="searchListingType"
         (onChange)="setMaxPrice()"
@@ -50,7 +49,7 @@
     </div>
   </div>
 
-  <p-carousel [value]="banners" [circular]="true">
+  <p-carousel [value]="banners" [circular]="true" *ngIf="banners && banners.length > 0">
     <ng-template let-banner pTemplate="item">
       <div
         class="banner-item"

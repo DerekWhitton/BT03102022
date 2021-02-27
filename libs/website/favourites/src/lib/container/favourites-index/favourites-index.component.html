@@ -33,13 +33,13 @@
             class="listing-label"
             *ngIf="listing.type == listingType.Auction"
           />
-          <p-card header="{{ listing.name }}" subheader="{{ listing.description }}" [style]="{width: '360px'}" styleClass="p-card-shadow p-shadow-2 p-m-2">
+          <p-card header="{{ listing.name }}" subheader="{{ listing.description }}" styleClass="p-card-shadow p-shadow-2 p-m-2">
             <p-header>
               <p-galleria
                 *ngIf="listing.images.length > 0"
                 [(value)]="listing.images"
                 [responsiveOptions]="responsiveOptions"
-                [containerStyle]="{ 'max-width': '400px' }"
+                [containerStyle]="{ 'max-width': '100%' }"
                 [numVisible]="5"
                 [circular]="true"
                 [showItemNavigators]="true"
@@ -80,7 +80,7 @@
             </p>
             <ng-template pTemplate="footer">
                 <p-button label="View" [routerLink]="['/', 'listings', listing.id]"></p-button>
-                <p-button label="Unfavourite" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"></p-button>
+                <p-button label="Unfavourite" styleClass="p-button-danger"   class="p-button-outlined" [style]="{'margin-left': '.5em'}"  (click)="removeFavourite(listing.id)"></p-button>
             </ng-template>
         </p-card>
 

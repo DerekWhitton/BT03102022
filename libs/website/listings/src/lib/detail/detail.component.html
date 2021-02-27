@@ -1,13 +1,13 @@
 <div class="p-grid">
   <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
-    <div class="thread p-card p-p-5 p-mt-5 p-mb-5" *ngIf="detailsLoading">
+    <div class="thread p-p-5 p-mt-5 p-mb-5" *ngIf="detailsLoading">
       <progress-spinner></progress-spinner>
     </div>
-    <div class="thread p-card p-p-5 p-mt-5 p-mb-5" *ngIf="!detailsLoading">
+    <div class="thread p-p-5 p-mt-5 p-mb-5" *ngIf="!detailsLoading">
       <!-- <p-messages [(value)]="messages"></p-messages> -->
       <p-toast position="top-center"></p-toast>
       <div class="p-grid">
-        <div class="p-md-9 p-sm-12">
+        <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-p-3 bg-white p-mb-5">
             <p-galleria
               [(value)]="listingDetails.images"
@@ -50,10 +50,10 @@
             <hr />
 
             <div class="p-grid">
-              <div class="p-lg-4 p-md-12">
+              <div class="p-col-12 p-md-8p-lg-9">
                 <h3>Seller</h3>
                 <div class="p-grid">
-                  <div class="p-col-3">
+                  <div class="p-col">
                     <img
                       src="https://via.placeholder.com/60x60.jpg"
                       alt=""
@@ -61,7 +61,7 @@
                     />
                   </div>
                   <div class="p-col">
-                    <h3 class="p-mt-3">{{ listingSellerSummary.name }}</h3>
+                    <h3 class="p-m-3">{{ listingSellerSummary.name }}</h3>
                   </div>
                 </div>
                 <div class="p-grid p-mb-3">
@@ -102,15 +102,14 @@
             </div>
           </div>
         </div>
-        <div class="p-md-3 p-sm-12">
-          <div class="sidebar bg-white">
+        <div class="p-col-6 p-md-4 p-lg-3">
+          <div class="sidebar bg-white p-pt-0 p-pb-5">
             <div
               *ngIf="listingDetails.type == listingType.Auction"
-              class="bg-gold p-p-5 p-text-center"
+              class="bg-gold p-pt-3 p-pb-3 p-text-center"
             >
-              <p class="p-text-bold text-timeout" *ngIf="!timesUp">
+              <p class="text-timeout p-m-0" *ngIf="!timesUp">
                 Closes in
-                <br />
                 <bushtrade-web-countdown-timer
                   [endDate]="listingDetails.endDate"
                   (timeDifferenceRemaining)="checkTimeRemaining($event)"
@@ -121,7 +120,7 @@
               </p>
 
               <div *ngIf="userId">
-                <p *ngIf="!userHasPlacedBid">
+                <p *ngIf="!userHasPlacedBid" class="p-m-0">
                   You haven't bid on this lot yet.
                 </p>
                 <p *ngIf="userHasPlacedBid && !userHasWinningBid">
@@ -132,9 +131,9 @@
                 </p>
               </div>
             </div>
-            <div
+            <ng-container 
               *ngIf="
-                listingDetails.type == listingType.Auction && !refreshingSidebar
+              !timesUp && listingDetails.type == listingType.Auction && !refreshingSidebar
               "
             >
               <div class="current-bid sidebar-section">
@@ -154,25 +153,23 @@
               </div>
               <div class="next-bid sidebar-section">
                 <h3>Next Minimum Bid</h3>
-                <h3 class="price" *ngIf="biddingRecommendations.length > 0">
+                <p class="price" *ngIf="biddingRecommendations.length > 0">
                   R{{ biddingRecommendations[0] }}
-                </h3>
+                </p>
                 <p>Bids exclude the auction fee and (shipping) costs.</p>
                 <!-- <p>Seller’s location: Kwa-Zulu Natal</p> -->
                 <p>Auction fee: 9% of the winning bid</p>
               </div>
-              <div class="quickbid sidebar-section bg-grey">
+              <div class="quickbid sidebar-section bg-grey" >
                 <h3 class="p-pt-2">Quick Bid</h3>
-                <div class="p-grid">
-                  <div class="p-col" *ngFor="let bid of biddingRecommendations">
-                    <button class="p-button" (click)="placeBid(bid)">
-                      R {{ bid }}
-                    </button>
-                  </div>
-                </div>
+                <button class="p-button p-mb-2 p-mr-1" (click)="placeBid(bid)"  *ngFor="let bid of biddingRecommendations">
+                  R {{ bid }}
+                </button>
               </div>
               <div class="bid-history sidebar-section">
                 <h3>Bid history</h3>
+                <ng-container  *nfIg="listingBids.length > 0 else noBids"
+                >
                 <p-table
                   [value]="listingBids.slice(0, 3)"
                   styleClass="p-datatable-striped"
@@ -190,8 +187,12 @@
                   </ng-template>
                 </p-table>
                 <a (click)="showBidsModal = true">View all bids</a>
+              </ng-container>
+              <ng-container #noBids>
+                There are no bids placed on this auction yet.
+            </ng-container>
               </div>
-            </div>
+            </ng-container >
             <div
               *ngIf="
                 listingDetails.type == listingType.Sale && !refreshingSidebar
@@ -231,20 +232,18 @@
             </div>
             <div class="sidebar-section">
               <h3>Any questions?</h3>
-              <a href="#">Get in touch via our Help Centre</a>
+              <a [routerLink]="['/', 'support']">Get in touch via our Help Centre</a>
             </div>
             <div class="sidebar-section">
               <h3>Buying safely</h3>
               <p>
-                <i class="p-mr-2">ICON</i>Your payment is held until after the
-                seller has shipped your item or made it ready for pickup.
+                <i class="pi pi-check"></i> Your payment is kept in escrow until you have accepted delivery.
               </p>
               <p>
-                <i class="p-mr-2">ICON</i>All of our auctions are subject to
-                notarial supervision.
+                <i class="pi pi-check"></i> All of our auctions are subject to notarial supervision.
               </p>
             </div>
-            <div class="pay-options sidebar-section">
+            <!-- <div class="pay-options sidebar-section">
               <h3>Payment options</h3>
               <div class="p-grid p-m-0 p-p-0">
                 <img
@@ -263,7 +262,7 @@
                   class="p-col-4"
                 />
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

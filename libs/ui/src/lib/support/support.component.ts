@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ICreateSupportTicket, SupportTicketCategory } from '@bushtrade/website/shared/entites';
+import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'bushtrade-web-support',
@@ -21,6 +22,9 @@ export class SupportComponent implements OnInit {
   @Output() addSupportTicket = new EventEmitter<any>();
   @Output() closeSupportTicket = new EventEmitter<string>();
 
+
+  userIsAuthenticated:Boolean;
+
   selectableTicketCategories: { label: string; value: SupportTicketCategory }[];
   filters = {
     category: null,
@@ -35,9 +39,10 @@ export class SupportComponent implements OnInit {
     category: new FormControl('', Validators.required)
   });
 
-  constructor() {}
+  constructor(private msalService: MsalService) {}
 
   ngOnInit(): void {
+    this.userIsAuthenticated = this.msalService.getAccount() ? true : false;
     this.selectableTicketCategories = Object.keys(SupportTicketCategory)
       .filter(s => isNaN(Number(s)))
       .map(s => {

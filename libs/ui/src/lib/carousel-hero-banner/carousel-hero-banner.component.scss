@@ -18,10 +18,17 @@ h3, h2 {
   }
 }
 
+.pos-relative{
+  position: relative
+}
+
+.pos-absolute{
+  position: absolute;
+}
+
 .form-box {
   z-index: 999;
   background: #170c0ccc;
-  position: absolute;
   left: 3.5em;
 
   label {
