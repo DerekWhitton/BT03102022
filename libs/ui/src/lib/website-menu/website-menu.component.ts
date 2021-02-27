@@ -3,7 +3,6 @@ import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { CategoryService } from '@bushtrade/website/shared/services';
 import { NavigationEnd, Router } from '@angular/router';
 import { ICategory, ListingType } from '@bushtrade/website/shared/entites';
-
 @Component({
   selector: 'bushtrade-web-menu',
   templateUrl: './website-menu.component.html',
@@ -11,7 +10,7 @@ import { ICategory, ListingType } from '@bushtrade/website/shared/entites';
 })
 export class WebsiteMenuComponent implements OnInit {
   @Input() loggedIn;
-  items: MegaMenuItem[];
+  menuItems: MegaMenuItem[];
   accountItems: MenuItem[];
   searchCategories = [];
   selectedSearchCategory: string;
@@ -21,20 +20,20 @@ export class WebsiteMenuComponent implements OnInit {
   showMegaSearchMenu: boolean;
   showBuySellMenu: boolean = false;
   categories: ICategory[];
-  
 
-  constructor(private router: Router, private categoryService: CategoryService) {}
+  constructor(
+    private router: Router,
+    private categoryService: CategoryService
+  ) {}
 
   ngOnInit(): void {
     this.router.events.subscribe((nEvent) => {
-      if (nEvent instanceof NavigationEnd)
-        this.showMegaSearchMenu = true; //!nEvent.url.startsWith('/listings');
+      if (nEvent instanceof NavigationEnd) this.showMegaSearchMenu = true; //!nEvent.url.startsWith('/listings');
     });
 
     this.categoryService.loadCategories().subscribe((categories) => {
       this.categories = categories;
     });
-
 
     this.searchCategories = [
       { name: 'Marketplace', inactive: false },
@@ -48,13 +47,11 @@ export class WebsiteMenuComponent implements OnInit {
       },
       {
         label: 'Log Out',
-        command: () => this.logout()
-      }
+        command: () => this.logout(),
+      },
     ];
 
-    
-
-    this.items = [
+    this.menuItems = [
       {
         label: 'Buy & Sell',
         command: () => this.showBuySell(),
@@ -84,10 +81,16 @@ export class WebsiteMenuComponent implements OnInit {
       //   label: 'Trophy Cabinet',
       //   routerLink: ['/', 'trophy-cabinet'],
       // },
-      {
+    ];
+
+    if (this.loggedIn) {
+      this.menuItems.push({
         label: 'Support',
         routerLink: ['/', 'support'],
-      },
+      });
+    }
+
+    this.menuItems.push(
       {
         label: 'Blog',
         routerLink: ['/', 'blog'],
@@ -95,13 +98,13 @@ export class WebsiteMenuComponent implements OnInit {
       {
         icon: 'pi pi-fw pi-heart',
         routerLink: ['/', 'favourites'],
-      },
-    ];
+      }
+    );
   }
 
-  showBuySell(){
+  showBuySell() {
     this.showBuySellMenu = true;
- }
+  }
 
   login() {
     this.signIn.emit();
@@ -114,17 +117,14 @@ export class WebsiteMenuComponent implements OnInit {
   navigateToCategory(categoryId): void {
     this.showBuySellMenu = false;
     this.router.navigate(['/', 'listings'], {
-      queryParams: { 
+      queryParams: {
         type: ListingType.Auction,
-        categoryId: categoryId
+        categoryId: categoryId,
       },
     });
-
   }
 
-
   handleSearch() {
-
     let marketType =
       this.selectedSearchCategory['name'] == 'Marketplace'
         ? ListingType.Sale

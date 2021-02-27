@@ -10,6 +10,8 @@
       class="product-item p-m-2"
       [routerLink]="['/', 'listings', product.id]"
     >
+
+  
       <img
         src="assets/layout/images/listing-label.png"
         alt="listing"
@@ -32,7 +34,7 @@
           />
         </div>
         <div class="item-details">
-          <p>{{ product.name }}</p>
+          <p>{{  (product.name.length > 32)? (product.name | slice:0:32)+'...':(product.name) }}</p>
           <p
             *ngIf="product.type == listingTypes.Sale"
             style="font-weight: bold;"

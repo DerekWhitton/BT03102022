@@ -24,31 +24,24 @@
 <div class="p-grid">
   <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
     <div class="p-grid">
-      <div class="p-col-12">
+      <div class="p-col-12" *ngIf="categories && categories.length > 0">
         <h3 class="p-text-center">Popular Categories</h3>
 
         <category-block [categories]="categories"> </category-block>
 
+      </div>
+      <div class="p-col-12"  *ngIf="latestItems && latestItems.length > 0">
         <h3 class="p-text-left p-ml-7 p-mr-7">
-          Latest listings added<span style="float: right;"
-            ><a href="">View All</a></span
-          >
+          Latest listings added<span style="float: right;"><a href="">View All</a></span>
         </h3>
-
         <carousel-listing-item [listings]="latestItems"></carousel-listing-item>
-
+      </div>
+      <div class="p-col-12"  *ngIf="closingAuctions && closingAuctions.length > 0">
         <h3 class="p-text-left p-ml-7 p-mr-7">
-          Auctions closing Soon<span style="float: right;"
-            ><a
-              [routerLink]="['/', 'listings']"
-              [queryParams]="{ type: listingTypes.Auction }"
-              >View All</a
-            ></span
-          >
+          Auctions closing Soon<span style="float: right;"><a [routerLink]="['/', 'listings']"
+              [queryParams]="{ type: listingTypes.Auction }">View All</a></span>
         </h3>
-        <carousel-listing-item
-          [listings]="closingAuctions"
-        ></carousel-listing-item>
+        <carousel-listing-item [listings]="closingAuctions"></carousel-listing-item>
       </div>
     </div>
   </div>

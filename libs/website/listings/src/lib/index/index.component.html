@@ -37,7 +37,7 @@
         <div class="p-d-flex p-jc-evenly p-flex-wrap">
           <div
             class="p-mr-2 p-mb-2 p-text-center category-button"
-            *ngFor="let category of categories"
+            *ngFor="let category of featuredCategories"
             (click)="handleCategorySelection(category.id)"
             [ngClass]="categoryId == category.id ? 'selected-category' : ''"
           >
@@ -55,6 +55,7 @@
           </div>
         </div>
       </div>
+ 
 
       <div class="p-md-12 p-lg-3 sidebar">
         <p>
@@ -63,6 +64,15 @@
           }}
           items
         </p>
+
+
+        <h4>Categories <span *ngIf="parentCategory != ''" style="float:right"><a (click)="getParentCategory()">Back</a></span></h4>
+
+        <ul class="category-list">
+          <li *ngFor="let category of subCategories" ><a (click)="changeSubCategory(category.id)" >{{category.name}}</a></li>
+          <li *ngIf="parentCategory != ''" ><a (click)="getParentCategory()">Back</a></li>
+        </ul>
+
         <hr />
         <h4 class="p-pt-0 p-mt-1">
           PRICE
@@ -92,35 +102,6 @@
 
       <div class="p-md-12 p-lg-9">
         <div class="p-grid">
-          <!-- <div class="p-col-12">
-              <h3 class="p-mt-0">Auctions closing soon</h3>
-            </div>
-            <div class="p-md-12 p-lg-3">
-              <bushtrade-web-product-item-minimal></bushtrade-web-product-item-minimal>
-            </div>
-            <div class="p-md-12 p-lg-3">
-              <bushtrade-web-product-item-minimal></bushtrade-web-product-item-minimal>
-            </div>
-            <div class="p-md-12 p-lg-3">
-              <bushtrade-web-product-item-minimal></bushtrade-web-product-item-minimal>
-            </div>
-            <div class="p-md-12 p-lg-3">
-              <bushtrade-web-product-item-minimal></bushtrade-web-product-item-minimal>
-            </div> -->
-
-          <!-- <div class="p-col-12">
-              <h3 class="p-mb-0">140 items</h3>
-            </div> -->
-
-          <!-- <div class="p-md-12 p-lg-6 p-text-left">
-              View: <a href=""><i class="pi pi-table"></i></a> |
-              <a href=""><i class="pi pi-list"></i></a>
-            </div>
-            <div class="p-md-12 p-lg-6 p-text-right">
-              Sort by: <a href="#">Price</a> | <a href="#">Relevancy</a> |
-              <a href="#">Closing Date</a>
-            </div> -->
-
           <bushtrade-web-product-item
             class="p-mb-4 p-col-12"
             *ngFor="let item of searchResponse.items"

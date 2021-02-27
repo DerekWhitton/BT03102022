@@ -18,10 +18,7 @@ export class PortalTopBarComponent implements OnDestroy {
   @Input() topbarUserMenuActive;
 
   @Output() handleMenuButtonClick = new EventEmitter();
-  @Output() handleSearchClick = new EventEmitter();
-  @Output() hanldeTopbarNotificationMenuButtonClick = new EventEmitter();
   @Output() handleTopbarUserMenuButtonClick = new EventEmitter();
-  @Output() handleRightMenuClick = new EventEmitter();
 
   subscription: Subscription;
 
