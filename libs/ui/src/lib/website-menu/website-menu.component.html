@@ -1,42 +1,45 @@
 <div class="p-grid bg-gold" *ngIf="showMegaSearchMenu">
   <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
     <div class="p-d-flex p-flex-column p-flex-md-row p-pt-2 p-pb-2">
+      <span
+        class="p-input-icon-left p-mt-1 p-mb-1 p-mr-md-2"
+        style="flex-grow: 1;"
+      >
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          class="ui-block"
+          pInputText
+          placeholder="What are you looking for?"
+          [(ngModel)]="searchQuery"
+          (keydown.enter)="handleSearch()"
+        />
+      </span>
 
-        <span class="p-input-icon-left p-mt-1 p-mb-1 p-mr-md-2" style="flex-grow: 1">
-          <i class="pi pi-search"></i>
-          <input
-            type="text"
-            class="ui-block"
-            pInputText
-            placeholder="What are you looking for?"
-            [(ngModel)]="searchQuery"
-            (keydown.enter)="handleSearch()"
-          />
-        </span>
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        [options]="selectableListingTypes"
+        [placeholder]="'Listing type'"
+        class="p-mt-1 p-mb-1 p-mr-md-2"
+        [(ngModel)]="selectedListingType"
+        [showClear]="true"
+      ></p-dropdown>
 
-        <p-dropdown
-          [style]="{ width: '100%' }"
-          [options]="searchCategories"
-          class="p-mt-1 p-mb-1 p-mr-md-2"
-          optionLabel="name"
-          [(ngModel)]="selectedSearchCategory"
-        ></p-dropdown>
-
-        <button
-          pButton
-          type="button"
-          label="Search"
-          class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-ml-auto"
-          (click)="handleSearch()"
-        ></button>
-
+      <button
+        pButton
+        type="button"
+        label="Search"
+        class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-ml-auto"
+        (click)="handleSearch()"
+      ></button>
     </div>
-
   </div>
 </div>
 
 <div class="p-grid bg-grey">
-  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2 p-p-0">
+  <div
+    class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2 p-p-0"
+  >
     <div class="p-col p-text-right p-mt-2 p-mb-2 p-p-0">
       <p-menubar [model]="menuItems" class="menu-light">
         <ng-template pTemplate="start">
@@ -66,21 +69,24 @@
           <p-menu #menu [popup]="true" [model]="accountItems"></p-menu>
         </ng-template>
       </p-menubar>
-
     </div>
   </div>
 </div>
 
-
-<p-sidebar [(visible)]="showBuySellMenu" [baseZIndex]="10000" [fullScreen]="true" position="top">
+<p-sidebar
+  [(visible)]="showBuySellMenu"
+  [baseZIndex]="10000"
+  [fullScreen]="true"
+  position="top"
+>
   <div class="p-grid">
-    
-    <div class="p-col-12 p-md-4"  *ngFor="let category of categories">
-       <h3 (click)="navigateToCategory(category.id)">{{category.name}}</h3>
-       <ul class="category-list">
-         <li *ngFor="let child of category.children" ><a (click)="navigateToCategory(category.id)" >{{child.name}}</a></li>
-       </ul>
+    <div class="p-col-12 p-md-4" *ngFor="let category of categories">
+      <h3 (click)="navigateToCategory(category.id)">{{ category.name }}</h3>
+      <ul class="category-list">
+        <li *ngFor="let child of category.children">
+          <a (click)="navigateToCategory(category.id)">{{ child.name }}</a>
+        </li>
+      </ul>
     </div>
-
-</div>
+  </div>
 </p-sidebar>

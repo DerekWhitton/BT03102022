@@ -45,11 +45,7 @@ export class IndexComponent implements OnInit {
     private categoryService: CategoryService
   ) {
     this.routerSubscription$ = router.events.subscribe((ev) => {
-      if (
-        ev instanceof NavigationEnd &&
-        ev.url.startsWith('/listings') &&
-        ev.url.indexOf('type=') >= 0
-      ) {
+      if (ev instanceof NavigationEnd && ev.url.startsWith('/listings')) {
         this.buildAndActionQueries();
       }
     });
@@ -61,21 +57,19 @@ export class IndexComponent implements OnInit {
       .subscribe((categories) => {
         this.featuredCategories = categories;
       });
-    
+
     this.parentCategory.push(this.categoryId);
     this.updateSubCategory(this.categoryId);
-    
   }
 
-
-  changeType(val){
+  changeType(val) {
     this.type = val;
     this.maxPrice = null;
     this.searchPriceRange[1] = null;
     this.navigate();
   }
 
-  changeSubCategory(value = "") {
+  changeSubCategory(value = '') {
     this.parentCategory.push(value);
     this.updateSubCategory(value);
     this.categoryId = value;
@@ -84,7 +78,7 @@ export class IndexComponent implements OnInit {
 
   getParentCategory() {
     this.parentCategory.pop();
-    this.updateSubCategory(this.parentCategory[this.parentCategory.length-1]);
+    this.updateSubCategory(this.parentCategory[this.parentCategory.length - 1]);
   }
 
   handleSearch() {
@@ -94,7 +88,11 @@ export class IndexComponent implements OnInit {
   }
 
   handleCategorySelection(categoryId: string) {
-    this.categoryId = categoryId;
+    if (this.categoryId != categoryId) {
+      this.categoryId = categoryId;
+    } else {
+      this.categoryId = null;
+    }
     this.query = null;
     this.facets = null;
 
@@ -202,7 +200,7 @@ export class IndexComponent implements OnInit {
     }
     this.isLoadingFacets = true;
     this.facetSubscription$ = this.searchService
-      .getListingSearchFacets(this.type, this.query)
+      .getListingSearchFacets(this.type, this.query, this.categoryId)
       .subscribe(
         (res) => {
           this.facetsResponse = res;
@@ -242,9 +240,11 @@ export class IndexComponent implements OnInit {
   }
 
   private updateSubCategory(categoryToGet) {
-    this.categoryService.loadCategories(categoryToGet).subscribe((categories) => {
-      this.subCategories = categories;
-    });
+    this.categoryService
+      .loadCategories(categoryToGet)
+      .subscribe((categories) => {
+        this.subCategories = categories;
+      });
   }
 
   ngOnDestroy(): void {

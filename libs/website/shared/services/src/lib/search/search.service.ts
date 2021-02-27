@@ -30,25 +30,32 @@ export class SearchService {
     minPrice: number = null,
     maxPrice: number = null
   ) {
-    let queryParams = `?type=${type}`;
+    let queryParams = [];
+    let urlQuery = '';
+    if (type) {
+      queryParams.push(`type=${type}`);
+    }
     if (query) {
-      queryParams += `&query=${query}`;
+      queryParams.push(`query=${query}`);
     }
     if (categoryId) {
-      queryParams += `&categoryId=${categoryId}`;
+      queryParams.push(`categoryId=${categoryId}`);
     }
     if (facets && facets.length) {
       const filterValue = facets.map((f) => `${f.key}:${f.value}`).join('|');
-      queryParams += `&filters=${filterValue}`;
+      queryParams.push(`filters=${filterValue}`);
     }
     if (minPrice) {
-      queryParams += `&minPrice=${minPrice}`;
+      queryParams.push(`minPrice=${minPrice}`);
     }
     if (maxPrice) {
-      queryParams += `&maxPrice=${maxPrice}`;
+      queryParams.push(`maxPrice=${maxPrice}`);
+    }
+    if (queryParams.length > 0) {
+      urlQuery = `?${queryParams.join("&")}`;
     }
     return this.httpClient.get<IPaginatedResponse<IListing>>(
-      `${this.base}api/v${this.version}/Search/Listings${queryParams}`
+      `${this.base}api/v${this.version}/Search/Listings${urlQuery}`
     );
   }
 
@@ -57,22 +64,29 @@ export class SearchService {
     query: string,
     categoryId: string = null
   ) {
-    let queryParams = `?type=${type}`;
-    if (query) {
-      queryParams += `&query=${query}`;
+    let queryParams = [];
+    let urlQuery = '';
+    if (type) {
+      queryParams.push(`type=${type}`);
     }
     if (query) {
-      categoryId += `&categoryId=${categoryId}`;
+      queryParams.push(`query=${query}`);
     }
-
+    if (categoryId) {
+      queryParams.push(`categoryId=${categoryId}`);
+    }
+    if (queryParams.length > 0) {
+      urlQuery = `?${queryParams.join("&")}`;
+    }
     return this.httpClient.get<ISearchFacet[]>(
-      `${this.base}api/v${this.version}/Search/Listings/Facets${queryParams}`
+      `${this.base}api/v${this.version}/Search/Listings/Facets${urlQuery}`
     );
   }
 
   getMaxPrice(type: ListingType) {
+    const queryParams = type ? `?type=${type}`: '';
     return this.httpClient.get<number>(
-      `${this.base}api/v${this.version}/Search/Listings/MaxPrice?type=${type}`
+      `${this.base}api/v${this.version}/Search/Listings/MaxPrice${queryParams}`
     );
   }
 }

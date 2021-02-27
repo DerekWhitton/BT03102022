@@ -31,14 +31,16 @@ export class SearchFacetComponent implements OnInit {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
-    const facetOptions = this.selectedFacets.filter(
-      (f) => f.key === this.facet.key
-    );
+    if (this.selectedFacets) {
+      const facetOptions = this.selectedFacets.filter(
+        (f) => f.key === this.facet.key
+      );
 
-    this.facet.options = this.facet.options.map((f) => ({
-      ...f,
-      active: facetOptions.findIndex((fo) => fo.value == f.value) >= 0,
-    }));
+      this.facet.options = this.facet.options.map((f) => ({
+        ...f,
+        active: facetOptions.findIndex((fo) => fo.value == f.value) >= 0,
+      }));
+    }
   }
 
   handleFacetSelection(key: string, value: string) {
