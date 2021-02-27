@@ -130,13 +130,13 @@
                 <ng-container *ngIf="type == 1">in the marketplace</ng-container
                 >.
               </h3>
-              <p *ngIf="type" class="display-block">
+              <p *ngIf="type">
                 Try adjusting your price range, filter or check for more results
                 on
                 <a *ngIf="type == 1" (click)="changeType(0)">auctions</a>
                 <a *ngIf="type == 0" (click)="changeType(1)">the marketplace</a>
               </p>
-              <p *ngIf="!type" class="display-block">
+              <p *ngIf="!type">
                 Try adjusting your price range and filters
               </p>
             </div>
