@@ -46,73 +46,9 @@
   </p-table>
 </div>
 
-<p-dialog
-  [(visible)]="showPurchaseDetailDialog"
-  header="Pay Now"
-  [style]="{ width: '450px' }"
-  [modal]="true"
-  styleClass="p-fluid"
->
-  <ng-template pTemplate="content">
-    <div
-      class="p-col-12 p-text-center"
-      *ngIf="!(paymentDetailsLoaded$ | async)"
-    >
-      <progress-spinner></progress-spinner>
-    </div>
-
-    <form
-      ngNoForm
-      target="_blank"
-      method="POST"
-      [action]="paymentDetails.url"
-      *ngIf="
-        (paymentDetailsLoaded$ | async) && paymentDetails$
-          | async as paymentDetails
-      "
-    >
-      <div *ngIf="!paymentDetails.paid">
-        <input
-          type="hidden"
-          [value]="field.value"
-          [name]="field.key"
-          [id]="field.key"
-          *ngFor="let field of paymentDetails.fields | keyvalue: 0"
-        />
-
-        <p>
-          You will be redirected to PayFast to complete your payment of R{{
-            paymentDetails.total | number: '1.2'
-          }}
-        </p>
-
-        <p-button label="Proceed to PayFast" type="submit"></p-button>
-      </div>
-
-      <div *ngIf="paymentDetails.paid">
-        <p>
-          You have already paid.
-        </p>
-      </div>
-    </form>
-  </ng-template>
-
-  <ng-template pTemplate="footer">
-    <!-- <button
-      pButton
-      pRipple
-      label="Cancel"
-      icon="pi pi-times"
-      class="p-button-text p-button-danger"
-      (click)="this.displayStartSellingDialog = false"
-    ></button>
-    <button
-      pButton
-      pRipple
-      class="p-button-text"
-      icon="pi pi-check"
-      label="Start Selling!"
-      (click)="registerSeller()"
-    ></button> -->
-  </ng-template>
-</p-dialog>
+<bushtrade-portal-initiate-payment
+  [showPurchaseDetailDialog]="showPurchaseDetailDialog"
+  [paymentDetailsLoaded$]="paymentDetailsLoaded$ | async"
+  [paymentDetails$]="paymentDetails$ | async"
+  (modalClosed)="showPurchaseDetailDialog = false"
+></bushtrade-portal-initiate-payment>
