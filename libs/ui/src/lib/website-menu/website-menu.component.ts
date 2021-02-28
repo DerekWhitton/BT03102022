@@ -38,10 +38,9 @@ export class WebsiteMenuComponent implements OnInit {
     this.selectableListingTypes = Object.keys(ListingType)
       .filter((s) => isNaN(Number(s)))
       .map((s) => {
-        return { label: ListingType[s] == ListingType.Sale ? "Marketplace": "Auctions", value: ListingType[s] };
-        
-      });
-      
+        return { label: ListingType[s] == ListingType.Sale ? "For Sale": "Auctions", value: ListingType[s] };    
+    });
+
     this.accountItems = [
       {
         label: 'Profile',
@@ -59,14 +58,14 @@ export class WebsiteMenuComponent implements OnInit {
         command: () => this.showBuySell(),
       },
 
-      {
-        label: 'Marketplace',
-        command: (_) => {
-          this.router.navigate(['/', 'listings'], {
-            queryParams: { type: ListingType.Sale },
-          });
-        },
-      },
+      // {
+      //   label: 'Marketplace',
+      //   command: (_) => {
+      //     this.router.navigate(['/', 'listings'], {
+      //       queryParams: { type: ListingType.Sale },
+      //     });
+      //   },
+      // },
       {
         label: 'Auctions',
         command: (_) => {
@@ -109,6 +108,7 @@ export class WebsiteMenuComponent implements OnInit {
   }
 
   login() {
+    this.showBuySellMenu = false 
     this.signIn.emit();
   }
 
@@ -116,11 +116,11 @@ export class WebsiteMenuComponent implements OnInit {
     this.signOut.emit();
   }
 
-  navigateToCategory(categoryId): void {
+  showListings(categoryId = null, listingType = null): void {
     this.showBuySellMenu = false;
     this.router.navigate(['/', 'listings'], {
       queryParams: {
-        type: ListingType.Auction,
+        type: listingType,
         categoryId: categoryId,
       },
     });

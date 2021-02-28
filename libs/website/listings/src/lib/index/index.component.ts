@@ -81,6 +81,7 @@ export class IndexComponent implements OnInit {
     this.updateSubCategory(this.parentCategory[this.parentCategory.length - 1]);
   }
 
+
   handleSearch() {
     this.searchResponse = null;
     this.facetsResponse = null;

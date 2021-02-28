@@ -5,11 +5,23 @@
       <hr />
 
       <progress-spinner *ngIf="!(loaded$ | async)"></progress-spinner>
-
+      
       <p-table [value]="topics$ | async" styleClass="p-datatable-striped ">
+        
         <ng-template pTemplate="body" let-topic>
           <tr [routerLink]="['/', 'forums', 'topic', topic.id]">
-            <td class="p-m-0 p-p-3">{{ topic.name }}</td>
+            <td class="p-m-0 p-p-3">
+              <h4>{{ topic.name }}</h4>
+              <p *ngIf="topic.description">{{ topic.description }}</p>
+            </td>
+            <td *ngIf="topic.subForumsCount">
+              <p>{{ topic.subForumsCount }}</p>
+              <p>{{ topic.repliesCount }}</p>
+            </td>
+            <td *ngIf="topic.latestPost">
+              <p >{{ topic.latestPost.threadId }}</p>
+              <p >{{ topic.latestPost.user.name }}</p>
+            </td>
           </tr>
         </ng-template>
       </p-table>

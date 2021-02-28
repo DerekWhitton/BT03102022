@@ -294,3 +294,20 @@ a {
     z-index: 1;
   }
 }
+
+.profile-picture{
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  padding: 2px;
+  border: 1px solid #999;
+  background: #666;
+}
+
+.word-break{
+  word-break: break-word;
+}
+
+small{
+  font-size: 0.8rem;
+}
