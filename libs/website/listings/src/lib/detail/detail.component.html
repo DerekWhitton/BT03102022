@@ -9,20 +9,13 @@
       <div class="p-grid">
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-p-3 bg-white p-mb-5">
-            <p-galleria
-              [(value)]="listingDetails.images"
-              [numVisible]="5"
-              [showThumbnailNavigators]="false"
-            >
+            <p-galleria [(value)]="listingDetails.images" [numVisible]="5" [showThumbnailNavigators]="false">
               <ng-template pTemplate="item" let-item>
                 <img [src]="item.url" style="width: 100%; display: block;" />
               </ng-template>
               <ng-template pTemplate="thumbnail" let-item>
                 <div class="p-grid p-nogutter p-mr-2 p-justify-center">
-                  <img
-                    [src]="item.url"
-                    style="display: block; max-width: 50px;"
-                  />
+                  <img [src]="item.url" style="display: block; max-width: 50px;" />
                 </div>
               </ng-template>
             </p-galleria>
@@ -35,10 +28,7 @@
             <p>{{ listingDetails.description }}</p>
             <h3>Specifications</h3>
 
-            <p-table
-              [value]="listingDetails.listingPropertyValues"
-              styleClass="p-datatable-striped"
-            >
+            <p-table [value]="listingDetails.listingPropertyValues" styleClass="p-datatable-striped">
               <ng-template pTemplate="body" let-specification>
                 <tr>
                   <td>{{ specification.categoryPropertyName }}</td>
@@ -54,11 +44,7 @@
                 <h3>Seller</h3>
                 <div class="p-grid">
                   <div class="p-col">
-                    <img
-                      src="https://via.placeholder.com/60x60.jpg"
-                      alt=""
-                      class="img-round"
-                    />
+                    <img src="https://via.placeholder.com/60x60.jpg" alt="" class="img-round" />
                   </div>
                   <div class="p-col">
                     <h3 class="p-m-3">{{ listingSellerSummary.name }}</h3>
@@ -78,42 +64,35 @@
                 <button class="p-button p-p-3">Contact Advertiser</button>
               </div>
               <div class="p-lg-8 p-md-12">
-                <h4>Recent Reviews</h4>
-                <div
-                  class="p-my-4"
-                  *ngFor="let review of listingSellerSummary.latestReviews"
-                >
-                  <div class="review">
-                    <p-rating
-                      [ngModel]="review.rating"
-                      readonly="true"
-                      stars="5"
-                      [cancel]="false"
-                    ></p-rating>
-                    <p>{{ review.comment }}</p>
-                    <small
-                      >{{ review.buyerName }} |
-                      {{ review.createdAt | date: 'dd MMMM yyyy' }}</small
-                    >
+
+                <ng-container *ngIf="listingSellerSummary.latestReviews.length > 0; else noReviews">
+                  <h4>Recent Reviews</h4>
+
+                  <div class="p-my-4" *ngFor="let review of listingSellerSummary.latestReviews">
+                    <div class="review">
+                      <p-rating [ngModel]="review.rating" readonly="true" stars="5" [cancel]="false"></p-rating>
+                      <p>{{ review.comment }}</p>
+                      <small>{{ review.buyerName }} |
+                        {{ review.createdAt | date: 'dd MMMM yyyy' }}</small>
+                    </div>
                   </div>
-                </div>
-                <a href="#">View all reviews</a>
+                  <a href="#">View all reviews</a>
+
+                </ng-container>
+                <ng-template #noReviews>
+                  <h3>There are no recent reviews for this seller</h3>
+                </ng-template>
               </div>
             </div>
           </div>
         </div>
         <div class="p-col-6 p-md-4 p-lg-3">
           <div class="sidebar bg-white p-pt-0 p-pb-5">
-            <div
-              *ngIf="listingDetails.type == listingType.Auction"
-              class="bg-gold p-pt-3 p-pb-3 p-text-center"
-            >
+            <div *ngIf="listingDetails.type == listingType.Auction" class="bg-gold p-pt-3 p-pb-3 p-text-center">
               <p class="text-timeout p-m-0" *ngIf="!timesUp">
-                Closes in
-                <bushtrade-web-countdown-timer
-                  [endDate]="listingDetails.endDate"
-                  (timeDifferenceRemaining)="checkTimeRemaining($event)"
-                ></bushtrade-web-countdown-timer>
+                Closes in<br>
+                <bushtrade-web-countdown-timer [endDate]="listingDetails.endDate"
+                  (timeDifferenceRemaining)="checkTimeRemaining($event)"></bushtrade-web-countdown-timer>
               </p>
               <p class="p-text-bold text-timeout" *ngIf="timesUp">
                 CLOSED
@@ -131,23 +110,19 @@
                 </p>
               </div>
             </div>
-            <ng-container 
-              *ngIf="
+            <ng-container *ngIf="
               !timesUp && listingDetails.type == listingType.Auction && !refreshingSidebar
-              "
-            >
+              ">
               <div class="current-bid sidebar-section">
                 <h3>Current Bid</h3>
                 <h3 class="price" *ngIf="highestBid != null">
                   R{{ highestBid.amount }}
                 </h3>
                 <p *ngIf="highestBid == null">There is no current bid</p>
-                <p
-                  *ngIf="
+                <p *ngIf="
                     highestBid != null &&
                     highestBid.amount < listingDetails.reservePrice
-                  "
-                >
+                  ">
                   The current bid for this lot falls below its reserve price.
                 </p>
               </div>
@@ -157,73 +132,59 @@
                   R{{ biddingRecommendations[0] }}
                 </p>
                 <p>Bids exclude the auction fee and (shipping) costs.</p>
-                <!-- <p>Seller’s location: Kwa-Zulu Natal</p> -->
                 <p>Auction fee: 9% of the winning bid</p>
               </div>
-              <div class="quickbid sidebar-section bg-grey" >
+              <div class="quickbid sidebar-section bg-grey">
                 <h3 class="p-pt-2">Quick Bid</h3>
-                <button class="p-button p-mb-2 p-mr-1" (click)="placeBid(bid)"  *ngFor="let bid of biddingRecommendations">
+                <button class="p-button p-mb-2 p-mr-1" (click)="placeBid(bid)"
+                  *ngFor="let bid of biddingRecommendations">
                   R {{ bid }}
                 </button>
               </div>
               <div class="bid-history sidebar-section">
                 <h3>Bid history</h3>
-                <ng-container  *nfIg="listingBids.length > 0 else noBids"
-                >
-                <p-table
-                  [value]="listingBids.slice(0, 3)"
-                  styleClass="p-datatable-striped"
-                >
-                  <ng-template pTemplate="body" let-bid>
-                    <tr>
-                      <td class="p-m-0 p-p-0">{{ bid.firstName }}</td>
-                      <td class="p-m-0 p-p-0">
-                        {{ bid.placedAt | date: 'dd MMM yyyy hh:mm:ss' }}
-                      </td>
-                      <td class="p-m-0 p-p-0 p-text-right price">
-                        R {{ bid.amount }}
-                      </td>
-                    </tr>
-                  </ng-template>
-                </p-table>
-                <a (click)="showBidsModal = true">View all bids</a>
-              </ng-container>
-              <ng-container #noBids>
-                There are no bids placed on this auction yet.
-            </ng-container>
+                <ng-container *nfIg="listingBids.length > 0 else noBids">
+                  <p-table [value]="listingBids.slice(0, 3)" styleClass="p-datatable-striped">
+                    <ng-template pTemplate="body" let-bid>
+                      <tr>
+                        <td class="p-m-0 p-p-0">{{ bid.firstName }}</td>
+                        <td class="p-m-0 p-p-0">
+                          {{ bid.placedAt | date: 'dd MMM yyyy hh:mm:ss' }}
+                        </td>
+                        <td class="p-m-0 p-p-0 p-text-right price">
+                          R {{ bid.amount }}
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                  <a (click)="showBidsModal = true">View all bids</a>
+                </ng-container>
+                <ng-container #noBids>
+                  There are no bids placed on this auction yet.
+                </ng-container>
               </div>
-            </ng-container >
-            <div
-              *ngIf="
+            </ng-container>
+            <div class="p-pt-3" *ngIf="
                 listingDetails.type == listingType.Sale && !refreshingSidebar
-              "
-            >
+              ">
               <h3>Price</h3>
               <h3 class="price">R {{ listingDetails.startingPrice }}</h3>
               <p *ngIf="listingDetails.isSold">
                 This item has been sold.
               </p>
               <div *ngIf="!listingDetails.isSold">
-                <p-button
-                  [disabled]="listingBids && listingBids.length"
-                  [label]="
+                <p-button [disabled]="listingBids && listingBids.length" [label]="
                     listingBids && listingBids.length
                       ? 'Item Reserved'
                       : 'Purchase'
-                  "
-                  (click)="showConfirmModal = true"
-                ></p-button>
-                <p
-                  *ngIf="
+                  " (click)="showConfirmModal = true"></p-button>
+                <p *ngIf="
                     listingBids &&
                     listingBids.length &&
                     listingBids[0].expiresAt
-                  "
-                >
+                  ">
                   Reservation ends in
-                  <bushtrade-web-countdown-timer
-                    [endDate]="listingBids[0].expiresAt"
-                  ></bushtrade-web-countdown-timer>
+                  <bushtrade-web-countdown-timer [endDate]="listingBids[0].expiresAt"></bushtrade-web-countdown-timer>
                 </p>
               </div>
             </div>
@@ -243,34 +204,16 @@
                 <i class="pi pi-check"></i> All of our auctions are subject to notarial supervision.
               </p>
             </div>
-            <!-- <div class="pay-options sidebar-section">
-              <h3>Payment options</h3>
-              <div class="p-grid p-m-0 p-p-0">
-                <img
-                  src="https://via.placeholder.com/100x50.jpg"
-                  alt=""
-                  class="p-col-4 p-pl-0"
-                />
-                <img
-                  src="https://via.placeholder.com/100x50.jpg"
-                  alt=""
-                  class="p-col-4"
-                />
-                <img
-                  src="https://via.placeholder.com/100x50.jpg"
-                  alt=""
-                  class="p-col-4"
-                />
-              </div>
-            </div> -->
+            <div class="pay-options sidebar-section">
+              <h3>Payments</h3>
+              <p>All payments are securely processed by <a href="https://www.payfast.co.za/" traget="_blank">Payfast</a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
       <div class="p-col-12 p-text-center advertisement-horizontal-banner">
-        <img
-          src="https://via.placeholder.com/1404x100.jpg"
-          alt="Advertise Here"
-        />
+        <img src="https://via.placeholder.com/1404x100.jpg" alt="Advertise Here" />
       </div>
 
       <div class="p-col-12">
@@ -281,14 +224,8 @@
 </div>
 
 <!-- Create Dialog -->
-<p-dialog
-  [(visible)]="showConfirmModal"
-  [style]="'width: 400px;'"
-  [header]="'Confirm Purchase'"
-  [modal]="true"
-  [closable]="false"
-  styleClass="p-fluid"
->
+<p-dialog [(visible)]="showConfirmModal" [style]="'width: 400px;'" [header]="'Confirm Purchase'" [modal]="true"
+  [closable]="false" styleClass="p-fluid">
   <ng-template pTemplate="content">
     <p>
       After clicking confirm you will have one hour to complete the purchase of
@@ -298,33 +235,15 @@
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button
-      pButton
-      pRipple
-      label="Cancel"
-      icon="pi pi-times"
-      class="p-button-text"
-      (click)="showConfirmModal = false"
-    ></button>
-    <button
-      pButton
-      pRipple
-      label="Confirm"
-      icon="pi pi-check"
-      class="p-button-text"
-      [disabled]="timesUp"
-      (click)="purchase()"
-    ></button>
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+      (click)="showConfirmModal = false"></button>
+    <button pButton pRipple label="Confirm" icon="pi pi-check" class="p-button-text" [disabled]="timesUp"
+      (click)="purchase()"></button>
   </ng-template>
 </p-dialog>
 
-<p-dialog
-  [(visible)]="showBidsModal"
-  [style]="{ width: '50vw' }"
-  [header]="'Bid history'"
-  [modal]="true"
-  styleClass="p-fluid"
->
+<p-dialog [(visible)]="showBidsModal" [style]="{ width: '50vw' }" [header]="'Bid history'" [modal]="true"
+  styleClass="p-fluid">
   <ng-template pTemplate="content">
     <div>
       <p-table [value]="listingBids" styleClass="p-datatable-striped">
@@ -342,13 +261,7 @@
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button
-      pButton
-      pRipple
-      label="Cancel"
-      icon="pi pi-times"
-      class="p-button-text"
-      (click)="showBidsModal = false"
-    ></button>
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+      (click)="showBidsModal = false"></button>
   </ng-template>
 </p-dialog>

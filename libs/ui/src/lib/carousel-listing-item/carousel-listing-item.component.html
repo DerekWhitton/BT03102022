@@ -11,20 +11,15 @@
       [routerLink]="['/', 'listings', product.id]"
     >
 
-  
-      <img
-        src="assets/layout/images/listing-label.png"
-        alt="listing"
-        class="listing-label"
-        *ngIf="product.type == listingTypes.Auction"
-      />
       <div class="product-item-content {{ product.type }}">
-        <div class="p-mb-3">
+        <div  class="p-mb-3" 
+              [ngClass]="{'auction-listing' : product.type == listingTypes.Auction}">
           <img
             *ngIf="(product?.images)[0]?.url"
             src="{{ (product?.images)[0]?.url }}"
             [alt]="product.name"
             class="product-image"
+           
           />
           <img
             *ngIf="!(product?.images)[0]?.url"

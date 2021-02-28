@@ -7,7 +7,7 @@
       <h3 class="p-text-center">Quick Search</h3>
     </div>
 
-    <div class="p-field p-col-12">
+    <div class="p-field p-col-12 p-text-left">
       <p-dropdown
         [options]="categories"
         [placeholder]="'Category'"
@@ -16,10 +16,10 @@
       ></p-dropdown>
     </div>
 
-    <div class="p-field p-col-12">
+    <div class="p-field p-col-12 p-text-left">
       <p-dropdown
         [options]="selectableListingTypes"
-        [placeholder]="'Listing type'"
+        [placeholder]="'All Listings'"
         [showClear]="true"
         [autoDisplayFirst]="false"
         [(ngModel)]="searchListingType"
