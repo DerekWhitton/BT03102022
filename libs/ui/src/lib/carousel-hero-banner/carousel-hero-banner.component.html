@@ -20,6 +20,8 @@
       <p-dropdown
         [options]="selectableListingTypes"
         [placeholder]="'Listing type'"
+        [showClear]="true"
+        [autoDisplayFirst]="false"
         [(ngModel)]="searchListingType"
         (onChange)="setMaxPrice()"
       ></p-dropdown>

@@ -69,7 +69,6 @@ export class CarouselHeroBannerComponent implements OnInit {
           this.banners = result;
         }
       )
-    this.searchListingType = ListingType.Auction;
     this.setMaxPrice();
   }
 

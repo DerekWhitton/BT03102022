@@ -12,8 +12,8 @@ export class WebsiteMenuComponent implements OnInit {
   @Input() loggedIn;
   menuItems: MegaMenuItem[];
   accountItems: MenuItem[];
-  searchCategories = [];
-  selectedSearchCategory: string;
+  selectableListingTypes: any[];
+  selectedListingType: ListingType;
   searchQuery: string;
   @Output() signIn = new EventEmitter();
   @Output() signOut = new EventEmitter();
@@ -35,10 +35,11 @@ export class WebsiteMenuComponent implements OnInit {
       this.categories = categories;
     });
 
-    this.searchCategories = [
-      { name: 'Marketplace', inactive: false },
-      { name: 'Auctions', inactive: false },
-    ];
+    this.selectableListingTypes = Object.keys(ListingType)
+      .filter((s) => isNaN(Number(s)))
+      .map((s) => {
+        return { label: ListingType[s] == ListingType.Sale ? "Marketplace": "Auctions", value: ListingType[s] };
+      });
 
     this.accountItems = [
       {
@@ -125,12 +126,10 @@ export class WebsiteMenuComponent implements OnInit {
   }
 
   handleSearch() {
-    let marketType =
-      this.selectedSearchCategory['name'] == 'Marketplace'
-        ? ListingType.Sale
-        : ListingType.Auction;
-
-    let queryParams = { type: marketType };
+    let queryParams =
+      this.selectedListingType || this.selectedListingType == 0
+        ? { type: this.selectedListingType }
+        : {};
     if (this.searchQuery && this.searchQuery.trim().length) {
       queryParams['q'] = this.searchQuery;
     }
