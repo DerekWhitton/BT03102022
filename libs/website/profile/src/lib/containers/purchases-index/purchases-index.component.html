@@ -19,6 +19,7 @@
           Paid
         </th>
         <th></th>
+        <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-purchase>
@@ -39,6 +40,13 @@
             *ngIf="!purchase.paidAt"
             label="Pay Now"
             (click)="initiatePayment(purchase.id)"
+          ></p-button>
+        </td>
+        <td>
+          <p-button
+            *ngIf="!purchase.paidAt"
+            label="Cancel Purchase"
+            (click)="cancelPurchase(purchase.id)"
           ></p-button>
         </td>
       </tr>

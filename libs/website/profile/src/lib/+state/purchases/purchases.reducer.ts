@@ -50,6 +50,16 @@ const purchasesReducer = createReducer(
     ...state,
     loadedPaymentDetails: true,
     paymentDetails: details,
+  })),
+  on(PurchasesActions.cancelPurchaseSuccess, (state, { id }) =>
+    purchasesAdapter.removeOne(id, {
+      ...state,
+      loaded: true,
+    })
+  ),
+  on(PurchasesActions.cancelPurchaseFailure, (state, { error }) => ({
+    ...state,
+    error,
   }))
 );
 
