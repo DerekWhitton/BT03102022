@@ -39,8 +39,9 @@ export class WebsiteMenuComponent implements OnInit {
       .filter((s) => isNaN(Number(s)))
       .map((s) => {
         return { label: ListingType[s] == ListingType.Sale ? "Marketplace": "Auctions", value: ListingType[s] };
+        
       });
-
+      
     this.accountItems = [
       {
         label: 'Profile',
