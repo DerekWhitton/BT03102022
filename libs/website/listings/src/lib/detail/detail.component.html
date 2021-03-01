@@ -9,45 +9,56 @@
       <div class="p-grid">
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-p-3 bg-white p-mb-5">
-            <p-galleria [(value)]="listingDetails.images" [numVisible]="5" [showThumbnailNavigators]="false">
-              <ng-template pTemplate="item" let-item>
-                <img [src]="item.url" style="width: 100%; display: block;" />
-              </ng-template>
-              <ng-template pTemplate="thumbnail" let-item>
-                <div class="p-grid p-nogutter p-mr-2 p-justify-center">
-                  <img [src]="item.url" style="display: block; max-width: 50px;" />
-                </div>
-              </ng-template>
-            </p-galleria>
-          </div>
 
+            <p-galleria [(value)]="listingDetails.images" [(visible)]="displayCustom" [(activeIndex)]="activeIndex" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1024px' }" [numVisible]="7"
+            [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false" [baseZIndex]="100000"> 
+              <ng-template pTemplate="item" let-item>
+                  <img [src]="item.url" style="max-width: 100%; display: block; max-height: 80vh"/>
+              </ng-template>
+          </p-galleria>
+
+            <div *ngIf="listingDetails.images" class="p-grid" style="margin: 0 auto">
+              <div class="p-col-12">
+                <img [src]="listingDetails.images[0].url" style="cursor: pointer" style="max-height:640px; max-width:100%" (click)="imageClick(0)" />
+              </div>
+              <div class="p-col-12">
+                <ng-container *ngFor="let image of listingDetails.images; let index = index;" style="margin: 0 auto" key="index">
+                  <img [src]="image.url" [alt]="image.alt" style="cursor: pointer" class="thumbnail p-mr-2" (click)="imageClick(index)" />
+                </ng-container>
+              </div>
+
+            </div>
+          </div>
           <div class="p-p-3 bg-white">
             <h1>{{ listingDetails.name }}</h1>
             <hr />
             <h3>Description</h3>
             <p>{{ listingDetails.description }}</p>
-            <h3>Specifications</h3>
-
-            <p-table [value]="listingDetails.listingPropertyValues" styleClass="p-datatable-striped">
-              <ng-template pTemplate="body" let-specification>
-                <tr>
-                  <td>{{ specification.categoryPropertyName }}</td>
-                  <td>{{ specification.value }}</td>
-                </tr>
-              </ng-template>
-            </p-table>
-
             <hr />
+            <ng-container *ngIf="listingDetails.listingPropertyValues.length > 0">
+              <h3>Specifications</h3>
+
+              <p-table [value]="listingDetails.listingPropertyValues" styleClass="p-datatable-striped">
+                <ng-template pTemplate="body" let-specification>
+                  <tr>
+                    <td>{{ specification.categoryPropertyName }}</td>
+                    <td>{{ specification.value }}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+              <hr />
+            </ng-container>
+
 
             <div class="p-grid">
               <div class="p-col-12 p-md-8p-lg-9">
-                <h3>Seller</h3>
+                <h3>Seller Information</h3>
                 <div class="p-grid">
                   <div class="p-col">
-                    <img src="https://via.placeholder.com/60x60.jpg" alt="" class="img-round" />
-                  </div>
-                  <div class="p-col">
-                    <h3 class="p-m-3">{{ listingSellerSummary.name }}</h3>
+                    <img src="assets/layout/images/no-profile.png" alt="User Profile Pic" class="img-round"
+                      style="width:100px;">
+                    <h3 class="p-m-0">{{ listingSellerSummary.name }}</h3>
                   </div>
                 </div>
                 <div class="p-grid p-mb-3">
@@ -212,12 +223,24 @@
           </div>
         </div>
       </div>
-      <div class="p-col-12 p-text-center advertisement-horizontal-banner">
+      <!-- <div class="p-col-12 p-text-center advertisement-horizontal-banner">
         <img src="https://via.placeholder.com/1404x100.jpg" alt="Advertise Here" />
-      </div>
+      </div> -->
+
+      <!-- <div class="p-col-12" *ngIf="suggestions.length > 0">
+        {{suggestions |json }}
+        <carousel-listing-item> </carousel-listing-item>
+      </div> -->
 
       <div class="p-col-12">
-        <carousel-listing-item> </carousel-listing-item>
+
+        <div class="p-col-12" *ngIf="latestItems && latestItems.length > 0">
+          <h3 class="p-text-left p-ml-7 p-mr-7">
+            Latest listings added<span style="float: right;"><a href="">View All</a></span>
+          </h3>
+          <carousel-listing-item [listings]="latestItems"></carousel-listing-item>
+        </div>
+
       </div>
     </div>
   </div>

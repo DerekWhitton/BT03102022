@@ -2,18 +2,18 @@
 [ngClass]="{'auction-listing' : item.type == ListingType.Auction}">
 
   <div class="p-grid">
-    <div class="p-col-12 p-md-3">
+    <div class="p-col-12 p-md-3 p-text-center">
       <img
         *ngIf="item.images && item.images.length"
         [src]="item.images[0].url"
         (error)="updateUrl($event)"
-        style="max-width: 100%;"
+        style="max-width: 100%; max-height: 150px;"
         alt="listing"
       />
       <img
         *ngIf="!item.images || !item.images.length"
         src="https://place-hold.it/600x300&text=No%20Image%20Available"
-        style="max-width: 100%;"
+        style="max-width: 100%; max-height: 150px;"
         alt="listing"
       />
     </div>
