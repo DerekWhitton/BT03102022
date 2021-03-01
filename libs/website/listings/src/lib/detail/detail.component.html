@@ -10,20 +10,25 @@
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-p-3 bg-white p-mb-5">
 
-            <p-galleria [(value)]="listingDetails.images" [(visible)]="displayCustom" [(activeIndex)]="activeIndex" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1024px' }" [numVisible]="7"
-            [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false" [baseZIndex]="100000"> 
+            <p-galleria [(value)]="listingDetails.images" [(visible)]="displayCustom" [(activeIndex)]="activeIndex"
+              [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1024px' }" [numVisible]="7"
+              [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false"
+              [baseZIndex]="100000">
               <ng-template pTemplate="item" let-item>
-                  <img [src]="item.url" style="max-width: 100%; display: block; max-height: 80vh"/>
+                <img [src]="item.url" style="max-width: 100%; display: block; max-height: 80vh" />
               </ng-template>
-          </p-galleria>
+            </p-galleria>
 
             <div *ngIf="listingDetails.images" class="p-grid" style="margin: 0 auto">
               <div class="p-col-12">
-                <img [src]="listingDetails.images[0].url" style="cursor: pointer" style="max-height:640px; max-width:100%" (click)="imageClick(0)" />
+                <img [src]="listingDetails.images[0]?.url" style="cursor: pointer"
+                  style="max-height:640px; max-width:100%" (click)="imageClick(0)" />
               </div>
               <div class="p-col-12">
-                <ng-container *ngFor="let image of listingDetails.images; let index = index;" style="margin: 0 auto" key="index">
-                  <img [src]="image.url" [alt]="image.alt" style="cursor: pointer" class="thumbnail p-mr-2" (click)="imageClick(index)" />
+                <ng-container *ngFor="let image of listingDetails.images; let index = index;" style="margin: 0 auto"
+                  key="index">
+                  <img [src]="image.url" [alt]="image.alt" style="cursor: pointer" class="thumbnail p-mr-2"
+                    (click)="imageClick(index)" />
                 </ng-container>
               </div>
 
@@ -246,19 +251,17 @@
   </div>
 </div>
 
-<bushtrade-portal-initiate-payment
-  [showPurchaseDetailDialog]="showPurchaseDetailDialog"
-  [paymentDetailsLoaded$]="showPurchaseDetailDialog"
-  [paymentDetails$]="paymentDetails"
-  (modalClosed)="showPurchaseDetailDialog = false"
-></bushtrade-portal-initiate-payment>
+<bushtrade-portal-initiate-payment [showPurchaseDetailDialog]="showPurchaseDetailDialog"
+  [paymentDetailsLoaded$]="showPurchaseDetailDialog" [paymentDetails$]="paymentDetails"
+  (modalClosed)="showPurchaseDetailDialog = false"></bushtrade-portal-initiate-payment>
 
 <!-- Create Dialog -->
 <p-dialog [(visible)]="showConfirmModal" [style]="'width: 400px;'" [header]="'Confirm Purchase'" [modal]="true"
   [closable]="false" styleClass="p-fluid">
   <ng-template pTemplate="content">
     <p>
-      After clicking confirm you will be redirected to the payment process. You will have 10 minutes to complete the purchase of this item.
+      After clicking confirm you will be redirected to the payment process. You will have 10 minutes to complete the
+      purchase of this item.
     </p>
     <p>
       Thereafter your reservation will be removed and the item will become available to other members again.
@@ -268,8 +271,7 @@
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
       (click)="showConfirmModal = false"></button>
-    <button pButton pRipple label="Confirm" icon="pi pi-check" class="p-button-text"
-      (click)="purchase()"></button>
+    <button pButton pRipple label="Confirm" icon="pi pi-check" class="p-button-text" (click)="purchase()"></button>
   </ng-template>
 </p-dialog>
 

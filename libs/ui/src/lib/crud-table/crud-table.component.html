@@ -17,14 +17,15 @@
         *ngIf="createFormTemplateReference"
         pButton
         pRipple
-        label="New"
+        label="New {{singularTerm}}"
         icon="pi pi-plus"
         class="p-button-success p-mr-1"
         (click)="handleCreateSelection()"
       ></button>
     </ng-template>
     <ng-template pTemplate="right">
-      <p-multiSelect
+      <p-multiSelect 
+        *ngIf="customizeColumn"
         class="p-mr-1"
         [options]="selectableColumns"
         [(ngModel)]="selectedColumns"
