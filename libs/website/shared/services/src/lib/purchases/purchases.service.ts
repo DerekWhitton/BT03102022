@@ -40,4 +40,10 @@ export class PurchasesService {
       `${this.base}api/v${this.version}/Purchases/${id}/PaymentDetails`
     );
   }
+
+  cancelPurchase(id: string) {
+    return this.httpClient.delete(
+      `${this.base}api/v${this.version}/Purchases/CancelPurchase/${id}`
+    );
+  }
 }

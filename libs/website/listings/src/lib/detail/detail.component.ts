@@ -11,9 +11,10 @@ import {
 import {
   BiddingService,
   ListingsService,
+  PurchasesService,
 } from '@bushtrade/website/shared/services';
 import { MessageService } from 'primeng/api';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 
 @Component({
   selector: 'bushtrade-web-detail',
@@ -39,11 +40,14 @@ export class DetailComponent implements OnInit, OnDestroy {
   userId: string;
   userHasPlacedBid: boolean = false;
   userHasWinningBid: boolean = false;
+  showPurchaseDetailDialog: boolean;
+  paymentDetails: any;
 
   constructor(
     private route: ActivatedRoute,
     private listingsService: ListingsService,
     private biddingService: BiddingService,
+    private purchaseService: PurchasesService,
     private messageService: MessageService,
     private msalService: MsalService
   ) {}
@@ -155,15 +159,20 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   purchase(): void {
-    this.timesUp = true;
     this.biddingService.purchaseListing(this.listingId).subscribe(
       (purchase) => {
-        this.showConfirmModal = false;
         this.messageService.add({
           severity: 'success',
-          detail: 'You successfully purchased this item',
+          detail: 'You successfully reserved this item',
         });
         this.listingBids = [purchase.bid];
+        this.purchaseService
+          .getPaymentDetails(purchase.id)
+          .subscribe((paymentDetails) => {
+            this.paymentDetails = paymentDetails;
+            this.showConfirmModal = false;
+            this.showPurchaseDetailDialog = true;
+          });
       },
       (error) => {
         this.showConfirmModal = false;
@@ -178,14 +187,6 @@ export class DetailComponent implements OnInit, OnDestroy {
   checkTimeRemaining($event) {
     if ($event <= 0) {
       this.timesUp = true;
-
-      if (this.showConfirmModal) {
-        this.showConfirmModal = false;
-        this.messageService.add({
-          severity: 'warn',
-          detail: 'The confirmation time expired',
-        });
-      }
     }
   }
 
@@ -258,9 +259,11 @@ export class DetailComponent implements OnInit, OnDestroy {
       clearInterval(this.refreshInterval);
     } else {
       this.refreshAuctionBids();
-      this.refreshInterval = setInterval(() => {
-        this.refreshAuctionBids();
-      }, 30 * 1000);
+      if (this.listingDetails && this.listingDetails.type == ListingType.Auction) {
+        this.refreshInterval = setInterval(() => {
+          this.refreshAuctionBids();
+        }, 30 * 1000);
+      }
     }
   }
 
