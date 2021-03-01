@@ -89,4 +89,22 @@ export class SearchService {
       `${this.base}api/v${this.version}/Search/Listings/MaxPrice${queryParams}`
     );
   }
+
+  getSuggestions(type: string = "", query: string) {
+    let queryParams = [];
+    let urlQuery = '';
+    if (type) {
+      queryParams.push(`type=${type}`);
+    }
+    if (query) {
+      queryParams.push(`query=${query}`);
+    }
+    if (queryParams.length > 0) {
+      urlQuery = `?${queryParams.join("&")}`;
+    }
+    return this.httpClient.get<any>(
+      `${this.base}api/v${this.version}/Search/Listings/Suggestions${urlQuery}`
+    );
+  }
+
 }

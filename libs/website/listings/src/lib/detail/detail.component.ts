@@ -1,9 +1,11 @@
+import { SearchService } from './../../../../shared/services/src/lib/search/search.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import {
   IBid,
   IBidRequest,
+  IListing,
   IListingDetails,
   IListingSeller,
   ListingType,
@@ -40,6 +42,13 @@ export class DetailComponent implements OnInit, OnDestroy {
   userId: string;
   userHasPlacedBid: boolean = false;
   userHasWinningBid: boolean = false;
+  suggestions: any[];
+  suggestedListings: IListing[]; 
+  maxLatestListings: number = 16;
+  latestItems: IListing[];
+  displayCustom: boolean;
+
+  activeIndex: number = 0;
   showPurchaseDetailDialog: boolean;
   paymentDetails: any;
 
@@ -49,7 +58,8 @@ export class DetailComponent implements OnInit, OnDestroy {
     private biddingService: BiddingService,
     private purchaseService: PurchasesService,
     private messageService: MessageService,
-    private msalService: MsalService
+    private msalService: MsalService,
+    private searchService: SearchService
   ) {}
 
   messages: any = [
@@ -89,6 +99,10 @@ export class DetailComponent implements OnInit, OnDestroy {
       forkJoin([listingDetails$, sellerSummary$]).subscribe(
         ([listingDetails, sellerSummary]) => {
           this.listingDetails = listingDetails;
+
+          this.searchService.getSuggestions("", this.listingDetails.name).subscribe((suggestions) => {
+            this.suggestions = suggestions;
+          });
           this.listingSellerSummary = sellerSummary;
 
           this.refreshingSidebar = true;
@@ -122,6 +136,26 @@ export class DetailComponent implements OnInit, OnDestroy {
         }
       );
     }
+
+    this.listingsService.loadLatestListings(this.maxLatestListings).subscribe((listings) => {
+      this.latestItems = listings;
+    });
+
+
+    // this.searchService
+    //   .searchListings(
+    //     null,
+    //     "gun"
+    //   )
+    //   .subscribe((suggestions) => {
+    //     this.suggestedListings = suggestions;
+    //   });
+    
+  }
+
+  imageClick(index: number) {
+    this.activeIndex = index;
+    this.displayCustom = true;
   }
 
   placeBid(amount: number): void {

@@ -80,10 +80,10 @@ export class HomeIndexComponent implements OnInit {
     this.categoryService.loadFeaturedCategories(this.maxFeaturedCategories).subscribe((categories) => {
       this.categories = categories;
     });
-    this.listingsService.loadLatestListings(this.maxFeaturedCategories).subscribe((categories) => {
+    this.listingsService.loadLatestListings(this.maxLatestListings).subscribe((categories) => {
       this.latestItems = categories;
     });
-    this.listingsService.loadAuctionsClosing(this.maxFeaturedCategories).subscribe((categories) => {
+    this.listingsService.loadAuctionsClosing(this.maxClosingAuctions).subscribe((categories) => {
       this.closingAuctions = categories;
     });
   }
