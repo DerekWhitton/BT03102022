@@ -40,7 +40,7 @@ interface ICategoryPropertyWithUserSelectedValue extends ICategoryProperty {
 })
 export class SellerIndexComponent implements OnInit {
   @ViewChild('fileUpload') fileUpload: any;
-  sellers$: Observable<ISeller[]>;
+  sellers: ISeller[];
 
   listings$: Observable<ISellerListing[]>;
   loading$: Observable<boolean>;
@@ -103,7 +103,16 @@ export class SellerIndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sellers$ = this.store.select(getUserSellers);
+    
+    this.store.select(getUserSellers).subscribe((sellers: ISeller[]) => {
+
+      this.sellers = sellers;
+      if(sellers.length > 0){
+        this.loadListings(sellers?.[0]);
+      }
+      
+  })
+    
     this.initializeListingForm();
     this.loadCategories();
   }

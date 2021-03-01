@@ -1,32 +1,40 @@
-<ng-container *ngIf="sellers$ | async as sellers">
-  <p-accordion
-    *ngIf="sellers?.length > 0; else register"
-    (onOpen)="loadListings(sellers[$event.index])"
-  >
-    <p-accordionTab
-      *ngFor="let seller of sellers"
-      [header]="seller.name"
-      transitionOptions="100ms cubic-bezier(0.86, 0, 0.07, 1)"
-    >
-      <bushtrade-web-crud-table
-        [data]="listings$ | async"
-        [selectableColumns]="columns"
-        [loading]="loading$ | async"
-        [createFormTemplateReference]="addOrUpdateListingTemplate"
-        (updateSelection)="handleUpdateSelection($event)"
-        (createSelection)="handleCreateSelection()"
-        [updateFormTemplateReference]="addOrUpdateListingTemplate"
-        (updateSubmit)="saveListing()"
-        [headersValue]="'Listing'"
-        [createFormValid]="addlistingFormGroup.valid"
-        (createSubmit)="saveListing()"
-        [allowDelete]="true"
-        (itemDeleted)="deleteListing($event)"
-        modalWidth="460px"
-        searchable="false"
-      ></bushtrade-web-crud-table>
-    </p-accordionTab>
-  </p-accordion>
+<ng-container *ngIf="sellers">
+
+<ng-container  *ngIf="sellers?.length > 0; else register">
+
+  <p-tabMenu [model]="sellers">
+
+    <ng-template pTemplate="item" let-seller let-i="index" >
+          <a (click)="loadListings(seller)">{{ seller.name }}</a> 
+    </ng-template>
+
+  </p-tabMenu>
+
+    <bushtrade-web-crud-table
+    *ngIf="listings$"
+    [data]="listings$ | async"
+    [selectableColumns]="columns"
+    [loading]="loading$ | async"
+    [createFormTemplateReference]="addOrUpdateListingTemplate"
+    (updateSelection)="handleUpdateSelection($event)"
+    (createSelection)="handleCreateSelection()"
+    [updateFormTemplateReference]="addOrUpdateListingTemplate"
+    (updateSubmit)="saveListing()"
+    [headersValue]="'Listing'"
+    [createFormValid]="addlistingFormGroup.valid"
+    (createSubmit)="saveListing()"
+    [allowDelete]="true"
+    (itemDeleted)="deleteListing($event)"
+    modalWidth="460px"
+    searchable="false"
+    singularTerm="Listing"
+    customizeColumn="false"
+  ></bushtrade-web-crud-table>
+
+</ng-container>
+
+
+
 </ng-container>
 
 <ng-template #register>

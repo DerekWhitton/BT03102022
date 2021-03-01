@@ -33,7 +33,7 @@ export class ProfileIndexComponent implements OnInit {
         routerLink: 'account',
       },
       {
-        label: 'Listings',
+        label: 'Listing Profiles',
         icon: 'pi pi-fw pi-list',
         routerLink: 'listings',
       },

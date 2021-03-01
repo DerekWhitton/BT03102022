@@ -37,6 +37,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CalendarModule } from 'primeng/calendar';
 import { EditorModule } from 'primeng/editor';
+import { TabMenuModule } from 'primeng/tabmenu';
 
 @NgModule({
   imports: [
@@ -83,6 +84,7 @@ import { EditorModule } from 'primeng/editor';
     RatingModule,
     CalendarModule,
     EditorModule,
+    TabMenuModule,
   ],
   exports: [
     RadioButtonModule,
@@ -127,6 +129,7 @@ import { EditorModule } from 'primeng/editor';
     RatingModule,
     CalendarModule,
     EditorModule,
+    TabMenuModule,
   ],
 })
 export class UiElementsModule {}
