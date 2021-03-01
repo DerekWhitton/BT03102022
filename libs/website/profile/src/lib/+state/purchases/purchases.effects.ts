@@ -59,6 +59,28 @@ export class PurchasesEffects implements OnInitEffects {
     )
   );
 
+  cancelPurchase$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PurchasesActions.cancelPurchase),
+      withLatestFrom(this.store),
+      fetch({
+        run: (action) => {
+          return this.purchasesSvc
+            .cancelPurchase(action.id)
+            .pipe(
+              map(() =>
+                PurchasesActions.cancelPurchaseSuccess({ id: action.id })
+              )
+            );
+        },
+        onError: (action, error) => {
+          console.error('Error', error);
+          return EMPTY;
+        },
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private purchasesSvc: PurchasesService,

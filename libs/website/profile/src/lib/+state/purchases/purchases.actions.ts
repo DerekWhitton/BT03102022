@@ -26,3 +26,18 @@ export const loadPaymentDetailsSuccess = createAction(
   '[Purchases] Load Payment Details Success',
   props<{ details: IPaymentDetails }>()
 );
+
+export const cancelPurchase = createAction(
+  '[Purchases] Cancel Payment',
+  props<{ id: string }>()
+);
+
+export const cancelPurchaseSuccess = createAction(
+  '[Purchases] Cancel Payment Success',
+  props<{ id: string }>()
+);
+
+export const cancelPurchaseFailure = createAction(
+  '[Purchases] Cancel Purchases Failure',
+  props<{ error: any }>()
+);
