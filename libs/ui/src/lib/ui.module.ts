@@ -27,6 +27,7 @@ import { CountdownTimerComponent } from './countdown-timer/countdown-timer.compo
 import { SupportComponent } from './support/support.component';
 import { SupportTicketComponent } from './support-ticket/support-ticket.component';
 import { AdvertisementBlocksComponent } from './advertisement-blocks/advertisement-blocks.component';
+import { InitiatePaymentComponent } from './initiate-payment/initiate-payment.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, UiElementsModule],
@@ -55,6 +56,7 @@ import { AdvertisementBlocksComponent } from './advertisement-blocks/advertiseme
     SupportComponent,
     SupportTicketComponent,
     AdvertisementBlocksComponent,
+    InitiatePaymentComponent,
   ],
   providers: [MessageService, ConfirmationService],
   exports: [
@@ -82,6 +84,7 @@ import { AdvertisementBlocksComponent } from './advertisement-blocks/advertiseme
     SupportComponent,
     SupportTicketComponent,
     AdvertisementBlocksComponent,
+    InitiatePaymentComponent,
   ],
 })
 export class UiModule {}

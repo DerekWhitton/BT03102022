@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IPaymentDetails, IPurchase } from '@bushtrade/website/shared/entites';
 import { Observable } from 'rxjs';
-import { loadPaymentDetails } from '../../+state/purchases/purchases.actions';
+import { cancelPurchase, loadPaymentDetails } from '../../+state/purchases/purchases.actions';
 import { PurchasesFacade } from '../../+state/purchases/purchases.facade';
 
 @Component({
@@ -29,5 +29,9 @@ export class PurchasesIndexComponent implements OnInit {
   initiatePayment(id: string) {
     this.purchasesFacade.dispatch(loadPaymentDetails({ id }));
     this.showPurchaseDetailDialog = true;
+  }
+
+  cancelPurchase(id: string) {
+    this.purchasesFacade.dispatch(cancelPurchase({ id }));
   }
 }
