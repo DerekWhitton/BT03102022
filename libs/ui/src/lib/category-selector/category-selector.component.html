@@ -1,17 +1,13 @@
 <span
+class="p-tag p-tag-rounded p-mr-2 p-mb-2"
   (click)="returnToNode(item.id)"
   *ngFor="let item of selectedPath; let last = last"
 >
-  {{ item.name }}
-  <span *ngIf="!last">
-    &nbsp;>&nbsp;
-  </span>
+  {{ item.name }} <i class="pi pi-times p-ml-1"></i>
+
 </span>
 
 <ng-container *ngIf="!isChainComplete">
-  <span *ngIf="selectedPath.length">
-    &nbsp;>&nbsp;
-  </span>
   <p-dropdown
     [options]="categoryOptions"
     [(ngModel)]="selectedCategoryOption"

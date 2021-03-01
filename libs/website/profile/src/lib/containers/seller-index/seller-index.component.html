@@ -25,7 +25,7 @@
     (createSubmit)="saveListing()"
     [allowDelete]="true"
     (itemDeleted)="deleteListing($event)"
-    modalWidth="460px"
+    modalWidth="800px"
     searchable="false"
     singularTerm="Listing"
     customizeColumn="false"
@@ -59,40 +59,83 @@
     <div class="p-grid">
       <div class="p-col">
         <div class="p-fluid">
+          <h3>Basic Information</h3>
           <!-- name -->
           <div class="p-field">
             <label>
-              Name:
+              Listing Title:
             </label>
             <input pInputText type="text" required formControlName="name" />
           </div>
 
           <!-- type -->
           <div class="p-field">
-            <label>
-              Type:
+            <label pTooltip="Auctions have a duration of two weeks from the created date." >
+              Listing Type: <i class="pi pi-question-circle" ></i>
             </label>
-            <p-dropdown
+            <!-- <p-dropdown
               [options]="selectableListingTypeOptions"
               formControlName="type"
-            ></p-dropdown>
+            ></p-dropdown> -->
+            <p-selectButton [options]="selectableListingTypeOptions" formControlName="type"></p-selectButton>
           </div>
 
-          <!-- images -->
+          <!-- description -->
           <div class="p-field">
             <label>
-              Images:
+              Description of Item:
+            </label>
+            <textarea
+              style="width: 100%;"
+              pInputTextarea
+              [rows]="5"
+              type="text"
+              required
+              formControlName="description"
+              autoResize="autoResize"
+              maxlength="2500"
+            ></textarea>
+          </div>
+
+          <!-- category -->
+          <div class="p-field">
+            <label pTooltip="Click the category if you need to change it.">
+              Listing Category: 
+            </label>
+            <br>
+            <bushtrade-category-selector
+              [categoryTree]="categoryTree"
+              [loading]="loadingCategories"
+              [selectedCategoryId]="addlistingFormGroup.get('categoryId').value"
+              (categorySelected)="handleCategorySelection($event)"
+              (chainComplete)="handleCategoryChainComplete($event)"
+            ></bushtrade-category-selector>
+          </div>
+
+          <hr>
+          <h3>Images of Item</h3>
+          <!-- images -->
+          <div class="p-field">
+            <label pTooltip="You can upload up to 10 images.">
+              Upload Images For Listing:  <i class="pi pi-question-circle" ></i>
             </label>
             <p-fileUpload
               #fileUpload
               name="myfile[]"
+              mode="basic"
               customUpload="true"
               (uploadHandler)="uploadListingImage($event)"
               multiple="multiple"
-            ></p-fileUpload>
+              accept="image/*" 
+              auto="true"
+              chooseLabel="Upload Images"
+              fileLimit="10"
+            >
+          </p-fileUpload>
 
             <p *ngIf="isUploadingImageFiles">
-              Uploading...
+              Uploading Files...
+              <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
             </p>
             <div class="p-grid p-mt-2">
               <div class="p-col-3" *ngFor="let image of images">
@@ -104,35 +147,8 @@
             </div>
           </div>
 
-          <!-- description -->
-          <div class="p-field">
-            <label>
-              Description:
-            </label>
-            <textarea
-              style="width: 100%;"
-              pInputTextarea
-              type="text"
-              required
-              formControlName="description"
-              autoResize="autoResize"
-            ></textarea>
-          </div>
-
-          <!-- category -->
-          <div class="p-field">
-            <label>
-              Category:
-            </label>
-            <bushtrade-category-selector
-              [categoryTree]="categoryTree"
-              [loading]="loadingCategories"
-              [selectedCategoryId]="addlistingFormGroup.get('categoryId').value"
-              (categorySelected)="handleCategorySelection($event)"
-              (chainComplete)="handleCategoryChainComplete($event)"
-            ></bushtrade-category-selector>
-          </div>
-
+          <hr>
+          <h3>Price</h3>
           <!-- starting price -->
           <div class="p-field">
             <label>
@@ -147,6 +163,7 @@
               type="number"
               required
               formControlName="startingPrice"
+              (change)="checkReserve()"
             />
           </div>
 
@@ -155,14 +172,15 @@
             class="p-field"
             *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
           >
-            <label>
-              Reserve Price:
+            <label pTooltip="The reserve price cannot be lower than the starting price.">
+              Reserve Price:  <i class="pi pi-question-circle" ></i>
             </label>
             <input
               pInputText
               type="number"
               required
               formControlName="reservePrice"
+              (change)="checkReserve()"
             />
           </div>
 
@@ -171,8 +189,8 @@
             class="p-field"
             *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
           >
-            <label>
-              Price Increment:
+            <label  pTooltip="The minimum increment between bids">
+              Price Increment:  <i class="pi pi-question-circle" ></i>
             </label>
             <input
               pInputText
@@ -183,7 +201,7 @@
           </div>
 
           <!-- quantity -->
-          <div class="p-field">
+          <div class="p-field" style="display:none;">
             <label>
               Quantity:
             </label>
@@ -222,7 +240,7 @@
           </ng-container>
 
           <!-- active -->
-          <div class="p-field">
+          <div class="p-field" style="display:none">
             <label>
               Active:
             </label>

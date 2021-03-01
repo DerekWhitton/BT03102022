@@ -65,7 +65,7 @@ export class SellerIndexComponent implements OnInit {
   ListingType = ListingType;
   selectableListingTypeOptions: { label: string; value: ListingType }[] = [
     { label: 'Auction', value: ListingType.Auction },
-    { label: 'Sale', value: ListingType.Sale },
+    { label: 'For Sale', value: ListingType.Sale },
   ];
 
   showProperties: boolean = false;
@@ -224,6 +224,9 @@ export class SellerIndexComponent implements OnInit {
         p.value && typeof p.value !== typeof '' ? p.value.toString() : p.value,
     }));
 
+    
+
+
     if (listing.id && listing.id != '00000000-0000-0000-0000-000000000000') {
       this.listingsFacade.dispatch(
         updateListing({
@@ -343,6 +346,16 @@ export class SellerIndexComponent implements OnInit {
     }
   }
 
+  checkReserve(){
+    if(this.addlistingFormGroup.value.type == 0){
+      if(this.addlistingFormGroup.value.startingPrice > this.addlistingFormGroup.value.reservePrice){
+        this.addlistingFormGroup.patchValue(
+          {reservePrice: this.addlistingFormGroup.value.startingPrice}
+        );
+      }
+    }
+  }
+
   private initializeListingForm(listing: ISellerListing = null) {
     this.selectedCategoryId = listing?.categoryId;
     this.images = listing?.images.map((i) => ({ id: i.id, src: i.url })) ?? [];
@@ -350,7 +363,7 @@ export class SellerIndexComponent implements OnInit {
       id: new FormControl(listing?.id),
       name: new FormControl(listing?.name, Validators.required),
       description: new FormControl(listing?.description, Validators.required),
-      active: new FormControl(listing?.active ?? false, Validators.required),
+      active: new FormControl(listing?.active ?? true, Validators.required),
       startingPrice: new FormControl(
         listing?.startingPrice,
         Validators.required
