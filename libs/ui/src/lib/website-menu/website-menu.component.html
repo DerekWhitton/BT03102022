@@ -1,71 +1,33 @@
 <div class="p-grid bg-gold" *ngIf="showMegaSearchMenu">
   <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
     <div class="p-d-flex p-flex-column p-flex-md-row p-pt-2 p-pb-2">
-      <span
-        class="p-input-icon-left p-mt-1 p-mb-1 p-mr-md-2"
-        style="flex-grow: 1;"
-      >
+      <span class="p-input-icon-left p-mt-1 p-mb-1 p-mr-md-2" style="flex-grow: 1;">
         <i class="pi pi-search"></i>
-        <input
-          type="text"
-          class="ui-block"
-          pInputText
-          placeholder="What are you looking for?"
-          [(ngModel)]="searchQuery"
-          (keydown.enter)="handleSearch()"
-        />
+        <input type="text" class="ui-block" pInputText placeholder="What are you looking for?" [(ngModel)]="searchQuery"
+          (keydown.enter)="handleSearch()" />
       </span>
 
-      <p-dropdown
-        [style]="{ width: '100%' }"
-        [options]="selectableListingTypes"
-        [placeholder]="'All Listings'"
-        class="p-mt-1 p-mb-1 p-mr-md-2"
-        [(ngModel)]="selectedListingType"
-        [showClear]="true"
-      ></p-dropdown>
+      <p-dropdown [style]="{ width: '100%' }" [options]="selectableListingTypes" [placeholder]="'All Listings'"
+        class="p-mt-1 p-mb-1 p-mr-md-2" [(ngModel)]="selectedListingType" [showClear]="true"></p-dropdown>
 
-      <button
-        pButton
-        type="button"
-        label="Search"
-        class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-ml-auto"
-        (click)="handleSearch()"
-      ></button>
+      <button pButton type="button" label="Search" class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-ml-auto"
+        (click)="handleSearch()"></button>
     </div>
   </div>
 </div>
 
 <div class="p-grid bg-grey">
-  <div
-    class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2 p-p-0"
-  >
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2 p-p-0">
     <div class="p-col p-text-right p-mt-2 p-mb-2 p-p-0">
       <p-menubar [model]="menuItems" class="menu-light">
         <ng-template pTemplate="start">
-          <img
-            id="app-logo"
-            class="logo-image p-mr-2 ng-star-inserted p-mt-2"
-            src="assets/layout/images/logo-dark.png"
-            [routerLink]="['/', 'home']"
-            alt="Bush Trade"
-          />
+          <img id="app-logo" class="logo-image p-mr-2 ng-star-inserted p-mt-2" src="assets/layout/images/logo-dark.png"
+            [routerLink]="['/', 'home']" alt="Bush Trade" />
         </ng-template>
         <ng-template pTemplate="end">
-          <button
-            *ngIf="!loggedIn"
-            pButton
-            label="Sign In"
-            (click)="login()"
-          ></button>
-          <button
-            *ngIf="loggedIn"
-            type="button"
-            pButton
-            icon="pi pi-user"
-            class="p-ml-3"
-            (click)="menu.toggle($event)"
-          ></button>
+          <button *ngIf="!loggedIn" pButton label="Sign In" (click)="login()"></button>
+          <button *ngIf="loggedIn" type="button" pButton icon="pi pi-user" class="p-ml-3"
+            (click)="menu.toggle($event)"></button>
           <p-menu #menu [popup]="true" [model]="accountItems"></p-menu>
         </ng-template>
       </p-menubar>
@@ -73,20 +35,31 @@
   </div>
 </div>
 
-<p-sidebar
-  [(visible)]="showBuySellMenu"
-  [baseZIndex]="10000"
-  [fullScreen]="true"
-  position="top"
->
+<p-sidebar [(visible)]="showBuySellMenu" [baseZIndex]="10000" [fullScreen]="true" position="top">
+
+
+
+  <div class="p-col-12 buysell-links p-text-center">
+    <a (click)="showListings()" class="p-mr-5">Browse all listings</a>
+    <a (click)="showListings(null,'1')" class="p-mr-5">Browse items for sale</a>
+    <a (click)="showListings(null,'0')" class="p-mr-5">Browse auctions</a>
+    <a [routerLink]="['/', 'profile', 'listings']" (click)="showBuySellMenu = false"*ngIf="loggedIn" >Post a listing</a>
+    <a (click)="login()" *ngIf="!loggedIn" >Login to post a listing</a>
+    
+
+  </div>
+  <hr>
+  
   <div class="p-grid">
-    <div class="p-col-12 p-md-4" *ngFor="let category of categories">
-      <h3 (click)="navigateToCategory(category.id)">{{ category.name }}</h3>
+
+    <div class="p-col-4 p-md-3 p-lg-2" *ngFor="let category of categories">
+      <h4 (click)="showListings(category.id,null)" class="p-mb-0">{{ category.name }}</h4>
       <ul class="category-list">
         <li *ngFor="let child of category.children">
-          <a (click)="navigateToCategory(category.id)">{{ child.name }}</a>
+          <a (click)="showListings(category.id,'1')">{{ child.name }}</a>
         </li>
       </ul>
     </div>
   </div>
+
 </p-sidebar>

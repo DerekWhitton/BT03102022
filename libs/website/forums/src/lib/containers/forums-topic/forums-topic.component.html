@@ -7,24 +7,20 @@
     <div class="thread p-card p-p-5 p-mt-5 p-mb-5">
       <div *ngIf="topic$ | async as topic; else loadingIndicator">
 
-        <h1>{{ topic.name }} Forum</h1>
-        <hr>
+        <h1>{{ topic.name }} Forums <span style="float:right;"><a  [routerLink]="['/','forums']">Back</a></span></h1>
+        <h3 class="p-p-2">Subforums</h3>
 
         <p-table [value]="topic.threads" styleClass="p-datatable-striped ">
-          <ng-template pTemplate="header">
-            <tr>
-              <th>Topic</th>
-              <th>Author</th>
-            </tr>
-          </ng-template>
+
+
 
           <ng-template pTemplate="body" let-thread>
+
             <tr [routerLink]="['/', 'forums', 'topic', topic.id, 'threads', thread.id]">
-              <td class=" p-m-0 p-p-3">{{ thread.name }}</td>
-              <td class=" p-m-0 p-p-3">
-                <h4 class="p-m-0"><i class="pi pi-user p-mr-1" style="font-size: 1rem"></i>{{ thread.user?.name}}<br><i
-                    class="pi pi-clock p-mr-1"
-                    style="font-size: 1rem"></i>{{ thread.createdAt | date:'dd MMM yyyy h:mm:ss'}}</h4>
+              <td class=" p-m-2 p-p-1 forum-thread">
+                <i class="pi pi-comments"  style="font-size: 2rem;"></i>
+                <h4 class="p-m-0">{{ thread.name }}</h4>
+                <p class="p-mt-0">Started by {{ thread.user?.name}}, {{ thread.createdAt | date:'dd MMM yyyy h:mm:ss'}}</p>
               </td>
             </tr>
           </ng-template>
