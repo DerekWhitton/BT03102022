@@ -311,3 +311,10 @@ a {
 small{
   font-size: 0.8rem;
 }
+
+@media(max-width:768px){
+  .p-carousel .p-carousel-content .p-carousel-prev, .p-carousel .p-carousel-content .p-carousel-next {
+    display:none!important;
+    border:10px solid #f00;
+  }
+}

@@ -1,13 +1,13 @@
-.banner-item {
-  min-height: 380px;
-}
-
 
 h3, h2 {
   color: #fff;
 }
 
 .banner-item{
+  min-height: 380px;
+  position: relative;
+  background-repeat: no-repeat!important;
+  background-position: center;
   h2{
     font-size: 2em;
     font-weight: bold;
@@ -15,6 +15,9 @@ h3, h2 {
   }
   a{
     text-decoration: none;
+  }
+  @media screen and (max-width: 768px) {
+    min-height: 250px;
   }
 }
 
@@ -52,3 +55,4 @@ h3, h2 {
     margin-right: 10px;
   }
 }
+

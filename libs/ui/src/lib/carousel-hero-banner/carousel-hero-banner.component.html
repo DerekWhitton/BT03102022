@@ -51,7 +51,7 @@
     </div>
   </div>
 
-  <p-carousel [value]="banners" [circular]="true" *ngIf="banners && banners.length > 0">
+  <p-carousel [value]="banners" [circular]="true" [responsiveOptions]="responsiveOptions" *ngIf="banners && banners.length > 0">
     <ng-template let-banner pTemplate="item">
       <div
         class="banner-item"
