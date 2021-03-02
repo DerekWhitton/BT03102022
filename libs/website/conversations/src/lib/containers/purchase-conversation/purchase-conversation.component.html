@@ -1,0 +1,69 @@
+<div class="p-grid">
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+    <div class="thread p-card p-p-5 p-mt-5 p-mb-5">
+      <h1 *ngIf="conversation && conversation.listingName">
+        {{ conversation.listingName }}
+      </h1>
+      <p-fieldset
+        legend="Conversation participants"
+        [toggleable]="true"
+        [collapsed]="true"
+        [styleClass]="'participants-container'"
+      >
+        <p *ngFor="let participant of conversation?.participants">
+          {{ participant.name }}
+          <span class="p-tag p-tag-rounded" *ngIf="participant.isSeller"
+            >Seller</span
+          >
+        </p>
+      </p-fieldset>
+      <div *ngIf="messages && messages.length > 0; else noMessages">
+        <p-scrollPanel #scrollMe [style]="{ width: '100%', height: '50vh' }">
+          <div class="load-more-container">
+            <button
+              *ngIf="loadMoreAvailable"
+              pButton
+              class="p-button-raised load-more-button"
+              [label]="'Load more...'"
+              (click)="loadMoreMessages()"
+            ></button>
+          </div>
+          <div *ngFor="let message of messages">
+            <div class="message-container">
+              <img
+                _ngcontent-rce-c159=""
+                src="assets/layout/images/no-profile.png"
+                alt="User Profile Pic"
+                class="img-round"
+                style="width: 30px; padding: 5px; display: inline-block;"
+              />
+              <p style="display: inline-block;">{{ message.name }}</p>
+              <p>{{ message.content }}</p>
+              <p class="time-right">
+                {{ message.createdAt | date: 'dd-MMM-yyyy HH:mm:ss' }}
+              </p>
+            </div>
+          </div>
+          <!-- </div> -->
+        </p-scrollPanel>
+      </div>
+      <ng-template #noMessages>
+        <h2>There are currently no messages in this conversation</h2>
+      </ng-template>
+      <div class="p-col-12 p-mt-5 message-box">
+        <textarea
+          [(ngModel)]="message"
+          class="message-input"
+          placeholder="Send a message"
+        ></textarea>
+        <button
+          (click)="addMessage()"
+          class="message-button"
+          type="button"
+          pButton
+          icon="pi pi-comment"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>

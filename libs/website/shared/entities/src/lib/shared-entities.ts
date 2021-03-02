@@ -20,3 +20,6 @@ export * from './support/i-create-support-ticket';
 export * from './support/i-support-ticket-message';
 export * from './support/i-create-support-ticket-message';
 export * from './advertisments/i-dashboard-advertisment';
+export * from './conversations/i-purchase-conversation';
+export * from './conversations/i-conversation-message';
+export * from './conversations/i-create-purchase-message';

@@ -40,6 +40,8 @@ import { EditorModule } from 'primeng/editor';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
+import { ScrollPanelModule } from 'primeng/scrollpanel'
+import { FieldsetModule } from 'primeng/fieldset'
 
 @NgModule({
   imports: [
@@ -89,6 +91,8 @@ import { TooltipModule } from 'primeng/tooltip';
     TabMenuModule,
     SelectButtonModule,
     TooltipModule,
+    ScrollPanelModule,
+    FieldsetModule
   ],
   exports: [
     RadioButtonModule,
@@ -136,6 +140,8 @@ import { TooltipModule } from 'primeng/tooltip';
     TabMenuModule,
     SelectButtonModule,
     TooltipModule,
+    ScrollPanelModule,
+    FieldsetModule
   ],
 })
 export class UiElementsModule {}
