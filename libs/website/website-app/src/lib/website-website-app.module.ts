@@ -1,5 +1,3 @@
-import { WebsiteContactUsModule } from './../../../contact-us/src/lib/website-contact-us.module';
-import { WebsiteAboutModule } from './../../../about/src/lib/website-about.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -110,6 +108,13 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
           loadChildren: () =>
             import('@bushtrade/website/payments').then(
               (module) => module.WebsitePaymentsModule
+            ),
+        },
+        {
+          path: 'conversations',
+          loadChildren: () =>
+            import('@bushtrade/website/conversations').then(
+              (module) => module.WebsiteConversationsModule
             ),
         },
       ],

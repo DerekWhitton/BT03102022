@@ -35,19 +35,33 @@
           <td>Not Paid</td>
         </ng-template>
 
-        <td>
+        <td *ngIf="!purchase.paidAt">
           <p-button
-            *ngIf="!purchase.paidAt"
             label="Pay Now"
             (click)="initiatePayment(purchase.id)"
           ></p-button>
         </td>
-        <td>
+        <td *ngIf="!purchase.paidAt">
           <p-button
-            *ngIf="!purchase.paidAt"
             label="Cancel Purchase"
             (click)="cancelPurchase(purchase.id)"
           ></p-button>
+        </td>
+        <td *ngIf="purchase.paidAt">
+          <p-button
+            icon="pi pi-comments"
+            [routerLink]="['../..', 'conversations', 'purchase', purchase.conversationId]"
+          ></p-button>
+          <button pButton
+            style="margin-top: 5px;"
+            class="p-button-raised p-button-success"
+            label="Received goods"
+          ></button>
+          <button pButton
+            style="margin-top: 5px;"
+            class="p-button-raised p-button-danger"
+            label="Dispute"
+          ></button>
         </td>
       </tr>
     </ng-template>

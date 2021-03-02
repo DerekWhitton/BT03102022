@@ -8,3 +8,4 @@ export * from './lib/bidding/bidding.service';
 export * from './lib/purchases/purchases.service';
 export * from './lib/support/support.service';
 export * from './lib/advertisments/advertisments.service';
+export * from './lib/conversations/conversations.service';
