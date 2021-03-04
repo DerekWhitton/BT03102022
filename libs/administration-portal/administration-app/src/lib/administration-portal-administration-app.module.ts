@@ -35,7 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
         canActivate: [MsalGuard],
       },
       {
-        path: 'advertisments',
+        path: 'sponsored',
         loadChildren: () =>
           import('@bushtrade/administration-portal/advertisments').then(
             (module) => module.AdministrationPortalAdvertismentsModule

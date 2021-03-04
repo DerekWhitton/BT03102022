@@ -148,6 +148,20 @@
       </div>
       <div class="p-field" *ngIf="sub == false">
         <label>
+          Success fee:
+        </label>
+        <br />
+        <p-inputNumber suffix="%" [min]="0" [max]="100" formControlName="successFee"></p-inputNumber>
+      </div>
+      <div class="p-field" *ngIf="sub == false">
+        <label>
+          Maximum fee:
+        </label>
+        <br />
+        <p-inputNumber prefix="R " [min]="0" formControlName="maximumFee"></p-inputNumber>
+      </div>
+      <div class="p-field" *ngIf="sub == false">
+        <label>
           Category icon:
         </label>
         <p-fileUpload

@@ -251,20 +251,12 @@
   </div>
 </div>
 
-<bushtrade-portal-initiate-payment [showPurchaseDetailDialog]="showPurchaseDetailDialog"
-  [paymentDetailsLoaded$]="showPurchaseDetailDialog" [paymentDetails$]="paymentDetails"
-  (modalClosed)="showPurchaseDetailDialog = false"></bushtrade-portal-initiate-payment>
-
 <!-- Create Dialog -->
 <p-dialog [(visible)]="showConfirmModal" [style]="'width: 400px;'" [header]="'Confirm Purchase'" [modal]="true"
   [closable]="false" styleClass="p-fluid">
   <ng-template pTemplate="content">
     <p>
-      After clicking confirm you will be redirected to the payment process. You will have 10 minutes to complete the
-      purchase of this item.
-    </p>
-    <p>
-      Thereafter your reservation will be removed and the item will become available to other members again.
+      After clicking confirm you will be able to contact the seller and discuss more details.
     </p>
   </ng-template>
 
