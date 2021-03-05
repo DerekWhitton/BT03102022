@@ -86,9 +86,9 @@ export class AppComponent implements OnInit {
       icon: 'pi pi-fw pi-home',
       items: [
         {
-          label: 'Advertisments',
+          label: 'Sponsored',
           icon: 'pi pi-briefcase',
-          routerLink: ['/', 'advertisments'],
+          routerLink: ['/', 'sponsored'],
         },
         // Using wordpress for this, we might integrate wp api later.
         // {

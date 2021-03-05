@@ -1,7 +1,7 @@
 
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { IAdvertismentImage, ICreateDashboardAdvertisment, IDashboardAdvertisment, IPaginatedResponse, IUpdateDashboardAdvertisment } from '@bushtrade/administration-portal/shared/entites';
+import { IDashboardAdvertisment } from '@bushtrade/administration-portal/shared/entites';
 import { APP_CONFIG } from '@bushtrade/app-config';
 
 @Injectable({
@@ -18,11 +18,11 @@ export class AdvertismentsService {
     this.version = configuration.apiVersion;
   }
 
-  listDashboardAdvertisments(numberOfAds, onlyActive) {
+  listDashboardAdvertisments(numberOfBanners, onlyActive) {
     return this.httpClient.get<IDashboardAdvertisment[]>(
-      `${this.base}api/v${this.version}/Advertisments/dashboard`,
+      `${this.base}api/v${this.version}/Sponsored/dashboard`,
       {
-        params: { numberOfAds, onlyActive },
+        params: { numberOfAds: numberOfBanners, onlyActive },
       }
     );
   }

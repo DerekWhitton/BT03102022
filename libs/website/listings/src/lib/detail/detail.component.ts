@@ -49,7 +49,6 @@ export class DetailComponent implements OnInit, OnDestroy {
   displayCustom: boolean;
 
   activeIndex: number = 0;
-  showPurchaseDetailDialog: boolean;
   paymentDetails: any;
 
   constructor(
@@ -199,14 +198,6 @@ export class DetailComponent implements OnInit, OnDestroy {
           severity: 'success',
           detail: 'You successfully reserved this item',
         });
-        this.listingBids = [purchase.bid];
-        this.purchaseService
-          .getPaymentDetails(purchase.id)
-          .subscribe((paymentDetails) => {
-            this.paymentDetails = paymentDetails;
-            this.showConfirmModal = false;
-            this.showPurchaseDetailDialog = true;
-          });
       },
       (error) => {
         this.showConfirmModal = false;

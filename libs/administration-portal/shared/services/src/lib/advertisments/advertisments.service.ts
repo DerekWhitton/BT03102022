@@ -20,7 +20,7 @@ export class AdvertismentsService {
 
   listDashboardAdvertisments(page: string = '1', query: string = '', perPage: string = '25') {
     return this.httpClient.get<IPaginatedResponse<IDashboardAdvertisment>>(
-      `${this.base}api/v${this.version}/Advertisments/dashboard`,
+      `${this.base}api/v${this.version}/Sponsored/dashboard`,
       {
         params: { page, query, perPage },
       }
@@ -29,13 +29,13 @@ export class AdvertismentsService {
 
   loadDashboardAdvertismentDetails(dashboardAdvertismentId: string) {
     return this.httpClient.get<IDashboardAdvertisment>(
-      `${this.base}api/v${this.version}/Advertisments/dashboard/${dashboardAdvertismentId}`
+      `${this.base}api/v${this.version}/Sponsored/dashboard/${dashboardAdvertismentId}`
     );
   }
 
   createDashboardAdvertisment(dashboardAdvertisment: ICreateDashboardAdvertisment) {
     return this.httpClient.post<IDashboardAdvertisment>(
-      `${this.base}api/v${this.version}/Advertisments/dashboard`,
+      `${this.base}api/v${this.version}/Sponsored/dashboard`,
       {
         ...dashboardAdvertisment,
       }
@@ -44,7 +44,7 @@ export class AdvertismentsService {
 
   updateDashboardAdvertisment(dashboardAdvertisment: IUpdateDashboardAdvertisment) {
     return this.httpClient.patch<IDashboardAdvertisment>(
-      `${this.base}api/v${this.version}/Advertisments/dashboard`,
+      `${this.base}api/v${this.version}/Sponsored/dashboard`,
       {
         ...dashboardAdvertisment,
       }
@@ -53,7 +53,7 @@ export class AdvertismentsService {
 
   deleteDashboardAdvertisment(dashboardAdvertismentId: string) {
     return this.httpClient.delete<HttpResponse<any>>(
-      `${this.base}api/v${this.version}/Advertisments/dashboard/${dashboardAdvertismentId}`
+      `${this.base}api/v${this.version}/Sponsored/dashboard/${dashboardAdvertismentId}`
     );
   }
 
@@ -61,7 +61,7 @@ export class AdvertismentsService {
     const formData = new FormData();
     formData.append('file', file, file.name);
     return this.httpClient.post<IAdvertismentImage>(
-      `${this.base}api/v${this.version}/Advertisments/UploadAdvertismentImage`,
+      `${this.base}api/v${this.version}/Sponsored/UploadImage`,
       formData
     )
   }

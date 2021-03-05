@@ -207,6 +207,8 @@ export class CategoriesComponent implements OnInit {
         Validators.required
       ),
       isFeatured: new FormControl(category?.isFeatured ?? false, Validators.required),
+      successFee: new FormControl(category?.successFee ?? null, [Validators.min(0), Validators.max(100)]),
+      maximumFee: new FormControl(category?.maximumFee ?? null),
       categoryIconUri: new FormControl(category?.categoryIconUri),
       categoryBannerUri: new FormControl(category?.categoryBannerUri),
     });

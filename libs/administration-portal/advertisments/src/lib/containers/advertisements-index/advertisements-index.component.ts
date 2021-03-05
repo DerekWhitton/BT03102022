@@ -33,7 +33,7 @@ export class AdvertisementsIndexComponent implements OnInit {
     },
     {
       field: 'imageUri',
-      header: 'Advert Banner',
+      header: 'Sponsored Banner',
       converter: (val) => `<img src="${val}" alt="No banner" class="banner-in-table"/>`,
     },
   ];
