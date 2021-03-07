@@ -29,6 +29,7 @@ export class CrudTableComponent implements OnInit {
 
   @Output() queryChanged: EventEmitter<string> = new EventEmitter();
   @Output() nextPageClicked: EventEmitter<boolean> = new EventEmitter();
+  @Output() formClosed: EventEmitter<boolean> = new EventEmitter();
   @Input() headersValue;
   @Input() createFormTemplateReference;
   @Input() createFormValid = true;
@@ -99,5 +100,9 @@ export class CrudTableComponent implements OnInit {
         this.itemDeleted.emit(data);
       },
     });
+  }
+
+  resetForm() {
+    this.formClosed.emit(true);
   }
 }

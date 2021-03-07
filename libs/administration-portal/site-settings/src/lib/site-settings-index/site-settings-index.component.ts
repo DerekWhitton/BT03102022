@@ -77,14 +77,14 @@ export class SiteSettingsIndexComponent implements OnInit {
 
   createOrUpdateAuctionDurationFormGroup: FormGroup = new FormGroup({
     numberOfDays: new FormControl('', Validators.required),
-    isActive: new FormControl(false, Validators.required),
+    isActive: new FormControl(false),
   });
 
   createOrUpdatePremiumPackageFormGroup: FormGroup = new FormGroup({
     numberOfDays: new FormControl('', Validators.required),
     price: new FormControl('', Validators.required),
     priority: new FormControl('', Validators.required),
-    isActive: new FormControl(false, Validators.required),
+    isActive: new FormControl(false),
   });
 
   constructor(
@@ -214,5 +214,10 @@ export class SiteSettingsIndexComponent implements OnInit {
     this.premiumPackagesSettingsFacade.dispatch(
       deletePremiumPackageSetting({ settingId: event.id })
     );
+  }
+
+  resetForms() {
+    this.createOrUpdatePremiumPackageFormGroup.reset();
+    this.createOrUpdateAuctionDurationFormGroup.reset();
   }
 }

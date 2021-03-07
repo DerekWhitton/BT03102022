@@ -106,6 +106,8 @@
     [style]="{ width: modalWidth }"
     [header]="'Add ' + headersValue"
     [modal]="true"
+    [closeOnEscape]="false"
+    (onHide)="resetForm()"
     styleClass="p-fluid"
   >
     <ng-template pTemplate="content">
@@ -140,6 +142,8 @@
     [style]="{ width: modalWidth }"
     [header]="'Update ' + headersValue"
     [modal]="true"
+    [closeOnEscape]="false"
+    (onHide)="resetForm()"
     styleClass="p-fluid"
   >
     <ng-template pTemplate="content">

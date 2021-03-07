@@ -16,6 +16,7 @@
       [allowDelete]="true"
       (itemDeleted)="onAuctionDurationDeleted($event)"
       [searchable]="false"
+      (formClosed)="resetForms()"
     >
     </bushtrade-web-crud-table>
   </p-tabPanel>
@@ -34,6 +35,7 @@
       [allowDelete]="true"
       (itemDeleted)="onPremiumPackageDeleted($event)"
       [searchable]="false"
+      (formClosed)="resetForms()"
     >
     </bushtrade-web-crud-table>
   </p-tabPanel>
