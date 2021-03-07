@@ -6,3 +6,5 @@ export * from './lib/categories/categories.service';
 export * from './lib/forums/forums.service';
 export * from './lib/support/support.service';
 export * from './lib/advertisments/advertisments.service';
+export * from './lib/site-settings/auction-duration-settings.service';
+export * from './lib/site-settings/premium-packages-settings.service';
