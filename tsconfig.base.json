@@ -124,7 +124,12 @@
       "@bushtrade/website/about": ["libs/website/about/src/index.ts"],
       "@bushtrade/website/contact-us": ["libs/website/contact-us/src/index.ts"],
       "@bushtrade/website/payments": ["libs/website/payments/src/index.ts"],
-      "@bushtrade/website/conversations": ["libs/website/conversations/src/index.ts"]
+      "@bushtrade/website/conversations": [
+        "libs/website/conversations/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/site-settings": [
+        "libs/administration-portal/site-settings/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

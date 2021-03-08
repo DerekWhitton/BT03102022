@@ -50,5 +50,6 @@ module.exports = {
     '<rootDir>/libs/website/contact-us',
     '<rootDir>/libs/website/payments',
     '<rootDir>/libs/website/conversations',
+    '<rootDir>/libs/administration-portal/site-settings',
   ],
 };

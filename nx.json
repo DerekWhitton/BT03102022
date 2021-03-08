@@ -169,6 +169,9 @@
     },
     "website-conversations": {
       "tags": []
+    },
+    "administration-portal-site-settings": {
+      "tags": []
     }
   }
 }

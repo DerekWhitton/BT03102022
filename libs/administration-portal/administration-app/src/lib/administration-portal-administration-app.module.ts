@@ -106,6 +106,14 @@ import { HttpClientModule } from '@angular/common/http';
           ),
         canActivate: [MsalGuard],
       },
+      {
+        path: 'site-settings',
+        loadChildren: () =>
+          import('@bushtrade/administration-portal/site-settings').then(
+            (module) => module.AdministrationPortalSiteSettingsModule
+          ),
+        canActivate: [MsalGuard],
+      },
     ]),
   ],
   declarations: [AppComponent],

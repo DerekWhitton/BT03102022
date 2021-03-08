@@ -5,3 +5,7 @@ export * from './lib/support/i-support-ticket-message';
 export * from './lib/advertisments/i-dashboard-advertisment';
 export * from './lib/advertisments/i-create-dashboard-advertisment';
 export * from './lib/advertisments/i-advertisment-image';
+export * from './lib/site-settings/i-auction-duration-setting';
+export * from './lib/site-settings/i-premium-package-setting';
+export * from './lib/site-settings/i-create-update-auction-duration-setting';
+export * from './lib/site-settings/i-create-update-premium-package-setting';

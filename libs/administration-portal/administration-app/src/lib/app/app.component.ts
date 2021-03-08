@@ -51,6 +51,11 @@ export class AppComponent implements OnInit {
           icon: 'pi pi-fw pi-tags',
           routerLink: ['/', 'listings', 'categories'],
         },
+        {
+          label: 'Settings',
+          icon: 'pi pi-sliders-h',
+          routerLink: ['/', 'site-settings'],
+        },
       ],
       routerLink: ['/', 'listings'],
     },
