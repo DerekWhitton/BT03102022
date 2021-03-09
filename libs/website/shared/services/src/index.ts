@@ -9,3 +9,4 @@ export * from './lib/purchases/purchases.service';
 export * from './lib/support/support.service';
 export * from './lib/advertisments/advertisments.service';
 export * from './lib/conversations/conversations.service';
+export * from './lib/site-settings/site-settings.service';

@@ -6,6 +6,7 @@ export interface ICreateOrUpdateListing {
   description: string;
   active: boolean;
   startingPrice: number;
+  durationInDays: number;
   priceIncrement: number;
   quantity: number;
   type: ListingType;

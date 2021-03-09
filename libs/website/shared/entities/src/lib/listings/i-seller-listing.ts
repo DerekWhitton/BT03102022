@@ -22,6 +22,7 @@ export interface ISellerListing {
   isPremium: boolean;
   quantity: number;
   startDate: Date;
+  durationInDays: number;
   endDate: Date;
   categoryId: string;
   listingPropertyValues: ISellerListingPropertyValue[];

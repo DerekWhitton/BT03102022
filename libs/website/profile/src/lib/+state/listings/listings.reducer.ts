@@ -10,7 +10,8 @@ export interface State extends EntityState<ISellerListing> {
   imageIds?: any[];
   selectedId?: string | number; // which Listings record has been selected
   loaded: boolean; // has the Listings list been loaded
-  error?: string | null; // last known error (if any)
+  saved: boolean; // listing saved
+  error?: any | null; // last known error (if any)
 }
 
 export interface ListingsPartialState {
@@ -24,6 +25,7 @@ export const listingsAdapter: EntityAdapter<ISellerListing> = createEntityAdapte
 export const initialState: State = listingsAdapter.getInitialState({
   // set initial required properties
   imageIds: [],
+  saved: false,
   loaded: false,
 });
 
@@ -41,11 +43,22 @@ const listingsReducer = createReducer(
     ...state,
     error,
   })),
+  on(ListingsActions.addListing, (state) => ({
+    ...state,
+    saved: false,
+    error: null,
+  })),
   on(ListingsActions.addListingSuccess, (state, { listing }) =>
-    listingsAdapter.upsertOne(listing, { ...state, loaded: true })
+    listingsAdapter.upsertOne(listing, {
+      ...state,
+      loaded: true,
+      saved: true,
+      error: false
+    })
   ),
   on(ListingsActions.addListingFailure, (state, { error }) => ({
     ...state,
+    saved: true,
     error,
   })),
   on(ListingsActions.loadListingSuccess, (state, { listing }) =>
@@ -59,14 +72,22 @@ const listingsReducer = createReducer(
     ...state,
     error,
   })),
+  on(ListingsActions.updateListing, (state) => ({
+    ...state,
+    saved: false,
+    error: null,
+  })),
   on(ListingsActions.updateListingSuccess, (state, { listing }) =>
     listingsAdapter.upsertOne(listing, {
       ...state,
       loaded: true,
+      saved: true,
+      error: false
     })
   ),
   on(ListingsActions.updateListingFailure, (state, { error }) => ({
     ...state,
+    saved: true,
     error,
   })),
   on(ListingsActions.deleteListingSuccess, (state, { listingId }) =>

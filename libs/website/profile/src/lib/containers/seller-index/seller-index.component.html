@@ -1,52 +1,118 @@
 <ng-container *ngIf="sellers">
+  <ng-container *ngIf="sellers?.length > 0; else register">
+    <p-tabMenu [model]="sellers">
+      <ng-template pTemplate="item" let-seller let-i="index">
+        <a (click)="loadListings(seller)">{{ seller.name }}</a>
+      </ng-template>
+    </p-tabMenu>
 
-<ng-container  *ngIf="sellers?.length > 0; else register">
-
-  <p-tabMenu [model]="sellers">
-
-    <ng-template pTemplate="item" let-seller let-i="index" >
-          <a (click)="loadListings(seller)">{{ seller.name }}</a> 
+    <p-toast position="top-center"></p-toast>
+    <progress-spinner
+      *ngIf="!(loading$ | async); else table"
+    ></progress-spinner>
+    <ng-template #table>
+      <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+          <button
+            *ngIf="addOrUpdateListingTemplate"
+            pButton
+            pRipple
+            label="New Listing"
+            icon="pi pi-plus"
+            class="p-button-success p-mr-1"
+            (click)="initializeListingForm(); displayCreateUpdateDialog = true"
+          ></button>
+        </ng-template>
+      </p-toolbar>
+      <p-table [columns]="columns" [value]="listings$ | async">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns">
+              {{ col.header }}
+            </th>
+            <th style="text-align: right;">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td
+              *ngFor="let col of columns"
+              [innerHtml]="
+                col.converter
+                  ? col.converter(rowData[col.field])
+                  : rowData[col.field]
+              "
+            ></td>
+            <td class="p-text-right">
+              <button
+                *ngIf="
+                  addOrUpdateListingTemplate &&
+                  (rowData.type != ListingType.Auction || !rowData.active)
+                "
+                pButton
+                pRipple
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success p-mr-2"
+                (click)="handleUpdateSelection(rowData)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-warning"
+                (click)="deleteListing(rowData)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </ng-template>
-
-  </p-tabMenu>
-
-    <bushtrade-web-crud-table
-    *ngIf="listings$"
-    [data]="listings$ | async"
-    [selectableColumns]="columns"
-    [loading]="loading$ | async"
-    [createFormTemplateReference]="addOrUpdateListingTemplate"
-    (updateSelection)="handleUpdateSelection($event)"
-    (createSelection)="handleCreateSelection()"
-    [updateFormTemplateReference]="addOrUpdateListingTemplate"
-    (updateSubmit)="saveListing()"
-    [headersValue]="'Listing'"
-    [createFormValid]="addlistingFormGroup.valid"
-    (createSubmit)="saveListing()"
-    [allowDelete]="true"
-    (itemDeleted)="deleteListing($event)"
-    modalWidth="800px"
-    searchable="false"
-    singularTerm="Listing"
-    customizeColumn="false"
-  ></bushtrade-web-crud-table>
-
-</ng-container>
-
-
-
+  </ng-container>
 </ng-container>
 
 <ng-template #register>
   <button
-  pButton
-  icon=""
-  label="Start Selling"
-  (click)="this.displayStartSellingDialog = true"
+    pButton
+    icon=""
+    label="Start Selling"
+    (click)="this.displayStartSellingDialog = true"
   ></button>
 </ng-template>
 
+<p-dialog
+  [(visible)]="displayCreateUpdateDialog"
+  [style]="{ width: '800px' }"
+  [header]="'Add New Listing'"
+  [modal]="true"
+  [closeOnEscape]="false"
+  (onHide)="clearForm()"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <ng-container *ngTemplateOutlet="addOrUpdateListingTemplate">
+    </ng-container>
+  </ng-template>
 
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="displayCreateUpdateDialog = false"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-text"
+      [disabled]="!addlistingFormGroup.valid"
+      (click)="saveListing()"
+    ></button>
+  </ng-template>
+</p-dialog>
 
 <ng-template #addOrUpdateListingTemplate>
   <ng-template #initializingEditModalData>
@@ -70,14 +136,15 @@
 
           <!-- type -->
           <div class="p-field">
-            <label pTooltip="Auctions have a duration of two weeks from the created date." >
-              Listing Type: <i class="pi pi-question-circle" ></i>
+            <label
+              pTooltip="Auctions have a duration of two weeks from the created date."
+            >
+              Listing Type: <i class="pi pi-question-circle"></i>
             </label>
-            <!-- <p-dropdown
+            <p-selectButton
               [options]="selectableListingTypeOptions"
               formControlName="type"
-            ></p-dropdown> -->
-            <p-selectButton [options]="selectableListingTypeOptions" formControlName="type"></p-selectButton>
+            ></p-selectButton>
           </div>
 
           <!-- description -->
@@ -100,9 +167,9 @@
           <!-- category -->
           <div class="p-field">
             <label pTooltip="Click the category if you need to change it.">
-              Listing Category: 
+              Listing Category:
             </label>
-            <br>
+            <br />
             <bushtrade-category-selector
               [categoryTree]="categoryTree"
               [loading]="loadingCategories"
@@ -112,12 +179,12 @@
             ></bushtrade-category-selector>
           </div>
 
-          <hr>
+          <hr />
           <h3>Images of Item</h3>
           <!-- images -->
           <div class="p-field">
             <label pTooltip="You can upload up to 10 images.">
-              Upload Images For Listing:  <i class="pi pi-question-circle" ></i>
+              Upload Images For Listing: <i class="pi pi-question-circle"></i>
             </label>
             <p-fileUpload
               #fileUpload
@@ -126,16 +193,16 @@
               customUpload="true"
               (uploadHandler)="uploadListingImage($event)"
               multiple="multiple"
-              accept="image/*" 
+              accept="image/*"
               auto="true"
               chooseLabel="Upload Images"
               fileLimit="10"
             >
-          </p-fileUpload>
+            </p-fileUpload>
 
             <p *ngIf="isUploadingImageFiles">
               Uploading Files...
-              <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+              <i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i>
             </p>
             <div class="p-grid p-mt-2">
               <div class="p-col-3" *ngFor="let image of images">
@@ -147,7 +214,7 @@
             </div>
           </div>
 
-          <hr>
+          <hr />
           <h3>Price</h3>
           <!-- starting price -->
           <div class="p-field">
@@ -172,8 +239,10 @@
             class="p-field"
             *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
           >
-            <label pTooltip="The reserve price cannot be lower than the starting price.">
-              Reserve Price:  <i class="pi pi-question-circle" ></i>
+            <label
+              pTooltip="The reserve price cannot be lower than the starting price."
+            >
+              Reserve Price: <i class="pi pi-question-circle"></i>
             </label>
             <input
               pInputText
@@ -184,13 +253,29 @@
             />
           </div>
 
+          <!-- duration -->
+          <div
+            class="p-field"
+            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+          >
+            <label
+              pTooltip="The EndDate will be calculated based on the duration immediately after you activate the Auction."
+            >
+              Duration: <i class="pi pi-question-circle"></i>
+            </label>
+            <p-selectButton
+              [options]="selectableAuctionDurationSettings"
+              formControlName="durationInDays"
+            ></p-selectButton>
+          </div>
+
           <!-- increment -->
           <div
             class="p-field"
             *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
           >
-            <label  pTooltip="The minimum increment between bids">
-              Price Increment:  <i class="pi pi-question-circle" ></i>
+            <label pTooltip="The minimum increment between bids">
+              Price Increment: <i class="pi pi-question-circle"></i>
             </label>
             <input
               pInputText
@@ -201,7 +286,7 @@
           </div>
 
           <!-- quantity -->
-          <div class="p-field" style="display:none;">
+          <div class="p-field" style="display: none;">
             <label>
               Quantity:
             </label>
@@ -240,12 +325,37 @@
           </ng-container>
 
           <!-- active -->
-          <div class="p-field" style="display:none">
+          <div class="p-field">
             <label>
               Active:
             </label>
             <br />
             <p-inputSwitch formControlName="active"></p-inputSwitch>
+          </div>
+          <div
+            class="p-field"
+            *ngIf="
+              addlistingFormGroup.get('type').value == ListingType.Auction &&
+              addlistingFormGroup.get('active').value === true &&
+              !addlistingFormGroup.get('durationInDays').value
+            "
+          >
+            <p-message
+              severity="error"
+              text="When activating an Auction, you must provide a value for the Duration"
+            ></p-message>
+          </div>
+          <div
+            class="p-field"
+            *ngIf="
+              addlistingFormGroup.get('type').value == ListingType.Auction &&
+              addlistingFormGroup.get('active').value === true
+            "
+          >
+            <p-message
+              severity="warn"
+              text="Once submitted as Active, an Auction will not be editable anymore"
+            ></p-message>
           </div>
         </div>
       </div>
@@ -255,7 +365,7 @@
 
 <p-dialog
   [(visible)]="displayStartSellingDialog"
-  header="Create Seller Profile" 
+  header="Create Seller Profile"
   [style]="{ width: '450px' }"
   [modal]="true"
   styleClass="p-fluid"
@@ -264,29 +374,27 @@
     <form [formGroup]="signUpSellerFormGroup">
       <div class="p-grid">
         <div class="p-col">
-          <div class="p-fluid">
-          </div>
+          <div class="p-fluid"></div>
           <div class="p-field">
             <label>
               Trade in your Private Capacity:
             </label>
             <br />
-            <p-inputSwitch 
+            <p-inputSwitch
               (onChange)="handleChange($event)"
               formControlName="isPrivateIndividual"
-            ></p-inputSwitch> 
+            ></p-inputSwitch>
           </div>
 
-          <div [ngStyle]="{'display': isPrivate ? 'none' : 'block' }" >
-            
+          <div [ngStyle]="{ display: isPrivate ? 'none' : 'block' }">
             <h2>Trading Details</h2>
-            <div class="p-field" >
+            <div class="p-field">
               <label>
                 Name:
               </label>
               <input pInputText type="text" required formControlName="name" />
             </div>
-            <div class="p-field" >
+            <div class="p-field">
               <label>
                 Company Number:
               </label>
@@ -307,51 +415,49 @@
                 required
                 formControlName="taxNumber"
               />
+            </div>
           </div>
 
+          <h2>Banking Details</h2>
+          <div class="p-field">
+            <label>
+              Bank:
+            </label>
+            <input pInputText type="text" required formControlName="bank" />
           </div>
-
-            <h2>Banking Details</h2>
-            <div class="p-field">
-              <label>
-                Bank:
-              </label>
-              <input pInputText type="text" required formControlName="bank" />
-            </div>
-            <div class="p-field">
-              <label>
-                Branch Code:
-              </label>
-              <input
-                pInputText
-                type="text"
-                required
-                formControlName="branchCode"
-              />
-            </div>
-            <div class="p-field">
-              <label>
-                Account Type:
-              </label>
-              <input
-                pInputText
-                type="text"
-                required
-                formControlName="accountType"
-              />
-            </div>
-            <div class="p-field">
-              <label>
-                Account Number:
-              </label>
-              <input
-                pInputText
-                type="text"
-                required
-                formControlName="accountNumber"
-              />
-            </div>
-
+          <div class="p-field">
+            <label>
+              Branch Code:
+            </label>
+            <input
+              pInputText
+              type="text"
+              required
+              formControlName="branchCode"
+            />
+          </div>
+          <div class="p-field">
+            <label>
+              Account Type:
+            </label>
+            <input
+              pInputText
+              type="text"
+              required
+              formControlName="accountType"
+            />
+          </div>
+          <div class="p-field">
+            <label>
+              Account Number:
+            </label>
+            <input
+              pInputText
+              type="text"
+              required
+              formControlName="accountNumber"
+            />
+          </div>
         </div>
       </div>
     </form>
@@ -365,7 +471,6 @@
       icon="pi pi-times"
       class="p-button-text p-button-danger"
       (click)="this.displayStartSellingDialog = false"
-
     ></button>
     <button
       pButton
