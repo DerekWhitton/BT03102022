@@ -13,13 +13,16 @@ import {
 import {
   CategoryService,
   ListingsService,
+  SiteSettingsService,
 } from '@bushtrade/website/shared/services';
 import {
   getUserSellers,
   registerSeller,
 } from '@bushtrade/website/shared/state';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { first, filter } from 'rxjs/operators';
 import {
   addListing,
   deleteListing,
@@ -27,6 +30,7 @@ import {
   updateListing,
 } from '../../+state/listings/listings.actions';
 import { ListingsFacade } from '../../+state/listings/listings.facade';
+import { getListingsError } from '../../+state/listings/listings.selectors';
 
 interface ICategoryPropertyWithUserSelectedValue extends ICategoryProperty {
   value: string;
@@ -44,8 +48,10 @@ export class SellerIndexComponent implements OnInit {
 
   listings$: Observable<ISellerListing[]>;
   loading$: Observable<boolean>;
+  lastListingError$ = this.listingsFacade.lastKnownError$;
+  listingSaved$ = this.listingsFacade.listingSaved$;
   selectedSellerId: string;
-
+  displayCreateUpdateDialog = false;
   isPrivate: boolean = true;
 
   columns = [
@@ -67,6 +73,7 @@ export class SellerIndexComponent implements OnInit {
     { label: 'Auction', value: ListingType.Auction },
     { label: 'For Sale', value: ListingType.Sale },
   ];
+  selectableAuctionDurationSettings: { label: string; value: ListingType }[];
 
   showProperties: boolean = false;
   categoryProperties: ICategoryPropertyWithUserSelectedValue[];
@@ -95,24 +102,45 @@ export class SellerIndexComponent implements OnInit {
 
   constructor(
     private store: Store,
+    private messageService: MessageService,
     private listingsFacade: ListingsFacade,
     private listingSvc: ListingsService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private siteSettingsService: SiteSettingsService
   ) {
     this.loading$ = this.listingsFacade.loaded$;
   }
 
   ngOnInit(): void {
-    
     this.store.select(getUserSellers).subscribe((sellers: ISeller[]) => {
-
       this.sellers = sellers;
-      if(sellers.length > 0){
+      if (sellers.length > 0) {
         this.loadListings(sellers?.[0]);
       }
-      
-  })
-    
+    });
+    this.siteSettingsService
+      .loadAuctionDurationSettings()
+      .subscribe((settings) => {
+        this.selectableAuctionDurationSettings = settings.map((s) => {
+          return {
+            label: `${s.numberOfDays} days`,
+            value: s.numberOfDays,
+          };
+        });
+      });
+
+    this.lastListingError$.subscribe((error) => {
+      if (error) {
+        this.messageService.add({
+          severity: 'error',
+          detail:
+            typeof error?.error == 'string'
+              ? error?.error
+              : error?.error?.title,
+        });
+      }
+    });
+
     this.initializeListingForm();
     this.loadCategories();
   }
@@ -169,6 +197,7 @@ export class SellerIndexComponent implements OnInit {
   }
 
   async handleUpdateSelection(data) {
+    this.displayCreateUpdateDialog = true;
     this.editModalDataIsInitializing = true;
 
     const listing = await this.listingSvc
@@ -216,7 +245,8 @@ export class SellerIndexComponent implements OnInit {
   }
 
   saveListing() {
-    let listing = this.addlistingFormGroup.value as ICreateOrUpdateListing;
+    var listing: ICreateOrUpdateListing;
+    listing = { ...(this.addlistingFormGroup.value as ICreateOrUpdateListing) };
     listing.listingImageIds = this.images.map((i) => i.id);
     listing.listingPropertyValues = this.categoryProperties.map((p) => ({
       categoryPropertyId: p.id,
@@ -224,8 +254,17 @@ export class SellerIndexComponent implements OnInit {
         p.value && typeof p.value !== typeof '' ? p.value.toString() : p.value,
     }));
 
-    
-
+    this.listingSaved$.pipe(first()).subscribe(() => {
+      this.lastListingError$.pipe(filter(e => e != null)).subscribe((error) => {
+        if (!error) {
+          this.messageService.add({
+            severity: 'success',
+            detail:'Listing saved successfuly'
+          });
+          this.clearForm();
+        }
+      });
+    });
 
     if (listing.id && listing.id != '00000000-0000-0000-0000-000000000000') {
       this.listingsFacade.dispatch(
@@ -243,10 +282,6 @@ export class SellerIndexComponent implements OnInit {
         })
       );
     }
-
-    this.initializeListingForm();
-    this.categoryProperties = [];
-    this.images = [];
   }
 
   registerSeller() {
@@ -256,6 +291,13 @@ export class SellerIndexComponent implements OnInit {
       })
     );
     this.displayStartSellingDialog = false;
+  }
+
+  clearForm() {
+    this.displayCreateUpdateDialog = false;
+    this.initializeListingForm();
+    this.categoryProperties = [];
+    this.images = [];
   }
 
   private async loadCategories(parentId: string = null) {
@@ -300,11 +342,16 @@ export class SellerIndexComponent implements OnInit {
   }
 
   handleCategorySelection(id) {
-    this.selectedCategoryId = id;
-    this.loadCategories(id);
+    if (id) {
+      this.selectedCategoryId = id;
+      this.loadCategories(id);
+    }
   }
 
   async handleCategoryChainComplete(isComplete) {
+    if (!this.selectedCategoryId) {
+      return;
+    }
     this.showProperties = isComplete;
     this.addlistingFormGroup.patchValue({
       categoryId: isComplete ? this.selectedCategoryId : '',
@@ -346,12 +393,15 @@ export class SellerIndexComponent implements OnInit {
     }
   }
 
-  checkReserve(){
-    if(this.addlistingFormGroup.value.type == 0){
-      if(this.addlistingFormGroup.value.startingPrice > this.addlistingFormGroup.value.reservePrice){
-        this.addlistingFormGroup.patchValue(
-          {reservePrice: this.addlistingFormGroup.value.startingPrice}
-        );
+  checkReserve() {
+    if (this.addlistingFormGroup.value.type == 0) {
+      if (
+        this.addlistingFormGroup.value.startingPrice >
+        this.addlistingFormGroup.value.reservePrice
+      ) {
+        this.addlistingFormGroup.patchValue({
+          reservePrice: this.addlistingFormGroup.value.startingPrice,
+        });
       }
     }
   }
@@ -363,11 +413,12 @@ export class SellerIndexComponent implements OnInit {
       id: new FormControl(listing?.id),
       name: new FormControl(listing?.name, Validators.required),
       description: new FormControl(listing?.description, Validators.required),
-      active: new FormControl(listing?.active ?? true, Validators.required),
+      active: new FormControl(listing?.active ?? false, Validators.required),
       startingPrice: new FormControl(
         listing?.startingPrice,
         Validators.required
       ),
+      durationInDays: new FormControl(listing?.durationInDays),
       reservePrice: new FormControl(listing?.reservePrice ?? 1),
       priceIncrement: new FormControl(listing?.priceIncrement ?? 1),
       quantity: new FormControl(listing?.quantity ?? 1),

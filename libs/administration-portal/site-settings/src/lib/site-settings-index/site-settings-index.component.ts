@@ -126,7 +126,7 @@ export class SiteSettingsIndexComponent implements OnInit {
       );
     }
   }
-  /* Auction Durations Management */
+  
   onAuctionDurationCreateSubmit() {
     var auctionDurationSetting = this.createOrUpdateAuctionDurationFormGroup
       .value as ICreateOrUpdateAuctionDurationSetting;
@@ -171,7 +171,6 @@ export class SiteSettingsIndexComponent implements OnInit {
     );
   }
 
-  /* Premium Packages Management */
   onPremiumPackageCreateSubmit() {
     var premiumPackageSetting = this.createOrUpdatePremiumPackageFormGroup
       .value as ICreateOrUpdatePremiumPackageSetting;

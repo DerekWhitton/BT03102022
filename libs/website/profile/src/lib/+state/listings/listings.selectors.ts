@@ -19,6 +19,11 @@ export const getListingsLoaded = createSelector(
   (state: State) => state.loaded
 );
 
+export const getListingSaved = createSelector(
+  getListingsState,
+  (state: State) => state.saved
+);
+
 export const getListingsError = createSelector(
   getListingsState,
   (state: State) => state.error

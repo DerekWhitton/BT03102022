@@ -11,6 +11,8 @@ export class ListingsFacade {
   allListings$ = this.store.pipe(select(ListingsSelectors.getAllListings));
   selectedListings$ = this.store.pipe(select(ListingsSelectors.getSelected));
   imageIds$ = this.store.pipe(select(ListingsSelectors.getImageIds));
+  lastKnownError$ = this.store.pipe(select(ListingsSelectors.getListingsError));
+  listingSaved$ = this.store.pipe(select(ListingsSelectors.getListingSaved));
 
   constructor(private store: Store<fromListings.ListingsPartialState>) {}
 
