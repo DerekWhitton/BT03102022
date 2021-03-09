@@ -1,4 +1,15 @@
-<div class="p-grid">
+
+<ng-template #loading>
+  <div class="p-grid">
+    <div class="p-col-12 p-text-center p-pt-5 p-pb-5">
+    <progress-spinner></progress-spinner>
+    </div>
+  </div>
+
+</ng-template>
+
+
+<div class="p-grid"  *ngIf="categories && categories.length > 0; else loading">
   <div class="p-col-12 p-offset-0 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
     <div class="p-grid">
       <div class="p-col-12">
@@ -11,7 +22,7 @@
   <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
     <div class="p-grid">
       <div class="p-col-12 p-text-center">
-        <h3 class="text-uppercase">The easy way to trade with other hunters</h3>
+        <h1 class="text-uppercase">The easy way to trade with other hunters</h1>
         <p>
           Bush Trade is the easy way to connect with other hunters, to find
           hunting adventures, to share hunting stories, to reminisce, to plan,

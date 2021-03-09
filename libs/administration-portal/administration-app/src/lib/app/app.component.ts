@@ -81,6 +81,11 @@ export class AppComponent implements OnInit {
           icon: 'pi pi-fw pi-comments',
           routerLink: ['/', 'forums'],
         },
+        {
+          label: 'Support',
+          icon: 'pi pi-question-circle',
+          routerLink: ['/', 'support'],
+        },
       ],
       routerLink: ['/', 'dashboard'],
     },
@@ -111,16 +116,12 @@ export class AppComponent implements OnInit {
           icon: 'pi pi-comment',
           routerLink: ['/', 'messages'],
         },
-        {
-          label: 'Reports',
-          icon: 'pi pi-chart-line',
-          routerLink: ['/', 'reports'],
-        },
-        {
-          label: 'Support',
-          icon: 'pi pi-question-circle',
-          routerLink: ['/', 'support'],
-        },
+        // {
+        //   label: 'Reports',
+        //   icon: 'pi pi-chart-line',
+        //   routerLink: ['/', 'reports'],
+        // },
+
       ],
       routerLink: ['/', 'dashboard'],
     }
@@ -173,17 +174,17 @@ export class AppComponent implements OnInit {
             ) as HTMLImageElement;
 
             if (res.colorScheme === 'light') {
-              mobileLogoLink.src = 'assets/layout/images/logo-dark.png';
-              footerLogoLink.src = 'assets/layout/images/logo-dark.png';
-              if (res.menuTheme == 'white') {
-                appLogoLink.src = 'assets/layout/images/logo-dark.png';
-              } else {
-                appLogoLink.src = 'assets/layout/images/logo-light.png';
-              }
-            } else {
               mobileLogoLink.src = 'assets/layout/images/logo-light.png';
               footerLogoLink.src = 'assets/layout/images/logo-light.png';
-              appLogoLink.src = 'assets/layout/images/logo-light.png';
+              if (res.menuTheme == 'white') {
+                appLogoLink.src = 'assets/layout/images/logo-light.png';
+              } else {
+                appLogoLink.src = 'assets/layout/images/logo-dark.png';
+              }
+            } else {
+              mobileLogoLink.src = 'assets/layout/images/logo-dark.png';
+              footerLogoLink.src = 'assets/layout/images/logo-dark.png';
+              appLogoLink.src = 'assets/layout/images/logo-dark.png';
             }
           }
         }
