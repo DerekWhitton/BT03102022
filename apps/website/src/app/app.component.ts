@@ -52,7 +52,8 @@ export class AppComponent implements OnInit {
     });
 
     this.broadcastService.subscribe('msal:acquireTokenFailure', (error) => {
-      console.log('caught token timeout error');
+      // console.log('caught token timeout error');
+      return this.authService.logout();
     });
 
     // redirect callback for redirect flow (IE)

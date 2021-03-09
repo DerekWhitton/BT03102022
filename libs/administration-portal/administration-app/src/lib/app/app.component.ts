@@ -81,6 +81,11 @@ export class AppComponent implements OnInit {
           icon: 'pi pi-fw pi-comments',
           routerLink: ['/', 'forums'],
         },
+        {
+          label: 'Support',
+          icon: 'pi pi-question-circle',
+          routerLink: ['/', 'support'],
+        },
       ],
       routerLink: ['/', 'dashboard'],
     },
@@ -111,16 +116,12 @@ export class AppComponent implements OnInit {
           icon: 'pi pi-comment',
           routerLink: ['/', 'messages'],
         },
-        {
-          label: 'Reports',
-          icon: 'pi pi-chart-line',
-          routerLink: ['/', 'reports'],
-        },
-        {
-          label: 'Support',
-          icon: 'pi pi-question-circle',
-          routerLink: ['/', 'support'],
-        },
+        // {
+        //   label: 'Reports',
+        //   icon: 'pi pi-chart-line',
+        //   routerLink: ['/', 'reports'],
+        // },
+
       ],
       routerLink: ['/', 'dashboard'],
     }
