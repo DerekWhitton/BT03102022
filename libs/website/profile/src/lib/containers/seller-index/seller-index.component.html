@@ -27,14 +27,30 @@
       <p-table [columns]="columns" [value]="listings$ | async">
         <ng-template pTemplate="header" let-columns>
           <tr>
+            <th style="width: 100px;">Premium</th>
+            <th style="width: 50px;"></th>
             <th *ngFor="let col of columns">
               {{ col.header }}
             </th>
+            <th style="width: 30px;"></th>
             <th style="text-align: right;">Actions</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-columns="columns">
           <tr>
+            <td>
+              <button
+                *ngIf="rowData.active"
+                pButton
+                pRipple
+                icon="pi pi-money-bill"
+                title="Make listing Premium"
+                class="p-button-rounded p-button-success p-mr-2"
+              ></button>
+            </td>
+            <td>
+              <span class="p-tag" [ngClass]="rowData.active ? 'p-tag-success': 'p-tag-warning'">{{rowData.active ? 'Live' : 'Draft'}}</span>
+            </td>
             <td
               *ngFor="let col of columns"
               [innerHtml]="
@@ -43,15 +59,24 @@
                   : rowData[col.field]
               "
             ></td>
-            <td class="p-text-right">
+            <td>
               <button
-                *ngIf="
-                  addOrUpdateListingTemplate &&
-                  (rowData.type != ListingType.Auction || !rowData.active)
-                "
+                *ngIf="rowData.active"
+                pButton
+                pRipple
+                icon="pi pi-users"
+                title="View Conversations"
+                class="p-button-rounded p-button-primary p-mr-2"
+                [routerLink]="['../..', 'conversations', 'listing', rowData.id]"
+              ></button>
+            </td>
+            <td class="p-text-right">              
+              <button
+                *ngIf="rowData.type != ListingType.Auction || !rowData.active"
                 pButton
                 pRipple
                 icon="pi pi-pencil"
+                title="Edit Listing"
                 class="p-button-rounded p-button-success p-mr-2"
                 (click)="handleUpdateSelection(rowData)"
               ></button>
@@ -59,6 +84,7 @@
                 pButton
                 pRipple
                 icon="pi pi-trash"
+                title="Delete Listing"
                 class="p-button-rounded p-button-warning"
                 (click)="deleteListing(rowData)"
               ></button>
@@ -251,6 +277,25 @@
               formControlName="reservePrice"
               (change)="checkReserve()"
             />
+          </div>
+
+          <!-- shipping costs -->
+          <div class="p-field">
+            <label
+              pTooltip="Specify the shipping options and respective costs."
+            >
+              Shipping Costs: <i class="pi pi-question-circle"></i>
+            </label>
+            <textarea
+              style="width: 100%;"
+              pInputTextarea
+              [rows]="3"
+              type="text"
+              required
+              formControlName="shippingCosts"
+              autoResize="autoResize"
+              maxlength="2500"
+            ></textarea>
           </div>
 
           <!-- duration -->

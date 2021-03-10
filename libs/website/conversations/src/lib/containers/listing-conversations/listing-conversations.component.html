@@ -1,0 +1,49 @@
+<div class="p-grid">
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+    <div class="thread p-card p-p-5 p-mt-5 p-mb-5">
+      <p-toast position="top-center"></p-toast>
+      <h1>Listing Conversations</h1>
+      <p>Listing: {{ listingDetails?.name }}</p>
+      <p>Price: R {{ listingDetails?.startingPrice }}</p>
+      <progress-spinner *ngIf="loading"></progress-spinner>
+
+      <div *ngIf="!loading" class="thread p-card p-mb-5">
+        <ng-container *ngFor="let conv of purchaseConversations">
+          <div class="p-mb-4 p-p-3 conversation-card">
+            <div class="p-grid">
+              <div class="p-col-12 p-md-6 p-lg-3 conversation-title">
+                <div class="profile-image-container">
+                  <img
+                    src="{{ conv.buyerProfilePicture }}"
+                    alt="User Profile Pic"
+                  />
+                </div>
+                <p class="title-name">{{ conv.buyerName }}</p>
+              </div>
+              <div class="p-col-12 p-md-6 p-lg-6">
+                <i class="pi pi-clock p-mr-1" style="font-size: 1rem;"></i>
+                {{ conv.createdAt | date: 'dd MMM yyyy h:mm:ss' }}
+              </div>
+              <div class="p-col-12 p-md-6 p-lg-3">
+                <button
+                  pButton
+                  pRipple
+                  icon="pi pi-chevron-right"
+                  title="Go to conversation"
+                  class="p-button-rounded p-button-primary p-mr-2"
+                  [routerLink]="['../..', 'purchase', conv.id]"
+                ></button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div
+          *ngIf="purchaseConversations?.length == 0"
+          class="conversation-card"
+        >
+          <h2>No conversations available.</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

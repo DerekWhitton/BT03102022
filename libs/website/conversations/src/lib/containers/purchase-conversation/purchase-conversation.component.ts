@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConversationsService } from '@bushtrade/website/shared/services';
 import {
-  IPurchaseConversation
+  IConversation
 } from '@bushtrade/website/shared/entites';
 
 @Component({
@@ -21,7 +21,7 @@ export class PurchaseConversationComponent implements OnInit {
   messages: any[] = [];
   conversationId: string;
   sellerId: string;
-  conversation: IPurchaseConversation;
+  conversation: IConversation;
   message: string;
 
   constructor(

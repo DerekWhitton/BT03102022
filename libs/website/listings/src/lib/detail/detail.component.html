@@ -8,8 +8,7 @@
       <p-toast position="top-center"></p-toast>
       <div class="p-grid">
         <div class="p-col-12 p-md-8 p-lg-9">
-          <div class="p-p-3 bg-white p-mb-5">
-
+          <div *ngIf="listingDetails.images?.length > 0" class="p-p-3 bg-white p-mb-5">
             <p-galleria [(value)]="listingDetails.images" [(visible)]="displayCustom" [(activeIndex)]="activeIndex"
               [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1024px' }" [numVisible]="7"
               [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false"
@@ -159,7 +158,7 @@
               </div>
               <div class="bid-history sidebar-section">
                 <h3>Bid history</h3>
-                <ng-container *nfIg="listingBids.length > 0 else noBids">
+                <ng-container *ngIf="listingBids.length > 0; else noBids">
                   <p-table [value]="listingBids.slice(0, 3)" styleClass="p-datatable-striped">
                     <ng-template pTemplate="body" let-bid>
                       <tr>
@@ -175,33 +174,22 @@
                   </p-table>
                   <a (click)="showBidsModal = true">View all bids</a>
                 </ng-container>
-                <ng-container #noBids>
+                <ng-template #noBids>
                   There are no bids placed on this auction yet.
-                </ng-container>
+                </ng-template>
               </div>
             </ng-container>
-            <div class="p-pt-3" *ngIf="
-                listingDetails.type == listingType.Sale && !refreshingSidebar
-              ">
+            <div class="p-pt-3" *ngIf="listingDetails.type == listingType.Sale && !refreshingSidebar">
               <h3>Price</h3>
               <h3 class="price">R {{ listingDetails.startingPrice }}</h3>
               <p *ngIf="listingDetails.isSold">
                 This item has been sold.
               </p>
               <div *ngIf="!listingDetails.isSold">
-                <p-button [disabled]="listingBids && listingBids.length" [label]="
-                    listingBids && listingBids.length
-                      ? 'Item Reserved'
-                      : 'Purchase'
-                  " (click)="showConfirmModal = true"></p-button>
-                <p *ngIf="
-                    listingBids &&
-                    listingBids.length &&
-                    listingBids[0].expiresAt
-                  ">
-                  Reservation ends in
-                  <bushtrade-web-countdown-timer [endDate]="listingBids[0].expiresAt"></bushtrade-web-countdown-timer>
-                </p>
+                <p-button *ngIf="!userBid" [label]="'Contact seller'"
+                  (click)="showConfirmModal = true"></p-button>
+                <p-button *ngIf="userBid" [label]="'Go to conversation'"
+                  [routerLink]="['../..', 'conversations', 'purchase', userBid.conversationId]"></p-button>
               </div>
             </div>
             <div *ngIf="refreshingSidebar">
@@ -252,7 +240,7 @@
 </div>
 
 <!-- Create Dialog -->
-<p-dialog [(visible)]="showConfirmModal" [style]="'width: 400px;'" [header]="'Confirm Purchase'" [modal]="true"
+<p-dialog [(visible)]="showConfirmModal" [style]="'width: 400px;'" [header]="'Confirm Contact Seller'" [modal]="true"
   [closable]="false" styleClass="p-fluid">
   <ng-template pTemplate="content">
     <p>
@@ -263,7 +251,7 @@
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
       (click)="showConfirmModal = false"></button>
-    <button pButton pRipple label="Confirm" icon="pi pi-check" class="p-button-text" (click)="purchase()"></button>
+    <button pButton pRipple label="Confirm" icon="pi pi-check" class="p-button-text" (click)="contactSeller()"></button>
   </ng-template>
 </p-dialog>
 

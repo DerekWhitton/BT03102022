@@ -5,11 +5,20 @@ export interface IConversationParticipant {
   name: string
 }
 
-export interface IPurchaseConversation {
+export interface IConversationSummary {
   id: string,
   listingName: string,
   isClosed: string,
-  isSellerConversation: string,
   createdAt: string,
+}
+
+export interface IConversation extends IConversationSummary {
+  isSellerConversation: string,  
   participants: IConversationParticipant[]
+}
+
+export interface IPurchaseConversation extends IConversationSummary {
+  purchaseId: string;
+  buyerName: string;
+  buyerProfilePicture: string;
 }
