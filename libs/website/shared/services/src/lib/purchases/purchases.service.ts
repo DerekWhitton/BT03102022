@@ -5,6 +5,7 @@ import {
   IPaginatedResponse,
   IPaymentDetails,
   IPurchase,
+  IPurchaseConversation,
 } from '@bushtrade/website/shared/entites';
 
 @Injectable({
@@ -38,6 +39,15 @@ export class PurchasesService {
   getPaymentDetails(id: string) {
     return this.httpClient.get<IPaymentDetails>(
       `${this.base}api/v${this.version}/Purchases/${id}/PaymentDetails`
+    );
+  }
+
+  markPurchaseAsCompleted(sellerId: string, purchaseId: string) {
+    return this.httpClient.post<IPurchaseConversation>(
+      `${this.base}api/v${this.version}/Purchases/MarkPurchaseAsCompleted/${sellerId}`,
+      {
+        purchaseId: purchaseId
+      }
     );
   }
 

@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { PurchaseConversationComponent } from './containers/purchase-conversation/purchase-conversation.component';
 import { UiElementsModule } from '@bushtrade/ui-elements';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ListingConversationsComponent } from './containers/listing-conversations/listing-conversations.component';
 
 @NgModule({
   imports: [
@@ -14,10 +15,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild([
-      { path: '', pathMatch: 'full', component: PurchaseConversationComponent },
+      { path: '', pathMatch: 'full', component: ListingConversationsComponent },
+      { path: 'listing/:listingId', component: ListingConversationsComponent },
       { path: 'purchase/:conversationId', component: PurchaseConversationComponent }
     ]),
   ],
-  declarations: [PurchaseConversationComponent],
+  declarations: [
+    PurchaseConversationComponent,
+    ListingConversationsComponent
+  ],
 })
 export class WebsiteConversationsModule {}

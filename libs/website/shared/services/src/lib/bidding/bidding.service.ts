@@ -27,6 +27,12 @@ export class BiddingService {
     );
   }
 
+  getUserBid(listingId: string) {
+    return this.httpClient.get<IBid>(
+      `${this.base}api/v${this.version}/Bidding/GetUserBid/${listingId}`
+    );
+  }
+
   getHighestBid(listingId: string) {
     return this.httpClient.get<IBid>(
       `${this.base}api/v${this.version}/Bidding/GetHighest/${listingId}`

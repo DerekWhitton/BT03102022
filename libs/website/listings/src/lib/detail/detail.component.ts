@@ -1,6 +1,6 @@
 import { SearchService } from './../../../../shared/services/src/lib/search/search.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import {
   IBid,
@@ -34,6 +34,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   listingId: string;
   listingDetails: IListingDetails;
   listingBids: IBid[];
+  userBid: IBid;
   highestBid: IBid;
   biddingRecommendations: number[] = [];
   listingSellerSummary: IListingSeller;
@@ -53,6 +54,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private listingsService: ListingsService,
     private biddingService: BiddingService,
     private purchaseService: PurchasesService,
@@ -103,26 +105,34 @@ export class DetailComponent implements OnInit, OnDestroy {
             this.suggestions = suggestions;
           });
           this.listingSellerSummary = sellerSummary;
-
           this.refreshingSidebar = true;
-          this.biddingService.getListingBids(this.listingId).subscribe(
-            (bids) => {
-              this.listingBids = bids;
-              this.userHasPlacedBid = this.userId
-                ? this.listingBids?.filter((b) => b.userId == this.userId)
-                    ?.length > 0 ?? false
-                : false;
-            },
-            () => {
-              this.messageService.add({
-                severity: 'error',
-                detail: 'There was an error loading auction bids',
-              });
-            },
-            () => {
-              this.getHighestBidAndSetRecommendations();
-            }
-          );
+          if (listingDetails.type === ListingType.Auction) {
+            this.biddingService.getListingBids(this.listingId).subscribe(
+              (bids) => {
+                this.listingBids = bids;
+                this.userHasPlacedBid = this.userId
+                  ? this.listingBids?.filter((b) => b.userId == this.userId)
+                      ?.length > 0 ?? false
+                  : false;
+              },
+              () => {
+                this.messageService.add({
+                  severity: 'error',
+                  detail: 'There was an error loading auction bids',
+                });
+              },
+              () => {
+                this.getHighestBidAndSetRecommendations();
+              }
+            );
+          } else {
+            this.biddingService.getUserBid(this.listingId).subscribe(
+              (bid) => {
+                this.userBid = bid;
+                this.refreshingSidebar = false;
+              }
+            )
+          }
         },
         () => {
           this.messageService.add({
@@ -191,13 +201,10 @@ export class DetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  purchase(): void {
+  contactSeller(): void {
     this.biddingService.purchaseListing(this.listingId).subscribe(
       (purchase) => {
-        this.messageService.add({
-          severity: 'success',
-          detail: 'You successfully reserved this item',
-        });
+        this.router.navigate(['../..', 'conversations', 'purchase', purchase.conversationId]);
       },
       (error) => {
         this.showConfirmModal = false;
@@ -283,8 +290,8 @@ export class DetailComponent implements OnInit, OnDestroy {
     if (document.hidden) {
       clearInterval(this.refreshInterval);
     } else {
-      this.refreshAuctionBids();
       if (this.listingDetails && this.listingDetails.type == ListingType.Auction) {
+        this.refreshAuctionBids();
         this.refreshInterval = setInterval(() => {
           this.refreshAuctionBids();
         }, 30 * 1000);

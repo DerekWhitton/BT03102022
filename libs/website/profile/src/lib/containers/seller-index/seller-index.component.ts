@@ -255,7 +255,7 @@ export class SellerIndexComponent implements OnInit {
     }));
 
     this.listingSaved$.pipe(first()).subscribe(() => {
-      this.lastListingError$.pipe(filter(e => e != null)).subscribe((error) => {
+      this.lastListingError$.pipe(filter(e => e != null), first()).subscribe((error) => {
         if (!error) {
           this.messageService.add({
             severity: 'success',
@@ -278,7 +278,7 @@ export class SellerIndexComponent implements OnInit {
       this.listingsFacade.dispatch(
         addListing({
           sellerId: this.selectedSellerId,
-          listing: this.addlistingFormGroup.value,
+          listing: listing,
         })
       );
     }
@@ -421,6 +421,7 @@ export class SellerIndexComponent implements OnInit {
       durationInDays: new FormControl(listing?.durationInDays),
       reservePrice: new FormControl(listing?.reservePrice ?? 1),
       priceIncrement: new FormControl(listing?.priceIncrement ?? 1),
+      shippingDetails: new FormControl(listing?.shippingDetails),
       quantity: new FormControl(listing?.quantity ?? 1),
       startDate: new FormControl(
         listing?.startDate

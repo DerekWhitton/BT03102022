@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@bushtrade/app-config';
-import { IConversationMessage, ICreatePurchaseMessage, IPurchaseConversation } from '@bushtrade/website/shared/entites';
+import { IConversationMessage, ICreatePurchaseMessage, IConversation, IPurchaseConversation } from '@bushtrade/website/shared/entites';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,14 @@ export class ConversationsService {
     this.version = configuration.apiVersion;
   }
 
+  loadListingConversations(listingId: string, sellerId: string) {
+    return this.httpClient.get<IPurchaseConversation[]>(
+      `${this.base}api/v${this.version}/Conversations/PurchaseConversations/${listingId}/seller/${sellerId}`
+    );
+  }
+
   loadPurchaseConversation(conversationId: string) {
-    return this.httpClient.get<IPurchaseConversation>(
+    return this.httpClient.get<IConversation>(
       `${this.base}api/v${this.version}/Conversations/PurchaseConversation/${conversationId}`
     );
   }

@@ -18,6 +18,7 @@ export interface ISellerListing {
   type: ListingType;
   priceIncrement: number;
   reservePrice: number;
+  shippingDetails: string;
   active: boolean;
   isPremium: boolean;
   quantity: number;

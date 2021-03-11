@@ -8,5 +8,5 @@ export interface IBid {
   userId: string;
   amount: number;
   placedAt: Date;
-  expiresAt?: Date;
+  conversationId: string;
 }
