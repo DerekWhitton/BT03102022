@@ -20,5 +20,6 @@ export interface IConversation extends IConversationSummary {
 export interface IPurchaseConversation extends IConversationSummary {
   purchaseId: string;
   buyerName: string;
+  isWinner: boolean;
   buyerProfilePicture: string;
 }

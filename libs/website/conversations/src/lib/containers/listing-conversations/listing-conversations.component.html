@@ -9,7 +9,7 @@
 
       <div *ngIf="!loading" class="thread p-card p-mb-5">
         <ng-container *ngFor="let conv of purchaseConversations">
-          <div class="p-mb-4 p-p-3 conversation-card">
+          <div class="p-mb-4 p-p-3 conversation-card" [ngClass]="conv.isWinner ? 'winner-purchase': ''">
             <div class="p-grid">
               <div class="p-col-12 p-md-6 p-lg-3 conversation-title">
                 <div class="profile-image-container">
@@ -26,9 +26,19 @@
               </div>
               <div class="p-col-12 p-md-6 p-lg-3">
                 <button
+                  *ngIf="!listingDetails?.isSold"
                   pButton
                   pRipple
-                  icon="pi pi-chevron-right"
+                  icon="pi pi-dollar"
+                  title="Choose buyer"
+                  class="p-button-rounded p-button-primary p-mr-2"
+                  (click)="showWinnerConfirmation(conv.purchaseId)"
+                ></button>
+                <button
+                  *ngIf="!listingDetails?.isSold || conv.isWinner"
+                  pButton
+                  pRipple
+                  label="View details"
                   title="Go to conversation"
                   class="p-button-rounded p-button-primary p-mr-2"
                   [routerLink]="['../..', 'purchase', conv.id]"
@@ -47,3 +57,39 @@
     </div>
   </div>
 </div>
+
+<p-dialog
+  [(visible)]="showConfirmationModal"
+  [style]="{ width: '500px;' }"
+  [header]="'Confirm chosen buyer'"
+  [modal]="true"
+  [closeOnEscape]="false"
+  (onHide)="selectedConversation = null"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <p>
+      Are you sure you want to choose {{ selectedConversation.buyerName }} as
+      the buyer for this listing? This action cannot be undone.
+    </p>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="this.showConfirmationModal = false"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Confirm"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="confirmChosenWinner()"
+    ></button>
+  </ng-template>
+</p-dialog>

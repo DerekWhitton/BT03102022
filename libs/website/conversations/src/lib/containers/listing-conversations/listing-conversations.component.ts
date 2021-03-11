@@ -1,8 +1,15 @@
 import { MessageService } from 'primeng/api';
-import { IListingDetails, IPurchaseConversation } from '@bushtrade/website/shared/entites';
+import {
+  IListingDetails,
+  IPurchaseConversation,
+} from '@bushtrade/website/shared/entites';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ConversationsService, ListingsService } from '@bushtrade/website/shared/services';
+import {
+  ConversationsService,
+  ListingsService,
+  PurchasesService,
+} from '@bushtrade/website/shared/services';
 import { Store } from '@ngrx/store';
 import { getUserSellers } from 'libs/website/shared/state/src/lib/user/user.selectors';
 import { loadUser } from 'libs/website/shared/state/src/lib/user/user.actions';
@@ -17,14 +24,17 @@ export class ListingConversationsComponent implements OnInit {
   sellerId: string;
   listingDetails: IListingDetails;
   purchaseConversations: IPurchaseConversation[];
+  selectedConversation: IPurchaseConversation;
+  showConfirmationModal: boolean;
   loading = false;
 
   constructor(
     private route: ActivatedRoute,
     private store: Store,
+    private messageService: MessageService,
     private conversationsService: ConversationsService,
     private listingsService: ListingsService,
-    private messageService: MessageService
+    private purchasesService: PurchasesService
   ) {}
 
   ngOnInit(): void {
@@ -35,12 +45,11 @@ export class ListingConversationsComponent implements OnInit {
       if (sellers.length > 0) {
         this.loading = true;
         this.sellerId = sellers[0].id;
-        this.listingsService.loadListingDetails(this.listingId)
-          .subscribe(
-            (listing) => {
-              this.listingDetails = listing;
-            }
-          )
+        this.listingsService
+          .loadListingDetails(this.listingId)
+          .subscribe((listing) => {
+            this.listingDetails = listing;
+          });
         this.conversationsService
           .loadListingConversations(this.listingId, this.sellerId)
           .subscribe(
@@ -58,5 +67,39 @@ export class ListingConversationsComponent implements OnInit {
           );
       }
     });
+  }
+
+  showWinnerConfirmation(purchaseId: string) {
+    [this.selectedConversation] = this.purchaseConversations.filter(
+      (p) => p.purchaseId == purchaseId
+    );
+    this.showConfirmationModal = true;
+  }
+
+  confirmChosenWinner() {
+    this.purchasesService
+      .markPurchaseAsCompleted(
+        this.sellerId,
+        this.selectedConversation.purchaseId
+      )
+      .subscribe(
+        (purchase) => {
+          this.listingDetails.isSold = true;
+          this.purchaseConversations.filter(
+            (p) => p.purchaseId == this.selectedConversation.purchaseId
+          )[0].isWinner = true;
+          this.showConfirmationModal = false;
+          this.messageService.add({
+            severity: 'success',
+            detail: 'Buyer selected successfully',
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'error',
+            detail: 'There was an error saving your choice. Please try again',
+          });
+        }
+      );
   }
 }
