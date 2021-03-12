@@ -1,6 +1,7 @@
 export interface ICategory {
   id: string;
   name: string;
+  orderIndex: number;
   parentId: string;
   categoryIconUri: string;
   categoryBannerUri: string;

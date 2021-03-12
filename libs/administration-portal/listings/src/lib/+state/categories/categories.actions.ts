@@ -18,6 +18,16 @@ export const setSelectedCategory = createAction(
   props<{ id: string }>()
 );
 
+export const switchCategoriesOrder = createAction(
+  '[Categories] Switch Categories Order',
+  props<{ firstCategoryId: string, secondCategoryId: string }>()
+);
+
+export const switchCategoriesOrderSuccess = createAction(
+  '[Categories] Switch Categories Order Success',
+  props<{ firstCategoryId: string, secondCategoryId: string }>()
+);
+
 export const loadCategoryDetails = createAction(
   '[Categories] Load Category Details',
   props<{ categoryId: string; parent: boolean }>()

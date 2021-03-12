@@ -1,3 +1,4 @@
+import { getAllCategories } from './categories.selectors';
 import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
@@ -46,6 +47,16 @@ const categoriesReducer = createReducer(
       ...state,
       selectedId: action.id,
     };
+  }),
+  on(CategoriesActions.switchCategoriesOrderSuccess, (state, action) => {
+    var firstCategory = {...state.entities[action.firstCategoryId]};
+    var secondCategory = {...state.entities[action.secondCategoryId]};
+    var firstOrderIndex = firstCategory.orderIndex;
+    firstCategory.orderIndex = secondCategory.orderIndex;
+    secondCategory.orderIndex = firstOrderIndex;
+    return categoriesAdapter.upsertMany([firstCategory, secondCategory], {
+      ...state
+    })
   }),
   on(CategoriesActions.loadCategoryDetails, (state, action) => {
     return {

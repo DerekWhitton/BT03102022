@@ -28,6 +28,10 @@
       <p-table [value]="categories" dataKey="id">
         <ng-template pTemplate="header">
           <tr>
+            <th style="width: 50px;"></th>
+            <th pSortableColumn="name">
+              Index
+            </th>
             <th pSortableColumn="name">
               Name
             </th>
@@ -37,9 +41,32 @@
         <ng-template pTemplate="body" let-category let-expanded="expanded">
           <tr>
             <td>
-              <a  (click)="onGoDeeper(category)">{{ category.name }}</a>
+              <button
+                class="move-button first-button"
+                *ngIf="category.orderIndex > 1"
+                pButton
+                pRipple
+                title="Move up"
+                icon="pi pi-chevron-up"
+                (click)="moveCategoryUp(category)"
+              ></button>
+              <button
+                class="move-button"
+                *ngIf="category.orderIndex < maxOrderIndex"
+                pButton
+                pRipple
+                title="Move down"
+                icon="pi pi-chevron-down"
+                (click)="moveCategoryDown(category)"
+              ></button>
             </td>
-            <td  class="p-text-right">
+            <td>
+              {{ category.orderIndex }}
+            </td>
+            <td>
+              <a (click)="onGoDeeper(category)">{{ category.name }}</a>
+            </td>
+            <td class="p-text-right">
               <button
                 type="button"
                 pButton
@@ -48,12 +75,12 @@
                 (click)="onGoDeeper(category)"
               ></button>
               <button
-                  pButton
-                  pRipple
-                  icon="pi pi-pencil"
-                  class="p-button-rounded p-button-success p-mr-2"
-                  (click)="handleCategoryUpdateSelection(category.id)"
-                ></button>
+                pButton
+                pRipple
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success p-mr-2"
+                (click)="handleCategoryUpdateSelection(category.id)"
+              ></button>
               <button
                 type="button"
                 pButton
@@ -82,7 +109,7 @@
               <td>
                 <a (click)="onGoDeeper(category)">{{ category.name }}</a>
               </td>
-              <td  class="p-text-right">
+              <td class="p-text-right">
                 <button
                   type="button"
                   pButton
@@ -151,14 +178,23 @@
           Success fee:
         </label>
         <br />
-        <p-inputNumber suffix="%" [min]="0" [max]="100" formControlName="successFee"></p-inputNumber>
+        <p-inputNumber
+          suffix="%"
+          [min]="0"
+          [max]="100"
+          formControlName="successFee"
+        ></p-inputNumber>
       </div>
       <div class="p-field" *ngIf="sub == false">
         <label>
           Maximum fee:
         </label>
         <br />
-        <p-inputNumber prefix="R " [min]="0" formControlName="maximumFee"></p-inputNumber>
+        <p-inputNumber
+          prefix="R "
+          [min]="0"
+          formControlName="maximumFee"
+        ></p-inputNumber>
       </div>
       <div class="p-field" *ngIf="sub == false">
         <label>
@@ -169,7 +205,7 @@
           #categoryIconUpload
           name="categoryIcon"
           customUpload="true"
-          (uploadHandler)="uploadListingImage($event, false)"
+          (uploadHandler)="uploadCategoryImage($event, false)"
         ></p-fileUpload>
 
         <p *ngIf="isUploadingImageFiles">
@@ -194,7 +230,7 @@
           #categoryBannerUpload
           name="categoryBanner"
           customUpload="true"
-          (uploadHandler)="uploadListingImage($event, true)"
+          (uploadHandler)="uploadCategoryImage($event, true)"
         ></p-fileUpload>
 
         <p *ngIf="isUploadingImageFiles">

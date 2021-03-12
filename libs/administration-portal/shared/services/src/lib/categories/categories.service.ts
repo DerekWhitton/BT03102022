@@ -1,3 +1,4 @@
+import { switchCategoriesOrder } from './../../../../../listings/src/lib/+state/categories/categories.actions';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ICategory, ICategoryImage } from '@bushtrade/administration-portal/shared/entites';
@@ -26,6 +27,16 @@ export class CategoriesService {
       `${this.base}api/v${this.version}/Categories`,
       {
         params: { page, perPage, query },
+      }
+    );
+  }
+
+  switchCategoriesOrder(firstCategoryId: string, secondCategoryId: string) {
+    return this.httpClient.post(     
+      `${this.base}api/v${this.version}/Categories/SwitchCategoriesOrder`,
+      {
+        firstCategoryId: firstCategoryId,
+        secondCategoryId: secondCategoryId
       }
     );
   }
