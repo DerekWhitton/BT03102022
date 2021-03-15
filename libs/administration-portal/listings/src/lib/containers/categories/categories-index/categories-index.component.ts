@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import {
   loadCategories,
   loadCategoryDetails,
+  switchCategoriesOrder,
 } from '../../../+state/categories/categories.actions';
 import {
   getAllCategories,
@@ -98,5 +99,14 @@ export class CategoriesIndexComponent implements OnInit {
         },
       });
     }
+  }
+
+  switchCategoriesOrder(categoryIds)
+  {
+    var firstCategoryId = categoryIds[0];
+    var secondCategoryId = categoryIds[1];
+    this.store.dispatch(
+      switchCategoriesOrder({firstCategoryId, secondCategoryId})
+    );
   }
 }

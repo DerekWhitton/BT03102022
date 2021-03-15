@@ -31,6 +31,7 @@ export class CategoriesComponent implements OnInit {
   @Input() loaded;
   @Output() goDeeper = new EventEmitter();
   @Output() jumpChain = new EventEmitter();
+  @Output() switchCategoriesOrder = new EventEmitter();
   @ViewChild('categoryIconUpload') categoryIconUpload: any;
   @ViewChild('categoryBannerUpload') categoryBannerUpload: any;
 
@@ -60,6 +61,7 @@ export class CategoriesComponent implements OnInit {
   ];
   categoryProperties: object[];
   isUploadingImageFiles: boolean;
+  maxOrderIndex: number;
 
   categoryForm: FormGroup;
   addPropertyFormGroup: FormGroup;
@@ -74,6 +76,7 @@ export class CategoriesComponent implements OnInit {
     this.initializeCategoryForm();
     this.initializeCategoryProperyForm();
     this.parentCategoryId = '';
+    this.maxOrderIndex = Math.max(...this.categories.map(c => c.orderIndex));
   }
 
   onGoDeeper(data) {
@@ -168,7 +171,7 @@ export class CategoriesComponent implements OnInit {
     this.displayCreateDialog = true;
   }
 
-  async uploadListingImage(event, isBanner: boolean) {
+  async uploadCategoryImage(event, isBanner: boolean) {
     const file = event.files[0];
 
     this.isUploadingImageFiles = true;
@@ -195,6 +198,18 @@ export class CategoriesComponent implements OnInit {
 
   removeCategoryBanner() {
     this.categoryForm.controls.categoryBannerUri.setValue(null);
+  }
+
+  moveCategoryUp(category) {
+    var index = this.categories.indexOf(category);
+    var categoryAbove = this.categories[index-1];
+    this.switchCategoriesOrder.emit([category.id, categoryAbove.id]);
+  }
+
+  moveCategoryDown(category) {
+    var index = this.categories.indexOf(category);
+    var categoryBelow = this.categories[index+1];
+    this.switchCategoriesOrder.emit([category.id, categoryBelow.id]);
   }
 
   private initializeCategoryForm(category: ICategory = null) {

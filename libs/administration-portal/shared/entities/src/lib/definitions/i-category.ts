@@ -6,6 +6,7 @@ export interface ICategory {
   properties: ICategoryProperty[];
   isActive: boolean;
   isFeatured: boolean;
+  orderIndex: number;
   successFee: number;
   maximumFee: number;
   categoryIconUri: string;

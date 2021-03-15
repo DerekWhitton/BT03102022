@@ -26,6 +26,25 @@ export class CategoriesEffects implements OnInitEffects {
     )
   );
 
+  switchCategoriesOrder$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CategoriesActions.switchCategoriesOrder),
+      exhaustMap((action) =>
+        this.categoryService.switchCategoriesOrder(action.firstCategoryId, action.secondCategoryId).pipe(
+          map(() =>
+            CategoriesActions.switchCategoriesOrderSuccess({
+              firstCategoryId: action.firstCategoryId,
+              secondCategoryId: action.secondCategoryId
+            })
+          ),
+          catchError((error) =>
+            of(CategoriesActions.loadCategoryDetailsFailure({ error }))
+          )
+        )
+      )
+    );
+  });
+
   loadCategoryDetails$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CategoriesActions.loadCategoryDetails),

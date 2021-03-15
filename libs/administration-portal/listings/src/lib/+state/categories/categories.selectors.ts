@@ -36,7 +36,11 @@ export const getCategoriesError = createSelector(
 
 export const getAllCategories = createSelector(
   getCategoriesState,
-  (state: State) => selectAll(state)
+  (state: State) => {
+    var categories = Object.values(state.entities);
+    categories = categories.sort((c1,c2) => c1.orderIndex - c2.orderIndex);
+    return categories;
+  }
 );
 
 export const getCategoriesEntities = createSelector(
