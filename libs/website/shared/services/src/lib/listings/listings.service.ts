@@ -5,6 +5,8 @@ import {
   ICreateOrUpdateListing,
   IListing,
   IListingDetails,
+  IListingPremiumPackage,
+  IListingPremiumPackageRequest,
   IListingSeller,
   IPaginatedResponse,
   ISellerListing,
@@ -69,6 +71,12 @@ export class ListingsService {
     );
   }
 
+  getPremiumPackageHistory(sellerId: string, listingId: string) {
+    return this.httpClient.get<IListingPremiumPackage[]>(
+      `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings/PremiumPackageHistory?listingId=${listingId}`
+    );
+  }
+
   updateSellerListing(
     sellerId: string,
     listingId: string,
@@ -102,6 +110,15 @@ export class ListingsService {
       `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings`,
       {
         ...listing,
+      }
+    );
+  }
+
+  addListingPremiumPackage(sellerId: string, listingPremiumPackage: IListingPremiumPackageRequest) {
+    return this.httpClient.post<IListingPremiumPackage>(
+      `${this.base}api/v${this.version}/Sellers/${sellerId}/AddPremiumPackage`,
+      {
+        ...listingPremiumPackage,
       }
     );
   }

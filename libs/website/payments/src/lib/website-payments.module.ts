@@ -9,11 +9,11 @@ import { CancelledComponent } from './containers/cancelled/cancelled.component';
     CommonModule,
     RouterModule.forChild([
       {
-        path: 'success/:purchaseId',
+        path: 'success',
         component: SuccessComponent,
       },
       {
-        path: 'cancelled/:purchaseId',
+        path: 'cancelled',
         component: CancelledComponent,
       },
     ]),

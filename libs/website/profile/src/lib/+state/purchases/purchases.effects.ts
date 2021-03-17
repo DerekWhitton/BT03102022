@@ -44,7 +44,7 @@ export class PurchasesEffects implements OnInitEffects {
       fetch({
         run: (action) => {
           return this.purchasesSvc
-            .getPaymentDetails(action.id)
+            .getListingPaymentDetails(action.id)
             .pipe(
               map((details) =>
                 PurchasesActions.loadPaymentDetailsSuccess({ details })
@@ -66,7 +66,7 @@ export class PurchasesEffects implements OnInitEffects {
       fetch({
         run: (action) => {
           return this.purchasesSvc
-            .cancelPurchase(action.id)
+            .cancelListingPurchase(action.id)
             .pipe(
               map(() =>
                 PurchasesActions.cancelPurchaseSuccess({ id: action.id })

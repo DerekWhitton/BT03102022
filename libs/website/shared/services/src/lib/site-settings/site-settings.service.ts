@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@bushtrade/app-config';
-import { IAuctionDurationSetting } from '@bushtrade/website/shared/entites';
+import { IAuctionDurationSetting, IPremiumPackageSetting } from '@bushtrade/website/shared/entites';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,12 @@ export class SiteSettingsService {
   loadAuctionDurationSettings() {
     return this.httpClient.get<IAuctionDurationSetting[]>(
       `${this.base}api/v${this.version}/SiteSettings/AuctionDurationSettings`
+    );
+  }
+
+  getPremiumPackagesSettings() {
+    return this.httpClient.get<IPremiumPackageSetting[]>(
+      `${this.base}api/v${this.version}/SiteSettings/PremiumPackagesSettings`
     );
   }
 }

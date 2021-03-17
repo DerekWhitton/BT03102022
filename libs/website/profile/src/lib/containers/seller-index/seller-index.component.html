@@ -46,6 +46,7 @@
                 icon="pi pi-money-bill"
                 title="Make listing Premium"
                 class="p-button-rounded p-button-success p-mr-2"
+                (click)="showPremiumPackagesModal(rowData.id)"
               ></button>
             </td>
             <td>
@@ -407,6 +408,16 @@
     </div>
   </form>
 </ng-template>
+
+<website-premium-package-modal
+  *ngIf="premiumPackagesModalVisible"
+  [sellerId]="selectedSellerId"
+  [listingId]="selectedListingId"
+  [visible]="premiumPackagesModalVisible"
+  (packageActivated)="premiumPackageActivated()"
+  (closeEvent)="closePremiumPackagesModal()"
+>
+</website-premium-package-modal>
 
 <p-dialog
   [(visible)]="displayStartSellingDialog"

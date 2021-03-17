@@ -16,18 +16,16 @@ export class CancelledComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    var params = this.route.snapshot.params;
+    var params = this.route.snapshot.queryParams;
 
     if (params.purchaseId) {
-      this.purchaseService.cancelPurchase(params.purchaseId)
-        .subscribe(
-          () => {
-            this.paymentCancelled = true;
-          },
-          () => {
-            
-          }
-        );
+      this.purchaseService.cancelListingPurchase(params.purchaseId).subscribe(
+        () => {
+          this.paymentCancelled = true;
+        },
+        () => {}
+      );
+    } else if (params.premiumPackageId) {
     }
   }
 }

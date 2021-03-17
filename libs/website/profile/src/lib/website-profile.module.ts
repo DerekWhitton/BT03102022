@@ -17,6 +17,7 @@ import { ProfileIndexComponent } from './containers/profile-index/profile-index.
 import { PurchasesIndexComponent } from './containers/purchases-index/purchases-index.component';
 import { SellerIndexComponent } from './containers/seller-index/seller-index.component';
 import { UserComponent } from './containers/user/user.component';
+import { PremiumPackageModalComponent } from './containers/premium-package-modal/premium-package-modal.component';
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { UserComponent } from './containers/user/user.component';
     SellerIndexComponent,
     UserComponent,
     PurchasesIndexComponent,
+    PremiumPackageModalComponent,
   ],
   providers: [ListingsFacade, PurchasesFacade],
 })
