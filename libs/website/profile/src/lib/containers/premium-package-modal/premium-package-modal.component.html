@@ -1,0 +1,111 @@
+<p-dialog
+  [(visible)]="visible"
+  header="Listing Premium Packages"
+  [style]="{ width: '1050px' }"
+  [modal]="true"
+  (onHide)="closeModal()"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <progress-spinner *ngIf="loading"></progress-spinner>
+    <div *ngIf="!loading">
+      <div class="p-grid">
+        <progress-spinner class="premium-packages-spinner" *ngIf="placingPackage"></progress-spinner>
+        <div class="p-col-4" *ngFor="let package of premiumPackages">
+          <div
+            *ngIf="!placingPackage && selectedPackageId && package.id == selectedPackageId"
+            class="p-shadow-5 p-m-2 premium-package-overlay"
+            (click)="addPremiumPackage()"
+          >
+            Click to confirm selection
+          </div>          
+          <div
+            [ngClass]="confirmedPackageId && package.id == confirmedPackageId ? 'confirmed' : ''"
+            class="p-shadow-5 p-m-2 premium-package-card"
+            (click)="selectPackage(package.id)"
+          >
+            <h3>R {{ package.price }}</h3>
+            <p style="text-align: center;">
+              Active for
+              <span style="font-weight: bold;"
+                >{{ package.numberOfDays }} days</span
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+      <form
+        ngNoForm
+        method="POST"
+        [action]="paymentDetails?.url"
+        #payFastForm
+      >
+        <div *ngIf="paymentDetails && !paymentDetails.paid">
+          <input
+            type="hidden"
+            [value]="field.value"
+            [name]="field.key"
+            [id]="field.key"
+            *ngFor="let field of paymentDetails.fields | keyvalue: 0"
+          />
+          <p-button
+            label="Proceed to PayFast"
+            type="submit"
+          ></p-button>
+        </div>
+      </form>
+      <div *ngIf="!listingPremiumPackages || listingPremiumPackages.length == 0">
+        <h2>No Premium Packages available for this listing</h2>
+      </div>
+      <p-table
+        *ngIf="listingPremiumPackages && listingPremiumPackages.length > 0"
+        [value]="listingPremiumPackages"
+      >
+        <ng-template pTemplate="caption">
+          <div class="p-d-flex p-ai-center p-jc-between">
+            History
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Number of days</th>
+            <th>Price paid</th>
+            <th>Date activated</th>
+            <th>Expires on</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-premiumPackage>
+          <tr>
+            <td>{{ premiumPackage.numberOfDays }}</td>
+            <td>R {{ premiumPackage.price }}</td>
+            <td>
+              <span *ngIf="premiumPackage.dateActivated">{{
+                premiumPackage.dateActivated | date: 'dd-MMM-yyyy HH:mm'
+              }}</span>
+              <span *ngIf="!premiumPackage.dateActivated">Not active</span>
+            </td>
+            <td>
+              <div *ngIf="premiumPackage.expiryDate">
+                <span *ngIf="premiumPackage.expiryDate > currentDate"
+                  >Active package.<br />Expires on
+                </span>
+                {{ premiumPackage.expiryDate | date: 'dd-MMM-yyyy HH:mm' }}
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Close"
+      icon="pi pi-times"
+      class="p-button-text p-button-danger"
+      (click)="closeModal()"
+    ></button>
+  </ng-template>
+</p-dialog>

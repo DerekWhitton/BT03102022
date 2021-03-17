@@ -24,3 +24,6 @@ export * from './conversations/i-purchase-conversation';
 export * from './conversations/i-conversation-message';
 export * from './conversations/i-create-purchase-message';
 export * from './site-settings/i-auction-duration-setting';
+export * from './site-settings/i-premium-package-setting';
+export * from './listings/i-listing-premium-package';
+export * from './listings/i-listing-premium-package-request';

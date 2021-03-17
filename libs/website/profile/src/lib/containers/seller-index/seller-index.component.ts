@@ -99,6 +99,8 @@ export class SellerIndexComponent implements OnInit {
   editModalDataIsInitializing: boolean;
   editListingPropertyValues: ISellerListingPropertyValue[] = [];
   isUploadingImageFiles: boolean;
+  selectedListingId: string;
+  premiumPackagesModalVisible: boolean;
 
   constructor(
     private store: Store,
@@ -291,6 +293,20 @@ export class SellerIndexComponent implements OnInit {
       })
     );
     this.displayStartSellingDialog = false;
+  }
+
+  showPremiumPackagesModal(listingId: string) {
+    this.selectedListingId = listingId;
+    this.premiumPackagesModalVisible = true;
+  }
+
+  closePremiumPackagesModal() {
+    this.selectedListingId = null;
+    this.premiumPackagesModalVisible = false;
+  }
+
+  premiumPackageActivated() {
+    
   }
 
   clearForm() {

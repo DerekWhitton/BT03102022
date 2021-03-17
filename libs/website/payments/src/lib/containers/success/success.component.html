@@ -3,8 +3,11 @@
     <div class="thread p-card p-p-5 p-mt-5 p-mb-5">
       <h1>Payment Successful</h1>
       <hr />
-      Your payment was received successfully. You can review the purchase
-      <a [routerLink]="['/', 'profile', 'purchases']">here</a>.
+      Your <span>{{ entityLabel }}</span> payment was received successfully.
+      <span *ngIf="isListingPayment"
+        >You can review the purchase
+        <a [routerLink]="['/', 'profile', 'purchases']">here</a>.
+      </span>
     </div>
   </div>
 </div>

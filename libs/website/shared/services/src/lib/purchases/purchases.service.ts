@@ -36,9 +36,15 @@ export class PurchasesService {
     );
   }
 
-  getPaymentDetails(id: string) {
+  getListingPaymentDetails(id: string) {
     return this.httpClient.get<IPaymentDetails>(
-      `${this.base}api/v${this.version}/Purchases/${id}/PaymentDetails`
+      `${this.base}api/v${this.version}/Purchases/${id}/ListingPaymentDetails`
+    );
+  }
+
+  getPremiumPackagePaymentDetails(sellerId: string, listingPremiumPackageId: string) {
+    return this.httpClient.get<IPaymentDetails>(
+      `${this.base}api/v${this.version}/Purchases/${sellerId}/PremiumPackagePaymentDetails/${listingPremiumPackageId}`
     );
   }
 
@@ -51,9 +57,9 @@ export class PurchasesService {
     );
   }
 
-  cancelPurchase(id: string) {
+  cancelListingPurchase(id: string) {
     return this.httpClient.delete(
-      `${this.base}api/v${this.version}/Purchases/CancelPurchase/${id}`
+      `${this.base}api/v${this.version}/Purchases/CancelListingPurchase/${id}`
     );
   }
 }
