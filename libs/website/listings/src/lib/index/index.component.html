@@ -20,6 +20,68 @@
   </div>
 </div>
 
+
+<p-sidebar [(visible)]="displayFilters" [style]="{width:'90%'}" *ngIf="mobile">
+
+
+    <p>
+      Displaying 
+      {{ searchResponse?.items.length * searchResponse?.page }}/{{
+        searchResponse?.totalItems
+      }}
+      items
+    </p>
+
+
+
+    <h4 class="p-mt-3">
+      Categories
+      <span style="float: right;"
+        ><a (click)="handleCategorySelection(null)"> All</a></span
+      >
+    </h4>
+
+    <ul class="category-list">
+      <li *ngFor="let category of subCategories">
+        <a (click)="changeSubCategory(category.id)">{{ category.name }}</a>
+      </li>
+
+      <li *ngIf="parentCategory != ''">
+        <a (click)="getParentCategory()">Back</a>
+      </li>
+    </ul>
+
+    <hr />
+    <h4 class="p-pt-0 p-mt-1">
+      PRICE
+    </h4>
+    <div class="p-grid">
+      <div class="p-col">
+        <div class="p-mb-2" *ngIf="searchPriceRange">
+          {{ searchPriceRange[0] + ' - ' + searchPriceRange[1] }}
+        </div>
+        <p-slider
+          [(ngModel)]="searchPriceRange"
+          [range]="true"
+          [step]="100"
+          [min]="0"
+          [max]="maxPrice"
+          (onSlideEnd)="navigate()"
+        ></p-slider>
+      </div>
+    </div>
+    <bushtrade-search-facet
+      [facet]="facet"
+      *ngFor="let facet of facetsResponse"
+      [selectedFacets]="facets"
+      (facetSelected)="handleFacetSelection($event)"
+    ></bushtrade-search-facet>
+
+
+</p-sidebar>
+
+
+
 <div class="p-grid">
   <ng-template #noSearchResponse>
     <div class="p-col-12 p-text-center">
@@ -27,17 +89,20 @@
     </div>
   </ng-template>
 
+  
   <div
     class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2"
     *ngIf="searchResponse; else noSearchResponse"
   >
     <div class="p-grid">
-      <div class="p-col-12 p-mb-4">
+      <div class="p-col-12 p-mb-4 p-d-none p-d-md-block">
         <h3 class="p-text-center">
           Browse <ng-container *ngIf="type == 0">auctions</ng-container>
           <ng-container *ngIf="type == 1">items for sale</ng-container> by
           category
         </h3>
+
+
         <div class="p-d-flex p-jc-evenly p-flex-wrap">
           <div
             class="p-mr-2 p-mb-2 p-text-center category-button"
@@ -60,13 +125,21 @@
         </div>
       </div>
 
-      <div class="p-md-12 p-lg-3 sidebar">
-        <p>
+      <div class="p-d-md-none p-col-12 p-mt-3" *ngIf="mobile">
+      <p-button type="text" (click)="displayFilters = true" icon="pi pi-sliders-v" label="View Filters"></p-button>
+      </div>
+
+      <div class="p-col-3 sidebar">
+       
+        <p *ngIf="searchResponse?.totalItems > 0">
+          Displaying 
           {{ searchResponse?.items.length * searchResponse?.page }}/{{
             searchResponse?.totalItems
           }}
           items
         </p>
+
+
 
         <h4>
           Categories
@@ -112,7 +185,7 @@
         ></bushtrade-search-facet>
       </div>
 
-      <div class="p-md-12 p-lg-9">
+      <div class="p-col-12 p-sm-9">
         <div class="p-grid">
           <ng-container *ngIf="searchResponse?.items.length > 0; else noItems">
             <bushtrade-web-product-item

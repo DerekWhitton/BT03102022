@@ -12,10 +12,20 @@ export class WebsiteFooterComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
+    var scriptUrl = 'https://js.createsend1.com/javascript/copypastesubscribeformlogic.js';
+    let node = document.createElement('script');
+    node.src = scriptUrl;
+    node.type = 'text/javascript';
+    node.async = true;
+    node.charset = 'utf-8';
+    document.getElementsByTagName('head')[0].appendChild(node);
+
   }
 
   login() {
     this.signIn.emit();
   }
 
+  
 }
