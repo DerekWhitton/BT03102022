@@ -25,6 +25,8 @@ export class IndexComponent implements OnInit {
   facets: { key: string; value: string }[] = [];
   categoryId: string;
   maxPrice: number;
+  displayFilters: boolean = false;
+  mobile: boolean = false;
 
   routerSubscription$: Subscription;
   searchSubscription$: Subscription;
@@ -49,6 +51,11 @@ export class IndexComponent implements OnInit {
         this.buildAndActionQueries();
       }
     });
+
+    if (window.screen.width < 768) {
+      // 768px portrait
+      this.mobile = true;
+    }
   }
 
   ngOnInit(): void {
