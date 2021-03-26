@@ -16,9 +16,8 @@
           Amount
         </th>
         <th>
-          Paid
+          Status
         </th>
-        <th></th>
         <th></th>
       </tr>
     </ng-template>
@@ -28,40 +27,54 @@
           {{ purchase.listing.name }}
         </td>
         <td>R{{ purchase.bid.amount.toFixed(2) }}</td>
-        <td *ngIf="purchase.paidAt; else notPaid">
-          {{ purchase.paidAt | date }}
+        <td *ngIf="purchase.dateCompleted">
+          Completed on {{ purchase.dateCompleted | date }}
         </td>
-        <ng-template #notPaid>
-          <td>Not Paid</td>
-        </ng-template>
-
-        <td *ngIf="!purchase.paidAt">
-          <p-button
-            label="Pay Now"
-            (click)="initiatePayment(purchase.id)"
-          ></p-button>
+        <td *ngIf="purchase.dateCancelled">
+          Cancelled on {{ purchase.dateCancelled | date }}
         </td>
-        <td *ngIf="!purchase.paidAt">
-          <p-button
-            label="Cancel Purchase"
-            (click)="cancelPurchase(purchase.id)"
-          ></p-button>
+        <td *ngIf="!purchase.dateCompleted && !purchase.dateCancelled">
+          Pending
         </td>
-        <td *ngIf="purchase.paidAt">
-          <p-button
-            icon="pi pi-comments"
-            [routerLink]="['../..', 'conversations', 'purchase', purchase.conversationId]"
-          ></p-button>
-          <button pButton
-            style="margin-top: 5px;"
-            class="p-button-raised p-button-success"
-            label="Received goods"
-          ></button>
-          <button pButton
-            style="margin-top: 5px;"
-            class="p-button-raised p-button-danger"
-            label="Dispute"
-          ></button>
+        <td>
+          <div
+            *ngIf="!purchase.dateCompleted && !purchase.dateCancelled && purchase.listing.type == listingType.Auction"
+          >
+            <p-button
+              label="Pay Now"
+              (click)="initiatePayment(purchase.id)"
+            ></p-button>
+            <p-button
+              label="Cancel Purchase"
+              (click)="cancelPurchase(purchase.id)"
+            ></p-button>
+          </div>
+          <div>
+            <p-button
+              *ngIf="purchase.conversationId"
+              icon="pi pi-comments"
+              [routerLink]="['../..', 'conversations', 'purchase', purchase.conversationId]"
+            ></p-button>
+            <button
+              *ngIf="purchase.dateCompleted && purchase.listing.type == listingType.Auction"
+              pButton
+              style="margin-top: 5px;"
+              class="p-button-raised p-button-success"
+              label="Received goods"
+            ></button>
+            <button
+              *ngIf="purchase.dateCompleted && purchase.listing.type == listingType.Auction"
+              pButton
+              style="margin-top: 5px;"
+              class="p-button-raised p-button-danger"
+              label="Dispute"
+            ></button>
+            <p-button
+              *ngIf="!purchase.dateCompleted && !purchase.dateCancelled && purchase.listing.type == listingType.Sale"
+              label="Cancel Purchase"
+              (click)="cancelPurchase(purchase.id)"
+            ></p-button>
+          </div>
         </td>
       </tr>
     </ng-template>

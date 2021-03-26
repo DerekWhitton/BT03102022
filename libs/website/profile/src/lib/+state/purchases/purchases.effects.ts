@@ -68,8 +68,8 @@ export class PurchasesEffects implements OnInitEffects {
           return this.purchasesSvc
             .cancelListingPurchase(action.id)
             .pipe(
-              map(() =>
-                PurchasesActions.cancelPurchaseSuccess({ id: action.id })
+              map((response) =>
+                PurchasesActions.cancelPurchaseSuccess({ purchase: response })
               )
             );
         },

@@ -4,9 +4,7 @@ import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConversationsService } from '@bushtrade/website/shared/services';
-import {
-  IConversation
-} from '@bushtrade/website/shared/entites';
+import { IConversation } from '@bushtrade/website/shared/entites';
 
 @Component({
   selector: 'bushtrade-web-purchase-conversation',
@@ -33,19 +31,20 @@ export class PurchaseConversationComponent implements OnInit {
   ngOnInit(): void {
     this.conversationId = this.route.snapshot.params?.conversationId;
     if (this.conversationId) {
-      this.conversationsService
-        .loadPurchaseConversation(this.conversationId)
+      this.store.select(getUserSellers).subscribe((sellers: any) => {
+        let isSellerUser = false;
+        if (sellers.length > 0) {
+          this.sellerId = sellers[0].id;
+          isSellerUser = true;
+        }
+
+        this.conversationsService
+        .loadPurchaseConversation(this.conversationId, isSellerUser)
         .subscribe((conversation) => {
           this.conversation = conversation;
-          if (conversation.isSellerConversation) {
-            this.store.select(getUserSellers).subscribe((sellers: any) => {
-              if (sellers.length > 0) {
-                this.sellerId = sellers[0].id;
-              }
-            });
-          }
           this.loadMoreMessages();
         });
+      });
       this.store.dispatch(loadUser());
     }
   }

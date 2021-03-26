@@ -51,8 +51,8 @@ const purchasesReducer = createReducer(
     loadedPaymentDetails: true,
     paymentDetails: details,
   })),
-  on(PurchasesActions.cancelPurchaseSuccess, (state, { id }) =>
-    purchasesAdapter.removeOne(id, {
+  on(PurchasesActions.cancelPurchaseSuccess, (state, { purchase }) =>
+    purchasesAdapter.upsertOne(purchase, {
       ...state,
       loaded: true,
     })

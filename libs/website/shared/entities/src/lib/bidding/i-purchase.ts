@@ -8,6 +8,6 @@ export interface IPurchase {
   listing: IListing;
   bid: IBid;
   purchasedAt: Date;
-  paidAt: null;
-  expiresAt?: Date;
+  dateCompleted: Date;
+  dateCancelled: Date;
 }
