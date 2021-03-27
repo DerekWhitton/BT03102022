@@ -1,9 +1,10 @@
 import { loadPurchases } from './../../+state/purchases/purchases.actions';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IPaymentDetails, IPurchase, ListingType } from '@bushtrade/website/shared/entites';
 import { Observable } from 'rxjs';
 import { cancelPurchase, loadPaymentDetails } from '../../+state/purchases/purchases.actions';
 import { PurchasesFacade } from '../../+state/purchases/purchases.facade';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'bushtrade.web-purchases-index',
@@ -16,6 +17,9 @@ export class PurchasesIndexComponent implements OnInit {
   paymentDetailsLoaded$: Observable<boolean>;
   purchases$: Observable<IPurchase[]>;
   paymentDetails$: Observable<IPaymentDetails>;
+  purchasetypes: any[];
+
+  @ViewChild('dt') table: Table;
 
   showPurchaseDetailDialog: boolean = false;
 
@@ -27,6 +31,12 @@ export class PurchasesIndexComponent implements OnInit {
     this.purchases$ = this.purchasesFacade.allPurchases$;
     this.paymentDetails$ = this.purchasesFacade.paymentDetails$;
     this.purchasesFacade.dispatch(loadPurchases());
+
+    this.purchasetypes = [
+      {label:"Listing", value:1},
+      {label:"Auction", value:0},
+  ];
+
   }
 
   initiatePayment(id: string) {
@@ -37,4 +47,9 @@ export class PurchasesIndexComponent implements OnInit {
   cancelPurchase(id: string) {
     this.purchasesFacade.dispatch(cancelPurchase({ id }));
   }
+
+  onPurchaseTypeChange(event) {
+    console.log(event.value);
+    this.table.filter(event.value, 'listing.type', 'equals')
+}
 }
