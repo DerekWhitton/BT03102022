@@ -26,7 +26,7 @@
               </div>
               <div class="p-col-12 p-md-6 p-lg-3">
                 <button
-                  *ngIf="!listingDetails?.isSold"
+                  *ngIf="!listingDetails?.isSold && !conv.dateCancelled"
                   pButton
                   pRipple
                   icon="pi pi-dollar"

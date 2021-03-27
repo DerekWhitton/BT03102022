@@ -22,4 +22,5 @@ export interface IPurchaseConversation extends IConversationSummary {
   buyerName: string;
   isWinner: boolean;
   buyerProfilePicture: string;
+  dateCancelled: Date;
 }

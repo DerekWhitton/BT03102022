@@ -34,7 +34,7 @@ export const cancelPurchase = createAction(
 
 export const cancelPurchaseSuccess = createAction(
   '[Purchases] Cancel Payment Success',
-  props<{ id: string }>()
+  props<{ purchase: IPurchase }>()
 );
 
 export const cancelPurchaseFailure = createAction(

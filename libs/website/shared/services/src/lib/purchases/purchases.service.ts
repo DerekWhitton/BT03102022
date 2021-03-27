@@ -58,7 +58,7 @@ export class PurchasesService {
   }
 
   cancelListingPurchase(id: string) {
-    return this.httpClient.delete(
+    return this.httpClient.delete<IPurchase>(
       `${this.base}api/v${this.version}/Purchases/CancelListingPurchase/${id}`
     );
   }

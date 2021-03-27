@@ -1,5 +1,6 @@
+import { loadPurchases } from './../../+state/purchases/purchases.actions';
 import { Component, OnInit } from '@angular/core';
-import { IPaymentDetails, IPurchase } from '@bushtrade/website/shared/entites';
+import { IPaymentDetails, IPurchase, ListingType } from '@bushtrade/website/shared/entites';
 import { Observable } from 'rxjs';
 import { cancelPurchase, loadPaymentDetails } from '../../+state/purchases/purchases.actions';
 import { PurchasesFacade } from '../../+state/purchases/purchases.facade';
@@ -10,6 +11,7 @@ import { PurchasesFacade } from '../../+state/purchases/purchases.facade';
   styleUrls: ['./purchases-index.component.scss'],
 })
 export class PurchasesIndexComponent implements OnInit {
+  listingType = ListingType;
   loaded$: Observable<boolean>;
   paymentDetailsLoaded$: Observable<boolean>;
   purchases$: Observable<IPurchase[]>;
@@ -24,6 +26,7 @@ export class PurchasesIndexComponent implements OnInit {
     this.paymentDetailsLoaded$ = this.purchasesFacade.paymentDetailsLoaded$;
     this.purchases$ = this.purchasesFacade.allPurchases$;
     this.paymentDetails$ = this.purchasesFacade.paymentDetails$;
+    this.purchasesFacade.dispatch(loadPurchases());
   }
 
   initiatePayment(id: string) {
