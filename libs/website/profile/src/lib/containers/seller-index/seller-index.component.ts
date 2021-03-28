@@ -419,6 +419,10 @@ export class SellerIndexComponent implements OnInit {
           reservePrice: this.addlistingFormGroup.value.startingPrice,
         });
       }
+      this.addlistingFormGroup.patchValue({
+        priceIncrement: Math.round(this.addlistingFormGroup.value.startingPrice * 0.20),
+      });
+
     }
   }
 

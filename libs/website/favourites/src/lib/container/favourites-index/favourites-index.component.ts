@@ -44,8 +44,6 @@ export class FavouritesIndexComponent implements OnInit {
       this.loggedIn  = true;
     }
 
-    console.log(this.loggedIn);
-
     this.selectableListingTypes = Object.keys(ListingType)
       .filter((s) => isNaN(Number(s)))
       .map((s) => {

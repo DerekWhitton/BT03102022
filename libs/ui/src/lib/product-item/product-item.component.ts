@@ -12,6 +12,10 @@ export class ProductItemComponent implements OnInit {
 
   ListingType = ListingType;
 
+
+  todayNumber: number = Date.now();
+
+  
   constructor(private listingsService: ListingsService) {}
 
   ngOnInit(): void {}

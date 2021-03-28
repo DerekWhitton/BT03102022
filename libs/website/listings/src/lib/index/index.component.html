@@ -58,7 +58,7 @@
     <div class="p-grid">
       <div class="p-col">
         <div class="p-mb-2" *ngIf="searchPriceRange">
-          {{ searchPriceRange[0] + ' - ' + searchPriceRange[1] }}
+          <p class="p-mt-0 p-pt-0">{{searchPriceRange[0] | currency:'R'}} - {{searchPriceRange[1] | currency:'R'}}</p>
         </div>
         <p-slider
           [(ngModel)]="searchPriceRange"
@@ -160,12 +160,12 @@
 
         <hr />
         <h4 class="p-pt-0 p-mt-1">
-          PRICE
+          Price 
         </h4>
         <div class="p-grid">
           <div class="p-col">
             <div class="p-mb-2" *ngIf="searchPriceRange">
-              {{ searchPriceRange[0] + ' - ' + searchPriceRange[1] }}
+              <p class="p-mt-0 p-pt-0">{{searchPriceRange[0] | currency:'R'}} - {{searchPriceRange[1] | currency:'R'}}</p>
             </div>
             <p-slider
               [(ngModel)]="searchPriceRange"
