@@ -18,7 +18,7 @@
       />
     </div>
     <div class="p-col-12 p-md-6">
-      <span *ngIf="item.isPremium" class="p-tag p-tag-warning premium-tag">Premium</span>
+      <!-- <span *ngIf="item.isPremium" class="p-tag p-tag-warning premium-tag">Premium</span> -->
       <h4 class="p-mt-0">{{ item.name }}</h4>
       <p>{{  (item.description.length > 120)? (item.description | slice:0:120)+'...':(item.description) }}</p>
       <bushtrade-web-countdown-timer
@@ -32,16 +32,19 @@
           <i class="pi pi-heart" [ngClass]="item.isFavorite ? 'favorite' : ''"></i>
         </a>
       </div>
+      <p>Location</p>
+      <p>{{item.createdAt | date:'short'}}</p>
 
       <h3>
-        {{ item.type == ListingType.Auction ? 'Starting at ' : '' }} R{{
-          item.startingPrice
+        {{ item.type == ListingType.Auction ? 'Starting at ' : '' }} {{
+          item.startingPrice  | currency:"R "
         }}
       </h3>
       <button
         pButton
         type="button"
-        class="p-button-raised p-button-brown"
+        class="p-button-raised"
+        [ngClass]="{'p-button-gold' : item.isPremium,  'p-button-brown' : !item.isPremium}"
         label="View this item"
         [routerLink]="['/', 'listings', item.id]"
       ></button>

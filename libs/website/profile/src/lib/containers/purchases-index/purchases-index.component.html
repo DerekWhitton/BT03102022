@@ -63,7 +63,7 @@
         <td>
           {{ purchase.listing.name }}
         </td>
-        <td>R{{ purchase.amount.toFixed(2) }}</td>
+        <td>{{ purchase.bid.amount.toFixed(2)  | currency:"R " }}</td>
         <td *ngIf="purchase.dateCompleted">
           Completed on {{ purchase.dateCompleted | date }}
         </td>

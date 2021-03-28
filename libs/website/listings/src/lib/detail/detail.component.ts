@@ -1,5 +1,11 @@
 import { SearchService } from './../../../../shared/services/src/lib/search/search.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  Input,
+
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import {
@@ -24,6 +30,10 @@ import { forkJoin, Observable } from 'rxjs';
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit, OnDestroy {
+
+  
+  loggedIn = false;
+
   refreshInterval: number;
   visibilityChangedListenerFunction: any;
   detailsLoading: boolean;
@@ -44,10 +54,11 @@ export class DetailComponent implements OnInit, OnDestroy {
   userHasPlacedBid: boolean = false;
   userHasWinningBid: boolean = false;
   suggestions: any[];
-  suggestedListings: IListing[]; 
+  suggestedListings: IListing[];
   maxLatestListings: number = 16;
   latestItems: IListing[];
   displayCustom: boolean;
+  customBid: string;
 
   activeIndex: number = 0;
   paymentDetails: any;
@@ -63,19 +74,14 @@ export class DetailComponent implements OnInit, OnDestroy {
     private searchService: SearchService
   ) {}
 
-  messages: any = [
-    {
-      severity: 'warn',
-      summary: 'Warning',
-      detail:
-        "You'll need to Sign in or Create a free account before you can purchase.",
-    },
-  ];
-
   ngOnInit(): void {
     const { params } = this.route.snapshot;
     this.listingId = params.id;
     this.userId = this.msalService.getAccount()?.accountIdentifier;
+
+    if (this.msalService.getAccount()) {
+      this.loggedIn  = true;
+    }
 
     this.visibilityChangedListenerFunction = function (ev) {
       this.handleVisibilityChange();
@@ -101,9 +107,11 @@ export class DetailComponent implements OnInit, OnDestroy {
         ([listingDetails, sellerSummary]) => {
           this.listingDetails = listingDetails;
 
-          this.searchService.getSuggestions("", this.listingDetails.name).subscribe((suggestions) => {
-            this.suggestions = suggestions;
-          });
+          this.searchService
+            .getSuggestions('', this.listingDetails.name)
+            .subscribe((suggestions) => {
+              this.suggestions = suggestions;
+            });
           this.listingSellerSummary = sellerSummary;
           this.refreshingSidebar = true;
           if (listingDetails.type === ListingType.Auction) {
@@ -126,12 +134,10 @@ export class DetailComponent implements OnInit, OnDestroy {
               }
             );
           } else {
-            this.biddingService.getUserBid(this.listingId).subscribe(
-              (bid) => {
-                this.userBid = bid;
-                this.refreshingSidebar = false;
-              }
-            )
+            this.biddingService.getUserBid(this.listingId).subscribe((bid) => {
+              this.userBid = bid;
+              this.refreshingSidebar = false;
+            });
           }
         },
         () => {
@@ -146,10 +152,11 @@ export class DetailComponent implements OnInit, OnDestroy {
       );
     }
 
-    this.listingsService.loadLatestListings(this.maxLatestListings).subscribe((listings) => {
-      this.latestItems = listings;
-    });
-
+    this.listingsService
+      .loadLatestListings(this.maxLatestListings)
+      .subscribe((listings) => {
+        this.latestItems = listings;
+      });
 
     // this.searchService
     //   .searchListings(
@@ -159,7 +166,6 @@ export class DetailComponent implements OnInit, OnDestroy {
     //   .subscribe((suggestions) => {
     //     this.suggestedListings = suggestions;
     //   });
-    
   }
 
   imageClick(index: number) {
@@ -204,7 +210,12 @@ export class DetailComponent implements OnInit, OnDestroy {
   contactSeller(): void {
     this.biddingService.purchaseListing(this.listingId).subscribe(
       (purchase) => {
-        this.router.navigate(['../..', 'conversations', 'purchase', purchase.conversationId]);
+        this.router.navigate([
+          '../..',
+          'conversations',
+          'purchase',
+          purchase.conversationId,
+        ]);
       },
       (error) => {
         this.showConfirmModal = false;
@@ -290,7 +301,10 @@ export class DetailComponent implements OnInit, OnDestroy {
     if (document.hidden) {
       clearInterval(this.refreshInterval);
     } else {
-      if (this.listingDetails && this.listingDetails.type == ListingType.Auction) {
+      if (
+        this.listingDetails &&
+        this.listingDetails.type == ListingType.Auction
+      ) {
         this.refreshAuctionBids();
         this.refreshInterval = setInterval(() => {
           this.refreshAuctionBids();
@@ -309,4 +323,5 @@ export class DetailComponent implements OnInit, OnDestroy {
       false
     );
   }
+
 }

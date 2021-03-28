@@ -34,7 +34,7 @@
             *ngIf="product.type == listingTypes.Sale"
             style="font-weight: bold;"
           >
-            R{{ product.startingPrice }}
+            {{ product.startingPrice | currency:"R "}}
           </p>
           <div class="p-d-flex card-footer-text">
             <span class="p-ml-auto" *ngIf="product.type == listingTypes.Sale">{{product.timeAgoCreated}}</span>

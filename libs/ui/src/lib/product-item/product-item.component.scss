@@ -15,21 +15,14 @@ h4 {
   font-weight: bold;
 }
 
+
+h3{
+  color: #495057;
+}
 .p-card {
   border-radius: 0px;
 }
 
 .favorite {
   color: red;
-}
-
-:host ::ng-deep {
-  .premium-listing > .p-card {
-    background: antiquewhite !important;
-  }
-
-  .premium-tag {
-    position: absolute;
-    top: 10px;
-  }
 }
