@@ -1,4 +1,4 @@
-import { loadPurchases } from './../../+state/purchases/purchases.actions';
+import { loadPurchases, markReceivedGoods } from './../../+state/purchases/purchases.actions';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IPaymentDetails, IPurchase, ListingType } from '@bushtrade/website/shared/entites';
 import { Observable } from 'rxjs';
@@ -42,6 +42,10 @@ export class PurchasesIndexComponent implements OnInit {
   initiatePayment(id: string) {
     this.purchasesFacade.dispatch(loadPaymentDetails({ id }));
     this.showPurchaseDetailDialog = true;
+  }
+
+  markReceivedGoods(id: string) {
+    this.purchasesFacade.dispatch(markReceivedGoods({ id }));
   }
 
   cancelPurchase(id: string) {

@@ -51,6 +51,16 @@ const purchasesReducer = createReducer(
     loadedPaymentDetails: true,
     paymentDetails: details,
   })),
+  on(PurchasesActions.markReceivedGoodsSuccess, (state, { purchase }) =>
+    purchasesAdapter.upsertOne(purchase, {
+      ...state,
+      loaded: true,
+    })
+  ),
+  on(PurchasesActions.markReceivedGoodsFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
   on(PurchasesActions.cancelPurchaseSuccess, (state, { purchase }) =>
     purchasesAdapter.upsertOne(purchase, {
       ...state,
