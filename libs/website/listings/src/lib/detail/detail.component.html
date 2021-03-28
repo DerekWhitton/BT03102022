@@ -76,7 +76,7 @@
                   <div class="p-col-6">20</div>
                 </div>
 
-                <button class="p-button p-p-3">Contact Advertiser</button>
+                <button class="p-button p-p-3">Ask a Question</button>
               </div>
               <div class="p-lg-8 p-md-12">
 
@@ -91,7 +91,7 @@
                         {{ review.createdAt | date: 'dd MMMM yyyy' }}</small>
                     </div>
                   </div>
-                  <a href="#">View all reviews</a>
+                  <a href="#" *ngIf="listingSellerSummary.latestReviews.length > 1">View all reviews</a>
 
                 </ng-container>
                 <ng-template #noReviews>
