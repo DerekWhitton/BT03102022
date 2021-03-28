@@ -1,5 +1,5 @@
 <p-card styleClass="p-mb-4 p-col-12" [style]="{ position: 'relative' }"
-[ngClass]="{'auction-listing' : item.type == ListingType.Auction}">
+[ngClass]="{'auction-listing' : item.type == ListingType.Auction, 'premium-listing' : item.isPremium }">
 
   <div class="p-grid">
     <div class="p-col-12 p-md-3 p-text-center">
@@ -18,6 +18,7 @@
       />
     </div>
     <div class="p-col-12 p-md-6">
+      <span *ngIf="item.isPremium" class="p-tag p-tag-warning premium-tag">Premium</span>
       <h4 class="p-mt-0">{{ item.name }}</h4>
       <p>{{  (item.description.length > 120)? (item.description | slice:0:120)+'...':(item.description) }}</p>
       <bushtrade-web-countdown-timer
