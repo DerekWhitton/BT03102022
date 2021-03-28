@@ -11,7 +11,7 @@
   <p-table #dt [value]="purchases" *ngIf="purchases.length > 0" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[25,50,100]" [loading]="loading" styleClass="p-datatable-customers" [paginator]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
-    [globalFilterFields]="['listing.name','bid.amount']">
+    [globalFilterFields]="['listing.name','amount']">
     <ng-template pTemplate="caption">
       <div class="table-header">
         <span class="p-input-icon-left">
@@ -63,7 +63,7 @@
         <td>
           {{ purchase.listing.name }}
         </td>
-        <td>R{{ purchase.bid.amount.toFixed(2) }}</td>
+        <td>R{{ purchase.amount.toFixed(2) }}</td>
         <td *ngIf="purchase.dateCompleted">
           Completed on {{ purchase.dateCompleted | date }}
         </td>
