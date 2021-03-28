@@ -2,6 +2,8 @@
   <progress-spinner></progress-spinner>
 </div>
 
+<p-toast position="top-center"></p-toast>
+
 <div *ngIf="(loaded$ | async) && purchases$ | async as purchases">
   <p *ngIf="purchases.length <= 0">
     We couldn't find any purchases associated with your account.

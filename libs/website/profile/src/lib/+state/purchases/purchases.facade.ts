@@ -10,6 +10,7 @@ export class PurchasesFacade {
   loaded$ = this.store.pipe(select(PurchasesSelectors.getPurchasesLoaded));
   allPurchases$ = this.store.pipe(select(PurchasesSelectors.getAllPurchases));
   selectedPurchases$ = this.store.pipe(select(PurchasesSelectors.getSelected));
+  lastKnownError$ = this.store.pipe(select(PurchasesSelectors.getPurchasesError));
   paymentDetailsLoaded$ = this.store.pipe(
     select(PurchasesSelectors.getPaymentDetailsLoaded)
   );
