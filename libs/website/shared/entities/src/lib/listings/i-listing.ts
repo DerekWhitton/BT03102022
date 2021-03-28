@@ -18,6 +18,7 @@ export interface IListing {
   createdAt: Date;
   startDate: Date;
   endDate: Date;
+  isPremium: boolean;
   images: Image[];
 }
 

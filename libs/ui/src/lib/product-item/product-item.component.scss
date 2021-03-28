@@ -22,3 +22,14 @@ h4 {
 .favorite {
   color: red;
 }
+
+:host ::ng-deep {
+  .premium-listing > .p-card {
+    background: antiquewhite !important;
+  }
+
+  .premium-tag {
+    position: absolute;
+    top: 10px;
+  }
+}
