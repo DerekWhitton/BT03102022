@@ -1,10 +1,12 @@
 import { SearchService } from './../../../../shared/services/src/lib/search/search.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import {
   IBid,
   IBidRequest,
+  ICreateListingAnswer,
+  ICreateListingQuestion,
   IListing,
   IListingDetails,
   IListingSeller,
@@ -12,6 +14,7 @@ import {
 } from '@bushtrade/website/shared/entites';
 import {
   BiddingService,
+  ConversationsService,
   ListingsService,
   PurchasesService,
 } from '@bushtrade/website/shared/services';
@@ -49,6 +52,14 @@ export class DetailComponent implements OnInit, OnDestroy {
   latestItems: IListing[];
   displayCustom: boolean;
 
+  // Q&A Section
+  questions = []; // Questions retrieved for the current listing
+  newQuestion: string = ""; // Holds any new question that is to be asked
+  questionAnswer: string = ""; // Holds any answer that is to be given to a question
+  questionAnswerId: string; // Holds the id of the question we are answering
+  @ViewChild('op') answerDialogue; 
+  // End - Q&A Section
+
   activeIndex: number = 0;
   paymentDetails: any;
 
@@ -60,7 +71,8 @@ export class DetailComponent implements OnInit, OnDestroy {
     private purchaseService: PurchasesService,
     private messageService: MessageService,
     private msalService: MsalService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private conversationService: ConversationsService
   ) {}
 
   messages: any = [
@@ -96,6 +108,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       const sellerSummary$ = this.listingsService.getSellerSummary(
         this.listingId
       );
+      
 
       forkJoin([listingDetails$, sellerSummary$]).subscribe(
         ([listingDetails, sellerSummary]) => {
@@ -105,6 +118,10 @@ export class DetailComponent implements OnInit, OnDestroy {
             this.suggestions = suggestions;
           });
           this.listingSellerSummary = sellerSummary;
+
+          console.log("Seller Summary")
+          console.log(sellerSummary)
+          
           this.refreshingSidebar = true;
           if (listingDetails.type === ListingType.Auction) {
             this.biddingService.getListingBids(this.listingId).subscribe(
@@ -150,16 +167,18 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.latestItems = listings;
     });
 
+    // Load Q&A Section
+    // (1) Retrieve the conversation
+    this.conversationService.loadListingConversation(this.listingId).subscribe((conversation) => {
+      const conversationId = conversation.id;
 
-    // this.searchService
-    //   .searchListings(
-    //     null,
-    //     "gun"
-    //   )
-    //   .subscribe((suggestions) => {
-    //     this.suggestedListings = suggestions;
-    //   });
-    
+      // (2) Retrieve the messages for the conversation
+      this.conversationService.loadConversationMessages(conversationId, 0, 99).subscribe((messages) => {
+        
+        // (3) Store these messages (which are questions) for display in the UI
+        this.questions = messages;
+      })
+    })
   }
 
   imageClick(index: number) {
@@ -221,6 +240,45 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.timesUp = true;
     }
   }
+
+  // Q&A - Ask a question that is to be answered by the supplier
+  submitQuestion() {
+    const question: ICreateListingQuestion = {
+      parentId: null,
+      content: this.newQuestion,
+      listingId: this.listingId
+    }
+    this.conversationService.addListingQuestion(question).subscribe((message) => {
+      this.newQuestion = "";
+      this.questions.push(message);
+    });
+  }
+
+  // When we touch a question, assign it's id in the event that we answer it
+  openAnswerDialog(id: string) {
+    this.questionAnswerId = id;
+  }
+
+  // Q&A - Reply to a question as the supplier
+  submitAnswer() {
+    const answer: ICreateListingAnswer = {
+      parentId:  this.questionAnswerId,
+      content: this.questionAnswer,
+      listingId: this.listingId
+    }
+
+    console.log(answer)
+    // POST answer to the server
+    this.conversationService.addListingAnswer(this.listingSellerSummary.id, answer).subscribe((message) => {
+      this.newQuestion = "";
+      this.questions.push(message);
+    });
+    
+
+    this.answerDialogue.hide(); // Hide the answer dialogue
+    this.questionAnswer = ""; // Clear the answer text
+  }
+
 
   private refreshAuctionBids(): void {
     this.refreshingSidebar = true;

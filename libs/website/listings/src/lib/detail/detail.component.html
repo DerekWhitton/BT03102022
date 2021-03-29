@@ -77,6 +77,41 @@
                 </div>
 
                 <button class="p-button p-p-3">Contact Advertiser</button>
+
+                <div class="p-col-12">
+                  <div class="card">
+
+                    <!-- Chat -->
+                    <div class="widget-chat">
+                      <ul>
+
+                        <li class="message-from" *ngFor="let question of questions; index as i;">
+                           <img src="assets/layout/images/no-profile.png" alt="diamond-layout" />
+                          <div>{{question.content}}
+                            <button pButton type="button" icon="pi pi-reply" class="p-button-text p-button-sm" (click)="op.toggle($event); openAnswerDialog(question.id)" dynamic="true"></button>
+                          </div>
+                        </li>
+                        
+                      </ul>
+
+                      <div class="new-message">
+                        <div class="message-input">
+                          <input type="text" placeholder="Ask a question" class="p-inputtext" [(ngModel)]="newQuestion" />
+                        </div>
+                        <button pButton type="button" icon="pi pi-save" iconPos="left" (click)="submitQuestion()"></button>
+                      </div>
+                    </div>
+
+                    <!-- Pop-up shown when answering a question -->
+                    <p-overlayPanel #op>
+                      <ng-template pTemplate>
+                          <input type="text" placeholder="Answer the Question here" class="p-inputtext" [(ngModel)]="questionAnswer" />
+                          <button pButton type="button" icon="pi pi-save" iconPos="left" class="p-button-success" (click)="submitAnswer()"></button>
+                      </ng-template>
+                  </p-overlayPanel>
+
+                  </div>
+                </div>
               </div>
               <div class="p-lg-8 p-md-12">
 

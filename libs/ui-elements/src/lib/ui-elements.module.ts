@@ -42,6 +42,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { ScrollPanelModule } from 'primeng/scrollpanel'
 import { FieldsetModule } from 'primeng/fieldset'
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @NgModule({
   imports: [
@@ -92,6 +93,7 @@ import { FieldsetModule } from 'primeng/fieldset'
     SelectButtonModule,
     TooltipModule,
     ScrollPanelModule,
+    OverlayPanelModule,
     FieldsetModule
   ],
   exports: [
@@ -141,6 +143,7 @@ import { FieldsetModule } from 'primeng/fieldset'
     SelectButtonModule,
     TooltipModule,
     ScrollPanelModule,
+    OverlayPanelModule,
     FieldsetModule
   ],
 })
