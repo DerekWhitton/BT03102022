@@ -29,7 +29,8 @@
     <div class="p-field p-col-12" *ngIf="maxPrice">
       <div class="price-range" >
         Price Range:
-        R{{ searchPriceRange[0]  + ' - R' + searchPriceRange[1] }}
+        {{ searchPriceRange[0]  | currency:"R " }} - {{ searchPriceRange[1]  | currency:"R " }}
+
       </div>
       <p-slider
         [(ngModel)]="searchPriceRange"
