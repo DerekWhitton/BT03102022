@@ -1,10 +1,11 @@
-import { loadPurchases } from './../../+state/purchases/purchases.actions';
+import { loadPurchases, markReceivedGoods } from './../../+state/purchases/purchases.actions';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IPaymentDetails, IPurchase, ListingType } from '@bushtrade/website/shared/entites';
 import { Observable } from 'rxjs';
 import { cancelPurchase, loadPaymentDetails } from '../../+state/purchases/purchases.actions';
 import { PurchasesFacade } from '../../+state/purchases/purchases.facade';
 import { Table } from 'primeng/table';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'bushtrade.web-purchases-index',
@@ -14,6 +15,7 @@ import { Table } from 'primeng/table';
 export class PurchasesIndexComponent implements OnInit {
   listingType = ListingType;
   loaded$: Observable<boolean>;
+  lastPurchaseError$ = this.purchasesFacade.lastKnownError$;
   paymentDetailsLoaded$: Observable<boolean>;
   purchases$: Observable<IPurchase[]>;
   paymentDetails$: Observable<IPaymentDetails>;
@@ -23,7 +25,10 @@ export class PurchasesIndexComponent implements OnInit {
 
   showPurchaseDetailDialog: boolean = false;
 
-  constructor(private purchasesFacade: PurchasesFacade) {}
+  constructor(
+    private purchasesFacade: PurchasesFacade,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.loaded$ = this.purchasesFacade.loaded$;
@@ -35,13 +40,33 @@ export class PurchasesIndexComponent implements OnInit {
     this.purchasetypes = [
       {label:"Listing", value:1},
       {label:"Auction", value:0},
-  ];
+    ];
 
+    this.lastPurchaseError$.subscribe((error) => {
+      if (error) {
+        this.messageService.add({
+          severity: 'error',
+          detail:
+            typeof error?.error == 'string'
+              ? error?.error
+              : error?.error?.title,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          detail: 'Server error. Please try again'
+        });
+      }
+    });
   }
 
   initiatePayment(id: string) {
     this.purchasesFacade.dispatch(loadPaymentDetails({ id }));
     this.showPurchaseDetailDialog = true;
+  }
+
+  markReceivedGoods(id: string) {
+    this.purchasesFacade.dispatch(markReceivedGoods({ id }));
   }
 
   cancelPurchase(id: string) {

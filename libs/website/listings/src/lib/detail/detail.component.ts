@@ -142,7 +142,7 @@ export class DetailComponent implements OnInit, OnDestroy {
         },
         () => {
           this.messageService.add({
-            severity: 'err',
+            severity: 'error',
             detail: 'There was an error loading listing details',
           });
         },
@@ -176,7 +176,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   placeBid(amount: number): void {
     if (this.isAuctionClosed()) {
       this.messageService.add({
-        severity: 'err',
+        severity: 'error',
         detail: 'This auction has closed!',
       });
       this.biddingRecommendations = [];
@@ -197,7 +197,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       },
       () => {
         this.messageService.add({
-          severity: 'err',
+          severity: 'error',
           detail: 'There was an error placing your bid',
         });
       },

@@ -9,7 +9,7 @@ export const PURCHASES_FEATURE_KEY = 'purchases';
 export interface State extends EntityState<IPurchase> {
   selectedId?: string | number; // which Purchases record has been selected
   loaded: boolean; // has the Purchases list been loaded
-  error?: string | null; // last known error (if any)
+  error?: any | null; // last known error (if any)
   loadedPaymentDetails: boolean;
   paymentDetails?: IPaymentDetails | null;
 }
@@ -50,6 +50,16 @@ const purchasesReducer = createReducer(
     ...state,
     loadedPaymentDetails: true,
     paymentDetails: details,
+  })),
+  on(PurchasesActions.markReceivedGoodsSuccess, (state, { purchase }) =>
+    purchasesAdapter.upsertOne(purchase, {
+      ...state,
+      loaded: true,
+    })
+  ),
+  on(PurchasesActions.markReceivedGoodsFailure, (state, { error }) => ({
+    ...state,
+    error,
   })),
   on(PurchasesActions.cancelPurchaseSuccess, (state, { purchase }) =>
     purchasesAdapter.upsertOne(purchase, {

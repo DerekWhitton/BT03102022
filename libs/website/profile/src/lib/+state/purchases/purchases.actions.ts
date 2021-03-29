@@ -27,6 +27,21 @@ export const loadPaymentDetailsSuccess = createAction(
   props<{ details: IPaymentDetails }>()
 );
 
+export const markReceivedGoods = createAction(
+  '[Purchases] Mark Received Goods',
+  props<{ id: string }>()
+);
+
+export const markReceivedGoodsSuccess = createAction(
+  '[Purchases] Mark Received Goods Success',
+  props<{ purchase: IPurchase }>()
+);
+
+export const markReceivedGoodsFailure = createAction(
+  '[Purchases] Mark Received Goods Failure',
+  props<{ error: any }>()
+);
+
 export const cancelPurchase = createAction(
   '[Purchases] Cancel Payment',
   props<{ id: string }>()

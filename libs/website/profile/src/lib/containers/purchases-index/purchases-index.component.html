@@ -2,6 +2,8 @@
   <progress-spinner></progress-spinner>
 </div>
 
+<p-toast position="top-center"></p-toast>
+
 <div *ngIf="(loaded$ | async) && purchases$ | async as purchases">
   <p *ngIf="purchases.length <= 0">
     We couldn't find any purchases associated with your account.
@@ -63,14 +65,17 @@
         <td>
           {{ purchase.listing.name }}
         </td>
-        <td>{{ purchase.bid.amount.toFixed(2)  | currency:"R " }}</td>
-        <td *ngIf="purchase.dateCompleted">
+        <td>{{ purchase.amount.toFixed(2) | currency:"R " }}</td>
+        <td *ngIf="purchase.dateCompleted && !purchase.dateReceivedGoods">
           Completed on {{ purchase.dateCompleted | date }}
         </td>
         <td *ngIf="purchase.dateCancelled">
           Cancelled on {{ purchase.dateCancelled | date }}
         </td>
-        <td *ngIf="!purchase.dateCompleted && !purchase.dateCancelled">
+        <td *ngIf="purchase.dateReceivedGoods">
+          Received goods on {{ purchase.dateReceivedGoods | date }}
+        </td>
+        <td *ngIf="!purchase.dateCompleted && !purchase.dateCancelled && !purchase.dateReceivedGoods">
           Pending
         </td>
         <td>
@@ -86,10 +91,10 @@
               [routerLink]="['../..', 'conversations', 'purchase', purchase.conversationId]"
               pTooltip="View all messages between you and the seller on this purchase." tooltipPosition="right"
               class="p-mr-2"></button>
-            <button *ngIf="purchase.dateCompleted && purchase.listing.type == listingType.Auction" pButton
+            <button *ngIf="purchase.dateCompleted && purchase.listing.type == listingType.Auction && !purchase.dateReceivedGoods" pButton
               style="margin-top: 5px;" class="p-mr-2 p-button-raised p-button-success" icon="pi pi-thumbs-up"
               pTooltip="Click here if you have received the goods, to complete the transaction."
-              tooltipPosition="right"></button>
+              tooltipPosition="right" (click)="markReceivedGoods(purchase.id)"></button>
             <button *ngIf="purchase.dateCompleted && purchase.listing.type == listingType.Auction" pButton
               style="margin-top: 5px;" class="p-mr-2 p-button-raised p-button-warning" icon="pi pi-bell"
               pTooltip="Click here if there is a problem with your transaction." tooltipPosition="right"></button>
