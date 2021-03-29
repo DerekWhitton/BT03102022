@@ -20,67 +20,65 @@
   </div>
 </div>
 
+<p-sidebar
+  [(visible)]="displayFilters"
+  [style]="{ width: '90%' }"
+  *ngIf="mobile"
+>
+  <p>
+    Displaying
+    {{ searchResponse?.items.length * searchResponse?.page }}/{{
+      searchResponse?.totalItems
+    }}
+    items
+  </p>
 
-<p-sidebar [(visible)]="displayFilters" [style]="{width:'90%'}" *ngIf="mobile">
+  <h4 class="p-mt-3">
+    Categories
+    <span style="float: right;"
+      ><a (click)="handleCategorySelection(null)"> All</a></span
+    >
+  </h4>
 
+  <ul class="category-list">
+    <li *ngFor="let category of subCategories">
+      <a (click)="changeSubCategory(category.id)">{{ category.name }}</a>
+    </li>
 
-    <p>
-      Displaying 
-      {{ searchResponse?.items.length * searchResponse?.page }}/{{
-        searchResponse?.totalItems
-      }}
-      items
-    </p>
+    <li *ngIf="parentCategory != ''">
+      <a (click)="getParentCategory()">Back</a>
+    </li>
+  </ul>
 
-
-
-    <h4 class="p-mt-3">
-      Categories
-      <span style="float: right;"
-        ><a (click)="handleCategorySelection(null)"> All</a></span
-      >
-    </h4>
-
-    <ul class="category-list">
-      <li *ngFor="let category of subCategories">
-        <a (click)="changeSubCategory(category.id)">{{ category.name }}</a>
-      </li>
-
-      <li *ngIf="parentCategory != ''">
-        <a (click)="getParentCategory()">Back</a>
-      </li>
-    </ul>
-
-    <hr />
-    <h4 class="p-pt-0 p-mt-1">
-      PRICE
-    </h4>
-    <div class="p-grid">
-      <div class="p-col">
-        <div class="p-mb-2" *ngIf="searchPriceRange">
-          <p class="p-mt-0 p-pt-0">{{searchPriceRange[0] | currency:'R'}} - {{searchPriceRange[1] | currency:'R'}}</p>
-        </div>
-        <p-slider
-          [(ngModel)]="searchPriceRange"
-          [range]="true"
-          [step]="100"
-          [min]="0"
-          [max]="maxPrice"
-          (onSlideEnd)="navigate()"
-        ></p-slider>
+  <hr />
+  <h4 class="p-pt-0 p-mt-1">
+    PRICE
+  </h4>
+  <div class="p-grid">
+    <div class="p-col">
+      <div class="p-mb-2" *ngIf="searchPriceRange">
+        <p class="p-mt-0 p-pt-0">
+          {{ searchPriceRange[0] | currency: 'R' }} -
+          {{ searchPriceRange[1] | currency: 'R' }}
+        </p>
       </div>
+      <p-slider
+        [(ngModel)]="searchPriceRange"
+        [range]="true"
+        [step]="100"
+        [min]="0"
+        [max]="maxPrice"
+        (onSlideEnd)="navigate()"
+      ></p-slider>
     </div>
-    <bushtrade-search-facet
-      [facet]="facet"
-      *ngFor="let facet of facetsResponse"
-      [selectedFacets]="facets"
-      (facetSelected)="handleFacetSelection($event)"
-    ></bushtrade-search-facet>
-
-
+  </div>
+  <bushtrade-search-facet
+    [facet]="facet"
+    *ngFor="let facet of facetsResponse"
+    [selectedFacets]="facets"
+    (facetSelected)="handleFacetSelection($event)"
+  ></bushtrade-search-facet>
 </p-sidebar>
-
-
 
 <div class="p-grid">
   <ng-template #noSearchResponse>
@@ -89,7 +87,6 @@
     </div>
   </ng-template>
 
-  
   <div
     class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2"
     *ngIf="searchResponse; else noSearchResponse"
@@ -101,7 +98,6 @@
           <ng-container *ngIf="type == 1">items for sale</ng-container> by
           category
         </h3>
-
 
         <div class="p-d-flex p-jc-evenly p-flex-wrap">
           <div
@@ -126,21 +122,22 @@
       </div>
 
       <div class="p-d-md-none p-col-12 p-mt-3" *ngIf="mobile">
-      <p-button type="text" (click)="displayFilters = true" icon="pi pi-sliders-v" label="View Filters"></p-button>
+        <p-button
+          type="text"
+          (click)="displayFilters = true"
+          icon="pi pi-sliders-v"
+          label="View Filters"
+        ></p-button>
       </div>
 
       <div class="p-col-3 sidebar">
-       
         <p *ngIf="searchResponse?.totalItems > 0">
-          Displaying 
+          Displaying
           {{ searchResponse?.items.length * searchResponse?.page }}/{{
             searchResponse?.totalItems
           }}
           items
         </p>
-
-
-
         <h4>
           Categories
           <span style="float: right;"
@@ -160,12 +157,15 @@
 
         <hr />
         <h4 class="p-pt-0 p-mt-1">
-          Price 
+          Price
         </h4>
         <div class="p-grid">
           <div class="p-col">
             <div class="p-mb-2" *ngIf="searchPriceRange">
-              <p class="p-mt-0 p-pt-0">{{searchPriceRange[0] | currency:'R'}} - {{searchPriceRange[1] | currency:'R'}}</p>
+              <p class="p-mt-0 p-pt-0">
+                {{ searchPriceRange[0] | currency: 'R' }} -
+                {{ searchPriceRange[1] | currency: 'R' }}
+              </p>
             </div>
             <p-slider
               [(ngModel)]="searchPriceRange"
@@ -187,6 +187,16 @@
 
       <div class="p-col-12 p-sm-9">
         <div class="p-grid">
+          <div class="p-col-12 p-mb-4" style="right: 0px;">
+            <span>Sort by: </span>
+            <a (click)="sortBy(0)" [ngClass]="listingSortField == 0 ? 'selected-sorting' : ''">Price</a> | 
+            <a (click)="sortBy(1)" [ngClass]="listingSortField == 1 ? 'selected-sorting' : ''">Closing Date</a> | 
+            <a (click)="sortBy(2)" [ngClass]="listingSortField == 2 ? 'selected-sorting' : ''">Created Date</a>
+            <i *ngIf="sortOrder == sortOrderEnum.Ascending" class="pi pi-sort-amount-up-alt p-ml-2"></i>
+            <i *ngIf="sortOrder == sortOrderEnum.Descending" class="pi pi-sort-amount-down p-ml-2"></i>
+          </div>
+        </div>
+        <div class="p-grid">
           <ng-container *ngIf="searchResponse?.items.length > 0; else noItems">
             <bushtrade-web-product-item
               class="p-mb-4 p-col-12"
@@ -198,14 +208,14 @@
           <ng-template #noItems>
             <div class="p-card p-p-5 p-col-12">
               <h3>
-                There are currently no listings for this category 
+                There are currently no listings for this category
                 <ng-container *ngIf="type == 0">in auctions</ng-container>
                 <ng-container *ngIf="type == 1">in items for sale</ng-container
                 >.
               </h3>
               <p *ngIf="type">
                 Try adjusting your price range, filter or check for more results
-                in 
+                in
                 <a *ngIf="type == 1" (click)="changeType(0)">auctions</a>
                 <a *ngIf="type == 0" (click)="changeType(1)">items for sale</a>
               </p>
