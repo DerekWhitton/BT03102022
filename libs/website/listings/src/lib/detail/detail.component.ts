@@ -1,11 +1,4 @@
 import { SearchService } from './../../../../shared/services/src/lib/search/search.service';
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  Input,
-
-} from '@angular/core';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getUser, loadUser } from '@bushtrade/website/shared/state';
@@ -37,8 +30,6 @@ import { forkJoin, Observable } from 'rxjs';
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit, OnDestroy {
-
-  
   loggedIn = false;
 
   refreshInterval: number;
@@ -69,14 +60,15 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   // Q&A Section
   questions = []; // Questions retrieved for the current listing
-  newQuestion: string = ""; // Holds any new question that is to be asked
-  questionAnswer: string = ""; // Holds any answer that is to be given to a question
+  newQuestion: string = ''; // Holds any new question that is to be asked
+  questionAnswer: string = ''; // Holds any answer that is to be given to a question
   questionAnswerId: string; // Holds the id of the question we are answering
   @ViewChild('op') answerDialogue; // Controls state of pop-up for answering questions
 
   user$: Observable<IUser>; // Contains meta-data for user including their reseller acccount which are used to check their ability to participate in Q&A
   userCanQuestion = false; // Whether this user can add questions to the listing
   isSeller = false; // The current user is the seller of the product
+  isBuyer = false; 
   // End - Q&A Section
 
   activeIndex: number = 0;
@@ -101,8 +93,12 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.userId = this.msalService.getAccount()?.accountIdentifier;
 
     if (this.msalService.getAccount()) {
-      this.loggedIn  = true;
+      this.loggedIn = true;
     }
+
+    // Get meta-data for currently signed in user
+    this.store.dispatch(loadUser());
+    this.user$ = this.store.select(getUser);
 
     this.visibilityChangedListenerFunction = function (ev) {
       this.handleVisibilityChange();
@@ -123,12 +119,12 @@ export class DetailComponent implements OnInit, OnDestroy {
       const sellerSummary$ = this.listingsService.getSellerSummary(
         this.listingId
       );
-      
+
       // console.log("Seller:")
       // console.log(this.listingSellerSummary)
       // console.log("User:")
       // console.log(this.msalService.getAccount())
-      
+
       forkJoin([listingDetails$, sellerSummary$]).subscribe(
         ([listingDetails, sellerSummary]) => {
           this.listingDetails = listingDetails;
@@ -140,19 +136,15 @@ export class DetailComponent implements OnInit, OnDestroy {
             });
           this.listingSellerSummary = sellerSummary;
 
-          // Get meta-data for currently signed in user
-          this.store.dispatch(loadUser());
-          this.user$ = this.store.select(getUser);
-
           // If the user viewing this page is the seller of the listing, then they should not be allowed to add questions.
-          this.user$.subscribe(x => {
+          this.user$.subscribe((x) => {
             // If the listing is the current user
-            if(x.sellers.map(t => t.id).indexOf(this.listingSellerSummary.id) === -1){
+            if (x.sellers.map((t) => t.id).indexOf(this.listingSellerSummary.id) === -1)
               this.userCanQuestion = true;
+           if(x.sellers.map((t) => t.id).indexOf(this.listingSellerSummary.id) > -1)
               this.isSeller = true;
-            }
-          })
-          
+          });
+
           this.refreshingSidebar = true;
           if (listingDetails.type === ListingType.Auction) {
             this.biddingService.getListingBids(this.listingId).subscribe(
@@ -192,22 +184,27 @@ export class DetailComponent implements OnInit, OnDestroy {
       );
     }
 
-    this.listingsService.loadLatestListings(this.maxLatestListings).subscribe((listings) => {
-      this.latestItems = listings;
-    });
+    this.listingsService
+      .loadLatestListings(this.maxLatestListings)
+      .subscribe((listings) => {
+        this.latestItems = listings;
+      });
 
     // Load Q&A Section
     // (1) Retrieve the conversation
-    this.conversationService.loadListingConversation(this.listingId).subscribe((conversation) => {
-      const conversationId = conversation.id;
+    this.conversationService
+      .loadListingConversation(this.listingId)
+      .subscribe((conversation) => {
+        const conversationId = conversation.id;
 
-      // (2) Retrieve the messages for the conversation
-      this.conversationService.loadConversationMessages(conversationId, 0, 99).subscribe((messages) => {
-        
-        // (3) Store these messages (which are questions) for display in the UI
-        this.questions = messages;
-      })
-    })
+        // (2) Retrieve the messages for the conversation
+        this.conversationService
+          .loadConversationMessages(conversationId, 0, 99)
+          .subscribe((messages) => {
+            // (3) Store these messages (which are questions) for display in the UI
+            this.questions = messages;
+          });
+      });
   }
 
   imageClick(index: number) {
@@ -280,12 +277,14 @@ export class DetailComponent implements OnInit, OnDestroy {
     const question: ICreateListingQuestion = {
       parentId: null,
       content: this.newQuestion,
-      listingId: this.listingId
-    }
-    this.conversationService.addListingQuestion(question).subscribe((message) => {
-      this.newQuestion = "";
-      this.questions.push(message);
-    });
+      listingId: this.listingId,
+    };
+    this.conversationService
+      .addListingQuestion(question)
+      .subscribe((message) => {
+        this.newQuestion = '';
+        this.questions.push(message);
+      });
   }
 
   // When we touch a question, assign it's id in the event that we answer it
@@ -296,22 +295,25 @@ export class DetailComponent implements OnInit, OnDestroy {
   // Q&A - Reply to a question as the supplier
   submitAnswer() {
     const answer: ICreateListingAnswer = {
-      parentId:  this.questionAnswerId,
+      parentId: this.questionAnswerId,
       content: this.questionAnswer,
-      listingId: this.listingId
-    }
+      listingId: this.listingId,
+    };
 
     // POST answer to the server
-    this.conversationService.addListingAnswer(this.listingSellerSummary.id, answer).subscribe((answer) => {
-      this.newQuestion = "";
+    this.conversationService
+      .addListingAnswer(this.listingSellerSummary.id, answer)
+      .subscribe((answer) => {
+        this.newQuestion = '';
 
-      this.questions.find(x => x.id === this.questionAnswerId).children.push(answer)
-    });
-    
+        this.questions
+          .find((x) => x.id === this.questionAnswerId)
+          .children.push(answer);
+      });
+
     this.answerDialogue.hide(); // Hide the answer dialogue
-    this.questionAnswer = ""; // Clear the answer text
+    this.questionAnswer = ''; // Clear the answer text
   }
-
 
   private refreshAuctionBids(): void {
     this.refreshingSidebar = true;
@@ -403,5 +405,4 @@ export class DetailComponent implements OnInit, OnDestroy {
       false
     );
   }
-
 }
