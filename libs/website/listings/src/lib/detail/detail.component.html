@@ -76,29 +76,44 @@
                   <div class="p-col-6">20</div>
                 </div>
 
-                <button class="p-button p-p-3">Contact Advertiser</button>
-
                 <div class="p-col-12">
                   <div class="card">
 
-                    <!-- Chat -->
+                    <!-- Q&A Chat -->
                     <div class="widget-chat">
                       <ul>
+                          <!-- Q/A Combo -->
+                          <ng-container *ngFor="let question of questions; index as i;"> 
+                            <!-- Question -->
+                            <li class="message-from">
+                              <img src="assets/layout/images/no-profile.png" alt="diamond-layout" />
+                              <div>
+                                <small>{{question.name}} - {{question.createdAt | date: 'dd/MM/yyyy' }}</small><br/>
+                                {{question.content}}
 
-                        <li class="message-from" *ngFor="let question of questions; index as i;">
-                           <img src="assets/layout/images/no-profile.png" alt="diamond-layout" />
-                          <div>{{question.content}}
-                            <button pButton type="button" icon="pi pi-reply" class="p-button-text p-button-sm" (click)="op.toggle($event); openAnswerDialog(question.id)" dynamic="true"></button>
-                          </div>
-                        </li>
-                        
+                                <button *ngIf="!isSeller" pButton type="button" icon="pi pi-reply" label="Reply" class="p-button-text p-button-sm" (click)="op.toggle($event); openAnswerDialog(question.id)" dynamic="true"></button>
+                              </div>
+                            </li>
+
+                            <!-- Answer -->
+                            <li class="message-own" *ngFor="let answer of question.children; index as j;">
+                              <img src="assets/layout/images/no-profile.png" alt="diamond-layout" />
+                            <div>
+                              <small>{{answer.name}} - {{answer.createdAt | date: 'dd/MM/yyyy' }}</small><br/>
+                              {{answer.content}}</div>
+                          </li>
+                        </ng-container>
                       </ul>
 
-                      <div class="new-message">
+                      <!-- New Question -->
+                      <div class="new-message" *ngIf="userCanQuestion">
                         <div class="message-input">
                           <input type="text" placeholder="Ask a question" class="p-inputtext" [(ngModel)]="newQuestion" />
                         </div>
                         <button pButton type="button" icon="pi pi-save" iconPos="left" (click)="submitQuestion()"></button>
+                      </div>
+                      <div class="new-message" *ngIf="!userCanQuestion">
+                        <h1>This is your post so you may not add questions</h1>
                       </div>
                     </div>
 

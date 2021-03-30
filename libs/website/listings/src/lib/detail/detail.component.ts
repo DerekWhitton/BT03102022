@@ -1,7 +1,9 @@
 import { SearchService } from './../../../../shared/services/src/lib/search/search.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { getUser, loadUser } from '@bushtrade/website/shared/state';
 import { MsalService } from '@azure/msal-angular';
+import { Store } from '@ngrx/store';
 import {
   IBid,
   IBidRequest,
@@ -10,6 +12,7 @@ import {
   IListing,
   IListingDetails,
   IListingSeller,
+  IUser,
   ListingType,
 } from '@bushtrade/website/shared/entites';
 import {
@@ -57,7 +60,11 @@ export class DetailComponent implements OnInit, OnDestroy {
   newQuestion: string = ""; // Holds any new question that is to be asked
   questionAnswer: string = ""; // Holds any answer that is to be given to a question
   questionAnswerId: string; // Holds the id of the question we are answering
-  @ViewChild('op') answerDialogue; 
+  @ViewChild('op') answerDialogue; // Controls state of pop-up for answering questions
+
+  user$: Observable<IUser>; // Contains meta-data for user including their reseller acccount which are used to check their ability to participate in Q&A
+  userCanQuestion = false; // Whether this user can add questions to the listing
+  isSeller = false; // The current user is the seller of the product
   // End - Q&A Section
 
   activeIndex: number = 0;
@@ -66,6 +73,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private store: Store,
     private listingsService: ListingsService,
     private biddingService: BiddingService,
     private purchaseService: PurchasesService,
@@ -109,7 +117,11 @@ export class DetailComponent implements OnInit, OnDestroy {
         this.listingId
       );
       
-
+      // console.log("Seller:")
+      // console.log(this.listingSellerSummary)
+      // console.log("User:")
+      // console.log(this.msalService.getAccount())
+      
       forkJoin([listingDetails$, sellerSummary$]).subscribe(
         ([listingDetails, sellerSummary]) => {
           this.listingDetails = listingDetails;
@@ -119,8 +131,18 @@ export class DetailComponent implements OnInit, OnDestroy {
           });
           this.listingSellerSummary = sellerSummary;
 
-          console.log("Seller Summary")
-          console.log(sellerSummary)
+          // Get meta-data for currently signed in user
+          this.store.dispatch(loadUser());
+          this.user$ = this.store.select(getUser);
+
+          // If the user viewing this page is the seller of the listing, then they should not be allowed to add questions.
+          this.user$.subscribe(x => {
+            // If the listing is the current user
+            if(x.sellers.map(t => t.id).indexOf(this.listingSellerSummary.id) === -1){
+              this.userCanQuestion = true;
+              this.isSeller = true;
+            }
+          })
           
           this.refreshingSidebar = true;
           if (listingDetails.type === ListingType.Auction) {
@@ -267,14 +289,13 @@ export class DetailComponent implements OnInit, OnDestroy {
       listingId: this.listingId
     }
 
-    console.log(answer)
     // POST answer to the server
-    this.conversationService.addListingAnswer(this.listingSellerSummary.id, answer).subscribe((message) => {
+    this.conversationService.addListingAnswer(this.listingSellerSummary.id, answer).subscribe((answer) => {
       this.newQuestion = "";
-      this.questions.push(message);
+
+      this.questions.find(x => x.id === this.questionAnswerId).children.push(answer)
     });
     
-
     this.answerDialogue.hide(); // Hide the answer dialogue
     this.questionAnswer = ""; // Clear the answer text
   }

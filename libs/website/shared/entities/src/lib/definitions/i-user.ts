@@ -3,7 +3,7 @@ export interface IUser {
   firstName: string;
   surname: string;
   roles: [];
-  sellers: [];
+  sellers: IUser[];
   createdAt: any;
   updatedAt: any;
 }
