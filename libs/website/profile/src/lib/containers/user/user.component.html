@@ -5,7 +5,8 @@
     <div class="p-col-12 p-md-8p-lg-9">
       <div class="p-grid">
         <div class="p-col">
-          <img src="assets/layout/images/no-profile.png" alt="User Profile Pic" class="img-round"
+
+          <img src="{{ user.profilePictureUri ? user.profilePictureUri : 'assets/layout/images/no-profile.png'}}" alt="User Profile Pic" class="img-round"
             style="width:100px;">
           <h3 class="p-m-0">{{ user.firstName + ' ' + user.surname }}</h3>
         </div>

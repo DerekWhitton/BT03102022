@@ -16,9 +16,13 @@
   </div>
 </div>
 
+
+
 <div class="p-grid bg-grey">
+
   <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2 p-p-0">
-    <div class="p-col p-text-right p-mt-2 p-mb-2 p-p-0">
+    <div class="p-col p-mt-2 p-mb-2 p-p-0">
+
       <p-menubar [model]="menuItems" class="menu-light">
         <ng-template pTemplate="start">
           <img id="app-logo" class="logo-image p-mr-2 ng-star-inserted p-mt-2" src="assets/layout/images/logo-dark.png"
@@ -26,9 +30,28 @@
         </ng-template>
         <ng-template pTemplate="end">
           <button *ngIf="!loggedIn" pButton label="Sign In" (click)="login()"></button>
-          <button *ngIf="loggedIn" type="button" pButton icon="pi pi-user" class="p-ml-3"
-            (click)="menu.toggle($event)"></button>
-          <p-menu #menu [popup]="true" [model]="accountItems"></p-menu>
+          <ng-container *ngIf="loggedIn" >
+
+            <ng-container *ngIf="user$ | async as user" >
+              {{user.firstName}}
+            <button type="text" pButton label=" {{user.firstName}}" icon="pi pi-user" (click)="op.toggle($event)"></button>
+            <p-overlayPanel #op>
+              <ng-template pTemplate>
+                <p class="bt-profile-menu">Hi, {{user.firstName}}</p>
+                <ul class="bt-profile-menu">
+                  <li><a [routerLink]="['/', 'profile', 'listings']">My Listings</a></li>
+                  <li><a [routerLink]="['/', 'profile', 'purchases']">My Purchases</a></li>
+                  <li><a [routerLink]="['/', 'favourites']">My Favourites</a></li>
+                  <hr>
+                  <li><a [routerLink]="['/', 'profile', 'account']">My Profile</a></li>
+                  <li><a (click)="this.logout()">Logout</a></li>
+                </ul>
+              </ng-template>
+          </p-overlayPanel>
+          </ng-container >
+          
+
+          </ng-container>
         </ng-template>
       </p-menubar>
     </div>
