@@ -91,18 +91,16 @@
                 <ng-container *ngIf="!loggedIn">
                   <p>You have to sign in or register to ask questions.</p>
                 </ng-container>
-                <ng-container *ngIf="loggedIn">
-                  <button class="p-button p-p-3">Ask a Question</button>
-                </ng-container>
 
                 <div class="p-col-12">
-                  <div class="card">
-
                     <!-- Q&A Chat -->
                     <div class="widget-chat">
                       <ul>
                           <!-- Q/A Combo -->
-                          <ng-container *ngFor="let question of questions; index as i;"> 
+                          <!-- A question will only show to the poster and the seller, until answered - and only then it will be made public -->
+                          <ng-container *ngFor="let question of questions; index as i;" > 
+                            <ng-container *ngIf="loggedIn">
+
                             <!-- Question -->
                             <li class="message-from">
                               <img src="assets/layout/images/no-profile.png" alt="diamond-layout" />
@@ -110,22 +108,24 @@
                                 <small>{{question.name}} - {{question.createdAt | date: 'dd/MM/yyyy' }}</small><br/>
                                 {{question.content}}
 
-                                <button *ngIf="!isSeller" pButton type="button" icon="pi pi-reply" label="Reply" class="p-button-text p-button-sm" (click)="op.toggle($event); openAnswerDialog(question.id)" dynamic="true"></button>
+                                <button *ngIf="isSeller" pButton type="button" icon="pi pi-reply" label="Reply" class="p-button-text p-button-sm" (click)="op.toggle($event); openAnswerDialog(question.id)" dynamic="true"></button>
                               </div>
                             </li>
 
                             <!-- Answer -->
-                            <li class="message-own" *ngFor="let answer of question.children; index as j;">
-                              <img src="assets/layout/images/no-profile.png" alt="diamond-layout" />
-                            <div>
-                              <small>{{answer.name}} - {{answer.createdAt | date: 'dd/MM/yyyy' }}</small><br/>
-                              {{answer.content}}</div>
-                          </li>
+                              <li class="message-own" *ngFor="let answer of question.children; index as j;">
+                                <img src="assets/layout/images/no-profile.png" alt="diamond-layout" />
+                              <div>
+                                <small>{{answer.name}} - {{answer.createdAt | date: 'dd/MM/yyyy' }}</small><br/>
+                                {{answer.content}}</div>
+                            </li>
+
+                          </ng-container>
                         </ng-container>
                       </ul>
 
                       <!-- New Question -->
-                      <div class="new-message" *ngIf="userCanQuestion">
+                      <div class="new-message" *ngIf="userCanQuestion && loggedIn">
                         <div class="message-input">
                           <input type="text" placeholder="Ask a question" class="p-inputtext" [(ngModel)]="newQuestion" />
                         </div>
@@ -145,7 +145,6 @@
                   </p-overlayPanel>
 
                   </div>
-                </div>
               </div>
               <div class="p-lg-8 p-md-12">
 

@@ -141,7 +141,7 @@ export class DetailComponent implements OnInit, OnDestroy {
             // If the listing is the current user
             if (x.sellers.map((t) => t.id).indexOf(this.listingSellerSummary.id) === -1)
               this.userCanQuestion = true;
-           if(x.sellers.map((t) => t.id).indexOf(this.listingSellerSummary.id) > -1)
+            else
               this.isSeller = true;
           });
 
