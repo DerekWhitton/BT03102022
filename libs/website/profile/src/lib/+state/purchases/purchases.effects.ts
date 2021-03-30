@@ -59,6 +59,28 @@ export class PurchasesEffects implements OnInitEffects {
     )
   );
 
+  markReceivedGoods$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PurchasesActions.markReceivedGoods),
+      withLatestFrom(this.store),
+      fetch({
+        run: (action) => {
+          return this.purchasesSvc
+            .markReceivedGoods(action.id)
+            .pipe(
+              map((response) =>
+                PurchasesActions.markReceivedGoodsSuccess({ purchase: response })
+              )
+            );
+        },
+        onError: (action, error) => {
+          console.error('Error', error);
+          return PurchasesActions.markReceivedGoodsFailure({ error });
+        },
+      })
+    )
+  );
+
   cancelPurchase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PurchasesActions.cancelPurchase),
@@ -68,8 +90,8 @@ export class PurchasesEffects implements OnInitEffects {
           return this.purchasesSvc
             .cancelListingPurchase(action.id)
             .pipe(
-              map(() =>
-                PurchasesActions.cancelPurchaseSuccess({ id: action.id })
+              map((response) =>
+                PurchasesActions.cancelPurchaseSuccess({ purchase: response })
               )
             );
         },

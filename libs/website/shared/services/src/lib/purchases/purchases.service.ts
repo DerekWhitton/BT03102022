@@ -57,8 +57,17 @@ export class PurchasesService {
     );
   }
 
+  markReceivedGoods(id: string) {
+    return this.httpClient.post<IPurchase>(
+      `${this.base}api/v${this.version}/Purchases/MarkPurchaseAsReceivedGoods/`,
+      {
+        purchaseId: id
+      }
+    );
+  }
+
   cancelListingPurchase(id: string) {
-    return this.httpClient.delete(
+    return this.httpClient.delete<IPurchase>(
       `${this.base}api/v${this.version}/Purchases/CancelListingPurchase/${id}`
     );
   }

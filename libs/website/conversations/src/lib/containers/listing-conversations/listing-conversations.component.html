@@ -14,7 +14,7 @@
               <div class="p-col-12 p-md-6 p-lg-3 conversation-title">
                 <div class="profile-image-container">
                   <img
-                    src="{{ conv.buyerProfilePicture }}"
+                    src="{{ conv.buyerProfilePicture ? conv.buyerProfilePicture : 'assets/layout/images/no-profile.png'}}"
                     alt="User Profile Pic"
                   />
                 </div>
@@ -26,7 +26,7 @@
               </div>
               <div class="p-col-12 p-md-6 p-lg-3">
                 <button
-                  *ngIf="!listingDetails?.isSold"
+                  *ngIf="!listingDetails?.isSold && !conv.dateCancelled"
                   pButton
                   pRipple
                   icon="pi pi-dollar"

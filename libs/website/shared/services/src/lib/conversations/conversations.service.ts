@@ -32,9 +32,9 @@ export class ConversationsService {
     );
   }
 
-  loadPurchaseConversation(conversationId: string) {
+  loadPurchaseConversation(conversationId: string, isSellerUser: boolean) {
     return this.httpClient.get<IConversation>(
-      `${this.base}api/v${this.version}/Conversations/PurchaseConversation/${conversationId}`
+      `${this.base}api/v${this.version}/Conversations/PurchaseConversation/${conversationId}?isSellerConversation=${isSellerUser}`
     );
   }
 

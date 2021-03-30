@@ -22,6 +22,9 @@ export interface IPurchaseConversation extends IConversationSummary {
   buyerName: string;
   isWinner: boolean;
   buyerProfilePicture: string;
+  dateCancelled: Date;
+}
+}
 }
 
 // This model is called via a 'ListingId' and returns a reference to the messages

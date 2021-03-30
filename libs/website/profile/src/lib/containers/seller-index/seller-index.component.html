@@ -21,6 +21,7 @@
             icon="pi pi-plus"
             class="p-button-success p-mr-1"
             (click)="initializeListingForm(); displayCreateUpdateDialog = true"
+            pTooltip="Create an Auction or a For Sale Listing" tooltipPosition="top"
           ></button>
         </ng-template>
       </p-toolbar>
@@ -45,8 +46,9 @@
                 pRipple
                 icon="pi pi-money-bill"
                 title="Make listing Premium"
-                class="p-button-rounded p-button-success p-mr-2"
+                class="p-button p-button-success p-mr-2"
                 (click)="showPremiumPackagesModal(rowData.id)"
+                pTooltip="Upgrade Listing, to get premium placement and lower buyer fees." tooltipPosition="top"
               ></button>
             </td>
             <td>
@@ -67,8 +69,9 @@
                 pRipple
                 icon="pi pi-users"
                 title="View Conversations"
-                class="p-button-rounded p-button-primary p-mr-2"
+                class="p-button p-button-primary p-mr-2"
                 [routerLink]="['../..', 'conversations', 'listing', rowData.id]"
+                pTooltip="View Interested Buyers Messages" tooltipPosition="top"
               ></button>
             </td>
             <td class="p-text-right">              
@@ -78,16 +81,18 @@
                 pRipple
                 icon="pi pi-pencil"
                 title="Edit Listing"
-                class="p-button-rounded p-button-success p-mr-2"
+                class="p-button p-button-success p-mr-2"
                 (click)="handleUpdateSelection(rowData)"
+                pTooltip="Edit Listing" tooltipPosition="top"
               ></button>
               <button
                 pButton
                 pRipple
                 icon="pi pi-trash"
                 title="Delete Listing"
-                class="p-button-rounded p-button-warning"
+                class="p-button p-button-danger"
                 (click)="deleteListing(rowData)"
+                pTooltip="Delete Listing" tooltipPosition="top"
               ></button>
             </td>
           </tr>
@@ -164,7 +169,7 @@
           <!-- type -->
           <div class="p-field">
             <label
-              pTooltip="Auctions have a duration of two weeks from the created date."
+              pTooltip="Auctions will have run for a set duration taking bids. For sale listings buyers will contact you on the set price."
             >
               Listing Type: <i class="pi pi-question-circle"></i>
             </label>
