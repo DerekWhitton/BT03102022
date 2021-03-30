@@ -4,6 +4,20 @@
     text-transform: uppercase;
 }
 
+.bt-profile-menu{
+    text-transform: capitalize;
+    li{
+        margin: 3px 0px;
+        width:100%;
+        a{
+            padding: 3px 0px;
+            display: block;
+            text-decoration: none;
+        }
+
+    }
+}
+
 .inline-flex{
     display: inline-flex!important;
 }
