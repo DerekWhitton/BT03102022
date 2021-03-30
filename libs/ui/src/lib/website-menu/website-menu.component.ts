@@ -3,6 +3,10 @@ import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { CategoryService } from '@bushtrade/website/shared/services';
 import { NavigationEnd, Router } from '@angular/router';
 import { ICategory, ListingType } from '@bushtrade/website/shared/entites';
+import { IUser } from '@bushtrade/website/shared/entites';
+import { getUser, loadUser } from '@bushtrade/website/shared/state';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'bushtrade-web-menu',
   templateUrl: './website-menu.component.html',
@@ -11,7 +15,6 @@ import { ICategory, ListingType } from '@bushtrade/website/shared/entites';
 export class WebsiteMenuComponent implements OnInit {
   @Input() loggedIn;
   menuItems: MegaMenuItem[];
-  accountItems: MenuItem[];
   selectableListingTypes: any[];
   selectedListingType: ListingType;
   searchQuery: string;
@@ -21,12 +24,19 @@ export class WebsiteMenuComponent implements OnInit {
   showBuySellMenu: boolean = false;
   categories: ICategory[];
 
+  user$: Observable<IUser>;
+
   constructor(
     private router: Router,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
+
+    this.store.dispatch(loadUser());
+    this.user$ = this.store.select(getUser);
+
     this.router.events.subscribe((nEvent) => {
       if (nEvent instanceof NavigationEnd) this.showMegaSearchMenu = true; //!nEvent.url.startsWith('/listings');
     });
@@ -41,16 +51,6 @@ export class WebsiteMenuComponent implements OnInit {
         return { label: ListingType[s] == ListingType.Sale ? "For Sale": "Auctions", value: ListingType[s] };    
     });
 
-    this.accountItems = [
-      {
-        label: 'Profile',
-        routerLink: ['/', 'profile', 'account'],
-      },
-      {
-        label: 'Log Out',
-        command: () => this.logout(),
-      },
-    ];
 
     this.menuItems = [
       {

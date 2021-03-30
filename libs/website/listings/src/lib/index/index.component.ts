@@ -5,13 +5,15 @@ import {
   IListing,
   IPaginatedResponse,
   ISearchFacet,
+  ListingSortField,
   ListingType,
+  SortOrder,
 } from '@bushtrade/website/shared/entites';
 import {
   SearchService,
   CategoryService,
 } from '@bushtrade/website/shared/services';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'bushtrade.web-index',
@@ -19,7 +21,12 @@ import { Subscription, Observable } from 'rxjs';
   styleUrls: ['./index.component.scss'],
 })
 export class IndexComponent implements OnInit {
+  sortOrderEnum = SortOrder;
+  sortFieldEnum = ListingSortField;
+
   type: ListingType;
+  listingSortField: ListingSortField = ListingSortField.Price;
+  sortOrder: SortOrder = SortOrder.Ascending;
   maxFeaturedCategories = 8;
   query: string = '';
   facets: { key: string; value: string }[] = [];
@@ -122,6 +129,19 @@ export class IndexComponent implements OnInit {
     this.navigate();
   }
 
+  sortBy(sortField: ListingSortField) {
+    if (this.listingSortField == sortField)
+    {
+      this.sortOrder = this.sortOrder == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+    }
+    else
+    {
+      this.listingSortField = sortField;
+      this.sortOrder = SortOrder.Ascending;
+    }
+    this.dispatchListingQuery();
+  }
+
   private navigate() {
     const { query, type, categoryId, facets } = this;
 
@@ -185,6 +205,8 @@ export class IndexComponent implements OnInit {
     this.searchSubscription$ = this.searchService
       .searchListings(
         type,
+        this.listingSortField,
+        this.sortOrder,
         query,
         categoryId,
         facets,

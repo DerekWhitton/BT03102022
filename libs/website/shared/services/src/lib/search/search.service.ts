@@ -5,7 +5,9 @@ import {
   IListing,
   IPaginatedResponse,
   ISearchFacet,
+  ListingSortField,
   ListingType,
+  SortOrder,
 } from '@bushtrade/website/shared/entites';
 
 @Injectable({
@@ -24,6 +26,8 @@ export class SearchService {
 
   searchListings(
     type: ListingType,
+    listingSortField: ListingSortField,
+    sortOrder: SortOrder,
     query: string,
     categoryId: string = null,
     facets: { key: string; value: string }[] = [],
@@ -34,6 +38,12 @@ export class SearchService {
     let urlQuery = '';
     if (type) {
       queryParams.push(`type=${type}`);
+    }
+    if (listingSortField != null) {
+      queryParams.push(`sortField=${listingSortField}`);
+    }
+    if (sortOrder != null) {
+      queryParams.push(`sortOrder=${sortOrder}`);
     }
     if (query) {
       queryParams.push(`query=${query}`);

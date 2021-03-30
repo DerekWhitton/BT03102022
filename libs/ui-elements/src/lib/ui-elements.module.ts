@@ -40,8 +40,8 @@ import { EditorModule } from 'primeng/editor';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
-import { ScrollPanelModule } from 'primeng/scrollpanel'
-import { FieldsetModule } from 'primeng/fieldset'
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { FieldsetModule } from 'primeng/fieldset';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @NgModule({
@@ -93,8 +93,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     SelectButtonModule,
     TooltipModule,
     ScrollPanelModule,
+    FieldsetModule,
     OverlayPanelModule,
-    FieldsetModule
   ],
   exports: [
     RadioButtonModule,
@@ -143,8 +143,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     SelectButtonModule,
     TooltipModule,
     ScrollPanelModule,
+    FieldsetModule,
     OverlayPanelModule,
-    FieldsetModule
   ],
 })
 export class UiElementsModule {}
