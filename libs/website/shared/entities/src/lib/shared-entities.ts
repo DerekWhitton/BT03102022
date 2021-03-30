@@ -27,3 +27,5 @@ export * from './site-settings/i-auction-duration-setting';
 export * from './site-settings/i-premium-package-setting';
 export * from './listings/i-listing-premium-package';
 export * from './listings/i-listing-premium-package-request';
+export * from './listings/listing-sort-field';
+export * from './shared-models/sort-order';
