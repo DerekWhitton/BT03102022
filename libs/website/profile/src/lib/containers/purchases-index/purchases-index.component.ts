@@ -1,11 +1,13 @@
-import { loadPurchases, markReceivedGoods } from './../../+state/purchases/purchases.actions';
+import { loadPurchases, markReceivedGoods, setPurchaseDisputeId } from './../../+state/purchases/purchases.actions';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IPaymentDetails, IPurchase, ListingType } from '@bushtrade/website/shared/entites';
+import { ICreateSupportTicket, IPaymentDetails, IPurchase, ListingType, SupportTicketCategory } from '@bushtrade/website/shared/entites';
 import { Observable } from 'rxjs';
 import { cancelPurchase, loadPaymentDetails } from '../../+state/purchases/purchases.actions';
 import { PurchasesFacade } from '../../+state/purchases/purchases.facade';
 import { Table } from 'primeng/table';
 import { MessageService } from 'primeng/api';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SupportService } from '@bushtrade/website/shared/services';
 
 @Component({
   selector: 'bushtrade.web-purchases-index',
@@ -20,13 +22,21 @@ export class PurchasesIndexComponent implements OnInit {
   purchases$: Observable<IPurchase[]>;
   paymentDetails$: Observable<IPaymentDetails>;
   purchasetypes: any[];
+  selectedPurchase: IPurchase;
 
   @ViewChild('dt') table: Table;
-
+  showCreateSupportTicketModal: boolean;
   showPurchaseDetailDialog: boolean = false;
+
+  addSupportTicketFormGroup: FormGroup = new FormGroup({
+    title: new FormControl('', Validators.required),
+    message: new FormControl('', [ Validators.required, Validators.maxLength(2500) ]),
+    category: new FormControl(SupportTicketCategory.Dispute, Validators.required)
+  });
 
   constructor(
     private purchasesFacade: PurchasesFacade,
+    private supportService: SupportService,
     private messageService: MessageService
   ) {}
 
@@ -76,5 +86,38 @@ export class PurchasesIndexComponent implements OnInit {
   onPurchaseTypeChange(event) {
     console.log(event.value);
     this.table.filter(event.value, 'listing.type', 'equals')
-}
+  }
+
+  showCreateDispute(purchase: IPurchase) {
+    this.selectedPurchase = purchase;
+    this.showCreateSupportTicketModal = true;
+  }
+
+  hideCreateSupportTicketModal() {
+    this.showCreateSupportTicketModal = false;
+    this.addSupportTicketFormGroup.reset();
+  }
+
+  saveSupportTicket() {
+    var disputeTicket = this.addSupportTicketFormGroup.value as ICreateSupportTicket;
+    disputeTicket.purchaseId = this.selectedPurchase.id;
+    disputeTicket.listingId = this.selectedPurchase.listingId;
+    this.supportService.addSupportTicket(disputeTicket)
+      .subscribe(
+        (result) => {
+          this.purchasesFacade.dispatch(setPurchaseDisputeId({ purchaseId: this.selectedPurchase.id, disputeId: result.id }));
+          this.showCreateSupportTicketModal = false;
+          this.messageService.add({
+            severity: 'success',
+            detail: 'Dispute created successfully'
+          });
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'error',
+            detail: 'Server error. Please try again'
+          });
+        }
+      )
+  }
 }

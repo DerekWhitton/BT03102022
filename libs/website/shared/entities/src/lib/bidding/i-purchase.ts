@@ -4,6 +4,8 @@ export interface IPurchase {
   id: string;
   listingId: string;
   conversationId: string;
+  disputeId: string;
+  disputeResolved: boolean;
   amount: number;
   listing: IListing;
   bid: IBid;

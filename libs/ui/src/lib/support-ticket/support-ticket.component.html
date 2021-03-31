@@ -31,7 +31,7 @@
           </div>
           <div class="p-col-12 p-md-6 p-lg-3">
             <i class="pi pi-clock p-mr-1" style="font-size: 1rem;"></i>
-            {{ supportTicket.createdAt | date: 'dd MMM yyyy h:mm:ss' }}
+            {{ supportTicket.createdAt | date: 'dd MMM yyyy HH:mm:ss' }}
           </div>
           <div class="p-col-12 p-md-6 p-lg-3">
             <p style="margin: 0;">{{ supportTicket.title }}</p>
@@ -64,7 +64,7 @@
             </div>
             <div class="p-col-12 p-md-6 p-lg-6">
               <i class="pi pi-clock p-mr-1" style="font-size: 1rem;"></i>
-              {{ message.createdAt | date: 'dd MMM yyyy h:mm:ss' }}
+              {{ message.createdAt | date: 'dd MMM yyyy HH:mm:ss' }}
             </div>
             <div class="p-col-12 p-md-12 p-lg-12">
               <p style="margin: 0;">{{ message.message }}</p>
