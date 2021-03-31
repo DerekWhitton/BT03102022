@@ -24,7 +24,7 @@
               </div>
               <div class="p-col p-ml-3">
                 <small class="p-m-0 p-p-0">
-                  Posted {{ post.createdAt | date: 'dd MMM yyyy h:mm:ss' }}
+                  Posted {{ post.createdAt | date: 'dd MMM yyyy HH:mm:ss' }}
                 </small>
                 <div [innerHtml]="post.content | safeHtml" class="post-content p-p-0"></div>
               </div>
