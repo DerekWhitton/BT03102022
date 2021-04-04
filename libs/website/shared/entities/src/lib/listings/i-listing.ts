@@ -19,6 +19,7 @@ export interface IListing {
   startDate: Date;
   endDate: Date;
   isPremium: boolean;
+  listingLocationName: string;
   images: Image[];
 }
 

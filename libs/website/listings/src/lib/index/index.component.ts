@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import {
   ICategory,
   IListing,
+  ILocation,
   IPaginatedResponse,
   ISearchFacet,
   ListingSortField,
@@ -46,6 +47,15 @@ export class IndexComponent implements OnInit {
   searchPriceRange: number[] = [];
   subCategories: ICategory[];
   parentCategory: any[] = [];
+  // Location range search
+  userLocation: ILocation;
+  selectableDistanceRanges: any[] = [
+    { label: "50km", value: 50 },
+    { label: "100km", value: 100 },
+    { label: "150km", value: 150 },
+    { label: "200km", value: 200 },
+  ];
+  selectedRange: any;
 
   constructor(
     private router: Router,
@@ -142,6 +152,18 @@ export class IndexComponent implements OnInit {
     this.dispatchListingQuery();
   }
 
+  filterDistanceRange() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.userLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        this.dispatchListingQuery();
+      });
+    }
+  }
+
   private navigate() {
     const { query, type, categoryId, facets } = this;
 
@@ -211,7 +233,9 @@ export class IndexComponent implements OnInit {
         categoryId,
         facets,
         searchPriceRange[0],
-        searchPriceRange[1]
+        searchPriceRange[1],
+        this.userLocation,
+        this.selectedRange
       )
       .subscribe(
         (res) => {
