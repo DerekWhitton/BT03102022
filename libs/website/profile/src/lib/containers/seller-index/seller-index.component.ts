@@ -53,6 +53,7 @@ export class SellerIndexComponent implements OnInit {
   listingSaved$ = this.listingsFacade.listingSaved$;
   selectedSellerId: string;
   displayCreateUpdateDialog = false;
+  isUpdate = false;
   isPrivate: boolean = true;
 
   columns = [
@@ -107,9 +108,9 @@ export class SellerIndexComponent implements OnInit {
   options: any;
   overlays: any[] = [];
   selectedLocation: ILocation;
-  defaultMapCenter: { lat: -31.066605, lng: 24.027446 };
-  defaultZoom: 5;
-  specificLocationZoom: 15;
+  defaultMapCenter = { lat: -31.066605, lng: 24.027446 };
+  defaultZoom = 5;
+  specificLocationZoom = 15;
 
   constructor(
     private store: Store,
@@ -477,16 +478,10 @@ export class SellerIndexComponent implements OnInit {
     this.overlays = [];
     this.overlays.push(
       new google.maps.Marker({
-        position: {
-          lat: this.selectedLocation.lat,
-          lng: this.selectedLocation.lng,
-        },
+        position: this.selectedLocation,
       })
     );
     this.addlistingFormGroup.controls.listingLocation.setValue(this.selectedLocation);
-    if (this.options.zoom == this.defaultZoom) {
-      this.map.setZoom(this.specificLocationZoom);
-    }
   }
 
   clearMap() {
@@ -496,6 +491,10 @@ export class SellerIndexComponent implements OnInit {
 
   private initializeListingForm(listing: ISellerListing = null) {
     this.selectedCategoryId = listing?.categoryId;
+    this.isUpdate = false;
+    if (this.selectedCategoryId) {
+      this.isUpdate = true;
+    }
     this.images = listing?.images.map((i) => ({ id: i.id, src: i.url })) ?? [];
     if (listing && listing.listingLocation) {
       this.selectedLocation = listing.listingLocation;
