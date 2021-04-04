@@ -1,4 +1,5 @@
 import { ListingType, Image } from "../..";
+import { ILocation } from "../shared-models/i-location";
 
 export interface IListingPropertyValue {
   categoryPropertyName: string;
@@ -20,4 +21,5 @@ export interface IListingDetails {
   endDate: Date;
   images: Image[];
   listingPropertyValues: IListingPropertyValue[];
+  locationName: string;
 }

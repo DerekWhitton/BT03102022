@@ -1,5 +1,6 @@
+import { environment } from './../../../../../../apps/seller-portal/src/environments/environment';
 import { SearchService } from './../../../../shared/services/src/lib/search/search.service';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getUser, loadUser } from '@bushtrade/website/shared/state';
 import { MsalService } from '@azure/msal-angular';
@@ -24,6 +25,7 @@ import {
 } from '@bushtrade/website/shared/services';
 import { MessageService } from 'primeng/api';
 import { forkJoin, Observable } from 'rxjs';
+import { APP_CONFIG } from '@bushtrade/app-config';
 
 @Component({
   selector: 'bushtrade-web-detail',
@@ -74,7 +76,11 @@ export class DetailComponent implements OnInit, OnDestroy {
   activeIndex: number = 0;
   paymentDetails: any;
 
+  // Google Maps
+  mapsApiKey: string;
+
   constructor(
+    @Inject(APP_CONFIG) private configuration: any,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store,
@@ -86,6 +92,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     private searchService: SearchService,
     private conversationService: ConversationsService
   ) {
+    this.mapsApiKey = configuration.googleMapsApiKey;
     this.route.params.subscribe(() => this.ngOnInit()); // reset and set based on new parameter this time
   }
  

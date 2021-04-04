@@ -1,4 +1,5 @@
 import { ListingType } from '../listings/i-listing';
+import { ILocation } from '../shared-entities';
 
 export interface ISellerListingPropertyValue {
   categoryPropertyId: string;
@@ -15,6 +16,7 @@ export interface ISellerListing {
   name: string;
   startingPrice: number;
   description: string;
+  listingLocation: ILocation;
   type: ListingType;
   priceIncrement: number;
   reservePrice: number;
