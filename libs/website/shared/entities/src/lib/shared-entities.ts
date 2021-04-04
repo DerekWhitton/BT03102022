@@ -29,3 +29,4 @@ export * from './listings/i-listing-premium-package';
 export * from './listings/i-listing-premium-package-request';
 export * from './listings/listing-sort-field';
 export * from './shared-models/sort-order';
+export * from './shared-models/i-location';

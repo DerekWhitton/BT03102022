@@ -50,6 +50,18 @@
             <h3>Description</h3>
             <p>{{ listingDetails.description }}</p>
             <hr />
+            <h3>Location</h3>
+            <div *ngIf="listingDetails.locationName; else locationNotAvailable">
+              <p>{{listingDetails.locationName}}</p>
+              <a href="https://www.google.com/maps/place/{{listingDetails.locationName}}" target="_blank">
+                <img class="listing-location-map"
+                  src="https://maps.googleapis.com/maps/api/staticmap?center={{listingDetails.locationName}}&size=600x300&maptype=roadmap&key={{mapsApiKey}}"/>
+              </a>
+            </div>
+            <ng-template #locationNotAvailable>
+              <p>Location not available</p>
+            </ng-template>
+            <hr />
             <ng-container *ngIf="listingDetails.listingPropertyValues.length > 0">
               <h3>Specifications</h3>
 

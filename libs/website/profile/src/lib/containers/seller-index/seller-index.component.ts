@@ -5,6 +5,7 @@ import {
   ICategory,
   ICategoryProperty,
   ICreateOrUpdateListing,
+  ILocation,
   ISeller,
   ISellerListing,
   ISellerListingPropertyValue,
@@ -19,7 +20,7 @@ import {
   getUserSellers,
   registerSeller,
 } from '@bushtrade/website/shared/state';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { first, filter } from 'rxjs/operators';
@@ -30,7 +31,7 @@ import {
   updateListing,
 } from '../../+state/listings/listings.actions';
 import { ListingsFacade } from '../../+state/listings/listings.facade';
-import { getListingsError } from '../../+state/listings/listings.selectors';
+declare var google: any;
 
 interface ICategoryPropertyWithUserSelectedValue extends ICategoryProperty {
   value: string;
@@ -101,6 +102,14 @@ export class SellerIndexComponent implements OnInit {
   isUploadingImageFiles: boolean;
   selectedListingId: string;
   premiumPackagesModalVisible: boolean;
+  // map properties
+  map: any;
+  options: any;
+  overlays: any[] = [];
+  selectedLocation: ILocation;
+  defaultMapCenter: { lat: -31.066605, lng: 24.027446 };
+  defaultZoom: 5;
+  specificLocationZoom: 15;
 
   constructor(
     private store: Store,
@@ -114,6 +123,14 @@ export class SellerIndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.options = {
+      center: this.defaultMapCenter,
+      zoom: this.defaultZoom,
+      streetViewControl: false,
+      keyboardShortcuts: false,
+      fullscreenControl: false
+    };
+
     this.store.select(getUserSellers).subscribe((sellers: ISeller[]) => {
       this.sellers = sellers;
       if (sellers.length > 0) {
@@ -249,6 +266,7 @@ export class SellerIndexComponent implements OnInit {
   saveListing() {
     var listing: ICreateOrUpdateListing;
     listing = { ...(this.addlistingFormGroup.value as ICreateOrUpdateListing) };
+    listing.listingLocation = this.selectedLocation;
     listing.listingImageIds = this.images.map((i) => i.id);
     listing.listingPropertyValues = this.categoryProperties.map((p) => ({
       categoryPropertyId: p.id,
@@ -312,6 +330,7 @@ export class SellerIndexComponent implements OnInit {
   clearForm() {
     this.displayCreateUpdateDialog = false;
     this.initializeListingForm();
+    this.clearMap();
     this.categoryProperties = [];
     this.images = [];
   }
@@ -426,9 +445,67 @@ export class SellerIndexComponent implements OnInit {
     }
   }
 
+  setMap($event: any) {
+    this.map = $event.map;
+  }
+
+  handleMapClick(event) {
+    this.selectedLocation = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+    this.addMarker();
+  }
+
+  setCurrentLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.selectedLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        this.overlays = [];
+        this.overlays.push(
+          new google.maps.Marker({
+            position: this.selectedLocation,
+          })
+        );
+        this.map.setCenter(this.selectedLocation);
+        this.map.setZoom(this.specificLocationZoom);
+      });
+    }
+  }
+
+  addMarker() {
+    this.overlays = [];
+    this.overlays.push(
+      new google.maps.Marker({
+        position: {
+          lat: this.selectedLocation.lat,
+          lng: this.selectedLocation.lng,
+        },
+      })
+    );
+    this.addlistingFormGroup.controls.listingLocation.setValue(this.selectedLocation);
+    if (this.options.zoom == this.defaultZoom) {
+      this.map.setZoom(this.specificLocationZoom);
+    }
+  }
+
+  clearMap() {
+    this.overlays = [];
+    this.addlistingFormGroup.controls.listingLocation.reset();
+  }
+
   private initializeListingForm(listing: ISellerListing = null) {
     this.selectedCategoryId = listing?.categoryId;
     this.images = listing?.images.map((i) => ({ id: i.id, src: i.url })) ?? [];
+    if (listing && listing.listingLocation) {
+      this.selectedLocation = listing.listingLocation;
+      this.options.center = listing.listingLocation,
+      this.options.zoom = this.specificLocationZoom;
+      this.addMarker();
+    } else {
+      this.options.center = this.defaultMapCenter;
+      this.options.zoom = this.defaultZoom;
+    }
     this.addlistingFormGroup = new FormGroup({
       id: new FormControl(listing?.id),
       name: new FormControl(listing?.name, Validators.required),
@@ -461,6 +538,10 @@ export class SellerIndexComponent implements OnInit {
         listing?.categoryId ?? '',
         Validators.required
       ),
+      listingLocation: new FormControl(
+        this.selectedLocation,
+        Validators.required
+      )
     });
   }
 }

@@ -44,6 +44,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { FieldsetModule } from 'primeng/fieldset';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { GMapModule } from 'primeng/gmap';
 
 @NgModule({
   imports: [
@@ -96,6 +97,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     ScrollPanelModule,
     FieldsetModule,
     OverlayPanelModule,
+    GMapModule
   ],
   exports: [
     RadioButtonModule,
@@ -146,6 +148,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     ScrollPanelModule,
     FieldsetModule,
     OverlayPanelModule,
+    GMapModule
   ],
 })
 export class UiElementsModule {}

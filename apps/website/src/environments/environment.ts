@@ -33,6 +33,7 @@ export const environment = {
       'https://stagingbushtrade.onmicrosoft.com/fe7f3487-c419-4040-bcf4-fca1281fce47/api',
     ],
   },
+  googleMapsApiKey: 'AIzaSyCakNllm6pq9ZApi4gH-ISoQAH4IhwsRMo',
 };
 
 /*
