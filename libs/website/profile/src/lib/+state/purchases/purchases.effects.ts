@@ -103,6 +103,21 @@ export class PurchasesEffects implements OnInitEffects {
     )
   );
 
+  setPurchaseDisputeId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PurchasesActions.setPurchaseDisputeId),
+      withLatestFrom(this.store),
+      fetch({
+        run: (action) => {
+          return PurchasesActions.setPurchaseDisputeIdSuccess({ purchaseId: action.purchaseId, disputeId: action.disputeId });
+        },
+        onError: (action, error) => {
+          console.error('Error', error);
+        },
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private purchasesSvc: PurchasesService,

@@ -70,7 +70,16 @@ const purchasesReducer = createReducer(
   on(PurchasesActions.cancelPurchaseFailure, (state, { error }) => ({
     ...state,
     error,
-  }))
+  })),
+  on(
+    PurchasesActions.setPurchaseDisputeIdSuccess, (state, { purchaseId, disputeId }) => {
+      var selectedPurchase = { ...state.entities[purchaseId] };
+      selectedPurchase.disputeId = disputeId;
+      return purchasesAdapter.upsertOne(selectedPurchase, {
+        ...state,
+      });
+    }
+  )
 );
 
 export function reducer(state: State | undefined, action: Action) {

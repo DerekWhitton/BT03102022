@@ -56,3 +56,13 @@ export const cancelPurchaseFailure = createAction(
   '[Purchases] Cancel Purchases Failure',
   props<{ error: any }>()
 );
+
+export const setPurchaseDisputeId = createAction(
+  '[Purchases] Set Purchase Dispute Id',
+  props<{ purchaseId: any, disputeId: any }>()
+);
+
+export const setPurchaseDisputeIdSuccess = createAction(
+  '[Purchases] Set Purchase Dispute Id Success',
+  props<{ purchaseId: any, disputeId: any }>()
+);

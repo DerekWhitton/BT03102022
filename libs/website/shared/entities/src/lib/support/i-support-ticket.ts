@@ -6,6 +6,7 @@ export enum SupportTicketCategory {
   Bidding,
   Account,
   Other,
+  Dispute
 }
 
 export interface ISupportTicket {

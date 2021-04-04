@@ -17,6 +17,7 @@ import { GalleriaModule } from 'primeng/galleria';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ListboxModule } from 'primeng/listbox';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { MenuModule } from 'primeng/menu';
@@ -69,7 +70,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     CardModule,
     ButtonModule,
     DropdownModule,
-    InputTextModule,
+    InputTextareaModule,
     MenubarModule,
     MenuModule,
     ProgressBarModule,
@@ -119,7 +120,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     CardModule,
     ButtonModule,
     DropdownModule,
-    InputTextModule,
+    InputTextareaModule,
     MenubarModule,
     MenuModule,
     ProgressBarModule,
