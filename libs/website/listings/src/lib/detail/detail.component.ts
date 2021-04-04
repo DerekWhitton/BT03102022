@@ -1,3 +1,4 @@
+import { ISellerListingConversation, ISellerListingConversationMessage } from './../../../../shared/entities/src/lib/conversations/i-purchase-conversation';
 import { SearchService } from './../../../../shared/services/src/lib/search/search.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -59,7 +60,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   customBid: string;
 
   // Q&A Section
-  questions = []; // Questions retrieved for the current listing
+  questions: ISellerListingConversationMessage = []; // Questions retrieved for the current listing
   newQuestion: string = ''; // Holds any new question that is to be asked
   questionAnswer: string = ''; // Holds any answer that is to be given to a question
   questionAnswerId: string; // Holds the id of the question we are answering
@@ -119,11 +120,6 @@ export class DetailComponent implements OnInit, OnDestroy {
       const sellerSummary$ = this.listingsService.getSellerSummary(
         this.listingId
       );
-
-      // console.log("Seller:")
-      // console.log(this.listingSellerSummary)
-      // console.log("User:")
-      // console.log(this.msalService.getAccount())
 
       forkJoin([listingDetails$, sellerSummary$]).subscribe(
         ([listingDetails, sellerSummary]) => {
