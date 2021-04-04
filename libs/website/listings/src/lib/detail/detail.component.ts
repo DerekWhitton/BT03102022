@@ -1,4 +1,3 @@
-import { ISellerListingConversation, ISellerListingConversationMessage } from './../../../../shared/entities/src/lib/conversations/i-purchase-conversation';
 import { SearchService } from './../../../../shared/services/src/lib/search/search.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +12,7 @@ import {
   IListing,
   IListingDetails,
   IListingSeller,
+  ISellerListingConversationMessage,
   IUser,
   ListingType,
 } from '@bushtrade/website/shared/entites';
@@ -32,7 +32,6 @@ import { forkJoin, Observable } from 'rxjs';
 })
 export class DetailComponent implements OnInit, OnDestroy {
   loggedIn = false;
-
   refreshInterval: number;
   visibilityChangedListenerFunction: any;
   detailsLoading: boolean;
@@ -60,7 +59,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   customBid: string;
 
   // Q&A Section
-  questions: ISellerListingConversationMessage = []; // Questions retrieved for the current listing
+  questions: ISellerListingConversationMessage[] = []; // Questions retrieved for the current listing
   newQuestion: string = ''; // Holds any new question that is to be asked
   questionAnswer: string = ''; // Holds any answer that is to be given to a question
   questionAnswerId: string; // Holds the id of the question we are answering
@@ -86,8 +85,10 @@ export class DetailComponent implements OnInit, OnDestroy {
     private msalService: MsalService,
     private searchService: SearchService,
     private conversationService: ConversationsService
-  ) {}
-
+  ) {
+    this.route.params.subscribe(() => this.ngOnInit()); // reset and set based on new parameter this time
+  }
+ 
   ngOnInit(): void {
     const { params } = this.route.snapshot;
     this.listingId = params.id;
