@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@bushtrade/app-config';
 import {
   IListing,
+  ILocation,
   IPaginatedResponse,
   ISearchFacet,
   ListingSortField,
@@ -32,7 +33,9 @@ export class SearchService {
     categoryId: string = null,
     facets: { key: string; value: string }[] = [],
     minPrice: number = null,
-    maxPrice: number = null
+    maxPrice: number = null,
+    userLocation: ILocation = null,
+    nrOfKm: number
   ) {
     let queryParams = [];
     let urlQuery = '';
@@ -60,6 +63,11 @@ export class SearchService {
     }
     if (maxPrice) {
       queryParams.push(`maxPrice=${maxPrice}`);
+    }
+    if (userLocation && nrOfKm) {
+      queryParams.push(`lat=${userLocation.lat}`);
+      queryParams.push(`lng=${userLocation.lng}`);
+      queryParams.push(`nrOfKm=${nrOfKm}`);
     }
     if (queryParams.length > 0) {
       urlQuery = `?${queryParams.join("&")}`;

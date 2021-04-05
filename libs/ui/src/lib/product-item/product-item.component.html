@@ -32,7 +32,7 @@
           <i class="pi pi-heart" [ngClass]="item.isFavorite ? 'favorite' : ''"></i>
         </a>
       </div>
-      <p>Location</p>
+      <p>{{item.listingLocationName}}</p>
       <p>{{item.createdAt | date:'short'}}</p>
 
       <h3>
