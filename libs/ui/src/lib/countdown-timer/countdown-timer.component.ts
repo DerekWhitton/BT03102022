@@ -31,6 +31,7 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   public minutesToDday: number;
   public hoursToDday: number;
   public daysToDday: number;
+  public loaded: boolean;
 
   constructor() {}
 
@@ -46,6 +47,7 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   private getTimeDifference() {
     this.timeDifference = this.parsedEndDate.getTime() - new Date().getTime();
     this.timeDifferenceRemaining.emit(this.timeDifference);
+    this.loaded = true;
     if (this.timeDifference > 0) {
       this.allocateTimeUnits(this.timeDifference);
     } else {

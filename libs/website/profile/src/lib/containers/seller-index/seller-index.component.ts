@@ -55,6 +55,7 @@ export class SellerIndexComponent implements OnInit {
   displayCreateUpdateDialog = false;
   isUpdate = false;
   isPrivate: boolean = true;
+  isSaving: boolean = false;
 
   columns = [
     { field: 'name', header: 'Name' },
@@ -265,6 +266,10 @@ export class SellerIndexComponent implements OnInit {
   }
 
   saveListing() {
+    if(this.isSaving){
+      return;
+    }
+    this.isSaving = true;
     var listing: ICreateOrUpdateListing;
     listing = { ...(this.addlistingFormGroup.value as ICreateOrUpdateListing) };
     listing.listingLocation = this.selectedLocation;
@@ -284,6 +289,7 @@ export class SellerIndexComponent implements OnInit {
           });
           this.clearForm();
         }
+        this.isSaving = false;
       });
     });
 

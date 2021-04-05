@@ -137,15 +137,16 @@
                       </ul>
 
                       <!-- New Question -->
-                      <div class="new-message" *ngIf="userCanQuestion && loggedIn">
+                      <div class="new-message p-pt-1" *ngIf="userCanQuestion && loggedIn">
                         <div class="message-input">
                           <input type="text" placeholder="Ask a question" class="p-inputtext" [(ngModel)]="newQuestion" />
                         </div>
-                        <button pButton type="button" icon="pi pi-save" iconPos="left" (click)="submitQuestion()"></button>
+                        <button pButton type="button" iconPos="left" label="Ask" (click)="submitQuestion()" style="float:right"></button>
                       </div>
+
                       <div class="new-message" *ngIf="!userCanQuestion">
-                        <h1>This is your post so you may not add questions</h1>
-                      </div>
+                        <h1>No questions have been asked for you to answer yet.</h1>
+                        </div>
                     </div>
 
                     <!-- Pop-up shown when answering a question -->
@@ -259,7 +260,7 @@
                       (click)="placeBid(customBid)"></button>
                   </div>
 
-                  <p>Place an automatic bid:</p>
+                  <!-- <p>Place an automatic bid:</p>
                   <p-messages severity="warn">
                     <ng-template pTemplate>
                       <span class="p-message-icon pi pi-exclamation-triangle"></span>
@@ -272,7 +273,8 @@
                     <input type="number" pInputText placeholder="{{ biddingRecommendations[0] * 2 | currency:'R '}}">
                     <button type="button" pButton pRipple label="Set Auto" class="p-ml-auto p-button-gold"></button>
                   </div>
-                  
+                   -->
+                   
                 </ng-container>
               </div>
               <div class="bid-history sidebar-section  p-pb-3">
@@ -281,18 +283,20 @@
                   <p-table [value]="listingBids.slice(0, 3)" styleClass="p-datatable-striped">
                     <ng-template pTemplate="body" let-bid>
                       <tr>
-                        <td class="p-m-0 p-p-0">{{ bid.firstName }}</td>
-                        <td class="p-m-0 p-p-0">
+                        <td class="p-m-0 p-py-2 p-px-0">{{ bid.firstName }}</td>
+                        <td class="p-m-0 p-py-2 p-px-0">
                           {{ bid.placedAt | date: 'dd MMM yyyy hh:mm:ss' }}
                         </td>
-                        <td class="p-m-0 p-p-0 p-text-right price">
+                        <td class="p-m-0 p-py-2 p-px-0 p-text-right price">
                           {{ bid.amount | currency:"R " }}
 
                         </td>
                       </tr>
                     </ng-template>
                   </p-table>
-                  <a (click)="showBidsModal = true">View all bids</a>
+                  <p class="p-pt-3">
+                    <a (click)="showBidsModal = true">View all bids</a>
+                  </p>
                 </ng-container>
                 <ng-template #noBids>
                   There are no bids placed on this auction yet.
@@ -377,11 +381,11 @@
       <p-table [value]="listingBids" styleClass="p-datatable-striped">
         <ng-template pTemplate="body" let-bid>
           <tr>
-            <td class="p-m-0 p-p-0">{{ bid.firstName }}</td>
-            <td class="p-m-0 p-p-0">
+            <td class="">{{ bid.firstName }}</td>
+            <td class="">
               {{ bid.placedAt | date: 'dd MMM yyyy hh:mm:ss' }}
             </td>
-            <td class="p-m-0 p-p-0 p-text-right price">{{ bid.amount | currency:"R "}}</td>
+            <td class="p-text-right price">{{ bid.amount | currency:"R "}}</td>
           </tr>
         </ng-template>
       </p-table>

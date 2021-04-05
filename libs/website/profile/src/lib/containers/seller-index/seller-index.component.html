@@ -140,7 +140,7 @@
       label="Save"
       icon="pi pi-check"
       class="p-button-text"
-      [disabled]="!addlistingFormGroup.valid"
+      [disabled]="!addlistingFormGroup.valid || isSaving"
       (click)="saveListing()"
     ></button>
   </ng-template>
