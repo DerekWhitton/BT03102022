@@ -42,6 +42,8 @@ export class CategoriesComponent implements OnInit {
     },
   ];
 
+  propertyType = 0;
+
   displayCreateDialog: boolean = false;
 
   curentItemLocalMetadata: any;
@@ -99,7 +101,8 @@ export class CategoriesComponent implements OnInit {
 
   attachProperty() {
     let property = this.addPropertyFormGroup.value;
-    if (!property.options || typeof property.options === typeof '') {
+    console.log(property);
+    if (!property.options || property.options == "") {
       property.options = [];
     }
 
@@ -231,11 +234,12 @@ export class CategoriesComponent implements OnInit {
   }
 
   private initializeCategoryProperyForm() {
+    this.propertyType = 0;
     this.addPropertyFormGroup = new FormGroup({
       name: new FormControl('', Validators.required),
-      type: new FormControl('', Validators.required),
+      type: new FormControl(this.propertyType, Validators.required),
       required: new FormControl(false, Validators.required),
-      options: new FormControl('', Validators.required),
+      options: new FormControl(''),
     });
   }
 }

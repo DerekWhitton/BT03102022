@@ -301,6 +301,7 @@
         </label>
         <p-dropdown
           [options]="categoryPropertyTypeOptions"
+          [(ngModel)]="this.propertyType"
           formControlName="type"
         ></p-dropdown>
       </div>
@@ -325,7 +326,7 @@
       </div>
       <p-button
         label="Add Property"
-        [disabled]="!this.addPropertyFormGroup.valid"
+        [disabled]="(!this.addPropertyFormGroup.valid)"
         (click)="attachProperty()"
       ></p-button>
     </form>
