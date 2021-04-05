@@ -42,7 +42,7 @@
 
   <ul class="category-list">
     <li *ngFor="let category of subCategories">
-      <a (click)="changeSubCategory(category.id)">{{ category.name }}</a>
+      <a *ngIf="category.active" (click)="changeSubCategory(category.id)">{{ category.name }}</a>
     </li>
 
     <li *ngIf="parentCategory != ''">
@@ -92,7 +92,7 @@
     *ngIf="searchResponse; else noSearchResponse"
   >
     <div class="p-grid">
-      <div class="p-col-12 p-mb-4 p-d-none p-d-md-block">
+      <div class="p-col-12 p-mb-4 p-d-none p-d-md-block p-mt-3">
         <h3 class="p-text-center">
           Browse <ng-container *ngIf="type == 0">auctions</ng-container>
           <ng-container *ngIf="type == 1">items for sale</ng-container> by
@@ -207,8 +207,8 @@
             <a (click)="sortBy(0)" [ngClass]="listingSortField == 0 ? 'selected-sorting' : ''">Price</a> | 
             <a (click)="sortBy(1)" [ngClass]="listingSortField == 1 ? 'selected-sorting' : ''">Closing Date</a> | 
             <a (click)="sortBy(2)" [ngClass]="listingSortField == 2 ? 'selected-sorting' : ''">Created Date</a>
-            <i *ngIf="sortOrder == sortOrderEnum.Ascending" class="pi pi-sort-amount-up-alt p-ml-2"></i>
-            <i *ngIf="sortOrder == sortOrderEnum.Descending" class="pi pi-sort-amount-down p-ml-2"></i>
+            <i *ngIf="sortOrder == sortOrderEnum.Ascending" class="pi pi-sort-amount-up-alt p-ml-2" pTooltip="Click the filter again to sort listings in Decending order" tooltipPosition="top"></i>
+            <i *ngIf="sortOrder == sortOrderEnum.Descending" class="pi pi-sort-amount-down p-ml-2" pTooltip="Click the filter again to sort listings in Ascending order" tooltipPosition="top"></i>
           </div>
         </div>
         <div class="p-grid">
