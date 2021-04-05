@@ -1,21 +1,46 @@
 <div *ngIf="user$ | async as user">
 
-
   <div class="p-grid">
     <div class="p-col-12 p-md-8p-lg-9">
-      <div class="p-grid">
-        <div class="p-col">
 
-          <img src="{{ user.profilePictureUri ? user.profilePictureUri : 'assets/layout/images/no-profile.png'}}" alt="User Profile Pic" class="img-round"
-            style="width:100px;">
-          <h3 class="p-m-0">{{ user.firstName + ' ' + user.surname }}</h3>
+      <div class="p-grid">
+        <div class="p-col-3">
+
+          <div class="card widget-user-card"><div class="user-card-header">
+            <img [src]="image" alt="diamond-layout" class="user-card-avatar"></div>
+            <div class="user-card-body"><div class="user-card-title">{{ user.firstName + ' ' + user.surname }}</div>
+            
+            <div class="p-grid user-card-stats">
+              
+              <div class="p-col-12">
+                <p-badge severity="success" styleclass="p-mr-2">
+                  <span class="p-mr-2 p-badge p-component p-badge-no-gutter p-badge-xl p-badge-secondary">
+                    {{user.sellers.length}}
+                  </span>
+                </p-badge> 
+                Listing {{(user.sellers.length > 1) ? "Profiles" : "Profile"}}
+              </div>
+              <div class="p-col-12 text-center">
+            </div>
+
+            </div>
+
+            <p-fileUpload
+                  #fileUpload
+                  name="image"
+                  mode="basic"
+                  [auto]="true"
+                  accept="image/*"
+                  customUpload="true"
+                  maxFileSize="300000"
+                  chooseLabel="Change Logo"
+                  (uploadHandler)="UploadProfilePicture($event)"
+                >
+                </p-fileUpload>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
-      <div class="p-grid p-mb-3">
-        <div class="p-col-6"><strong>Listing Profiles:</strong></div>
-        <div class="p-col-6">{{user.sellers.length}}</div>
-      </div>
     </div>
-
-
 </div>
