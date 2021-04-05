@@ -30,3 +30,6 @@ export * from './listings/i-listing-premium-package-request';
 export * from './listings/listing-sort-field';
 export * from './shared-models/sort-order';
 export * from './shared-models/i-location';
+export * from './reviews/i-seller-review-request';
+export * from './reviews/i-review';
+export * from './reviews/i-listing-reviews';

@@ -79,6 +79,15 @@ const purchasesReducer = createReducer(
         ...state,
       });
     }
+  ),
+  on(
+    PurchasesActions.setPurchaseReviewedSuccess, (state, { purchaseId }) => {
+      var selectedPurchase = { ...state.entities[purchaseId] };
+      selectedPurchase.reviewed = true;
+      return purchasesAdapter.upsertOne(selectedPurchase, {
+        ...state,
+      });
+    }
   )
 );
 
