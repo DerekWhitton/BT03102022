@@ -1,13 +1,13 @@
-import { loadPurchases, markReceivedGoods, setPurchaseDisputeId } from './../../+state/purchases/purchases.actions';
+import { loadPurchases, markReceivedGoods, setPurchaseDisputeId, setPurchaseReviewed } from './../../+state/purchases/purchases.actions';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ICreateSupportTicket, IPaymentDetails, IPurchase, ListingType, SupportTicketCategory } from '@bushtrade/website/shared/entites';
+import { ICreateSupportTicket, IListingReviews, IPaymentDetails, IPurchase, ISellerReviewRequest, ListingType, SupportTicketCategory } from '@bushtrade/website/shared/entites';
 import { Observable } from 'rxjs';
 import { cancelPurchase, loadPaymentDetails } from '../../+state/purchases/purchases.actions';
 import { PurchasesFacade } from '../../+state/purchases/purchases.facade';
 import { Table } from 'primeng/table';
 import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SupportService } from '@bushtrade/website/shared/services';
+import { ReviewsService, SupportService } from '@bushtrade/website/shared/services';
 
 @Component({
   selector: 'bushtrade.web-purchases-index',
@@ -34,10 +34,20 @@ export class PurchasesIndexComponent implements OnInit {
     category: new FormControl(SupportTicketCategory.Dispute, Validators.required)
   });
 
+  // Reviews
+  listingReviews: IListingReviews;
+  selectedListing: any;
+  showReviewModal = false;
+  reviewFormGroup: FormGroup = new FormGroup({
+    rating: new FormControl('', [ Validators.required, Validators.min(0), Validators.max(5) ]),
+    comment: new FormControl('', [ Validators.required, Validators.maxLength(2500) ])
+  });
+
   constructor(
     private purchasesFacade: PurchasesFacade,
     private supportService: SupportService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private reviewsService: ReviewsService
   ) {}
 
   ngOnInit(): void {
@@ -86,6 +96,49 @@ export class PurchasesIndexComponent implements OnInit {
   onPurchaseTypeChange(event) {
     console.log(event.value);
     this.table.filter(event.value, 'listing.type', 'equals')
+  }
+
+  reviewSeller(purchase: any) {
+    this.selectedListing = purchase.listing;
+    this.selectedPurchase = purchase;
+    this.reviewsService.getListingReviews(this.selectedListing.id)
+      .subscribe(
+        (result) => {
+          this.listingReviews = result;
+          this.showReviewModal = true;
+        },
+        () => {}
+      );
+  }
+
+  hideReviewModal() {
+    this.showReviewModal = false;
+    this.reviewFormGroup.reset();
+  }
+
+  saveReview() {
+    var reviewRequest = this.reviewFormGroup.value as ISellerReviewRequest;
+    reviewRequest.listingId = this.selectedListing.id;
+
+    this.reviewsService.reviewSeller(reviewRequest)
+      .subscribe(
+        (result) => {
+          this.purchasesFacade.dispatch(setPurchaseReviewed({ purchaseId: this.selectedPurchase.id }));
+          this.showReviewModal = false;
+          this.reviewFormGroup.reset();
+          this.messageService.add({
+            severity: 'success',
+            detail: 'Review saved.'
+          });
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'error',
+            detail: 'Server error. Please try again'
+          });
+          this.showReviewModal = false;
+        }
+      )
   }
 
   showCreateDispute(purchase: IPurchase) {

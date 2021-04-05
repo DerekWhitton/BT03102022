@@ -66,3 +66,13 @@ export const setPurchaseDisputeIdSuccess = createAction(
   '[Purchases] Set Purchase Dispute Id Success',
   props<{ purchaseId: any, disputeId: any }>()
 );
+
+export const setPurchaseReviewed = createAction(
+  '[Purchases] Set Purchase as Reviewed',
+  props<{ purchaseId: any }>()
+);
+
+export const setPurchaseReviewedSuccess = createAction(
+  '[Purchases] Set Purchase as Reviewed Success',
+  props<{ purchaseId: any }>()
+);

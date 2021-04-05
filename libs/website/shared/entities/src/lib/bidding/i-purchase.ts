@@ -11,6 +11,7 @@ export interface IPurchase {
   bid: IBid;
   dateReceivedGoods: Date;
   purchasedAt: Date;
+  reviewed: boolean;
   dateCompleted: Date;
   dateCancelled: Date;
 }
