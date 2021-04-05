@@ -35,7 +35,8 @@ export class SearchService {
     minPrice: number = null,
     maxPrice: number = null,
     userLocation: ILocation = null,
-    nrOfKm: number
+    nrOfKm: number,
+    selectedRegion: string
   ) {
     let queryParams = [];
     let urlQuery = '';
@@ -68,6 +69,9 @@ export class SearchService {
       queryParams.push(`lat=${userLocation.lat}`);
       queryParams.push(`lng=${userLocation.lng}`);
       queryParams.push(`nrOfKm=${nrOfKm}`);
+    }
+    if (selectedRegion) {
+      queryParams.push(`region=${selectedRegion}`);
     }
     if (queryParams.length > 0) {
       urlQuery = `?${queryParams.join("&")}`;

@@ -179,6 +179,21 @@
         </div>
         <hr />
         <h4 class="p-pt-0 p-mt-1">
+          REGION
+        </h4>
+        <div class="p-grid">
+          <div class="p-col">
+            <p-dropdown
+              [options]="selectableRegions"
+              [autoDisplayFirst]="false"
+              [showClear]="true"
+              [(ngModel)]="selectedRegion"
+              (onChange)="navigate()"
+            ></p-dropdown>
+          </div>
+        </div>
+        <hr />
+        <h4 class="p-pt-0 p-mt-1">
           LOCATION RANGE
         </h4>
         <div class="p-grid">

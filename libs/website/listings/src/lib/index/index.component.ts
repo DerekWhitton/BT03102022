@@ -50,12 +50,26 @@ export class IndexComponent implements OnInit {
   // Location range search
   userLocation: ILocation;
   selectableDistanceRanges: any[] = [
-    { label: "50km", value: 50 },
-    { label: "100km", value: 100 },
-    { label: "150km", value: 150 },
-    { label: "200km", value: 200 },
+    { label: "50 km", value: 50 },
+    { label: "100 km", value: 100 },
+    { label: "150 km", value: 150 },
+    { label: "200 km", value: 200 },
+    { label: "200+ km", value: null }
   ];
   selectedRange: any;
+  selectableRegions: any[] = [
+    { label: "All regions", value: null },
+    { label: "Eastern Cape", value: "Eastern Cape" },
+    { label: "Free State", value: "Free State" },
+    { label: "Gauteng", value: "Gauteng" },
+    { label: "KwaZulu-Natal", value: "KwaZulu-Natal" },
+    { label: "Limpopo", value: "Limpopo" },
+    { label: "Mpumalanga", value: "Mpumalanga" },
+    { label: "North West", value: "North West" },
+    { label: "Northern Cape", value: "Northern Cape" },
+    { label: "Western Cape", value: "Western Cape" },
+  ];
+  selectedRegion: string;
 
   constructor(
     private router: Router,
@@ -170,6 +184,7 @@ export class IndexComponent implements OnInit {
     let queryParams = {
       type,
       categoryId,
+      region: this.selectedRegion,
       minPrice: this.searchPriceRange[0],
       maxPrice: this.searchPriceRange[1],
     };
@@ -222,7 +237,7 @@ export class IndexComponent implements OnInit {
     }
 
     this.isSearching = true;
-    const { query, type, categoryId, facets, searchPriceRange } = this;
+    const { query, type, categoryId, selectedRegion, facets, searchPriceRange } = this;
 
     this.searchSubscription$ = this.searchService
       .searchListings(
@@ -235,7 +250,8 @@ export class IndexComponent implements OnInit {
         searchPriceRange[0],
         searchPriceRange[1],
         this.userLocation,
-        this.selectedRange
+        this.selectedRange,
+        selectedRegion
       )
       .subscribe(
         (res) => {
