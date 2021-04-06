@@ -42,7 +42,7 @@ export class CarouselHeroBannerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoryService.loadCategories().subscribe((categories) => {
+    this.categoryService.loadCategories(null, true).subscribe((categories) => {
       this.categories = categories.map((c) => {
         return { label: c.name, value: c.id };
       });
