@@ -12,5 +12,6 @@ export interface IListingSeller {
   id: string;
   name: string;
   createdAt: Date;
+  userProfilePictureUri: string;
   latestReviews: ISellerReview[];
 }

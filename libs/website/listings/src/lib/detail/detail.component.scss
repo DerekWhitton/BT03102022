@@ -42,3 +42,10 @@ i {
   max-width: 100%;
   display: block;
 }
+
+:host ::ng-deep {
+  .t-answer-icon {
+    margin-left: 0.5rem;
+    order: 2;
+  }
+}

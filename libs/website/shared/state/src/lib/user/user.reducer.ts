@@ -19,6 +19,7 @@ export const userIntialState: UserState = {
   updatedAt: '',
   error: '',
   loaded: false,
+  profilePictureUri: ''
 };
 
 const usersReducer = createReducer(
@@ -44,7 +45,14 @@ const usersReducer = createReducer(
   on(UserActions.registerSellerFailure, (state, { error }) => ({
     ...state,
     error,
-  }))
+  })),
+
+  // On Update of Profile Picture - Set to the new URL
+  on(UserActions.setProfilePictureSuccess, (state, { filePath }) => ({
+    ...state,
+    profilePictureUri: filePath,
+  })),
+  
 );
 
 export function userReducer(state: UserState | undefined, action: Action) {

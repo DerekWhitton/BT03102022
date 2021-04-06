@@ -32,3 +32,18 @@ export const registerSellerFailure = createAction(
   '[Seller] Register Seller Failure',
   props<{ error: any }>()
 );
+
+export const setProfilePicture = createAction(
+  '[User] Set Profile Picture',
+  props<{ filePath: string }>()
+);
+
+export const setProfilePictureSuccess = createAction(
+  '[User] Set Profile Picture Success',
+  props<{ filePath: string }>()
+);
+
+export const setProfilePictureFailure = createAction(
+  '[User] Set Profile Picture Failure',
+  props<{ error: any }>()
+);

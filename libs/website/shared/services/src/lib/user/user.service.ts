@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@bushtrade/app-config';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ISeller, IUser } from '@bushtrade/website/shared/entites';
 @Injectable({
   providedIn: 'root',
@@ -29,4 +29,22 @@ export class UserService {
       }
     );
   }
+
+  uploadProfilePicture(file: File) {
+
+    var HTTPOptions = {
+      headers: new HttpHeaders(),
+      'responseType': 'blob' as 'json'
+   }
+   
+    let formData = new FormData();
+    formData.append('file', file, file.name);
+
+    return this.httpClient.post<string>(
+      `${this.base}api/v${this.version}/Profiles/AddOrUpdateProfilePicture`,
+      formData, HTTPOptions
+    );
+  }
+
+  
 }

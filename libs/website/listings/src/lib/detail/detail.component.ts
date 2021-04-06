@@ -59,6 +59,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   latestItems: IListing[];
   displayCustom: boolean;
   customBid: string;
+  sellerProfilePicture: string = "assets/layout/images/no-profile.png";
 
   // Q&A Section
   questions: ISellerListingConversationMessage[] = []; // Questions retrieved for the current listing
@@ -187,6 +188,8 @@ export class DetailComponent implements OnInit, OnDestroy {
         }
       );
     }
+
+    
 
     this.listingsService
       .loadLatestListings(this.maxLatestListings)

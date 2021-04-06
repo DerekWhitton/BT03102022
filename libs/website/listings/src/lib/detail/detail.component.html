@@ -80,29 +80,35 @@
 
             <div class="p-grid">
               <div class="p-col-12 p-md-8p-lg-9">
-                <h3>Seller Information</h3>
-                <div class="p-grid">
-                  <div class="p-col">
-                    <img src="assets/layout/images/no-profile.png" alt="User Profile Pic" class="img-round"
-                      style="width:100px;">
-                    <h3 class="p-m-0">{{ listingSellerSummary.name }}</h3>
-                  </div>
-                </div>
-                <div class="p-grid p-mb-3">
-                  <div class="p-col-6"><strong>Member Since:</strong></div>
-                  <div class="p-col-6">
-                    {{ listingSellerSummary.createdAt | date: 'MMMM yyyy' }}
-                  </div>
-                  <div class="p-col-6"><strong>Active ads:</strong></div>
-                  <div class="p-col-6">2</div>
-                  <div class="p-col-6"><strong>Total ads:</strong></div>
-                  <div class="p-col-6">20</div>
-                </div>
 
+                <div class="p-grid text-center">
+                  <div class="p-col-3 align-center p-p-4 p-d-block">
+                    <img [src]="(listingSellerSummary.userProfilePictureUri) ? listingSellerSummary.userProfilePictureUri : 'assets/layout/images/no-profile.png'" alt="User Profile Pic" class="img-round p-d-block p-my-4" style="margin: 0 auto; width:100px; height:100px;">
+                    <h3 class="p-m-0 p-text-center">{{ listingSellerSummary.name }}</h3>
+                  </div>
+                  
+                  <div class="p-col-9">
+                    <h3>Seller Information</h3>
+
+                    <div class="p-grid p-mb-3">
+                      <div class="p-col-6"><strong>Member Since:</strong></div>
+                      <div class="p-col-6">
+                        {{ listingSellerSummary.createdAt | date: 'MMMM yyyy' }}
+                      </div>
+                      <div class="p-col-6"><strong>Active ads:</strong></div>
+                      <div class="p-col-6">2</div>
+                      <div class="p-col-6"><strong>Total ads:</strong></div>
+                      <div class="p-col-6">20</div>
+                    </div>
+                  </div>
+
+                </div>
                 
                 <ng-container *ngIf="!loggedIn">
                   <p>You have to sign in or register to ask questions.</p>
                 </ng-container>
+
+                <hr/>
 
                 <div class="p-col-12">
                     <!-- Q&A Chat -->
@@ -115,7 +121,10 @@
 
                             <!-- Question -->
                             <li class="message-from">
-                              <img src="assets/layout/images/no-profile.png" alt="diamond-layout" />
+                              <p-badge size="large" severity="warning" styleclass="p-mr-2">
+                                <span class="p-mr-2 p-badge p-component p-badge-no-gutter p-badge-lg p-badge-success">Q</span>
+                              </p-badge>
+
                               <div>
                                 <small>{{question.name}} - {{question.createdAt | date: 'dd/MM/yyyy' }}</small><br/>
                                 {{question.content}}
@@ -125,8 +134,10 @@
                             </li>
 
                             <!-- Answer -->
-                              <li class="message-own" *ngFor="let answer of question.children; index as j;">
-                                <img src="assets/layout/images/no-profile.png" alt="diamond-layout" />
+                              <li class="message-own " *ngFor="let answer of question.children; index as j;">
+                                <p-badge size="large" severity="warning" styleclass="p-mr-2" class="t-answer-icon">
+                                  <span class="p-mr-2 p-badge p-component p-badge-no-gutter p-badge-lg p-badge-info">A</span>
+                                </p-badge>
                               <div>
                                 <small>{{answer.name}} - {{answer.createdAt | date: 'dd/MM/yyyy' }}</small><br/>
                                 {{answer.content}}</div>

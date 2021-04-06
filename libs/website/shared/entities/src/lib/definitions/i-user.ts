@@ -6,4 +6,5 @@ export interface IUser {
   sellers: any[];
   createdAt: any;
   updatedAt: any;
+  profilePictureUri: string;
 }
