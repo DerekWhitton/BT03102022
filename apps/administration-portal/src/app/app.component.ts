@@ -13,7 +13,15 @@ export class AppComponent {
   constructor(
     private broadcastService: BroadcastService,
     private authService: MsalService
-  ) {}
+  ){
+    if (
+      (window.location as any).protocol != 'https:' &&
+      environment.enforceHttps
+    ) {
+      location.href = location.href.replace('http://', 'https://');
+    }
+  }
+  
 
   ngOnInit(): void {
     // event listeners for authentication status
