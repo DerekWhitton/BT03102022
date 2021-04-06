@@ -20,11 +20,21 @@ export class CategoryService {
     this.version = configuration.apiVersion;
   }
 
-  loadCategories(parentId: string = null) {
-    const query = parentId ? `?parentId=${parentId}` : '';
+  loadCategories(parentId: string = null, onlyActive: boolean = false) {
+    let queries = [];
+    if (parentId) {
+      queries.push(`parentId=${parentId}`);
+    }
+    if (onlyActive) {
+      queries.push(`onlyActive=${onlyActive}`);
+    }
+    let queryString = '';
+    if (queries.length > 0) {
+      queryString = `?${queries.join('&')}`;
+    }
 
     return this.httpClient.get<ICategory[]>(
-      `${this.base}api/v${this.version}/Categories${query}`
+      `${this.base}api/v${this.version}/Categories${queryString}`
     );
   }
 

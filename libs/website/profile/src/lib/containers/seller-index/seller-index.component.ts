@@ -346,7 +346,7 @@ export class SellerIndexComponent implements OnInit {
     this.loadingCategories = true;
 
     const categoryResult = await this.categoryService
-      .loadCategories(parentId)
+      .loadCategories(parentId, true)
       .toPromise();
 
     this.categoryTree = !this.categoryTree.length
