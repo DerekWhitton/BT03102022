@@ -10,7 +10,12 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
     UiModule,
     RouterModule.forRoot(
       [
-        { path: '', pathMatch: 'full', redirectTo: 'home' },
+        { path: '', 
+        loadChildren: () =>
+        import('@bushtrade/website/home').then(
+          (module) => module.WebsiteHomeModule
+        ),
+        },
         {
           path: 'home',
           loadChildren: () =>
