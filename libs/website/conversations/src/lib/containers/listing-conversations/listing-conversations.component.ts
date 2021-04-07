@@ -38,7 +38,7 @@ export class ListingConversationsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadUser());
+
     this.listingId = this.route.snapshot.params?.listingId;
 
     this.store.select(getUserSellers).subscribe((sellers: any) => {

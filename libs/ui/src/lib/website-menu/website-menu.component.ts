@@ -29,12 +29,10 @@ export class WebsiteMenuComponent implements OnInit {
   constructor(
     private router: Router,
     private categoryService: CategoryService,
-    private store: Store
+    private store: Store,
   ) {}
 
   ngOnInit(): void {
-
-    this.store.dispatch(loadUser());
     this.user$ = this.store.select(getUser);
 
     this.router.events.subscribe((nEvent) => {

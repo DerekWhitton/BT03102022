@@ -107,7 +107,6 @@ export class DetailComponent implements OnInit, OnDestroy {
     }
 
     // Get meta-data for currently signed in user
-    this.store.dispatch(loadUser());
     this.user$ = this.store.select(getUser);
 
     this.visibilityChangedListenerFunction = function (ev) {

@@ -45,7 +45,6 @@ export class PurchaseConversationComponent implements OnInit {
           this.loadMoreMessages();
         });
       });
-      this.store.dispatch(loadUser());
     }
   }
 
