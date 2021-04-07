@@ -43,6 +43,5 @@ export class ProfileIndexComponent implements OnInit {
         routerLink: 'purchases',
       },
     ];
-    this.store.dispatch(loadUser());
   }
 }
