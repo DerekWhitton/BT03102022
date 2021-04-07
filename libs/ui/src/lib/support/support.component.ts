@@ -1,12 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ICreateSupportTicket, SupportTicketCategory } from '@bushtrade/website/shared/entites';
+import {
+  ICreateSupportTicket,
+  SupportTicketCategory,
+} from '@bushtrade/website/shared/entites';
 import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'bushtrade-web-support',
   templateUrl: './support.component.html',
-  styleUrls: ['./support.component.scss']
+  styleUrls: ['./support.component.scss'],
 })
 export class SupportComponent implements OnInit {
   @Input() supportTickets;
@@ -22,38 +25,41 @@ export class SupportComponent implements OnInit {
   @Output() addSupportTicket = new EventEmitter<any>();
   @Output() closeSupportTicket = new EventEmitter<string>();
 
-
-  userIsAuthenticated:Boolean;
+  userIsAuthenticated: Boolean;
 
   selectableTicketCategories: { label: string; value: SupportTicketCategory }[];
   filters = {
     category: null,
     query: null,
-    includeClosed: null
-  }
+    includeClosed: null,
+  };
   showCreateSupportTicketModal = false;
   addSupportTicketFormGroup: FormGroup = new FormGroup({
     listing: new FormControl(''),
     title: new FormControl('', Validators.required),
-    message: new FormControl('', [ Validators.required, Validators.maxLength(2500) ]),
-    category: new FormControl('', Validators.required)
+    message: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(2500),
+    ]),
+    category: new FormControl('', Validators.required),
   });
 
   constructor(private msalService: MsalService) {}
 
   ngOnInit(): void {
-    this.userIsAuthenticated = this.msalService.getAccount() ? true : false;
+    this.userIsAuthenticated =
+      this.msalService.instance.getAllAccounts() &&
+      this.msalService.instance.getAllAccounts().length
+        ? true
+        : false;
     this.selectableTicketCategories = Object.keys(SupportTicketCategory)
-      .filter(s => isNaN(Number(s)))
-      .map(s => {
+      .filter((s) => isNaN(Number(s)))
+      .map((s) => {
         return { label: s, value: SupportTicketCategory[s] };
       });
-    this.added.subscribe(
-      (isAdded) => {
-        if (isAdded)
-          this.pageOrFilterAction(this.currentPage);
-      }
-    );
+    this.added.subscribe((isAdded) => {
+      if (isAdded) this.pageOrFilterAction(this.currentPage);
+    });
     this.pageOrFilterAction(this.currentPage);
   }
 
@@ -63,15 +69,17 @@ export class SupportComponent implements OnInit {
       perPage: this.pageSize,
       query: this.filters.query,
       category: this.filters.category,
-      includeClosed: this.filters.includeClosed
-    })
+      includeClosed: this.filters.includeClosed,
+    });
   }
 
   saveSupportTicket() {
     if (!this.addSupportTicketFormGroup.valid) {
       return;
     }
-    this.addSupportTicket.emit(this.addSupportTicketFormGroup.value as ICreateSupportTicket );
+    this.addSupportTicket.emit(
+      this.addSupportTicketFormGroup.value as ICreateSupportTicket
+    );
     this.hideCreateSupportTicketModal();
   }
 
