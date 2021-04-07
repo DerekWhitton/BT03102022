@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  enforceHttps: false,
   apiRoute: 'https://staging-bush-trade-administration-api.azurewebsites.net/',
   apiVersion: '1.0',
   b2c: {

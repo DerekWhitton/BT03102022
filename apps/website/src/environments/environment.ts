@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  enforceHttps: false,
   blogRoute: 'https://blog.bushtrade.co.za/',
   apiRoute: 'https://staging-bush-trade-api.azurewebsites.net/',
   apiVersion: '1.0',

@@ -18,7 +18,16 @@ export class AppComponent implements OnInit {
     private broadcastService: BroadcastService,
     private authService: MsalService,
     private store: Store
-  ) {}
+  ) {
+    if (
+      (window.location as any).protocol != 'https:' &&
+      environment.enforceHttps
+    ) {
+      location.href = location.href.replace('http://', 'https://');
+    }
+  }
+  
+
 
   ngOnInit(): void {
     this.loggedIn = this.authService.getAccount() !== null ? true : false;
