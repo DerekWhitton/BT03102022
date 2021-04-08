@@ -9,12 +9,19 @@
 
       <div *ngIf="!loading" class="thread p-card p-mb-5">
         <ng-container *ngFor="let conv of purchaseConversations">
-          <div class="p-mb-4 p-p-3 conversation-card" [ngClass]="conv.isWinner ? 'winner-purchase': ''">
+          <div
+            class="p-mb-4 p-p-3 conversation-card"
+            [ngClass]="conv.isWinner ? 'winner-purchase' : ''"
+          >
             <div class="p-grid">
               <div class="p-col-12 p-md-6 p-lg-3 conversation-title">
                 <div class="profile-image-container">
                   <img
-                    src="{{ conv.buyerProfilePicture ? conv.buyerProfilePicture : 'assets/layout/images/no-profile.png'}}"
+                    src="{{
+                      conv.buyerProfilePicture
+                        ? conv.buyerProfilePicture
+                        : 'assets/layout/images/no-profile.png'
+                    }}"
                     alt="User Profile Pic"
                   />
                 </div>
@@ -26,21 +33,31 @@
               </div>
               <div class="p-col-12 p-md-6 p-lg-3">
                 <button
+                  *ngIf="listingDetails?.isSold && !conv.dateCancelled"
+                  pButton
+                  pRipple
+                  icon="pi pi-star-o"
+                  class="p-button p-button-warning p-mr-2"
+                  pTooltip="Review your buyer"
+                  (click)="reviewBuyer(conv)"
+                  tooltipPosition="bottom"
+                ></button>
+                <button
                   *ngIf="!listingDetails?.isSold && !conv.dateCancelled"
                   pButton
                   pRipple
                   icon="pi pi-dollar"
-                  title="Choose buyer"
-                  class="p-button-rounded p-button-primary p-mr-2"
+                  pTooltip="Choose buyer as the winner"
+                  class="p-button p-button-info p-mr-2"
                   (click)="showWinnerConfirmation(conv.purchaseId)"
                 ></button>
                 <button
                   *ngIf="!listingDetails?.isSold || conv.isWinner"
                   pButton
                   pRipple
-                  label="View details"
-                  title="Go to conversation"
-                  class="p-button-rounded p-button-primary p-mr-2"
+                  icon="pi pi-sign-out"
+                  pTooltip="Open conversation"
+                  class="p-button p-button-info p-mr-2"
                   [routerLink]="['../..', 'purchase', conv.id]"
                 ></button>
               </div>
@@ -90,6 +107,104 @@
       icon="pi pi-check"
       class="p-button-text"
       (click)="confirmChosenWinner()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="showReviewModal"
+  [style]="{ width: '450px' }"
+  [modal]="true"
+  [closable]="false"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="header">
+    <div>
+      <h3 *ngIf="!listingReviews.buyerReview">Review the buyer</h3>
+      <h3 *ngIf="listingReviews.buyerReview">Your review for the buyer</h3>
+      <hr>
+      <h4>Listing: {{listingDetails.name}}</h4>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <form [formGroup]="reviewFormGroup" *ngIf="!listingReviews.buyerReview">
+      <div class="p-grid">
+        <div class="p-col">
+          <div class="p-fluid">
+            <div class="p-field">
+              <label>
+                Rating:
+              </label>
+              <p-rating [cancel]="false" formControlName="rating"></p-rating>
+            </div>
+            <div class="p-field">
+              <label>
+                Review comment (2500 characters maximum):
+              </label>
+              <textarea
+                pInputTextarea
+                [rows]="5"
+                [autoResize]="true"
+                required
+                formControlName="comment"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="p-fluid" *ngIf="listingReviews.buyerReview">
+      <div class="p-field">
+        <label>
+          Rating:
+        </label>
+        <p-rating [cancel]="false" [readonly]="true" [(ngModel)]="listingReviews.buyerReview.rating"></p-rating>
+      </div>
+      <div class="p-field">
+        <label>
+          Review comment: 
+        </label>
+        <br>
+        <label>{{listingReviews.buyerReview.comment}}</label>
+      </div>
+    </div>
+    <div class="p-fluid" *ngIf="listingReviews.buyerReview && listingReviews.sellerReview">
+      <hr/>
+      <h3>Buyer's review:</h3>
+      <div class="p-field">
+        <label>
+          Rating:
+        </label>
+        <p-rating [cancel]="false" [readonly]="true" [(ngModel)]="listingReviews.sellerReview.rating"></p-rating>
+      </div>
+      <div class="p-field">
+        <label>
+          Review comment: 
+        </label>
+        <br>
+        <label>{{listingReviews.sellerReview.comment}}</label>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideReviewModal()"
+    ></button>
+    <button
+      *ngIf="!listingReviews.buyerReview"
+      pButton
+      pRipple
+      class="p-button-text"
+      icon="pi pi-check"
+      label="Save review"
+      [disabled]="!this.reviewFormGroup.valid"
+      (click)="saveReview()"
     ></button>
   </ng-template>
 </p-dialog>

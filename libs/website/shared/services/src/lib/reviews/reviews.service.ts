@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@bushtrade/app-config';
-import { IListingReviews, IReview, ISellerReviewRequest } from '@bushtrade/website/shared/entites';
+import { IBuyerReviewRequest, IListingReviews, IReview, ISellerReviewRequest } from '@bushtrade/website/shared/entites';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +27,15 @@ export class ReviewsService {
   reviewSeller(reviewRequest: ISellerReviewRequest) {
     return this.httpClient.post<IReview>(
       `${this.base}api/v${this.version}/Review/ReviewSeller/`,
+      {
+        ...reviewRequest,
+      }
+    );
+  }
+
+  reviewBuyer(sellerId: string, reviewRequest: IBuyerReviewRequest) {
+    return this.httpClient.post<IReview>(
+      `${this.base}api/v${this.version}/Review/ReviewBuyer/${sellerId}`,
       {
         ...reviewRequest,
       }
