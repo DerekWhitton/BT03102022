@@ -349,6 +349,23 @@
         <label>{{listingReviews.sellerReview.comment}}</label>
       </div>
     </div>
+    <div class="p-fluid" *ngIf="listingReviews.sellerReview && listingReviews.buyerReview">
+      <hr/>
+      <h3>Seller's review:</h3>
+      <div class="p-field">
+        <label>
+          Rating:
+        </label>
+        <p-rating [cancel]="false" [readonly]="true" [(ngModel)]="listingReviews.buyerReview.rating"></p-rating>
+      </div>
+      <div class="p-field">
+        <label>
+          Review comment: 
+        </label>
+        <br>
+        <label>{{listingReviews.buyerReview.comment}}</label>
+      </div>
+    </div>
   </ng-template>
 
   <ng-template pTemplate="footer">

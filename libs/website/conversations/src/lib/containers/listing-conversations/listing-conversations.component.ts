@@ -1,6 +1,8 @@
 import { MessageService } from 'primeng/api';
 import {
+  IBuyerReviewRequest,
   IListingDetails,
+  IListingReviews,
   IPurchaseConversation,
 } from '@bushtrade/website/shared/entites';
 import { Component, OnInit } from '@angular/core';
@@ -9,10 +11,11 @@ import {
   ConversationsService,
   ListingsService,
   PurchasesService,
+  ReviewsService,
 } from '@bushtrade/website/shared/services';
 import { Store } from '@ngrx/store';
-import { getUserSellers } from 'libs/website/shared/state/src/lib/user/user.selectors';
-import { loadUser } from 'libs/website/shared/state/src/lib/user/user.actions';
+import { getUserSellers } from '@bushtrade/website/shared/state';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'bushtrade-web-listing-conversations',
@@ -28,17 +31,32 @@ export class ListingConversationsComponent implements OnInit {
   showConfirmationModal: boolean;
   loading = false;
 
+  // Reviews
+  listingReviews: IListingReviews;
+  showReviewModal = false;
+  reviewFormGroup: FormGroup = new FormGroup({
+    rating: new FormControl('', [
+      Validators.required,
+      Validators.min(0),
+      Validators.max(5),
+    ]),
+    comment: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(2500),
+    ]),
+  });
+
   constructor(
     private route: ActivatedRoute,
     private store: Store,
     private messageService: MessageService,
     private conversationsService: ConversationsService,
     private listingsService: ListingsService,
-    private purchasesService: PurchasesService
+    private purchasesService: PurchasesService,
+    private reviewsService: ReviewsService
   ) {}
 
   ngOnInit(): void {
-
     this.listingId = this.route.snapshot.params?.listingId;
 
     this.store.select(getUserSellers).subscribe((sellers: any) => {
@@ -101,5 +119,45 @@ export class ListingConversationsComponent implements OnInit {
           });
         }
       );
+  }
+
+  reviewBuyer(conversation: any) {
+    this.selectedConversation = conversation;
+    this.reviewsService.getListingReviews(this.listingDetails.id).subscribe(
+      (result) => {
+        this.listingReviews = result;
+        this.showReviewModal = true;
+      },
+      () => {}
+    );
+  }
+
+  hideReviewModal() {
+    this.showReviewModal = false;
+    this.reviewFormGroup.reset();
+  }
+
+  saveReview() {
+    const reviewRequest = this.reviewFormGroup.value as IBuyerReviewRequest;
+    reviewRequest.listingId = this.listingDetails.id;
+    reviewRequest.buyerId = this.selectedConversation.buyerId;
+
+    this.reviewsService.reviewBuyer(this.sellerId, reviewRequest).subscribe(
+      (result) => {
+        this.showReviewModal = false;
+        this.reviewFormGroup.reset();
+        this.messageService.add({
+          severity: 'success',
+          detail: 'Review saved.',
+        });
+      },
+      (error) => {
+        this.messageService.add({
+          severity: 'error',
+          detail: 'Server error. Please try again',
+        });
+        this.showReviewModal = false;
+      }
+    );
   }
 }
