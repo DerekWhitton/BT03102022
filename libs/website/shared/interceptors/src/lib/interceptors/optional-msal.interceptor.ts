@@ -19,7 +19,10 @@ export class OptionalMsalInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (this.msalSvc.getAccount()) {
+    if (
+      this.msalSvc.instance.getAllAccounts() &&
+      this.msalSvc.instance.getAllAccounts().length
+    ) {
       return this.msalInterceptor.intercept(request, next);
     } else {
       return next.handle(request);

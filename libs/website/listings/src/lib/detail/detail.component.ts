@@ -59,7 +59,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   latestItems: IListing[];
   displayCustom: boolean;
   customBid: string;
-  sellerProfilePicture: string = "assets/layout/images/no-profile.png";
+  sellerProfilePicture: string = 'assets/layout/images/no-profile.png';
 
   // Q&A Section
   questions: ISellerListingConversationMessage[] = []; // Questions retrieved for the current listing
@@ -71,7 +71,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   user$: Observable<IUser>; // Contains meta-data for user including their reseller acccount which are used to check their ability to participate in Q&A
   userCanQuestion = false; // Whether this user can add questions to the listing
   isSeller = false; // The current user is the seller of the product
-  isBuyer = false; 
+  isBuyer = false;
   // End - Q&A Section
 
   activeIndex: number = 0;
@@ -96,14 +96,17 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.mapsApiKey = configuration.googleMapsApiKey;
     this.route.params.subscribe(() => this.ngOnInit()); // reset and set based on new parameter this time
   }
- 
+
   ngOnInit(): void {
     const { params } = this.route.snapshot;
     this.listingId = params.id;
-    this.userId = this.msalService.getAccount()?.accountIdentifier;
 
-    if (this.msalService.getAccount()) {
+    if (
+      this.msalService.instance.getAllAccounts() &&
+      this.msalService.instance.getAllAccounts().length
+    ) {
       this.loggedIn = true;
+      this.userId = this.msalService.instance.getAllAccounts()[0].localAccountId;
     }
 
     // Get meta-data for currently signed in user
@@ -143,10 +146,13 @@ export class DetailComponent implements OnInit, OnDestroy {
           // If the user viewing this page is the seller of the listing, then they should not be allowed to add questions.
           this.user$.subscribe((x) => {
             // If the listing is the current user
-            if (x.sellers.map((t) => t.id).indexOf(this.listingSellerSummary.id) === -1)
+            if (
+              x.sellers
+                .map((t) => t.id)
+                .indexOf(this.listingSellerSummary.id) === -1
+            )
               this.userCanQuestion = true;
-            else
-              this.isSeller = true;
+            else this.isSeller = true;
           });
 
           this.refreshingSidebar = true;
@@ -187,8 +193,6 @@ export class DetailComponent implements OnInit, OnDestroy {
         }
       );
     }
-
-    
 
     this.listingsService
       .loadLatestListings(this.maxLatestListings)
