@@ -1,8 +1,8 @@
-<ng-container *ngIf="sellers">
+<ng-container *ngIf="loading$ | async; else loading">
   <ng-container *ngIf="sellers?.length > 0; else register">
     <p-tabMenu [model]="sellers">
       <ng-template pTemplate="item" let-seller let-i="index">
-        <a (click)="loadListings(seller)">{{ seller.name }}</a>
+        <a (click)="loadSellersListings(seller)">{{ seller.name }}</a>
       </ng-template>
     </p-tabMenu>
 
@@ -21,7 +21,8 @@
             icon="pi pi-plus"
             class="p-button-success p-mr-1"
             (click)="initializeListingForm(); displayCreateUpdateDialog = true"
-            pTooltip="Create an Auction or a For Sale Listing" tooltipPosition="top"
+            pTooltip="Create an Auction or a For Sale Listing"
+            tooltipPosition="top"
           ></button>
         </ng-template>
       </p-toolbar>
@@ -48,13 +49,24 @@
                 title="Make listing Premium"
                 class="p-button p-button-success p-mr-2"
                 (click)="showPremiumPackagesModal(rowData.id)"
-                pTooltip="Upgrade Listing, to get premium placement and lower buyer fees." tooltipPosition="top"
+                pTooltip="Upgrade Listing, to get premium placement and lower buyer fees."
+                tooltipPosition="top"
               ></button>
             </td>
             <td>
-              <span *ngIf="rowData.active && !rowData.isSold" class="p-tag p-tag-success">Live</span>
-              <span *ngIf="!rowData.active" class="p-tag p-tag-info">Draft</span>
-              <span *ngIf="rowData.active && rowData.isSold" class="p-tag p-tag-warning">Sold</span>
+              <span
+                *ngIf="rowData.active && !rowData.isSold"
+                class="p-tag p-tag-success"
+                >Live</span
+              >
+              <span *ngIf="!rowData.active" class="p-tag p-tag-info"
+                >Draft</span
+              >
+              <span
+                *ngIf="rowData.active && rowData.isSold"
+                class="p-tag p-tag-warning"
+                >Sold</span
+              >
             </td>
             <td
               *ngFor="let col of columns"
@@ -72,7 +84,8 @@
                 icon="pi pi-users"
                 class="p-button p-button-primary p-mr-2"
                 [routerLink]="['../..', 'conversations', 'listing', rowData.id]"
-                pTooltip="View Interested Buyers Messages" tooltipPosition="top"
+                pTooltip="View Interested Buyers Messages"
+                tooltipPosition="top"
               ></button>
               <button
                 *ngIf="rowData.active && rowData.isSold"
@@ -82,19 +95,24 @@
                 title="View Conversations"
                 class="p-button p-button-warning p-mr-2"
                 [routerLink]="['../..', 'conversations', 'listing', rowData.id]"
-                pTooltip="Go and review your buyer" tooltipPosition="top"
+                pTooltip="Go and review your buyer"
+                tooltipPosition="top"
               ></button>
             </td>
-            <td class="p-text-right">              
+            <td class="p-text-right">
               <button
-                *ngIf="!rowData.isSold && (rowData.type != ListingType.Auction || !rowData.active)"
+                *ngIf="
+                  !rowData.isSold &&
+                  (rowData.type != ListingType.Auction || !rowData.active)
+                "
                 pButton
                 pRipple
                 icon="pi pi-pencil"
                 title="Edit Listing"
                 class="p-button p-button-success p-mr-2"
                 (click)="handleUpdateSelection(rowData)"
-                pTooltip="Edit Listing" tooltipPosition="top"
+                pTooltip="Edit Listing"
+                tooltipPosition="top"
               ></button>
               <button
                 *ngIf="!rowData.isSold"
@@ -104,7 +122,8 @@
                 title="Delete Listing"
                 class="p-button p-button-danger"
                 (click)="deleteListing(rowData)"
-                pTooltip="Delete Listing" tooltipPosition="top"
+                pTooltip="Delete Listing"
+                tooltipPosition="top"
               ></button>
             </td>
           </tr>
@@ -113,6 +132,12 @@
     </ng-template>
   </ng-container>
 </ng-container>
+
+<ng-template #loading>
+  <div class="p-col-12 p-text-center">
+    <progress-spinner></progress-spinner>
+  </div>
+</ng-template>
 
 <ng-template #register>
   <button
@@ -166,271 +191,296 @@
     [formGroup]="addlistingFormGroup"
     *ngIf="!editModalDataIsInitializing; else initializingEditModalData"
   >
-    <div class="p-grid">
-      <div class="p-col">
-        <div class="p-fluid">
-          <h3>Basic Information</h3>
-          <!-- name -->
-          <div class="p-field">
-            <label>
-              Listing Title:
-            </label>
-            <input pInputText type="text" required formControlName="name" />
-          </div>
+    <div class="p-fluid p-formgrid p-grid">
+      <h3>Basic Information</h3>
+      <!-- name -->
+      <div class="p-field p-col-12">
+        <label>
+          Listing Title:
+        </label>
+        <input pInputText type="text" required formControlName="name" />
+      </div>
 
-          <!-- type -->
-          <div class="p-field">
-            <label
-              pTooltip="Auctions will have run for a set duration taking bids. For sale listings buyers will contact you on the set price."
-            >
-              Listing Type: <i class="pi pi-question-circle"></i>
-            </label>
-            <p-selectButton
-              [options]="selectableListingTypeOptions"
-              formControlName="type"
-            ></p-selectButton>
-          </div>
+      <!-- type -->
+      <div class="p-field p-col-12">
+        <label
+          pTooltip="Auctions will have run for a set duration taking bids. For sale listings buyers will contact you on the set price."
+        >
+          Listing Type:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <p-selectButton
+          [options]="selectableListingTypeOptions"
+          formControlName="type"
+        ></p-selectButton>
+      </div>
 
-          <!-- description -->
-          <div class="p-field">
-            <label>
-              Description of Item:
-            </label>
-            <textarea
-              style="width: 100%;"
-              pInputTextarea
-              [rows]="5"
-              type="text"
-              required
-              formControlName="description"
-              autoResize="autoResize"
-              maxlength="2500"
-            ></textarea>
-          </div>
+      <!-- description -->
+      <div class="p-field p-col-12">
+        <label>
+          Description of Item:
+        </label>
+        <textarea
+          style="width: 100%;"
+          pInputTextarea
+          [rows]="5"
+          type="text"
+          required
+          formControlName="description"
+          autoResize="autoResize"
+          maxlength="2500"
+        ></textarea>
+      </div>
 
-          <div class="p-field">
-            <label pTooltip="Click on the map to set the Listing Location.">
-              Location: <i class="pi pi-question-circle"></i>
-            </label>
-            <button type="button" pButton label="Set current location" icon="pi pi-globe" (click)="setCurrentLocation()"></button>
-            <p-gmap #gmap [style]="{'width':'100%','height':'320px'}" [options]="options" [overlays]="overlays"
-              (onMapClick)="handleMapClick($event)" (onMapReady)="setMap($event)"></p-gmap>
-            <button type="button" pButton label="Clear Location" icon="pi pi-times" (click)="clearMap()"></button>
-          </div>
+      <div class="p-field p-col-12">
+        <label pTooltip="Click on the map to set the Listing Location.">
+          Location:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
 
-          <!-- category -->
-          <div class="p-field">
-            <label pTooltip="Click the category if you need to change it.">
-              Listing Category: <i class="pi pi-question-circle"></i>
-            </label>
-            <br />
-            <bushtrade-category-selector
-              [categoryTree]="categoryTree"
-              [loading]="loadingCategories"
-              [selectedCategoryId]="addlistingFormGroup.get('categoryId').value"
-              (categorySelected)="handleCategorySelection($event)"
-              (chainComplete)="handleCategoryChainComplete($event)"
-            ></bushtrade-category-selector>
-          </div>
+        <p class="p-d-md-none">Click on the map to set the listing location</p>
 
-          <hr />
-          <h3>Images of Item</h3>
-          <!-- images -->
-          <div class="p-field">
-            <label pTooltip="You can upload up to 10 images.">
-              Upload Images For Listing: <i class="pi pi-question-circle"></i>
-            </label>
-            <p-fileUpload
-              #fileUpload
-              name="myfile[]"
-              mode="basic"
-              customUpload="true"
-              (uploadHandler)="uploadListingImage($event)"
-              multiple="multiple"
-              accept="image/*"
-              auto="true"
-              chooseLabel="Upload Images"
-              fileLimit="10"
-            >
-            </p-fileUpload>
+        <p-gmap
+          #gmap
+          [style]="{ width: '100%', height: '320px' }"
+          [options]="options"
+          [overlays]="overlays"
+          (onMapClick)="handleMapClick($event)"
+          (onMapReady)="setMap($event)"
+        ></p-gmap>
+      </div>
+      <div class="p-field p-col-6">
+        <button
+          type="button"
+          pButton
+          label="Set current location"
+          icon="pi pi-globe"
+          (click)="setCurrentLocation()"
+        ></button>
+      </div>
+      <div class="p-field p-col-6">
+        <button
+          type="button"
+          pButton
+          label="Clear Location"
+          icon="pi pi-times"
+          (click)="clearMap()"
+        ></button>
+      </div>
 
-            <p *ngIf="isUploadingImageFiles">
-              Uploading Files...
-              <i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i>
-            </p>
-            <div class="p-grid p-mt-2">
-              <div class="p-col-3" *ngFor="let image of images">
-                <bushtrade-listing-image-preview
-                  (removed)="handleImageRemoval(image.id)"
-                  [src]="image.src"
-                ></bushtrade-listing-image-preview>
-              </div>
-            </div>
-          </div>
+      <!-- category -->
+      <div class="p-field p-col-12">
+        <label pTooltip="Click the category if you need to change it.">
+          Listing Category:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <br />
+        <bushtrade-category-selector
+          [categoryTree]="categoryTree"
+          [loading]="loadingCategories"
+          [selectedCategoryId]="addlistingFormGroup.get('categoryId').value"
+          (categorySelected)="handleCategorySelection($event)"
+          (chainComplete)="handleCategoryChainComplete($event)"
+        ></bushtrade-category-selector>
+      </div>
 
-          <hr />
-          <h3>Price</h3>
-          <!-- starting price -->
-          <div class="p-field">
-            <label>
-              {{
-                addlistingFormGroup.get('type').value == ListingType.Auction
-                  ? 'Starting Price'
-                  : 'Price'
-              }}
-            </label>
-            <input
-              pInputText
-              type="number"
-              required
-              formControlName="startingPrice"
-              (change)="checkReserve()"
-            />
-          </div>
+      <h3>Images of Item</h3>
+      <!-- images -->
+      <div class="p-field p-col-12">
+        <label pTooltip="You can upload up to 10 images.">
+          Upload Images For Listing:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <p-fileUpload
+          #fileUpload
+          name="myfile[]"
+          mode="basic"
+          customUpload="true"
+          (uploadHandler)="uploadListingImage($event)"
+          multiple="multiple"
+          accept="image/*"
+          auto="true"
+          chooseLabel="Upload Images"
+          fileLimit="10"
+        >
+        </p-fileUpload>
 
-          <!-- starting price -->
-          <div
-            class="p-field"
-            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
-          >
-            <label
-              pTooltip="The reserve price cannot be lower than the starting price."
-            >
-              Reserve Price: <i class="pi pi-question-circle"></i>
-            </label>
-            <input
-              pInputText
-              type="number"
-              required
-              formControlName="reservePrice"
-              (change)="checkReserve()"
-            />
-          </div>
-
-          <!-- shipping details -->
-          <div class="p-field">
-            <label
-              pTooltip="Specify the shipping details."
-            >
-              Shipping Details: <i class="pi pi-question-circle"></i>
-            </label>
-            <textarea
-              style="width: 100%;"
-              pInputTextarea
-              [rows]="3"
-              type="text"
-              required
-              formControlName="shippingDetails"
-              autoResize="autoResize"
-              maxlength="2500"
-            ></textarea>
-          </div>
-
-          <!-- duration -->
-          <div
-            class="p-field"
-            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
-          >
-            <label
-              pTooltip="The EndDate will be calculated based on the duration immediately after you activate the Auction."
-            >
-              Duration: <i class="pi pi-question-circle"></i>
-            </label>
-            <p-selectButton
-              [options]="selectableAuctionDurationSettings"
-              formControlName="durationInDays"
-            ></p-selectButton>
-          </div>
-
-          <!-- increment -->
-          <div
-            class="p-field"
-            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
-          >
-            <label pTooltip="The minimum increment between bids">
-              Price Increment: <i class="pi pi-question-circle"></i>
-            </label>
-            <input
-              pInputText
-              type="number"
-              required
-              formControlName="priceIncrement"
-            />
-          </div>
-
-          <!-- quantity -->
-          <div class="p-field" style="display: none;">
-            <label>
-              Quantity:
-            </label>
-            <p-inputNumber formControlName="quantity"></p-inputNumber>
-          </div>
-
-          <!-- other category properties -->
-          <ng-container *ngIf="showProperties == true">
-            <div
-              class="p-field"
-              *ngFor="let property of categoryProperties; let i = index"
-            >
-              <label> {{ property.name }}: </label>
-              <input
-                pInputText
-                type="text"
-                [(ngModel)]="categoryProperties[i].value"
-                [ngModelOptions]="{ standalone: true }"
-                *ngIf="property.type == CategoryPropertyType.Text"
-              />
-
-              <p-inputNumber
-                [(ngModel)]="categoryProperties[i].value"
-                [ngModelOptions]="{ standalone: true }"
-                mode="decimal"
-                *ngIf="property.type == CategoryPropertyType.Numeric"
-              ></p-inputNumber>
-
-              <p-dropdown
-                [options]="property.selectableOptions"
-                [(ngModel)]="categoryProperties[i].value"
-                [ngModelOptions]="{ standalone: true }"
-                *ngIf="property.type == CategoryPropertyType.SingleSelect"
-              ></p-dropdown>
-            </div>
-          </ng-container>
-
-          <!-- active -->
-          <div class="p-field">
-            <label>
-              Active:
-            </label>
-            <br />
-            <p-inputSwitch formControlName="active"></p-inputSwitch>
-          </div>
-          <div
-            class="p-field"
-            *ngIf="
-              addlistingFormGroup.get('type').value == ListingType.Auction &&
-              addlistingFormGroup.get('active').value === true &&
-              !addlistingFormGroup.get('durationInDays').value
-            "
-          >
-            <p-message
-              severity="error"
-              text="When activating an Auction, you must provide a value for the Duration"
-            ></p-message>
-          </div>
-          <div
-            class="p-field"
-            *ngIf="
-              addlistingFormGroup.get('type').value == ListingType.Auction &&
-              addlistingFormGroup.get('active').value === true
-            "
-          >
-            <p-message
-              severity="warn"
-              text="Once submitted as Active, an Auction will not be editable anymore"
-            ></p-message>
+        <p *ngIf="isUploadingImageFiles">
+          Uploading Files...
+          <i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i>
+        </p>
+        <div class="p-grid p-mt-2">
+          <div class="p-col-3" *ngFor="let image of images">
+            <bushtrade-listing-image-preview
+              (removed)="handleImageRemoval(image.id)"
+              [src]="image.src"
+            ></bushtrade-listing-image-preview>
           </div>
         </div>
+      </div>
+
+      <h3>Price</h3>
+      <!-- starting price -->
+      <div class="p-field p-col-12">
+        <label>
+          {{
+            addlistingFormGroup.get('type').value == ListingType.Auction
+              ? 'Starting Price'
+              : 'Price'
+          }}
+        </label>
+        <input
+          pInputText
+          type="number"
+          required
+          formControlName="startingPrice"
+          (change)="checkReserve()"
+        />
+      </div>
+
+      <!-- starting price -->
+      <div
+        class="p-field p-col-12"
+        *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+      >
+        <label
+          pTooltip="The reserve price cannot be lower than the starting price."
+        >
+          Reserve Price:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <input
+          pInputText
+          type="number"
+          required
+          formControlName="reservePrice"
+          (change)="checkReserve()"
+        />
+      </div>
+
+      <!-- shipping details -->
+      <div class="p-field p-col-12">
+        <label pTooltip="Specify the shipping details.">
+          Shipping Details:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <textarea
+          style="width: 100%;"
+          pInputTextarea
+          [rows]="3"
+          type="text"
+          required
+          formControlName="shippingDetails"
+          autoResize="autoResize"
+          maxlength="2500"
+        ></textarea>
+      </div>
+
+      <!-- duration -->
+      <div
+        class="p-field p-col-12"
+        *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+      >
+        <label
+          pTooltip="The EndDate will be calculated based on the duration immediately after you activate the Auction."
+        >
+          Duration:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <p-selectButton
+          [options]="selectableAuctionDurationSettings"
+          formControlName="durationInDays"
+        ></p-selectButton>
+      </div>
+
+      <!-- increment -->
+      <div
+        class="p-field p-col-12"
+        *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+      >
+        <label pTooltip="The minimum increment between bids">
+          Price Increment:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <input
+          pInputText
+          type="number"
+          required
+          formControlName="priceIncrement"
+        />
+      </div>
+
+      <!-- quantity -->
+      <div class="p-field p-col-12" style="display: none;">
+        <label>
+          Quantity:
+        </label>
+        <p-inputNumber formControlName="quantity"></p-inputNumber>
+      </div>
+
+      <!-- other category properties -->
+      <ng-container *ngIf="showProperties == true">
+        <div
+          class="p-field p-col-12"
+          *ngFor="let property of categoryProperties; let i = index"
+        >
+          <label> {{ property.name }}: </label>
+          <input
+            pInputText
+            type="text"
+            [(ngModel)]="categoryProperties[i].value"
+            [ngModelOptions]="{ standalone: true }"
+            *ngIf="property.type == CategoryPropertyType.Text"
+          />
+
+          <p-inputNumber
+            [(ngModel)]="categoryProperties[i].value"
+            [ngModelOptions]="{ standalone: true }"
+            mode="decimal"
+            *ngIf="property.type == CategoryPropertyType.Numeric"
+          ></p-inputNumber>
+
+          <p-dropdown
+            [options]="property.selectableOptions"
+            [(ngModel)]="categoryProperties[i].value"
+            [ngModelOptions]="{ standalone: true }"
+            *ngIf="property.type == CategoryPropertyType.SingleSelect"
+          ></p-dropdown>
+        </div>
+      </ng-container>
+
+      <!-- active -->
+      <div class="p-field p-col-12">
+        <label>
+          Active:
+        </label>
+        <br />
+        <p-inputSwitch formControlName="active"></p-inputSwitch>
+      </div>
+      <div
+        class="p-field p-col-12"
+        *ngIf="
+          addlistingFormGroup.get('type').value == ListingType.Auction &&
+          addlistingFormGroup.get('active').value === true &&
+          !addlistingFormGroup.get('durationInDays').value
+        "
+      >
+        <p-message
+          severity="error"
+          text="When activating an Auction, you must provide a value for the Duration"
+        ></p-message>
+      </div>
+      <div
+        class="p-field p-col-12"
+        *ngIf="
+          addlistingFormGroup.get('type').value == ListingType.Auction &&
+          addlistingFormGroup.get('active').value === true
+        "
+      >
+        <p-message
+          severity="warn"
+          text="Once submitted as Active, an Auction will not be editable anymore"
+        ></p-message>
       </div>
     </div>
   </form>

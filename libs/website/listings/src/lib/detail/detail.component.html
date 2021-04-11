@@ -4,44 +4,74 @@
       <progress-spinner></progress-spinner>
     </div>
     <div class="thread p-p-0 p-my-5" *ngIf="!detailsLoading">
- 
       <p-toast position="top-center"></p-toast>
 
       <ng-container *ngIf="!loggedIn">
         <p-messages severity="warn">
           <ng-template pTemplate>
             <span class="p-message-icon pi pi-exclamation-triangle"></span>
-              <div class="p-ml-2">You have to be signed in to bid or ask questions.</div>
+            <div class="p-ml-2">
+              You have to be signed in to bid or ask questions.
+            </div>
           </ng-template>
-      </p-messages>
-
-        </ng-container>
+        </p-messages>
+      </ng-container>
 
       <div class="p-grid">
         <div class="p-col-12 p-md-8 p-lg-9">
-          <div *ngIf="listingDetails.images?.length > 0" class="p-p-3 bg-white p-mb-3">
-            <p-galleria [(value)]="listingDetails.images" [(visible)]="displayCustom" [(activeIndex)]="activeIndex"
-              [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1024px' }" [numVisible]="7"
-              [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false"
-              [baseZIndex]="100000">
+          <div
+            *ngIf="listingDetails.images?.length > 0"
+            class="p-p-3 bg-white p-mb-3"
+          >
+            <p-galleria
+              [(value)]="listingDetails.images"
+              [(visible)]="displayCustom"
+              [(activeIndex)]="activeIndex"
+              [responsiveOptions]="responsiveOptions"
+              [containerStyle]="{ 'max-width': '1024px' }"
+              [numVisible]="7"
+              [circular]="true"
+              [fullScreen]="true"
+              [showItemNavigators]="true"
+              [showThumbnails]="false"
+              [baseZIndex]="100000"
+            >
               <ng-template pTemplate="item" let-item>
-                <img [src]="item.url" style="max-width: 100%; display: block; max-height: 80vh" />
+                <img
+                  [src]="item.url"
+                  style="max-width: 100%; display: block; max-height: 80vh;"
+                />
               </ng-template>
             </p-galleria>
 
-            <div *ngIf="listingDetails.images" class="p-grid" style="margin: 0 auto">
+            <div
+              *ngIf="listingDetails.images"
+              class="p-grid"
+              style="margin: 0 auto;"
+            >
               <div class="p-col-12">
-                <img [src]="listingDetails.images[0]?.url" style="cursor: pointer"
-                  style="max-height:640px; max-width:100%" (click)="imageClick(0)" />
+                <img
+                  [src]="listingDetails.images[0]?.url"
+                  style="cursor: pointer;"
+                  style="max-height: 640px; max-width: 100%;"
+                  (click)="imageClick(0)"
+                />
               </div>
               <div class="p-col-12">
-                <ng-container *ngFor="let image of listingDetails.images; let index = index;" style="margin: 0 auto"
-                  key="index">
-                  <img [src]="image.url" [alt]="image.alt" style="cursor: pointer" class="thumbnail p-mr-2"
-                    (click)="imageClick(index)" />
+                <ng-container
+                  *ngFor="let image of listingDetails.images; let index = index"
+                  style="margin: 0 auto;"
+                  key="index"
+                >
+                  <img
+                    [src]="image.url"
+                    [alt]="image.alt"
+                    style="cursor: pointer;"
+                    class="thumbnail p-mr-2"
+                    (click)="imageClick(index)"
+                  />
                 </ng-container>
               </div>
-
             </div>
           </div>
           <div class="p-p-3 bg-white">
@@ -52,20 +82,34 @@
             <hr />
             <h3>Location</h3>
             <div *ngIf="listingDetails.locationName; else locationNotAvailable">
-              <p>{{listingDetails.locationName}}</p>
-              <a href="https://www.google.com/maps/place/{{listingDetails.locationName}}" target="_blank">
-                <img class="listing-location-map"
-                  src="https://maps.googleapis.com/maps/api/staticmap?center={{listingDetails.locationName}}&size=600x300&maptype=roadmap&key={{mapsApiKey}}"/>
+              <p>{{ listingDetails.locationName }}</p>
+              <a
+                href="https://www.google.com/maps/place/{{
+                  listingDetails.locationName
+                }}"
+                target="_blank"
+              >
+                <img
+                  class="listing-location-map"
+                  src="https://maps.googleapis.com/maps/api/staticmap?center={{
+                    listingDetails.locationName
+                  }}&size=600x300&maptype=roadmap&key={{ mapsApiKey }}"
+                />
               </a>
             </div>
             <ng-template #locationNotAvailable>
               <p>Location not available</p>
             </ng-template>
             <hr />
-            <ng-container *ngIf="listingDetails.listingPropertyValues.length > 0">
+            <ng-container
+              *ngIf="listingDetails.listingPropertyValues.length > 0"
+            >
               <h3>Specifications</h3>
 
-              <p-table [value]="listingDetails.listingPropertyValues" styleClass="p-datatable-striped">
+              <p-table
+                [value]="listingDetails.listingPropertyValues"
+                styleClass="p-datatable-striped"
+              >
                 <ng-template pTemplate="body" let-specification>
                   <tr>
                     <td>{{ specification.categoryPropertyName }}</td>
@@ -77,16 +121,25 @@
               <hr />
             </ng-container>
 
-
             <div class="p-grid">
               <div class="p-col-12 p-md-8p-lg-9">
-
                 <div class="p-grid text-center">
                   <div class="p-col-3 align-center p-p-4 p-d-block">
-                    <img [src]="(listingSellerSummary.userProfilePictureUri) ? listingSellerSummary.userProfilePictureUri : 'assets/layout/images/no-profile.png'" alt="User Profile Pic" class="img-round p-d-block p-my-4" style="margin: 0 auto; width:100px; height:100px;">
-                    <h3 class="p-m-0 p-text-center">{{ listingSellerSummary.name }}</h3>
+                    <img
+                      [src]="
+                        listingSellerSummary.userProfilePictureUri
+                          ? listingSellerSummary.userProfilePictureUri
+                          : 'assets/layout/images/no-profile.png'
+                      "
+                      alt="User Profile Pic"
+                      class="bt-tile p-d-block p-my-4"
+                      style="margin: 0 auto; width: 100px; height: 100px;"
+                    />
+                    <h3 class="p-m-0 p-text-center">
+                      {{ listingSellerSummary.name }}
+                    </h3>
                   </div>
-                  
+
                   <div class="p-col-9">
                     <h3>Seller Information</h3>
 
@@ -101,90 +154,175 @@
                       <div class="p-col-6">20</div>
                     </div>
                   </div>
-
                 </div>
-                
+
                 <ng-container *ngIf="!loggedIn">
                   <p>You have to sign in or register to ask questions.</p>
                 </ng-container>
 
-                <hr/>
+                <hr />
 
                 <div class="p-col-12">
-                    <!-- Q&A Chat -->
-                    <div class="widget-chat">
-                      <ul>
-                          <!-- Q/A Combo -->
-                          <!-- A question will only show to the poster and the seller, until answered - and only then it will be made public -->
-                          <ng-container *ngFor="let question of questions; index as i;" > 
-                            <ng-container *ngIf="loggedIn">
+                  <!-- Q&A Chat -->
+                  <div class="widget-chat">
+                    <ul>
+                      <!-- Q/A Combo -->
+                      <!-- A question will only show to the poster and the seller, until answered - and only then it will be made public -->
+                      <ng-container
+                        *ngFor="let question of questions; index as i"
+                      >
+                        <ng-container *ngIf="loggedIn">
+                          <!-- Question -->
+                          <li class="message-from">
+                            <p-badge
+                              size="large"
+                              severity="warning"
+                              styleclass="p-mr-2"
+                            >
+                              <span
+                                class="p-mr-2 p-badge p-component p-badge-no-gutter p-badge-lg p-badge-success"
+                                >Q</span
+                              >
+                            </p-badge>
 
-                            <!-- Question -->
-                            <li class="message-from">
-                              <p-badge size="large" severity="warning" styleclass="p-mr-2">
-                                <span class="p-mr-2 p-badge p-component p-badge-no-gutter p-badge-lg p-badge-success">Q</span>
-                              </p-badge>
+                            <div>
+                              <small
+                                >{{ question.name }} -
+                                {{
+                                  question.createdAt | date: 'dd/MM/yyyy'
+                                }}</small
+                              ><br />
+                              {{ question.content }}
 
-                              <div>
-                                <small>{{question.name}} - {{question.createdAt | date: 'dd/MM/yyyy' }}</small><br/>
-                                {{question.content}}
+                              <button
+                                *ngIf="isSeller"
+                                pButton
+                                type="button"
+                                icon="pi pi-reply"
+                                label="Reply"
+                                class="p-button-text p-button-sm"
+                                (click)="
+                                  op.toggle($event);
+                                  openAnswerDialog(question.id)
+                                "
+                                dynamic="true"
+                              ></button>
+                            </div>
+                          </li>
 
-                                <button *ngIf="isSeller" pButton type="button" icon="pi pi-reply" label="Reply" class="p-button-text p-button-sm" (click)="op.toggle($event); openAnswerDialog(question.id)" dynamic="true"></button>
-                              </div>
-                            </li>
-
-                            <!-- Answer -->
-                              <li class="message-own " *ngFor="let answer of question.children; index as j;">
-                                <p-badge size="large" severity="warning" styleclass="p-mr-2" class="t-answer-icon">
-                                  <span class="p-mr-2 p-badge p-component p-badge-no-gutter p-badge-lg p-badge-info">A</span>
-                                </p-badge>
-                              <div>
-                                <small>{{answer.name}} - {{answer.createdAt | date: 'dd/MM/yyyy' }}</small><br/>
-                                {{answer.content}}</div>
-                            </li>
-
-                          </ng-container>
+                          <!-- Answer -->
+                          <li
+                            class="message-own"
+                            *ngFor="let answer of question.children; index as j"
+                          >
+                            <p-badge
+                              size="large"
+                              severity="warning"
+                              styleclass="p-mr-2"
+                              class="t-answer-icon"
+                            >
+                              <span
+                                class="p-mr-2 p-badge p-component p-badge-no-gutter p-badge-lg p-badge-info"
+                                >A</span
+                              >
+                            </p-badge>
+                            <div>
+                              <small
+                                >{{ answer.name }} -
+                                {{
+                                  answer.createdAt | date: 'dd/MM/yyyy'
+                                }}</small
+                              ><br />
+                              {{ answer.content }}
+                            </div>
+                          </li>
                         </ng-container>
-                      </ul>
+                      </ng-container>
+                    </ul>
 
-                      <!-- New Question -->
-                      <div class="new-message p-pt-1" *ngIf="userCanQuestion && loggedIn">
-                        <div class="message-input">
-                          <input type="text" placeholder="Ask a question" class="p-inputtext" [(ngModel)]="newQuestion" />
-                        </div>
-                        <button pButton type="button" iconPos="left" label="Ask" (click)="submitQuestion()" style="float:right"></button>
+                    <!-- New Question -->
+                    <div
+                      class="new-message p-pt-1"
+                      *ngIf="userCanQuestion && loggedIn"
+                    >
+                      <div class="message-input">
+                        <input
+                          type="text"
+                          placeholder="Ask a question"
+                          class="p-inputtext"
+                          [(ngModel)]="newQuestion"
+                        />
                       </div>
-
-                      <div class="new-message" *ngIf="!userCanQuestion">
-                        <h1>No questions have been asked for you to answer yet.</h1>
-                        </div>
+                      <button
+                        pButton
+                        type="button"
+                        iconPos="left"
+                        label="Ask"
+                        (click)="submitQuestion()"
+                        style="float: right;"
+                      ></button>
                     </div>
 
-                    <!-- Pop-up shown when answering a question -->
-                    <p-overlayPanel #op>
-                      <ng-template pTemplate>
-                          <input type="text" placeholder="Answer the Question here" class="p-inputtext" [(ngModel)]="questionAnswer" />
-                          <button pButton type="button" icon="pi pi-save" iconPos="left" class="p-button-success" (click)="submitAnswer()"></button>
-                      </ng-template>
-                  </p-overlayPanel>
-
+                    <div class="new-message" *ngIf="!userCanQuestion">
+                      <h1>
+                        No questions have been asked for you to answer yet.
+                      </h1>
+                    </div>
                   </div>
+
+                  <!-- Pop-up shown when answering a question -->
+                  <p-overlayPanel #op>
+                    <ng-template pTemplate>
+                      <input
+                        type="text"
+                        placeholder="Answer the Question here"
+                        class="p-inputtext"
+                        [(ngModel)]="questionAnswer"
+                      />
+                      <button
+                        pButton
+                        type="button"
+                        icon="pi pi-save"
+                        iconPos="left"
+                        class="p-button-success"
+                        (click)="submitAnswer()"
+                      ></button>
+                    </ng-template>
+                  </p-overlayPanel>
+                </div>
               </div>
               <div class="p-lg-8 p-md-12">
-
-                <ng-container *ngIf="listingSellerSummary.latestReviews.length > 0; else noReviews">
+                <ng-container
+                  *ngIf="
+                    listingSellerSummary.latestReviews.length > 0;
+                    else noReviews
+                  "
+                >
                   <h4>Recent Reviews</h4>
 
-                  <div class="p-my-4" *ngFor="let review of listingSellerSummary.latestReviews">
+                  <div
+                    class="p-my-4"
+                    *ngFor="let review of listingSellerSummary.latestReviews"
+                  >
                     <div class="review">
-                      <p-rating [ngModel]="review.rating" readonly="true" stars="5" [cancel]="false"></p-rating>
+                      <p-rating
+                        [ngModel]="review.rating"
+                        readonly="true"
+                        stars="5"
+                        [cancel]="false"
+                      ></p-rating>
                       <p>{{ review.comment }}</p>
-                      <small>{{ review.buyerName }} |
-                        {{ review.createdAt | date: 'dd MMMM yyyy' }}</small>
+                      <small
+                        >{{ review.buyerName }} |
+                        {{ review.createdAt | date: 'dd MMMM yyyy' }}</small
+                      >
                     </div>
                   </div>
-                  <a href="#" *ngIf="listingSellerSummary.latestReviews.length > 1">View all reviews</a>
-
+                  <a
+                    href="#"
+                    *ngIf="listingSellerSummary.latestReviews.length > 1"
+                    >View all reviews</a
+                  >
                 </ng-container>
                 <ng-template #noReviews>
                   <h3>There are no recent reviews for this seller</h3>
@@ -195,11 +333,16 @@
         </div>
         <div class="p-col-6 p-md-4 p-lg-3">
           <div class="sidebar bg-white p-pt-0 p-pb-5">
-            <div *ngIf="listingDetails.type == listingType.Auction" class="bg-gold p-pt-3 p-pb-3 p-text-center">
+            <div
+              *ngIf="listingDetails.type == listingType.Auction"
+              class="bg-gold p-pt-3 p-pb-3 p-text-center"
+            >
               <p class="text-timeout p-m-0" *ngIf="!timesUp">
-                Closes in<br>
-                <bushtrade-web-countdown-timer [endDate]="listingDetails.endDate"
-                  (timeDifferenceRemaining)="checkTimeRemaining($event)"></bushtrade-web-countdown-timer>
+                Closes in<br />
+                <bushtrade-web-countdown-timer
+                  [endDate]="listingDetails.endDate"
+                  (timeDifferenceRemaining)="checkTimeRemaining($event)"
+                ></bushtrade-web-countdown-timer>
               </p>
               <p class="p-text-bold text-timeout" *ngIf="timesUp">
                 CLOSED
@@ -217,58 +360,71 @@
                 </p>
               </div>
             </div>
-            <ng-container *ngIf="
-              !timesUp && listingDetails.type == listingType.Auction && !refreshingSidebar
-              ">
+            <ng-container
+              *ngIf="
+                !timesUp &&
+                listingDetails.type == listingType.Auction &&
+                !refreshingSidebar
+              "
+            >
               <div class="current-bid sidebar-section">
                 <h3>Current Bid</h3>
                 <h3 class="price" *ngIf="highestBid != null">
-                  {{ highestBid.amount | currency:"R "}}
+                  {{ highestBid.amount | currency: 'R ' }}
                 </h3>
                 <p *ngIf="highestBid == null">There is no current bid</p>
-                <p *ngIf="
+                <p
+                  *ngIf="
                     highestBid != null &&
                     highestBid.amount < listingDetails.reservePrice
-                  ">
+                  "
+                >
                   The current bid for this lot falls below its reserve price.
                 </p>
               </div>
               <div class="next-bid sidebar-section">
                 <h3>Next Minimum Bid</h3>
                 <p class="price" *ngIf="biddingRecommendations.length > 0">
-                  {{ biddingRecommendations[0] | currency:"R "}}
+                  {{ biddingRecommendations[0] | currency: 'R ' }}
                 </p>
                 <p>Bids exclude the auction fee and (shipping) costs.</p>
                 <p>Auction fee: 9% of the winning bid</p>
               </div>
               <div class="quickbid sidebar-section p-pb-3 bg-grey">
-
-
-
-
-
                 <h3 class="p-pt-2 p-mt-0">Quick Bid</h3>
 
                 <ng-container *ngIf="!loggedIn">
-
-               <p>
-                  Sign in or Register to Bid
-                </p>
-
+                  <p>
+                    Sign in or Register to Bid
+                  </p>
                 </ng-container>
                 <ng-container *ngIf="loggedIn">
-
-
-                  <button class="p-button p-mb-2 p-mr-1" (click)="placeBid(bid)"
-                    *ngFor="let bid of biddingRecommendations">
-                    {{ bid | currency:"R "}}
+                  <button
+                    class="p-button p-mb-2 p-mr-1"
+                    (click)="placeBid(bid)"
+                    *ngFor="let bid of biddingRecommendations"
+                  >
+                    {{ bid | currency: 'R ' }}
                   </button>
                   <p>Bid Directly:</p>
                   <div class="p-inputgroup p-p-0">
-                    <input type="number" pInputText [(ngModel)]="customBid" min="{{biddingRecommendations[0]}}"
-                      placeholder="{{ biddingRecommendations[0] | currency:'R '}}">
-                    <button type="button" pButton pRipple label="Place Bid" class="p-ml-auto p-button-gold"
-                      (click)="placeBid(customBid)"></button>
+                    <input
+                      type="number"
+                      pInputText
+                      [(ngModel)]="customBid"
+                      min="{{ biddingRecommendations[0] }}"
+                      placeholder="{{
+                        biddingRecommendations[0] | currency: 'R '
+                      }}"
+                    />
+                    <button
+                      type="button"
+                      pButton
+                      pRipple
+                      label="Place Bid"
+                      class="p-ml-auto p-button-gold"
+                      (click)="placeBid(customBid)"
+                    ></button>
                   </div>
 
                   <!-- <p>Place an automatic bid:</p>
@@ -285,13 +441,15 @@
                     <button type="button" pButton pRipple label="Set Auto" class="p-ml-auto p-button-gold"></button>
                   </div>
                    -->
-                   
                 </ng-container>
               </div>
-              <div class="bid-history sidebar-section  p-pb-3">
+              <div class="bid-history sidebar-section p-pb-3">
                 <h3>Bid history</h3>
                 <ng-container *ngIf="listingBids.length > 0; else noBids">
-                  <p-table [value]="listingBids.slice(0, 3)" styleClass="p-datatable-striped">
+                  <p-table
+                    [value]="listingBids.slice(0, 3)"
+                    styleClass="p-datatable-striped"
+                  >
                     <ng-template pTemplate="body" let-bid>
                       <tr>
                         <td class="p-m-0 p-py-2 p-px-0">{{ bid.firstName }}</td>
@@ -299,8 +457,7 @@
                           {{ bid.placedAt | date: 'dd MMM yyyy hh:mm:ss' }}
                         </td>
                         <td class="p-m-0 p-py-2 p-px-0 p-text-right price">
-                          {{ bid.amount | currency:"R " }}
-
+                          {{ bid.amount | currency: 'R ' }}
                         </td>
                       </tr>
                     </ng-template>
@@ -314,40 +471,68 @@
                 </ng-template>
               </div>
             </ng-container>
-            <div class="p-pt-3" *ngIf="listingDetails.type == listingType.Sale && !refreshingSidebar">
+            <div
+              class="p-pt-3"
+              *ngIf="
+                listingDetails.type == listingType.Sale && !refreshingSidebar
+              "
+            >
               <h3>Price</h3>
-              <h3 class="price">{{ listingDetails.startingPrice  | currency:"R "}}</h3>
+              <h3 class="price">
+                {{ listingDetails.startingPrice | currency: 'R ' }}
+              </h3>
               <p *ngIf="listingDetails.isSold">
                 This item has been sold.
               </p>
-              <div *ngIf="!listingDetails.isSold">
-                <p-button *ngIf="!userBid" [label]="'Contact seller'" (click)="showConfirmModal = true"></p-button>
-                <p-button *ngIf="userBid" [label]="'Go to conversation'"
-                  [routerLink]="['../..', 'conversations', 'purchase', userBid.conversationId]"></p-button>
+              <div *ngIf="!listingDetails.isSold" class="p-pl-0">
+                <p-button
+                  *ngIf="!userBid"
+                  [label]="'Contact seller'"
+                  (click)="showConfirmModal = true"
+                ></p-button>
+                <p-button
+                  *ngIf="userBid"
+                  [label]="'Go to conversation'"
+                  [routerLink]="[
+                    '../..',
+                    'conversations',
+                    'purchase',
+                    userBid.conversationId
+                  ]"
+                ></p-button>
               </div>
             </div>
             <div *ngIf="refreshingSidebar">
               <progress-spinner></progress-spinner>
             </div>
-            <div class="sidebar-section  p-pb-3">
+            <div class="sidebar-section p-pb-3">
               <h3>Buying safely</h3>
               <p>
-                <i class="pi pi-check"></i> Your payment is kept in escrow until you have accepted delivery.
+                <i class="pi pi-check"></i> Your payment is kept in escrow until
+                you have accepted delivery.
               </p>
               <p>
-                <i class="pi pi-check"></i> All of our auctions are subject to notarial supervision.
+                <i class="pi pi-check"></i> All of our auctions are subject to
+                notarial supervision.
               </p>
             </div>
-            <div class="pay-options sidebar-section  p-pb-3">
+            <div class="pay-options sidebar-section p-pb-3">
               <h3>Payments</h3>
-              <p>All payments are securely processed by <a href="https://www.payfast.co.za/" traget="_blank">Payfast</a>
+              <p>
+                All payments are securely processed by
+                <a href="https://www.payfast.co.za/" traget="_blank">Payfast</a>
               </p>
             </div>
           </div>
         </div>
       </div>
-      <div class="p-col-12 p-px-0 p-text-center advertisement-horizontal-banner">
-        <img src="https://via.placeholder.com/1404x100.jpg" alt="Advertise Here" />
+      <div
+        class="p-col-12 p-px-0 p-text-center advertisement-horizontal-banner"
+      >
+        <img
+          src="https://via.placeholder.com/1404x100.jpg"
+          alt="Advertise Here"
+        />
       </div>
 
       <!-- <div class="p-col-12" *ngIf="suggestions.length > 0">
@@ -356,37 +541,64 @@
       </div> -->
 
       <div class="p-col-12">
-
         <div class="p-col-12" *ngIf="latestItems && latestItems.length > 0">
           <h3 class="p-text-left p-ml-7 p-mr-7">
-            Latest listings added<span style="float: right;"><a href="">View All</a></span>
+            Latest listings added<span style="float: right;"
+              ><a href="">View All</a></span
+            >
           </h3>
-          <carousel-listing-item [listings]="latestItems"></carousel-listing-item>
+          <carousel-listing-item
+            [listings]="latestItems"
+          ></carousel-listing-item>
         </div>
-
       </div>
     </div>
   </div>
 </div>
 
 <!-- Create Dialog -->
-<p-dialog [(visible)]="showConfirmModal" [style]="'width: 400px;'" [header]="'Confirm Contact Seller'" [modal]="true"
-  [closable]="false" styleClass="p-fluid">
+<p-dialog
+  [(visible)]="showConfirmModal"
+  [style]="'width: 400px;'"
+  [header]="'Confirm Contact Seller'"
+  [modal]="true"
+  [closable]="false"
+  styleClass="p-fluid"
+>
   <ng-template pTemplate="content">
     <p>
-      After clicking confirm you will be able to contact the seller and discuss more details.
+      After clicking confirm you will be able to contact the seller and discuss
+      more details.
     </p>
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
-      (click)="showConfirmModal = false"></button>
-    <button pButton pRipple label="Confirm" icon="pi pi-check" class="p-button-text" (click)="contactSeller()"></button>
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="showConfirmModal = false"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Confirm"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="contactSeller()"
+    ></button>
   </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="showBidsModal" [style]="{ width: '50vw' }" [header]="'Bid history'" [modal]="true"
-  styleClass="p-fluid">
+<p-dialog
+  [(visible)]="showBidsModal"
+  [style]="{ width: '50vw' }"
+  [header]="'Bid history'"
+  [modal]="true"
+  styleClass="p-fluid"
+>
   <ng-template pTemplate="content">
     <div>
       <p-table [value]="listingBids" styleClass="p-datatable-striped">
@@ -396,7 +608,9 @@
             <td class="">
               {{ bid.placedAt | date: 'dd MMM yyyy hh:mm:ss' }}
             </td>
-            <td class="p-text-right price">{{ bid.amount | currency:"R "}}</td>
+            <td class="p-text-right price">
+              {{ bid.amount | currency: 'R ' }}
+            </td>
           </tr>
         </ng-template>
       </p-table>
@@ -404,7 +618,13 @@
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
-      (click)="showBidsModal = false"></button>
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="showBidsModal = false"
+    ></button>
   </ng-template>
 </p-dialog>

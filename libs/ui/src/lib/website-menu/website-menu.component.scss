@@ -30,8 +30,9 @@ h4,a {
     opacity: 0.8;
     cursor: pointer;
     color: $COLOUR-BROWN;
+    padding: .33em;
     &:hover{
-        opacity: 1;
+        opacity: 1; 
         background: $COLOUR-GOLD-LIGHT;
     }
 }
@@ -51,7 +52,7 @@ h4,a {
 
 .buysell-links{
     a{
-
+        margin-right: 1em;
         text-transform: uppercase;
         font-size: 1rem;
         text-decoration: none;
@@ -60,4 +61,26 @@ h4,a {
         }
     }
 
+
+}
+
+
+@media(max-width:768px){
+    .buysell-links{
+        a{
+
+            margin-right: 0em;
+            display:block;
+            padding: .5em;
+        }
+    }
+    .buy-sell-menu{
+        h4{
+            font-size: 1.2em;
+            padding: .2em;
+        }
+        .category-list{
+            display:none;
+        }
+    }
 }
