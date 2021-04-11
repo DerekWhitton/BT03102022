@@ -61,3 +61,16 @@
 .auction-listing:before {
     left: -1px!important;
 }
+
+.banner-placeholder{
+    min-height: 380px;
+
+ 
+}
+@media screen and (max-width: 768px) {
+    .banner-placeholder{
+        min-height: 280px;
+    
+     
+    }
+  }
