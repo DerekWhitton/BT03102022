@@ -7,6 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { IListing, ListingType } from '@bushtrade/website/shared/entites';
+import { Carousel } from 'primeng/carousel';
 
 @Component({
   selector: 'carousel-listing-item',
@@ -41,13 +42,15 @@ export class CarouselListingItemComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.listings) {
-      this.processedlistings = this.listings.map((listing) => {
-        var parsedDate = this.parseCreatedTime(listing.createdAt);
-        return {
-          ...listing,
-          timeAgoCreated: parsedDate,
-        };
-      });
+      setTimeout(() => {
+        this.processedlistings = this.listings.map((listing) => {
+          var parsedDate = this.parseCreatedTime(listing.createdAt);
+          return {
+            ...listing,
+            timeAgoCreated: parsedDate,
+          };
+        });
+      }, 0);
     }
   }
 
@@ -56,10 +59,13 @@ export class CarouselListingItemComponent implements OnInit, OnChanges {
   parseCreatedTime(createdDate) {
     var timeDifference = new Date().getTime() - new Date(createdDate).getTime();
     var daysAgo = Math.floor(timeDifference / 86400000);
-    switch(daysAgo) {
-      case 0: return 'today';
-      case 1: return 'yesterday';
-      default: return `${daysAgo} days ago`;
+    switch (daysAgo) {
+      case 0:
+        return 'today';
+      case 1:
+        return 'yesterday';
+      default:
+        return `${daysAgo} days ago`;
     }
   }
 }

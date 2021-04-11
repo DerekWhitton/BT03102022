@@ -21,6 +21,7 @@ export class CarouselHeroBannerComponent implements OnInit {
   selectableListingTypes: any[];
   categories: any[];
   responsiveOptions;
+  loaded = false;
   banners: any = [];
 
   constructor(
@@ -38,7 +39,6 @@ export class CarouselHeroBannerComponent implements OnInit {
       .map((s) => {
         return { label: s, value: ListingType[s] };
       });
-
   }
 
   ngOnInit(): void {
@@ -47,12 +47,14 @@ export class CarouselHeroBannerComponent implements OnInit {
         return { label: c.name, value: c.id };
       });
     });
-    this.advertismentsService.listDashboardAdvertisments(5, true)
-      .subscribe(
-        result => {
+    this.advertismentsService
+      .listDashboardAdvertisments(5, true)
+      .subscribe((result) => {
+        this.loaded = true;
+        setTimeout(() => {
           this.banners = result;
-        }
-      )
+        }, 0);
+      });
     this.setMaxPrice();
   }
 
