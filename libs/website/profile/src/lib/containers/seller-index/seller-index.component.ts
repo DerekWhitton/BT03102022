@@ -484,6 +484,9 @@ export class SellerIndexComponent implements OnInit {
         this.map.setCenter(this.selectedLocation);
         this.map.setZoom(this.specificLocationZoom);
       });
+      this.addlistingFormGroup.controls.listingLocation.setValue(
+        this.selectedLocation
+      );
     }
   }
 

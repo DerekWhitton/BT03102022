@@ -7,6 +7,7 @@ import { IUser } from '@bushtrade/website/shared/entites';
 import { getUser, loadUser } from '@bushtrade/website/shared/state';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { SafeUrl } from '@angular/platform-browser';
 @Component({
   selector: 'bushtrade-web-menu',
   templateUrl: './website-menu.component.html',
@@ -26,6 +27,13 @@ export class WebsiteMenuComponent implements OnInit {
 
   user$: Observable<IUser>;
 
+  image: SafeUrl = 'assets/layout/images/no-profile.png';
+
+  userMenuClick: boolean;
+  topbarUserMenuActive: boolean;
+  overlayMenuActive: boolean;
+  staticMenuMobileActive: boolean;
+
   constructor(
     private router: Router,
     private categoryService: CategoryService,
@@ -34,6 +42,12 @@ export class WebsiteMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.user$ = this.store.select(getUser);
+
+    // Display profile image only if provided
+    this.user$.subscribe((user) => {
+      if (user.profilePictureUri.length > 0)
+        this.image = user.profilePictureUri;
+    });
 
     this.router.events.subscribe((nEvent) => {
       if (nEvent instanceof NavigationEnd) this.showMegaSearchMenu = true; //!nEvent.url.startsWith('/listings');
@@ -138,5 +152,19 @@ export class WebsiteMenuComponent implements OnInit {
     this.router.navigate(['/', 'listings'], {
       queryParams,
     });
+  }
+
+  onTopbarUserMenuButtonClick(event) {
+    this.userMenuClick = true;
+    this.topbarUserMenuActive = !this.topbarUserMenuActive;
+
+    this.hideOverlayMenu();
+
+    event.preventDefault();
+  }
+
+  hideOverlayMenu() {
+    this.overlayMenuActive = false;
+    this.staticMenuMobileActive = false;
   }
 }

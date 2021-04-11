@@ -151,7 +151,7 @@
 <p-dialog
   [(visible)]="displayCreateUpdateDialog"
   [style]="{ width: '800px' }"
-  [header]="isUpdate ? 'Update Listing' : 'Add New Listing'"
+  [header]="isUpdate ? 'Updating a Listing' : 'Creating a Listing'"
   [modal]="true"
   [closeOnEscape]="false"
   (onHide)="clearForm()"
@@ -192,21 +192,14 @@
     *ngIf="!editModalDataIsInitializing; else initializingEditModalData"
   >
     <div class="p-fluid p-formgrid p-grid">
-      <h3>Basic Information</h3>
-      <!-- name -->
-      <div class="p-field p-col-12">
-        <label>
-          Listing Title:
-        </label>
-        <input pInputText type="text" required formControlName="name" />
-      </div>
+      <h3 class="p-col-12">Basic Information</h3>
 
       <!-- type -->
       <div class="p-field p-col-12">
         <label
           pTooltip="Auctions will have run for a set duration taking bids. For sale listings buyers will contact you on the set price."
         >
-          Listing Type:
+          Type of Listing:
           <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
         </label>
         <p-selectButton
@@ -215,8 +208,110 @@
         ></p-selectButton>
       </div>
 
-      <!-- description -->
+      <!-- duration -->
+      <div
+        class="p-field p-col-12"
+        *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+      >
+        <label
+          pTooltip="The EndDate will be calculated based on the duration immediately after you activate the Auction."
+        >
+          Duration:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <p-selectButton
+          [options]="selectableAuctionDurationSettings"
+          formControlName="durationInDays"
+        ></p-selectButton>
+      </div>
+
+      <!-- name -->
       <div class="p-field p-col-12">
+        <label>
+          Title:
+        </label>
+        <input pInputText type="text" required formControlName="name" />
+      </div>
+
+      <!-- starting price -->
+      <div class="p-field p-col-12">
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col-12 p-md-4">
+            <label>
+              {{
+                addlistingFormGroup.get('type').value == ListingType.Auction
+                  ? 'Starting Price'
+                  : 'Price'
+              }}
+            </label>
+
+            <input
+              pInputText
+              type="number"
+              required
+              formControlName="startingPrice"
+              (change)="checkReserve()"
+            />
+
+            <!-- <p-inputNumber
+          [(ngModel)]="value2"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          spinnerMode="horizontal"
+          decrementButtonClass="p-button-danger"
+          incrementButtonClass="p-button-success"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+          mode="currency"
+          currency="ZAR"
+        ></p-inputNumber> -->
+          </div>
+
+          <!-- starting price -->
+          <div
+            class="p-field p-col-12 p-md-4"
+            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+          >
+            <label
+              pTooltip="The reserve price cannot be lower than the starting price."
+            >
+              Reserve Price:
+              <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+            </label>
+            <input
+              pInputText
+              type="number"
+              mode="currency"
+              currency="R"
+              required
+              formControlName="reservePrice"
+              (change)="checkReserve()"
+            />
+          </div>
+
+          <!-- increment -->
+          <div
+            class="p-field p-col-12 p-md-4"
+            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+          >
+            <label pTooltip="The minimum increment between bids">
+              Price Increment:
+              <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+            </label>
+            <input
+              pInputText
+              type="number"
+              mode="currency"
+              currency="R"
+              required
+              formControlName="priceIncrement"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- description -->
+      <div class="p-field p-col-12 p-md-6">
         <label>
           Description of Item:
         </label>
@@ -232,13 +327,80 @@
         ></textarea>
       </div>
 
-      <div class="p-field p-col-12">
-        <label pTooltip="Click on the map to set the Listing Location.">
-          Location:
+      <!-- shipping details -->
+      <div class="p-field p-col-12 p-md-6">
+        <label pTooltip="Specify the shipping details.">
+          Shipping Details:
           <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
         </label>
+        <textarea
+          style="width: 100%;"
+          pInputTextarea
+          [rows]="5"
+          type="text"
+          required
+          formControlName="shippingDetails"
+          autoResize="autoResize"
+          maxlength="2500"
+        ></textarea>
+      </div>
 
-        <p class="p-d-md-none">Click on the map to set the listing location</p>
+      <!-- category -->
+      <div class="p-field p-col-12">
+        <label pTooltip="Click the category if you need to change it.">
+          Category:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <br />
+        <bushtrade-category-selector
+          [categoryTree]="categoryTree"
+          [loading]="loadingCategories"
+          [selectedCategoryId]="addlistingFormGroup.get('categoryId').value"
+          (categorySelected)="handleCategorySelection($event)"
+          (chainComplete)="handleCategoryChainComplete($event)"
+        ></bushtrade-category-selector>
+      </div>
+
+      <!-- other category properties -->
+      <ng-container *ngIf="showProperties == true">
+        <h3 *ngIf="categoryProperties.length > 0" class="p-col-12">
+          Additional Product Information
+        </h3>
+        <div
+          class="p-field p-col-12 p-md-6"
+          *ngFor="let property of categoryProperties; let i = index"
+        >
+          <label> {{ property.name }}: </label>
+          <input
+            pInputText
+            type="text"
+            [(ngModel)]="categoryProperties[i].value"
+            [ngModelOptions]="{ standalone: true }"
+            *ngIf="property.type == CategoryPropertyType.Text"
+          />
+
+          <p-inputNumber
+            [(ngModel)]="categoryProperties[i].value"
+            [ngModelOptions]="{ standalone: true }"
+            mode="decimal"
+            *ngIf="property.type == CategoryPropertyType.Numeric"
+          ></p-inputNumber>
+
+          <p-dropdown
+            [options]="property.selectableOptions"
+            [(ngModel)]="categoryProperties[i].value"
+            [ngModelOptions]="{ standalone: true }"
+            *ngIf="property.type == CategoryPropertyType.SingleSelect"
+          ></p-dropdown>
+        </div>
+      </ng-container>
+
+      <h3 class="p-col-12">
+        Location
+      </h3>
+
+      <div class="p-field p-col-12">
+        <p>Click on the map to set the listing location</p>
 
         <p-gmap
           #gmap
@@ -253,7 +415,7 @@
         <button
           type="button"
           pButton
-          label="Set current location"
+          label="Use current location"
           icon="pi pi-globe"
           (click)="setCurrentLocation()"
         ></button>
@@ -268,23 +430,7 @@
         ></button>
       </div>
 
-      <!-- category -->
-      <div class="p-field p-col-12">
-        <label pTooltip="Click the category if you need to change it.">
-          Listing Category:
-          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
-        </label>
-        <br />
-        <bushtrade-category-selector
-          [categoryTree]="categoryTree"
-          [loading]="loadingCategories"
-          [selectedCategoryId]="addlistingFormGroup.get('categoryId').value"
-          (categorySelected)="handleCategorySelection($event)"
-          (chainComplete)="handleCategoryChainComplete($event)"
-        ></bushtrade-category-selector>
-      </div>
-
-      <h3>Images of Item</h3>
+      <h3 class="p-col-12">Images of Item</h3>
       <!-- images -->
       <div class="p-field p-col-12">
         <label pTooltip="You can upload up to 10 images.">
@@ -319,97 +465,6 @@
         </div>
       </div>
 
-      <h3>Price</h3>
-      <!-- starting price -->
-      <div class="p-field p-col-12">
-        <label>
-          {{
-            addlistingFormGroup.get('type').value == ListingType.Auction
-              ? 'Starting Price'
-              : 'Price'
-          }}
-        </label>
-        <input
-          pInputText
-          type="number"
-          required
-          formControlName="startingPrice"
-          (change)="checkReserve()"
-        />
-      </div>
-
-      <!-- starting price -->
-      <div
-        class="p-field p-col-12"
-        *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
-      >
-        <label
-          pTooltip="The reserve price cannot be lower than the starting price."
-        >
-          Reserve Price:
-          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
-        </label>
-        <input
-          pInputText
-          type="number"
-          required
-          formControlName="reservePrice"
-          (change)="checkReserve()"
-        />
-      </div>
-
-      <!-- shipping details -->
-      <div class="p-field p-col-12">
-        <label pTooltip="Specify the shipping details.">
-          Shipping Details:
-          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
-        </label>
-        <textarea
-          style="width: 100%;"
-          pInputTextarea
-          [rows]="3"
-          type="text"
-          required
-          formControlName="shippingDetails"
-          autoResize="autoResize"
-          maxlength="2500"
-        ></textarea>
-      </div>
-
-      <!-- duration -->
-      <div
-        class="p-field p-col-12"
-        *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
-      >
-        <label
-          pTooltip="The EndDate will be calculated based on the duration immediately after you activate the Auction."
-        >
-          Duration:
-          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
-        </label>
-        <p-selectButton
-          [options]="selectableAuctionDurationSettings"
-          formControlName="durationInDays"
-        ></p-selectButton>
-      </div>
-
-      <!-- increment -->
-      <div
-        class="p-field p-col-12"
-        *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
-      >
-        <label pTooltip="The minimum increment between bids">
-          Price Increment:
-          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
-        </label>
-        <input
-          pInputText
-          type="number"
-          required
-          formControlName="priceIncrement"
-        />
-      </div>
-
       <!-- quantity -->
       <div class="p-field p-col-12" style="display: none;">
         <label>
@@ -418,44 +473,19 @@
         <p-inputNumber formControlName="quantity"></p-inputNumber>
       </div>
 
-      <!-- other category properties -->
-      <ng-container *ngIf="showProperties == true">
-        <div
-          class="p-field p-col-12"
-          *ngFor="let property of categoryProperties; let i = index"
-        >
-          <label> {{ property.name }}: </label>
-          <input
-            pInputText
-            type="text"
-            [(ngModel)]="categoryProperties[i].value"
-            [ngModelOptions]="{ standalone: true }"
-            *ngIf="property.type == CategoryPropertyType.Text"
-          />
-
-          <p-inputNumber
-            [(ngModel)]="categoryProperties[i].value"
-            [ngModelOptions]="{ standalone: true }"
-            mode="decimal"
-            *ngIf="property.type == CategoryPropertyType.Numeric"
-          ></p-inputNumber>
-
-          <p-dropdown
-            [options]="property.selectableOptions"
-            [(ngModel)]="categoryProperties[i].value"
-            [ngModelOptions]="{ standalone: true }"
-            *ngIf="property.type == CategoryPropertyType.SingleSelect"
-          ></p-dropdown>
-        </div>
-      </ng-container>
-
       <!-- active -->
-      <div class="p-field p-col-12">
+      <div class="p-field p-col-12 p-text-right">
         <label>
-          Active:
+          Activate:
         </label>
         <br />
         <p-inputSwitch formControlName="active"></p-inputSwitch>
+        <p-message
+          class="p-my-5"
+          *ngIf="!addlistingFormGroup.get('active').value"
+          severity="info"
+          text="If you don't activate the post now, it will save to your drafts and you can activate it later."
+        ></p-message>
       </div>
       <div
         class="p-field p-col-12"
@@ -467,7 +497,7 @@
       >
         <p-message
           severity="error"
-          text="When activating an Auction, you must provide a value for the Duration"
+          text="Auctions require you to specify a duration, please select one."
         ></p-message>
       </div>
       <div
@@ -479,7 +509,7 @@
       >
         <p-message
           severity="warn"
-          text="Once submitted as Active, an Auction will not be editable anymore"
+          text="Auctions cannot be edited once submitted."
         ></p-message>
       </div>
     </div>

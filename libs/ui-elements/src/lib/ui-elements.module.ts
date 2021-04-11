@@ -97,7 +97,7 @@ import { GMapModule } from 'primeng/gmap';
     ScrollPanelModule,
     FieldsetModule,
     OverlayPanelModule,
-    GMapModule
+    GMapModule,
   ],
   exports: [
     RadioButtonModule,
@@ -148,7 +148,7 @@ import { GMapModule } from 'primeng/gmap';
     ScrollPanelModule,
     FieldsetModule,
     OverlayPanelModule,
-    GMapModule
+    GMapModule,
   ],
 })
 export class UiElementsModule {}
