@@ -55,7 +55,6 @@
       </div>
       <div class="topbar-right">
         <a href="#" *ngIf="!loggedIn" (click)="login()">Sign in / Register</a>
-
         <ng-container *ngIf="loggedIn">
           <ng-container *ngIf="user$ | async as user">
             <ul class="topbar-menu">
@@ -79,7 +78,10 @@
                     >{{ user.firstName }} {{ user.surname }}</span
                   >
                 </a>
-                <ul class="profile-menu fade-in-up">
+                <ul
+                  class="profile-menu fade-in-up"
+                  (click)="this.topbarUserMenuActive = false"
+                >
                   <li>
                     <a [routerLink]="['/', 'profile', 'listings']">
                       <i class="pi pi-list"></i>
@@ -113,12 +115,6 @@
                   </li>
                 </ul>
               </li>
-
-              <!-- <li class="right-sidebar-item">
-        <a href="#" tabindex="0" (click)="onRightMenuClick($event)">
-          <i class="pi pi-align-right"></i>
-        </a>
-      </li> -->
             </ul>
           </ng-container>
         </ng-container>
