@@ -1,46 +1,50 @@
 <div *ngIf="user$ | async as user">
-
   <div class="p-grid">
     <div class="p-col-12 p-md-8p-lg-9">
-
       <div class="p-grid">
-        <div class="p-col-3">
+        <div class="p-col-12 p-lg-4">
+          <div class="card">
+            <ul class="widget-person-list">
+              <li>
+                <div class="person-item">
+                  <img
+                    [src]="image"
+                    alt="{{ user.firstName }}"
+                    class="user-card-avatar bt-tile"
+                  />
+                  <div class="person-info">
+                    <div class="person-name">
+                      {{ user.firstName + ' ' + user.surname }}
+                    </div>
+                    <div class="person-subtext" *ngIf="user.sellers">
+                      Registered Seller
+                    </div>
+                  </div>
+                </div>
+                <div class="person-actions">
+                  <!-- <button type="button" class="p-button-rounded p-button-success" pButton icon="pi pi-image"></button> -->
+                  <!-- <button type="button" class="p-button-rounded p-button-warning" pButton icon="pi pi-cog" ></button> -->
 
-          <div class="card widget-user-card"><div class="user-card-header">
-            <img [src]="image" alt="diamond-layout" class="user-card-avatar"></div>
-            <div class="user-card-body"><div class="user-card-title">{{ user.firstName + ' ' + user.surname }}</div>
-            
-            <div class="p-grid user-card-stats">
-              
-              <div class="p-col-12">
-                <p-badge severity="success" styleclass="p-mr-2">
-                  <span class="p-mr-2 p-badge p-component p-badge-no-gutter p-badge-xl p-badge-secondary">
-                    {{user.sellers.length}}
-                  </span>
-                </p-badge> 
-                Listing {{(user.sellers.length > 1) ? "Profiles" : "Profile"}}
-              </div>
-              <div class="p-col-12 text-center">
-            </div>
-
-            </div>
-
-            <p-fileUpload
-                  #fileUpload
-                  name="image"
-                  mode="basic"
-                  [auto]="true"
-                  accept="image/*"
-                  customUpload="true"
-                  maxFileSize="300000"
-                  chooseLabel="Change Logo"
-                  (uploadHandler)="UploadProfilePicture($event)"
-                >
-                </p-fileUpload>
-            </div>
+                  <p-fileUpload
+                    #fileUpload
+                    name="image"
+                    mode="basic"
+                    [auto]="true"
+                    accept="image/*"
+                    customUpload="true"
+                    maxFileSize="300000"
+                    chooseLabel=" Update Image"
+                    chooseIcon="pi-image"
+                    (uploadHandler)="UploadProfilePicture($event)"
+                    class="p-button-rounded p-button-success"
+                  >
+                  </p-fileUpload>
+                </div>
+              </li>
+            </ul>
           </div>
-        </div>
         </div>
       </div>
     </div>
+  </div>
 </div>

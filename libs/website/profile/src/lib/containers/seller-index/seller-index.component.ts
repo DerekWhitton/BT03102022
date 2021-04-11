@@ -130,13 +130,13 @@ export class SellerIndexComponent implements OnInit {
       zoom: this.defaultZoom,
       streetViewControl: false,
       keyboardShortcuts: false,
-      fullscreenControl: false
+      fullscreenControl: false,
     };
 
     this.store.select(getUserSellers).subscribe((sellers: ISeller[]) => {
       this.sellers = sellers;
       if (sellers.length > 0) {
-        this.loadListings(sellers?.[0]);
+        this.loadSellersListings(sellers?.[0]);
       }
     });
     this.siteSettingsService
@@ -166,7 +166,7 @@ export class SellerIndexComponent implements OnInit {
     this.loadCategories();
   }
 
-  loadListings(seller) {
+  loadSellersListings(seller) {
     this.selectedSellerId = seller.id;
     this.listingsFacade.dispatch(loadListings({ sellerId: seller.id }));
     this.listings$ = this.listingsFacade.allListings$;
@@ -266,7 +266,7 @@ export class SellerIndexComponent implements OnInit {
   }
 
   saveListing() {
-    if(this.isSaving){
+    if (this.isSaving) {
       return;
     }
     this.isSaving = true;
@@ -281,16 +281,21 @@ export class SellerIndexComponent implements OnInit {
     }));
 
     this.listingSaved$.pipe(first()).subscribe(() => {
-      this.lastListingError$.pipe(filter(e => e != null), first()).subscribe((error) => {
-        if (!error) {
-          this.messageService.add({
-            severity: 'success',
-            detail:'Listing saved successfuly'
-          });
-          this.clearForm();
-        }
-        this.isSaving = false;
-      });
+      this.lastListingError$
+        .pipe(
+          filter((e) => e != null),
+          first()
+        )
+        .subscribe((error) => {
+          if (!error) {
+            this.messageService.add({
+              severity: 'success',
+              detail: 'Listing saved successfuly',
+            });
+            this.clearForm();
+          }
+          this.isSaving = false;
+        });
     });
 
     if (listing.id && listing.id != '00000000-0000-0000-0000-000000000000') {
@@ -330,9 +335,7 @@ export class SellerIndexComponent implements OnInit {
     this.premiumPackagesModalVisible = false;
   }
 
-  premiumPackageActivated() {
-    
-  }
+  premiumPackageActivated() {}
 
   clearForm() {
     this.displayCreateUpdateDialog = false;
@@ -446,9 +449,10 @@ export class SellerIndexComponent implements OnInit {
         });
       }
       this.addlistingFormGroup.patchValue({
-        priceIncrement: Math.round(this.addlistingFormGroup.value.startingPrice * 0.20),
+        priceIncrement: Math.round(
+          this.addlistingFormGroup.value.startingPrice * 0.2
+        ),
       });
-
     }
   }
 
@@ -457,7 +461,10 @@ export class SellerIndexComponent implements OnInit {
   }
 
   handleMapClick(event) {
-    this.selectedLocation = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+    this.selectedLocation = {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng(),
+    };
     this.addMarker();
   }
 
@@ -466,7 +473,7 @@ export class SellerIndexComponent implements OnInit {
       navigator.geolocation.getCurrentPosition((position) => {
         this.selectedLocation = {
           lat: position.coords.latitude,
-          lng: position.coords.longitude
+          lng: position.coords.longitude,
         };
         this.overlays = [];
         this.overlays.push(
@@ -487,7 +494,9 @@ export class SellerIndexComponent implements OnInit {
         position: this.selectedLocation,
       })
     );
-    this.addlistingFormGroup.controls.listingLocation.setValue(this.selectedLocation);
+    this.addlistingFormGroup.controls.listingLocation.setValue(
+      this.selectedLocation
+    );
   }
 
   clearMap() {
@@ -504,8 +513,8 @@ export class SellerIndexComponent implements OnInit {
     this.images = listing?.images.map((i) => ({ id: i.id, src: i.url })) ?? [];
     if (listing && listing.listingLocation) {
       this.selectedLocation = listing.listingLocation;
-      this.options.center = listing.listingLocation,
-      this.options.zoom = this.specificLocationZoom;
+      (this.options.center = listing.listingLocation),
+        (this.options.zoom = this.specificLocationZoom);
       this.addMarker();
     } else {
       this.options.center = this.defaultMapCenter;
@@ -546,7 +555,7 @@ export class SellerIndexComponent implements OnInit {
       listingLocation: new FormControl(
         this.selectedLocation,
         Validators.required
-      )
+      ),
     });
   }
 }

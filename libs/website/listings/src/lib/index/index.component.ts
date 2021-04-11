@@ -25,6 +25,8 @@ export class IndexComponent implements OnInit {
   sortOrderEnum = SortOrder;
   sortFieldEnum = ListingSortField;
 
+  selectableListingTypes: any[];
+
   type: ListingType;
   listingSortField: ListingSortField = ListingSortField.Price;
   sortOrder: SortOrder = SortOrder.Ascending;
@@ -50,26 +52,27 @@ export class IndexComponent implements OnInit {
   // Location range search
   userLocation: ILocation;
   selectableDistanceRanges: any[] = [
-    { label: "50 km", value: 50 },
-    { label: "100 km", value: 100 },
-    { label: "150 km", value: 150 },
-    { label: "200 km", value: 200 },
-    { label: "200+ km", value: null }
+    { label: '50 km', value: 50 },
+    { label: '100 km', value: 100 },
+    { label: '150 km', value: 150 },
+    { label: '200 km', value: 200 },
+    { label: '200+ km', value: null },
   ];
   selectedRange: any;
   selectableRegions: any[] = [
-    { label: "All regions", value: null },
-    { label: "Eastern Cape", value: "Eastern Cape" },
-    { label: "Free State", value: "Free State" },
-    { label: "Gauteng", value: "Gauteng" },
-    { label: "KwaZulu-Natal", value: "KwaZulu-Natal" },
-    { label: "Limpopo", value: "Limpopo" },
-    { label: "Mpumalanga", value: "Mpumalanga" },
-    { label: "North West", value: "North West" },
-    { label: "Northern Cape", value: "Northern Cape" },
-    { label: "Western Cape", value: "Western Cape" },
+    { label: 'All regions', value: null },
+    { label: 'Eastern Cape', value: 'Eastern Cape' },
+    { label: 'Free State', value: 'Free State' },
+    { label: 'Gauteng', value: 'Gauteng' },
+    { label: 'KwaZulu-Natal', value: 'KwaZulu-Natal' },
+    { label: 'Limpopo', value: 'Limpopo' },
+    { label: 'Mpumalanga', value: 'Mpumalanga' },
+    { label: 'North West', value: 'North West' },
+    { label: 'Northern Cape', value: 'Northern Cape' },
+    { label: 'Western Cape', value: 'Western Cape' },
   ];
   selectedRegion: string;
+  selectedListingType: any;
 
   constructor(
     private router: Router,
@@ -90,6 +93,17 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.selectedListingType = Number(this.route.snapshot.queryParams?.type);
+
+    this.selectableListingTypes = Object.keys(ListingType)
+      .filter((s) => isNaN(Number(s)))
+      .map((s) => {
+        return {
+          label: ListingType[s] == ListingType.Sale ? 'For Sale' : 'Auctions',
+          value: ListingType[s],
+        };
+      });
+
     this.categoryService
       .loadFeaturedCategories(this.maxFeaturedCategories)
       .subscribe((categories) => {
@@ -102,6 +116,7 @@ export class IndexComponent implements OnInit {
 
   changeType(val) {
     this.type = val;
+    this.selectedListingType = val; //type didnt work for this unsure why...
     this.maxPrice = null;
     this.searchPriceRange[1] = null;
     this.navigate();
@@ -118,7 +133,6 @@ export class IndexComponent implements OnInit {
     this.parentCategory.pop();
     this.updateSubCategory(this.parentCategory[this.parentCategory.length - 1]);
   }
-
 
   handleSearch() {
     this.searchResponse = null;
@@ -154,12 +168,12 @@ export class IndexComponent implements OnInit {
   }
 
   sortBy(sortField: ListingSortField) {
-    if (this.listingSortField == sortField)
-    {
-      this.sortOrder = this.sortOrder == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
-    }
-    else
-    {
+    if (this.listingSortField == sortField) {
+      this.sortOrder =
+        this.sortOrder == SortOrder.Ascending
+          ? SortOrder.Descending
+          : SortOrder.Ascending;
+    } else {
       this.listingSortField = sortField;
       this.sortOrder = SortOrder.Ascending;
     }
@@ -171,7 +185,7 @@ export class IndexComponent implements OnInit {
       navigator.geolocation.getCurrentPosition((position) => {
         this.userLocation = {
           lat: position.coords.latitude,
-          lng: position.coords.longitude
+          lng: position.coords.longitude,
         };
         this.dispatchListingQuery();
       });
@@ -237,7 +251,14 @@ export class IndexComponent implements OnInit {
     }
 
     this.isSearching = true;
-    const { query, type, categoryId, selectedRegion, facets, searchPriceRange } = this;
+    const {
+      query,
+      type,
+      categoryId,
+      selectedRegion,
+      facets,
+      searchPriceRange,
+    } = this;
 
     this.searchSubscription$ = this.searchService
       .searchListings(

@@ -20,7 +20,7 @@ export class WebsiteMenuComponent implements OnInit {
   searchQuery: string;
   @Output() signIn = new EventEmitter();
   @Output() signOut = new EventEmitter();
-  showMegaSearchMenu: boolean;
+  showMegaSearchMenu: boolean = false;
   showBuySellMenu: boolean = false;
   categories: ICategory[];
 
@@ -29,7 +29,7 @@ export class WebsiteMenuComponent implements OnInit {
   constructor(
     private router: Router,
     private categoryService: CategoryService,
-    private store: Store,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -46,9 +46,11 @@ export class WebsiteMenuComponent implements OnInit {
     this.selectableListingTypes = Object.keys(ListingType)
       .filter((s) => isNaN(Number(s)))
       .map((s) => {
-        return { label: ListingType[s] == ListingType.Sale ? "For Sale": "Auctions", value: ListingType[s] };    
-    });
-
+        return {
+          label: ListingType[s] == ListingType.Sale ? 'For Sale' : 'Auctions',
+          value: ListingType[s],
+        };
+      });
 
     this.menuItems = [
       {
@@ -106,7 +108,7 @@ export class WebsiteMenuComponent implements OnInit {
   }
 
   login() {
-    this.showBuySellMenu = false 
+    this.showBuySellMenu = false;
     this.signIn.emit();
   }
 

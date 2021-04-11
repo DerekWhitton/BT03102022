@@ -262,6 +262,10 @@ button {
   border-radius: 50%;
 }
 
+.bt-tile{
+  border-radius: .6rem;
+}
+
 strong {
   font-weight: bold;
 }
@@ -382,5 +386,14 @@ small{
   .p-carousel .p-carousel-content .p-carousel-prev, .p-carousel .p-carousel-content .p-carousel-next {
     display:none!important;
     border:10px solid #f00;
-  }
+  } 
+}
+
+
+
+.secondary-link{
+  color: $COLOUR-BROWN!important;
+    &:hover{
+      background: $COLOUR-GOLD;
+    }
 }
