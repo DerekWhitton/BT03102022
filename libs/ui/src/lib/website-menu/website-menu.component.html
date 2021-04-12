@@ -1,86 +1,161 @@
 <div class="p-grid bg-gold" *ngIf="showMegaSearchMenu">
   <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
     <div class="p-d-flex p-flex-column p-flex-md-row p-pt-2 p-pb-2">
-      <span class="p-input-icon-left p-mt-1 p-mb-1 p-mr-md-2" style="flex-grow: 1;">
+      <span
+        class="p-input-icon-left p-mt-1 p-mb-1 p-mr-md-2"
+        style="flex-grow: 1;"
+      >
         <i class="pi pi-search"></i>
-        <input type="text" class="ui-block" pInputText placeholder="What are you looking for?" [(ngModel)]="searchQuery"
-          (keydown.enter)="handleSearch()" />
+        <input
+          type="text"
+          class="ui-block"
+          pInputText
+          placeholder="What are you looking for?"
+          [(ngModel)]="searchQuery"
+          (keydown.enter)="handleSearch()"
+        />
       </span>
 
-      <p-dropdown [style]="{ width: '100%' }" [options]="selectableListingTypes" [placeholder]="'All Listings'"
-        class="p-mt-1 p-mb-1 p-mr-md-2" [(ngModel)]="selectedListingType" [showClear]="true"></p-dropdown>
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        [options]="selectableListingTypes"
+        [placeholder]="'All Listings'"
+        class="p-mt-1 p-mb-1 p-mr-md-2"
+        [(ngModel)]="selectedListingType"
+        [showClear]="true"
+      ></p-dropdown>
 
-      <button pButton type="button" label="Search" class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-ml-auto"
-        (click)="handleSearch()"></button>
+      <button
+        pButton
+        type="button"
+        label="Search"
+        class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-ml-auto"
+        (click)="handleSearch()"
+      ></button>
     </div>
   </div>
 </div>
-
-
-
-<div class="p-grid bg-grey">
-
-  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2 p-p-0">
-    <div class="p-col p-mt-2 p-mb-2 p-p-0">
-
-      <p-menubar [model]="menuItems" class="menu-light">
-        <ng-template pTemplate="start">
-          <img id="app-logo" class="logo-image p-mr-2 ng-star-inserted p-mt-2" src="assets/layout/images/logo-dark.png"
-            [routerLink]="['/', 'home']" alt="Bush Trade" />
-        </ng-template>
-        <ng-template pTemplate="end">
-          <button *ngIf="!loggedIn" pButton label="Sign In" (click)="login()"></button>
-          <ng-container *ngIf="loggedIn" >
-
-          <ng-container *ngIf="user$ | async as user" >
-            <p-overlayPanel #op>
-              <ng-template pTemplate>
-                <p class="bt-profile-menu">Hi, {{user.firstName}}</p>
-                <ul class="bt-profile-menu">
-                  <li><a [routerLink]="['/', 'profile', 'listings']">My Listings</a></li>
-                  <li><a [routerLink]="['/', 'profile', 'purchases']">My Purchases</a></li>
-                  <li><a [routerLink]="['/', 'favourites']">My Favourites</a></li>
-                  <hr>
-                  <li><a [routerLink]="['/', 'profile', 'account']">My Profile</a></li>
-                  <li><a (click)="this.logout()">Logout</a></li>
+<div class="p-grid bg-grey p-py-2">
+  <div
+    class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2 p-p-0"
+  >
+    <div class="layout-topbar p-px-0 p-mb-2">
+      <div class="topbar-left">
+        <p-menubar [model]="menuItems" class="menu-light">
+          <ng-template pTemplate="start">
+            <img
+              id="app-logo"
+              class="logo-image p-mr-2 ng-star-inserted p-mt-2"
+              src="assets/layout/images/logo-dark.png"
+              [routerLink]="['/', 'home']"
+              alt="Bush Trade"
+            />
+          </ng-template>
+        </p-menubar>
+      </div>
+      <div class="topbar-right">
+        <a href="#" *ngIf="!loggedIn" (click)="login()">Sign in / Register</a>
+        <ng-container *ngIf="loggedIn">
+          <ng-container *ngIf="user$ | async as user">
+            <ul class="topbar-menu">
+              <li
+                class="profile-item"
+                [ngClass]="{
+                  'active-menuitem fadeInDown': topbarUserMenuActive
+                }"
+              >
+                <a
+                  href="#"
+                  (click)="onTopbarUserMenuButtonClick($event)"
+                  class="p-p-0"
+                >
+                  <img
+                    [src]="image"
+                    alt="diamond-layout"
+                    class="profile-image p-m-0"
+                  />
+                  <span class="p-mx-2 profile-name p-d-none p-d-md-inline-flex"
+                    >{{ user.firstName }} {{ user.surname }}</span
+                  >
+                </a>
+                <ul
+                  class="profile-menu fade-in-up"
+                  (click)="this.topbarUserMenuActive = false"
+                >
+                  <li>
+                    <a [routerLink]="['/', 'profile', 'listings']">
+                      <i class="pi pi-list"></i>
+                      <span>My Listings</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="['/', 'profile', 'purchases']">
+                      <i class="pi pi-money-bill"></i>
+                      <span>My Purchases</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="['/', 'favourites']">
+                      <i class="pi pi-heart"></i>
+                      <span>Favourites</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a [routerLink]="['/', 'profile', 'account']">
+                      <i class="pi pi-user"></i>
+                      <span>Profile</span>
+                    </a>
+                  </li>
+                  <hr />
+                  <li>
+                    <a (click)="this.logout()">
+                      <i class="pi pi-power-off"></i>
+                      <span>Logout</span>
+                    </a>
+                  </li>
                 </ul>
-              </ng-template>
-            </p-overlayPanel>
-            <button type="text" pButton (click)="op.toggle($event)" [disabled]="!user.firstName" label="{{user.firstName && user.firstName || '' }}" icon="{{user.firstName && 'pi pi-user' || 'pi pi-spin pi-spinner' }}">
-            </button>
-          </ng-container >
-          
-
+              </li>
+            </ul>
           </ng-container>
-        </ng-template>
-      </p-menubar>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>
 
-<p-sidebar [(visible)]="showBuySellMenu" [baseZIndex]="10000" [fullScreen]="true" position="top" class="buy-sell-menu">
-
+<p-sidebar
+  [(visible)]="showBuySellMenu"
+  [baseZIndex]="10000"
+  [fullScreen]="true"
+  position="top"
+  class="buy-sell-menu"
+>
   <div class="p-col-12 buysell-links p-text-center">
-    <a [routerLink]="['/', 'listings']" (click)="showBuySellMenu = false"  >Browse all listings</a>
-    <a (click)="showListings(null,'1')">Browse items for sale</a>
-    <a (click)="showListings(null,'0')">Browse auctions</a>
-    <a [routerLink]="['/', 'profile', 'listings']" (click)="showBuySellMenu = false" *ngIf="loggedIn" >Post a listing</a>
-    <a (click)="login()" *ngIf="!loggedIn" >Login to post a listing</a>
-    
-
+    <a [routerLink]="['/', 'listings']" (click)="showBuySellMenu = false"
+      >Browse all listings</a
+    >
+    <a (click)="showListings(null, '1')">Browse items for sale</a>
+    <a (click)="showListings(null, '0')">Browse auctions</a>
+    <a
+      [routerLink]="['/', 'profile', 'listings']"
+      (click)="showBuySellMenu = false"
+      *ngIf="loggedIn"
+      >Post a listing</a
+    >
+    <a (click)="login()" *ngIf="!loggedIn">Login to post a listing</a>
   </div>
-  <hr>
-  
-  <div class="p-grid">
+  <hr />
 
+  <div class="p-grid">
     <div class="p-col-4 p-md-3 p-lg-2" *ngFor="let category of categories">
-      <h4 (click)="showListings(category.id,null)" class="p-mb-0">{{ category.name }}</h4>
+      <h4 (click)="showListings(category.id, null)" class="p-mb-0">
+        {{ category.name }}
+      </h4>
       <ul class="category-list">
         <li *ngFor="let child of category.children">
-          <a (click)="showListings(category.id,null)">{{ child.name }}</a>
+          <a (click)="showListings(category.id, null)">{{ child.name }}</a>
         </li>
       </ul>
     </div>
   </div>
-
 </p-sidebar>

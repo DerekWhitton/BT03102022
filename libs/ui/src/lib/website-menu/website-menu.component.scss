@@ -84,3 +84,34 @@ h4,a {
         }
     }
 }
+
+.layout-topbar {
+    background: transparent;
+    border-bottom: none;
+
+    li{
+        ul{
+            li{
+                a{
+                    color: #525252!important;
+                }
+            }
+        }
+    }
+
+    .topbar-menu > li.profile-item {
+        padding: 0 1rem 0 1rem;
+        border-left: none;
+        border-right: none;
+        a{
+            color: #fff;
+            &:hover{
+                opacity: 1; 
+                background: $COLOUR-GOLD-LIGHT;
+            }
+        }
+    }
+    
+    
+}
+
