@@ -31,6 +31,7 @@
           <tr>
             <th style="width: 100px;">Premium</th>
             <th style="width: 50px;"></th>
+            <th></th>
             <th *ngFor="let col of columns">
               {{ col.header }}
             </th>
@@ -55,7 +56,12 @@
             </td>
             <td>
               <span
-                *ngIf="rowData.active && !rowData.isSold"
+                *ngIf="rowData.active && rowData.type == ListingType.Auction && rowData.isAuctionClosed && !rowData.isSold"
+                class="p-tag p-tag-danger"
+              >Closed</span
+              >
+              <span
+                *ngIf="rowData.active && !rowData.isSold && (rowData.type == ListingType.Sale || !rowData.isAuctionClosed)"
                 class="p-tag p-tag-success"
                 >Live</span
               >
@@ -68,6 +74,13 @@
                 >Sold</span
               >
             </td>
+            <td>
+              <a
+                [routerLink]="['../..', 'listings', rowData.id]"
+                pTooltip="View your listing page"
+                tooltipPosition="top"
+              >{{rowData.name}}</a>
+            </td>
             <td
               *ngFor="let col of columns"
               [innerHtml]="
@@ -77,22 +90,29 @@
               "
             ></td>
             <td>
-              <button
-                *ngIf="rowData.active && !rowData.isSold"
-                pButton
-                pRipple
-                icon="pi pi-users"
-                class="p-button p-button-primary p-mr-2"
-                [routerLink]="['../..', 'conversations', 'listing', rowData.id]"
-                pTooltip="View Interested Buyers Messages"
-                tooltipPosition="top"
-              ></button>
+              <span class="p-overlay-badge" *ngIf="(rowData.active && !rowData.isSold)">
+                <button
+                  *ngIf="rowData.type == ListingType.Sale"
+                  pButton
+                  pRipple
+                  icon="pi pi-users"
+                  class="p-button p-button-primary p-mr-2"
+                  [routerLink]="['../..', 'conversations', 'listing', rowData.id]"
+                  pTooltip="View Interested Buyers Messages"
+                  tooltipPosition="top"
+                ></button>
+                <span
+                  *ngIf="rowData.type != ListingType.Auction"
+                  class="p-badge"
+                  [ngClass]="rowData.numberOfInterestedUsers > 0 ? 'p-badge-success' : 'p-badge-danger'">
+                    {{rowData.numberOfInterestedUsers}}
+                </span>
+              </span>
               <button
                 *ngIf="rowData.active && rowData.isSold"
                 pButton
                 pRipple
                 icon="pi pi-star-o"
-                title="View Conversations"
                 class="p-button p-button-warning p-mr-2"
                 [routerLink]="['../..', 'conversations', 'listing', rowData.id]"
                 pTooltip="Go and review your buyer"
@@ -115,7 +135,7 @@
                 tooltipPosition="top"
               ></button>
               <button
-                *ngIf="!rowData.isSold"
+                *ngIf="!rowData.isSold && (rowData.type == ListingType.Sale || !rowData.isAuctionClosed)"
                 pButton
                 pRipple
                 icon="pi pi-trash"
