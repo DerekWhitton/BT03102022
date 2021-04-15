@@ -58,7 +58,6 @@ export class SellerIndexComponent implements OnInit {
   isSaving: boolean = false;
 
   columns = [
-    { field: 'name', header: 'Name' },
     {
       field: 'startingPrice',
       header: 'Starting Price',

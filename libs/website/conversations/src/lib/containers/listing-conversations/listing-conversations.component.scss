@@ -1,3 +1,8 @@
+.vertical-align-center {
+  display: flex;
+  align-items: center;
+}
+
 .profile-image-container {
   display: inline-block;
   position: relative;
@@ -12,11 +17,6 @@
   }
 }
 
-.conversation-title {
-  display: flex;
-  padding: 0;
-}
-
 .title-name {
   padding-left: 10px;
   display: inline-block;
@@ -27,8 +27,4 @@
   background-color: #f1f1f1;
   padding: 10px;
   margin: 10px 0;
-}
-
-.winner-purchase {
-  background-color: #ffefbc;
 }
