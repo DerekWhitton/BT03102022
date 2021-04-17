@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'administration-portal-escrow',
+  displayName: 'administration-portal-transactions',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -14,7 +14,7 @@ module.exports = {
       },
     },
   },
-  coverageDirectory: '../../../coverage/libs/administration-portal/escrow',
+  coverageDirectory: '../../../coverage/libs/administration-portal/transactions',
   snapshotSerializers: [
     'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',
     'jest-preset-angular/build/AngularSnapshotSerializer.js',
