@@ -460,29 +460,29 @@
         }
       }
     },
-    "administration-portal-escrow": {
+    "administration-portal-transactions": {
       "projectType": "library",
-      "root": "libs/administration-portal/escrow",
-      "sourceRoot": "libs/administration-portal/escrow/src",
+      "root": "libs/administration-portal/transactions",
+      "sourceRoot": "libs/administration-portal/transactions/src",
       "prefix": "bushtrade.web",
       "architect": {
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/administration-portal/escrow/tsconfig.lib.json",
-              "libs/administration-portal/escrow/tsconfig.spec.json"
+              "libs/administration-portal/transactions/tsconfig.lib.json",
+              "libs/administration-portal/transactions/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/administration-portal/escrow/**/*"
+              "!libs/administration-portal/transactions/**/*"
             ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/administration-portal/escrow/jest.config.js",
+            "jestConfig": "libs/administration-portal/transactions/jest.config.js",
             "passWithNoTests": true
           }
         }

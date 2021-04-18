@@ -38,8 +38,8 @@
       "@bushtrade/administration-portal/support": [
         "libs/administration-portal/support/src/index.ts"
       ],
-      "@bushtrade/administration-portal/escrow": [
-        "libs/administration-portal/escrow/src/index.ts"
+      "@bushtrade/administration-portal/transactions": [
+        "libs/administration-portal/transactions/src/index.ts"
       ],
       "@bushtrade/administration-portal/forums": [
         "libs/administration-portal/forums/src/index.ts"
