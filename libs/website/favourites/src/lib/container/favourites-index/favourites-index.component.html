@@ -1,5 +1,8 @@
 <div class="p-grid">
-  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2"  *ngIf="loggedIn else notLoggedIn">
+  <div
+    class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2"
+    *ngIf="loggedIn; else notLoggedIn"
+  >
     <div class="thread p-card p-p-5 p-mt-5 p-mb-5">
       <p-toast position="top-center"></p-toast>
       <div class="p-grid p-fluid">
@@ -21,11 +24,7 @@
       </div>
       <hr />
       <div class="p-grid">
-
-
-
         <div class="p-col-12 p-lg-4" *ngFor="let listing of favouriteListings">
-            
           <img
             src="assets/layout/images/listing-label.png"
             style="max-width: 100%;"
@@ -33,7 +32,10 @@
             class="listing-label"
             *ngIf="listing.type == listingType.Auction"
           />
-          <p-card header="{{ listing.name }}" subheader="{{ listing.description }}" styleClass="p-card-shadow p-shadow-2 p-m-2">
+          <p-card
+            header="{{ listing.name }}"
+            styleClass="p-card-shadow p-shadow-2 p-m-2"
+          >
             <p-header>
               <p-galleria
                 *ngIf="listing.images.length > 0"
@@ -61,17 +63,22 @@
                 </ng-template>
               </p-galleria>
             </p-header>
-            <p *ngIf="listing.type == listingType.Sale" class="p-p-2 favorite-body-text">
+            <p
+              *ngIf="listing.type == listingType.Sale"
+              class="p-p-2 favorite-body-text"
+            >
               Price: R {{ listing.startingPrice }}
             </p>
-            <p *ngIf="listing.type == listingType.Auction" class="p-p-2 favorite-body-text">
-              <ng-container  *ngIf="listing.timeRemaining > 0">
+            <p
+              *ngIf="listing.type == listingType.Auction"
+              class="p-p-2 favorite-body-text"
+            >
+              <ng-container *ngIf="listing.timeRemaining > 0">
                 Ends in:
                 <bushtrade-web-countdown-timer
-               
-                [endDate]="listing.endDate"
-                (timeDifferenceRemaining)="listing.timeRemaining = $event"
-              ></bushtrade-web-countdown-timer>
+                  [endDate]="listing.endDate"
+                  (timeDifferenceRemaining)="listing.timeRemaining = $event"
+                ></bushtrade-web-countdown-timer>
               </ng-container>
 
               <span *ngIf="listing.timeRemaining <= 0">
@@ -79,22 +86,27 @@
               </span>
             </p>
             <ng-template pTemplate="footer">
-                <p-button label="View" [routerLink]="['/', 'listings', listing.id]"></p-button>
-                <p-button label="Unfavourite" styleClass="p-button-danger"   class="p-button-outlined" [style]="{'margin-left': '.5em'}"  (click)="removeFavourite(listing.id)"></p-button>
+              <div class="p-d-flex p-jc-between">
+                <p-button
+                  label="View Listing"
+                  [routerLink]="['/', 'listings', listing.id]"
+                ></p-button>
+                <p-button
+                  label="Unfavourite"
+                  styleClass="p-button-outlined p-button-danger"
+                  [style]="{ 'margin-left': '.5em' }"
+                  (click)="removeFavourite(listing.id)"
+                ></p-button>
+              </div>
             </ng-template>
-        </p-card>
-
-      </div>
-
+          </p-card>
+        </div>
       </div>
     </div>
   </div>
-  <ng-template  #notLoggedIn>
-  <div class="p-mx-auto p-mt-5">
-    <h3>You need to sign in to view your favourites</h3>
-  </div>
-
-</ng-template>
-
+  <ng-template #notLoggedIn>
+    <div class="p-mx-auto p-mt-5">
+      <h3>You need to sign in to view your favourites</h3>
+    </div>
+  </ng-template>
 </div>
-

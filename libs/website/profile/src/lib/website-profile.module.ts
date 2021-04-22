@@ -18,6 +18,7 @@ import { PurchasesIndexComponent } from './containers/purchases-index/purchases-
 import { SellerIndexComponent } from './containers/seller-index/seller-index.component';
 import { UserComponent } from './containers/user/user.component';
 import { PremiumPackageModalComponent } from './containers/premium-package-modal/premium-package-modal.component';
+import { MessagesIndexComponent } from './containers/messages-index/messages-index.component';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { PremiumPackageModalComponent } from './containers/premium-package-modal
           { path: 'account', component: UserComponent },
           { path: 'listings', component: SellerIndexComponent },
           { path: 'purchases', component: PurchasesIndexComponent },
+          { path: 'messages', component: MessagesIndexComponent },
         ],
       },
     ]),
@@ -57,6 +59,7 @@ import { PremiumPackageModalComponent } from './containers/premium-package-modal
     UserComponent,
     PurchasesIndexComponent,
     PremiumPackageModalComponent,
+    MessagesIndexComponent,
   ],
   providers: [ListingsFacade, PurchasesFacade],
 })

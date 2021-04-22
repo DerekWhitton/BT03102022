@@ -51,6 +51,7 @@ export class WebsiteMenuComponent implements OnInit {
 
     this.router.events.subscribe((nEvent) => {
       if (nEvent instanceof NavigationEnd) this.showMegaSearchMenu = true; //!nEvent.url.startsWith('/listings');
+      this.topbarUserMenuActive = false;
     });
 
     this.categoryService.loadCategories(null, true).subscribe((categories) => {

@@ -42,7 +42,9 @@
 
   <ul class="category-list">
     <li *ngFor="let category of subCategories">
-      <a (click)="changeSubCategory(category.id)">{{ category.name }}</a>
+      <a (click)="changeSubCategory(category.id, category.name)">{{
+        category.name
+      }}</a>
     </li>
 
     <li *ngIf="parentCategory != ''">
@@ -104,8 +106,11 @@
           <div
             class="p-mr-2 p-mb-2 p-text-center category-button"
             *ngFor="let category of featuredCategories"
-            (click)="handleCategorySelection(category.id)"
-            [ngClass]="categoryId == category.id ? 'selected-category' : ''"
+            (click)="handleCategorySelection(category.id, category.name)"
+            [ngClass]="[
+              categoryId == category.id ? 'selected-category' : '',
+              currentCategory == category.id ? 'selected-category' : ''
+            ]"
           >
             <div class="category-icon">
               <img
@@ -130,8 +135,10 @@
           }}
           items
         </p>
-        <h4>
-          Categories
+        <h4 class="p-d-flex p-jc-between">
+          <span>
+            Categories
+          </span>
           <span style="float: right;"
             ><a (click)="handleCategorySelection(null)"> All</a></span
           >
@@ -139,7 +146,12 @@
 
         <ul class="category-list">
           <li *ngFor="let category of subCategories">
-            <a (click)="changeSubCategory(category.id)">{{ category.name }}</a>
+            <a (click)="changeSubCategory(category.id, category.name)"
+              >{{ category.name }}
+              <span style="float: right;" *ngIf="category.children.length">{{
+                category.children.length
+              }}</span></a
+            >
           </li>
           <li *ngIf="parentCategory != ''">
             <a (click)="getParentCategory()" class="secondary-link"
@@ -276,6 +288,23 @@
         </div>
 
         <div class="p-grid">
+          <div class="p-col">
+            <div class="bread-crumbs p-mb-3">
+              <a
+                class="bread-crumb p-mr-1"
+                (click)="handleCategorySelection(null)"
+                >All</a
+              >
+              <a
+                *ngFor="let breadCrumb of breadCrumbs; let i = index"
+                class="bread-crumb p-mr-1"
+                (click)="updateSubCategory(breadCrumb[1], i + 1)"
+              >
+                {{ breadCrumb[0] }}
+              </a>
+            </div>
+          </div>
+
           <ng-container *ngIf="searchResponse?.items.length > 0; else noItems">
             <bushtrade-web-product-item
               class="p-mb-4 p-col-12"

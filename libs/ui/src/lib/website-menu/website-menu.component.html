@@ -43,18 +43,30 @@
       <div class="topbar-left">
         <p-menubar [model]="menuItems" class="menu-light">
           <ng-template pTemplate="start">
-            <img
-              id="app-logo"
-              class="logo-image p-mr-2 ng-star-inserted p-mt-2"
-              src="assets/layout/images/logo-dark.png"
+            <a
+              href="javascript:void(0)"
               [routerLink]="['/', 'home']"
-              alt="Bush Trade"
-            />
+              id="app-logo"
+            >
+              <img
+                class="logo-image p-mr-2 ng-star-inserted p-mt-2"
+                src="assets/layout/images/logo-dark.png"
+                alt="Bush Trade"
+              />
+            </a>
           </ng-template>
         </p-menubar>
       </div>
       <div class="topbar-right">
-        <a href="#" *ngIf="!loggedIn" (click)="login()">Sign in / Register</a>
+        <button
+          *ngIf="!loggedIn"
+          (click)="login()"
+          pButton
+          type="button"
+          label="Sign in / Register"
+          class="p-button p-button-primary"
+        ></button>
+
         <ng-container *ngIf="loggedIn">
           <ng-container *ngIf="user$ | async as user">
             <ul class="topbar-menu">
@@ -71,51 +83,80 @@
                 >
                   <img
                     [src]="image"
-                    alt="diamond-layout"
+                    alt="{{ user.firstName }} {{ user.surname }}"
                     class="profile-image p-m-0"
                   />
                   <span class="p-mx-2 profile-name p-d-none p-d-md-inline-flex"
                     >{{ user.firstName }} {{ user.surname }}</span
                   >
                 </a>
-                <ul
-                  class="profile-menu fade-in-up"
-                  (click)="this.topbarUserMenuActive = false"
-                >
-                  <li>
-                    <a [routerLink]="['/', 'profile', 'listings']">
-                      <i class="pi pi-list"></i>
-                      <span>My Listings</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a [routerLink]="['/', 'profile', 'purchases']">
-                      <i class="pi pi-money-bill"></i>
-                      <span>My Purchases</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a [routerLink]="['/', 'favourites']">
-                      <i class="pi pi-heart"></i>
-                      <span>Favourites</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a [routerLink]="['/', 'profile', 'account']">
-                      <i class="pi pi-user"></i>
-                      <span>Profile</span>
-                    </a>
-                  </li>
-                  <hr />
-                  <li>
-                    <a (click)="this.logout()">
-                      <i class="pi pi-power-off"></i>
-                      <span>Logout</span>
-                    </a>
-                  </li>
-                </ul>
               </li>
             </ul>
+
+            <p-sidebar
+              [(visible)]="topbarUserMenuActive"
+              position="right"
+              [baseZIndex]="10000"
+              showCloseIcon="true"
+              class="side-bar-menu"
+            >
+              <h1 style="font-weight: normal;">Profile Menu</h1>
+              <button
+                pButton
+                type="button"
+                label="My Listings"
+                icon="pi pi-list"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                [routerLink]="['/', 'profile', 'listings']"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="My Purchases"
+                icon="pi pi-money-bill"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                [routerLink]="['/', 'profile', 'purchases']"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="My Messages"
+                icon="pi pi-inbox"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                [routerLink]="['/', 'profile', 'messages']"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Favourites"
+                icon="pi pi-heart"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                [routerLink]="['/', 'favourites']"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Profile"
+                icon="pi pi-user"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                [routerLink]="['/', 'profile', 'account']"
+              ></button>
+              <hr />
+              <button
+                pButton
+                type="button"
+                label="Logout"
+                icon="pi pi-power-off"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                (click)="this.logout()"
+              ></button>
+            </p-sidebar>
           </ng-container>
         </ng-container>
       </div>

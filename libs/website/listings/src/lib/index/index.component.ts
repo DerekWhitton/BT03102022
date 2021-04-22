@@ -49,6 +49,9 @@ export class IndexComponent implements OnInit {
   searchPriceRange: number[] = [];
   subCategories: ICategory[];
   parentCategory: any[] = [];
+  currentCategory: any = '';
+  breadCrumbs: any[] = [];
+
   // Location range search
   userLocation: ILocation;
   selectableDistanceRanges: any[] = [
@@ -122,7 +125,15 @@ export class IndexComponent implements OnInit {
     this.navigate();
   }
 
-  changeSubCategory(value = '') {
+  changeSubCategory(value = '', name = '') {
+    if (this.parentCategory.length < 1) {
+      this.currentCategory = value;
+    }
+
+    if (name != '') {
+      this.breadCrumbs.push([name, value]);
+    }
+
     this.parentCategory.push(value);
     this.updateSubCategory(value);
     this.categoryId = value;
@@ -130,6 +141,7 @@ export class IndexComponent implements OnInit {
   }
 
   getParentCategory() {
+    this.breadCrumbs.pop();
     this.parentCategory.pop();
     this.updateSubCategory(this.parentCategory[this.parentCategory.length - 1]);
   }
@@ -140,11 +152,22 @@ export class IndexComponent implements OnInit {
     this.navigate();
   }
 
-  handleCategorySelection(categoryId: string) {
+  handleCategorySelection(categoryId: string, categoryName = null) {
+    if (categoryName) {
+      this.currentCategory = categoryId;
+      this.breadCrumbs = [[categoryName, categoryId]];
+    } else {
+      this.currentCategory = '';
+
+      this.breadCrumbs = [];
+    }
+
     if (this.categoryId != categoryId) {
       this.categoryId = categoryId;
     } else {
       this.categoryId = null;
+      this.breadCrumbs = [];
+      this.currentCategory = '';
     }
     this.query = null;
     this.facets = null;
@@ -330,7 +353,11 @@ export class IndexComponent implements OnInit {
     this.searchPriceRange = [intervalStart, intervalEnd];
   }
 
-  private updateSubCategory(categoryToGet) {
+  private updateSubCategory(categoryToGet, indexItem = null) {
+    if (indexItem) {
+      this.breadCrumbs = this.breadCrumbs.slice(0, indexItem);
+    }
+
     this.categoryService
       .loadCategories(categoryToGet)
       .subscribe((categories) => {

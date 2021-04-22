@@ -1,117 +1,130 @@
 @import '../../../../shared/assets/sass/layout/vars';
 
-.menu-light{
-    text-transform: uppercase;
+.menu-light {
+  text-transform: uppercase;
 }
 
-.bt-profile-menu{
-    text-transform: capitalize;
-    li{
-        margin: 3px 0px;
-        width:100%;
-        a{
-            padding: 3px 0px;
-            display: block;
-            text-decoration: none;
-        }
-
+.bt-profile-menu {
+  text-transform: capitalize;
+  li {
+    margin: 3px 0px;
+    width: 100%;
+    a {
+      padding: 3px 0px;
+      display: block;
+      text-decoration: none;
     }
+  }
 }
 
-.inline-flex{
-    display: inline-flex!important;
-}
-
-h4{
-    font-weight: bold;
-}
-
-h4,a {
-    opacity: 0.8;
-    cursor: pointer;
+.side-bar-menu {
+  button {
+    width: 100%;
+    text-align: left !important;
     color: $COLOUR-BROWN;
-    padding: .33em;
-    &:hover{
-        opacity: 1; 
-        background: $COLOUR-GOLD-LIGHT;
+    &:hover {
+      background: $COLOUR-GOLD-LIGHT;
+      color: $COLOUR-BROWN;
     }
+  }
 }
 
-.category-list{
-    list-style:none;
-    padding: 0px;
-    margin: 0px;
-    li{
-        padding: 2px 0px;
-        margin-bottom: 0px;
-        a{
-            display:block;
-        }
-    }
+.inline-flex {
+  display: inline-flex !important;
 }
 
-.buysell-links{
-    a{
-        margin-right: 1em;
-        text-transform: uppercase;
-        font-size: 1rem;
-        text-decoration: none;
-        &:hover{
-            background: none;
-        }
-    }
-
-
+h4 {
+  font-weight: bold;
 }
 
+h4,
+a {
+  opacity: 0.8;
+  cursor: pointer;
+  color: $COLOUR-BROWN;
+  padding: 0.33em;
+  &:hover {
+    opacity: 1;
+    background: $COLOUR-GOLD-LIGHT;
+  }
+}
 
-@media(max-width:768px){
-    .buysell-links{
-        a{
+.category-list {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  li {
+    padding: 2px 0px;
+    margin-bottom: 0px;
+    a {
+      display: block;
+    }
+  }
+}
 
-            margin-right: 0em;
-            display:block;
-            padding: .5em;
-        }
+.buysell-links {
+  a {
+    margin-right: 1em;
+    text-transform: uppercase;
+    font-size: 1rem;
+    text-decoration: none;
+    &:hover {
+      background: none;
     }
-    .buy-sell-menu{
-        h4{
-            font-size: 1.2em;
-            padding: .2em;
-        }
-        .category-list{
-            display:none;
-        }
+  }
+}
+
+@media (max-width: 768px) {
+  .buysell-links {
+    a {
+      margin-right: 0em;
+      display: block;
+      padding: 0.5em;
     }
+  }
+  .buy-sell-menu {
+    h4 {
+      font-size: 1.2em;
+      padding: 0.2em;
+    }
+    .category-list {
+      display: none;
+    }
+  }
+}
+
+#app-logo {
+  opacity: 1;
+  &:hover {
+    background: none !important;
+  }
 }
 
 .layout-topbar {
-    background: transparent;
-    border-bottom: none;
+  background: transparent;
+  border-bottom: none;
 
-    li{
-        ul{
-            li{
-                a{
-                    color: #525252!important;
-                }
-            }
+  li {
+    ul {
+      li {
+        a {
+          color: #525252 !important;
         }
+      }
     }
+  }
 
-    .topbar-menu > li.profile-item {
-        padding: 0 1rem 0 1rem;
-        border-left: none;
-        border-right: none;
-        a{
-            color: #fff;
-            &:hover{
-                opacity: 1; 
-                background: $COLOUR-GOLD-LIGHT;
-            }
-        }
+  a {
+    color: #fff;
+    &:hover {
+      opacity: 1;
+      background: $COLOUR-GOLD-LIGHT;
     }
-    
-    
+  }
+
+  .topbar-menu > li.profile-item {
+    padding: 0 1rem 0 1rem;
+    border-left: none;
+    border-right: none;
+  }
 }
-

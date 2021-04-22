@@ -17,23 +17,17 @@
       id="logo-mobile"
       class="mobile-logo"
       src="assets/layout/images/logo-dark.png"
-      alt="diamond-layout"
+      alt="logo"
     />
   </div>
 
   <div class="topbar-right">
     <ul class="topbar-menu">
-     
       <li
         class="profile-item"
         [ngClass]="{ 'active-menuitem fadeInDown': topbarUserMenuActive }"
       >
         <a href="#" (click)="this.handleTopbarUserMenuButtonClick.emit($event)">
-          <!-- <img
-              src="assets/demo/images/avatar/profile.jpg"
-              alt="diamond-layout"
-              class="profile-image"
-            /> -->
           <span class="profile-name">Profile</span>
         </a>
         <ul class="profile-menu fade-in-up">

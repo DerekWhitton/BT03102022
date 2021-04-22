@@ -1,3 +1,10 @@
-.bt-content-area{
-    min-height: calc(100vh - 482px);
+.bt-content-area {
+  min-height: calc(100vh - 482px);
+}
+
+:host ::ng-deep {
+  .p-card {
+    border-radius: 0px;
+    border: 1px solid #dee2e6;
+  }
 }
