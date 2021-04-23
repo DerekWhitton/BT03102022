@@ -99,15 +99,15 @@
         </td>
         <td>{{ purchase.amount.toFixed(2) | currency: 'R ' }}</td>
         <td style="width: 50px;">
-          <button 
-              *ngIf="purchase.dateCompleted"
-              pButton
-              (click)="reviewSeller(purchase)"
-              icon="pi pi-star-o"
-              class="p-mr-2 p-button-warning"
-              pTooltip="Review the seller"
-              tooltipPosition="right"
-            ></button>
+          <button
+            *ngIf="purchase.dateCompleted"
+            pButton
+            (click)="reviewSeller(purchase)"
+            icon="pi pi-star-o"
+            class="p-mr-2 p-button-warning"
+            pTooltip="Review the seller"
+            tooltipPosition="right"
+          ></button>
         </td>
         <td *ngIf="purchase.dateCompleted && !purchase.dateReceivedGoods">
           Completed on {{ purchase.dateCompleted | date }}
@@ -200,7 +200,11 @@
               *ngIf="purchase.disputeId"
               pButton
               style="margin-top: 5px;"
-              [ngClass]="purchase.disputeResolved ? 'p-button-success' : 'p-button-warning'"
+              [ngClass]="
+                purchase.disputeResolved
+                  ? 'p-button-success'
+                  : 'p-button-warning'
+              "
               class="p-mr-2 p-button-raised"
               icon="pi pi-sign-out"
               pTooltip="Click here to check the details of your dispute."
@@ -303,8 +307,8 @@
     <div>
       <h3 *ngIf="!listingReviews.sellerReview">Review this seller</h3>
       <h3 *ngIf="listingReviews.sellerReview">Your review for this seller</h3>
-      <hr>
-      <h4>Listing: {{selectedListing.name}}</h4>
+      <hr />
+      <h4>Listing: {{ selectedListing.name }}</h4>
     </div>
   </ng-template>
   <ng-template pTemplate="content">
@@ -339,31 +343,42 @@
         <label>
           Rating:
         </label>
-        <p-rating [cancel]="false" [readonly]="true" [(ngModel)]="listingReviews.sellerReview.rating"></p-rating>
+        <p-rating
+          [cancel]="false"
+          [readonly]="true"
+          [(ngModel)]="listingReviews.sellerReview.rating"
+        ></p-rating>
       </div>
       <div class="p-field">
         <label>
-          Review comment: 
+          Review comment:
         </label>
-        <br>
-        <label>{{listingReviews.sellerReview.comment}}</label>
+        <br />
+        <label>{{ listingReviews.sellerReview.comment }}</label>
       </div>
     </div>
-    <div class="p-fluid" *ngIf="listingReviews.sellerReview && listingReviews.buyerReview">
-      <hr/>
+    <div
+      class="p-fluid"
+      *ngIf="listingReviews.sellerReview && listingReviews.buyerReview"
+    >
+      <hr />
       <h3>Seller's review:</h3>
       <div class="p-field">
         <label>
           Rating:
         </label>
-        <p-rating [cancel]="false" [readonly]="true" [(ngModel)]="listingReviews.buyerReview.rating"></p-rating>
+        <p-rating
+          [cancel]="false"
+          [readonly]="true"
+          [(ngModel)]="listingReviews.buyerReview.rating"
+        ></p-rating>
       </div>
       <div class="p-field">
         <label>
-          Review comment: 
+          Review comment:
         </label>
-        <br>
-        <label>{{listingReviews.buyerReview.comment}}</label>
+        <br />
+        <label>{{ listingReviews.buyerReview.comment }}</label>
       </div>
     </div>
   </ng-template>

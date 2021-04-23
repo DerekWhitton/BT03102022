@@ -26,6 +26,27 @@ h4 {
   text-transform: uppercase;
 }
 
+.bread-crumbs {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 3px;
+  padding: 1rem;
+
+  .bread-crumb {
+    text-decoration: none;
+    color: #495057;
+    &:after {
+      content: ' > ';
+    }
+
+    &:last-child {
+      color: #c09a6a;
+      &:after {
+        content: none;
+      }
+    }
+  }
+}
 .category-button {
   cursor: pointer;
   outline: none;
@@ -34,7 +55,6 @@ h4 {
 
   &:hover {
     transform: scale(1.1);
-
     .category-icon {
       img {
         box-shadow: 0px 4px 4px 0px #00000042;
@@ -50,6 +70,7 @@ h4 {
         box-shadow: 0px 4px 4px 0px #00000042;
         border-radius: 15px;
         background: #4d2b29;
+        filter: invert(1);
       }
 
       p {
@@ -93,7 +114,7 @@ h4 {
       font-size: 1.2em;
       display: block;
       transition: 0.1s all;
-      padding: .33em;
+      padding: 0.33em;
 
       &:hover {
         color: #4d2b29;

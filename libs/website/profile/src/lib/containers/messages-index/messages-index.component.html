@@ -1,0 +1,50 @@
+<div *ngIf="(loaded$ | async) && purchases$ | async as purchases">
+  <p *ngIf="purchases.length <= 0">
+    We couldn't find any open messages associated with your account.
+  </p>
+
+  <table>
+    <ng-container *ngFor="let purchase of purchases; let i = index">
+      <tr
+        *ngIf="
+          !purchase.dateCompleted &&
+          !purchase.dateCancelled &&
+          !purchase.dateReceivedGoods &&
+          purchase.conversationId
+        "
+        style="border-bottom: 1px solid #ccc;"
+      >
+        <td
+          class="p-tag"
+          [ngClass]="
+            purchase.listing.type == listingType.Auction
+              ? 'p-tag-success'
+              : 'p-tag-primary'
+          "
+        >
+          {{
+            purchase.listing.type == listingType.Auction ? 'Auction' : 'Listing'
+          }}
+        </td>
+
+        <td>{{ purchase.listing.name }}</td>
+        <td>
+          <button
+            pButton
+            *ngIf="purchase.conversationId"
+            icon="pi pi-comments"
+            [routerLink]="[
+              '../..',
+              'conversations',
+              'purchase',
+              purchase.conversationId
+            ]"
+            pTooltip="View all messages between you and the seller on this purchase."
+            tooltipPosition="right"
+            class="p-mr-2"
+          ></button>
+        </td>
+      </tr>
+    </ng-container>
+  </table>
+</div>

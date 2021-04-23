@@ -29,11 +29,11 @@ import {
 } from '@bushtrade/website/shared/services';
 
 @Component({
-  selector: 'bushtrade.web-purchases-index',
-  templateUrl: './purchases-index.component.html',
-  styleUrls: ['./purchases-index.component.scss'],
+  selector: 'bushtrade.web-messages-index',
+  templateUrl: './messages-index.component.html',
+  styleUrls: ['./messages-index.component.scss'],
 })
-export class PurchasesIndexComponent implements OnInit {
+export class MessagesIndexComponent implements OnInit {
   listingType = ListingType;
   loaded$: Observable<boolean>;
   lastPurchaseError$ = this.purchasesFacade.lastKnownError$;
