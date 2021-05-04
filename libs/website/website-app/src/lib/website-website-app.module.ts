@@ -10,18 +10,17 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
     UiModule,
     RouterModule.forRoot(
       [
-        { path: '', 
-        loadChildren: () =>
-        import('@bushtrade/website/home').then(
-          (module) => module.WebsiteHomeModule
-        ),
-        },
         {
-          path: 'home',
+          path: '',
           loadChildren: () =>
             import('@bushtrade/website/home').then(
               (module) => module.WebsiteHomeModule
             ),
+        },
+        {
+          path: 'home',
+          redirectTo: '/',
+          pathMatch: 'full',
         },
         {
           path: 'buy-sell',
@@ -30,13 +29,14 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
               (module) => module.WebsiteBuySellModule
             ),
         },
-        {
-          path: 'forums',
-          loadChildren: () =>
-            import('@bushtrade/website/forums').then(
-              (module) => module.WebsiteForumsModule
-            ),
-        },
+        // {
+        //   path: 'forums',
+        //   loadChildren: () =>
+        //     import('@bushtrade/website/forums').then(
+        //       (module) => module.WebsiteForumsModule
+        //     ),
+        // },
+        { path: 'forums', redirectTo: '/', pathMatch: 'full' },
         {
           path: 'buying',
           loadChildren: () =>
@@ -51,13 +51,14 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
               (module) => module.WebsiteSellingModule
             ),
         },
-        {
-          path: 'about',
-          loadChildren: () =>
-            import('@bushtrade/website/about').then(
-              (module) => module.WebsiteAboutModule
-            ),
-        },
+        // {
+        //   path: 'about',
+        //   loadChildren: () =>
+        //     import('@bushtrade/website/about').then(
+        //       (module) => module.WebsiteAboutModule
+        //     ),
+        // },
+        { path: 'about', redirectTo: '/', pathMatch: 'full' },
         {
           path: 'contact-us',
           loadChildren: () =>
@@ -101,13 +102,14 @@ import { WebsiteIndexComponent } from './website-index/website-index.component';
             ),
           canActivate: [MsalGuard],
         },
-        {
-          path: 'blog',
-          loadChildren: () =>
-            import('@bushtrade/website/blog').then(
-              (module) => module.WebsiteBlogModule
-            ),
-        },
+        // {
+        //   path: 'blog',
+        //   loadChildren: () =>
+        //     import('@bushtrade/website/blog').then(
+        //       (module) => module.WebsiteBlogModule
+        //     ),
+        // },
+        { path: 'blog', redirectTo: '/', pathMatch: 'full' },
         {
           path: 'payments',
           loadChildren: () =>

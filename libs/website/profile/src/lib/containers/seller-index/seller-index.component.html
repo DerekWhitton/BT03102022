@@ -26,16 +26,19 @@
           ></button>
         </ng-template>
       </p-toolbar>
-      <p-table [columns]="columns" [value]="listings$ | async">
+      <p-table
+        [columns]="columns"
+        [value]="listings$ | async"
+        styleClass="p-datatable-responsive-demo"
+      >
         <ng-template pTemplate="header" let-columns>
           <tr>
             <th style="width: 100px;">Premium</th>
-            <th style="width: 50px;"></th>
-            <th></th>
+            <th style="width: 50px;">Status</th>
             <th *ngFor="let col of columns">
               {{ col.header }}
             </th>
-            <th style="width: 30px;"></th>
+            <th></th>
             <th style="text-align: right;">Actions</th>
           </tr>
         </ng-template>
@@ -48,20 +51,31 @@
                 pRipple
                 icon="pi pi-money-bill"
                 title="Make listing Premium"
-                class="p-button p-button-success p-mr-2"
+                class="p-button p-button-success p-mr-2 p-mb-2"
                 (click)="showPremiumPackagesModal(rowData.id)"
                 pTooltip="Upgrade Listing, to get premium placement and lower buyer fees."
                 tooltipPosition="top"
+                label="Promote"
               ></button>
             </td>
             <td>
+              <span class="p-column-title">Status: </span>
               <span
-                *ngIf="rowData.active && rowData.type == ListingType.Auction && rowData.isAuctionClosed && !rowData.isSold"
+                *ngIf="
+                  rowData.active &&
+                  rowData.type == ListingType.Auction &&
+                  rowData.isAuctionClosed &&
+                  !rowData.isSold
+                "
                 class="p-tag p-tag-danger"
-              >Closed</span
+                >Closed</span
               >
               <span
-                *ngIf="rowData.active && !rowData.isSold && (rowData.type == ListingType.Sale || !rowData.isAuctionClosed)"
+                *ngIf="
+                  rowData.active &&
+                  !rowData.isSold &&
+                  (rowData.type == ListingType.Sale || !rowData.isAuctionClosed)
+                "
                 class="p-tag p-tag-success"
                 >Live</span
               >
@@ -74,49 +88,33 @@
                 >Sold</span
               >
             </td>
-            <td>
-              <a
-                [routerLink]="['../..', 'listings', rowData.id]"
-                pTooltip="View your listing page"
-                tooltipPosition="top"
-              >{{rowData.name}}</a>
+            <td *ngFor="let col of columns">
+              <span class="p-column-title">{{ col.header }}:</span>
+              {{ rowData[col.field] }}
             </td>
-            <td
-              *ngFor="let col of columns"
-              [innerHtml]="
-                col.converter
-                  ? col.converter(rowData[col.field])
-                  : rowData[col.field]
-              "
-            ></td>
             <td>
-              <span class="p-overlay-badge" *ngIf="(rowData.active && !rowData.isSold)">
-                <button
-                  *ngIf="rowData.type == ListingType.Sale"
-                  pButton
-                  pRipple
-                  icon="pi pi-users"
-                  class="p-button p-button-primary p-mr-2"
-                  [routerLink]="['../..', 'conversations', 'listing', rowData.id]"
-                  pTooltip="View Interested Buyers Messages"
-                  tooltipPosition="top"
-                ></button>
-                <span
-                  *ngIf="rowData.type != ListingType.Auction"
-                  class="p-badge"
-                  [ngClass]="rowData.numberOfInterestedUsers > 0 ? 'p-badge-success' : 'p-badge-danger'">
-                    {{rowData.numberOfInterestedUsers}}
-                </span>
-              </span>
+              <button
+                *ngIf="rowData.active && !rowData.isSold"
+                pButton
+                pRipple
+                icon="pi pi-users"
+                class="p-button p-button-primary p-mr-2 p-mb-2"
+                [routerLink]="['../..', 'conversations', 'listing', rowData.id]"
+                pTooltip="View Interested Buyers Messages"
+                tooltipPosition="top"
+                label="Buyers"
+              ></button>
               <button
                 *ngIf="rowData.active && rowData.isSold"
                 pButton
                 pRipple
                 icon="pi pi-star-o"
-                class="p-button p-button-warning p-mr-2"
+                title="Rate Buyer"
+                class="p-button p-button-warning p-mr-2 p-mb-2"
                 [routerLink]="['../..', 'conversations', 'listing', rowData.id]"
                 pTooltip="Go and review your buyer"
                 tooltipPosition="top"
+                label="Review Buyer"
               ></button>
             </td>
             <td class="p-text-right">
@@ -129,21 +127,26 @@
                 pRipple
                 icon="pi pi-pencil"
                 title="Edit Listing"
-                class="p-button p-button-success p-mr-2"
+                class="p-button p-button-success p-mb-2"
                 (click)="handleUpdateSelection(rowData)"
                 pTooltip="Edit Listing"
                 tooltipPosition="top"
+                label="Edit"
               ></button>
               <button
-                *ngIf="!rowData.isSold && (rowData.type == ListingType.Sale || !rowData.isAuctionClosed)"
+                *ngIf="
+                  !rowData.isSold &&
+                  (rowData.type == ListingType.Sale || !rowData.isAuctionClosed)
+                "
                 pButton
                 pRipple
                 icon="pi pi-trash"
                 title="Delete Listing"
-                class="p-button p-button-danger"
+                class="p-button p-button-danger p-mb-2 p-ml-2"
                 (click)="deleteListing(rowData)"
                 pTooltip="Delete Listing"
                 tooltipPosition="top"
+                label="Delete"
               ></button>
             </td>
           </tr>

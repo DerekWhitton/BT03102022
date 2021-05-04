@@ -89,10 +89,10 @@ export class WebsiteMenuComponent implements OnInit {
           });
         },
       },
-      {
-        label: 'Forums',
-        routerLink: ['/', 'forums'],
-      },
+      // {
+      //   label: 'Forums',
+      //   routerLink: ['/', 'forums'],
+      // },
       // {
       //   label: 'Trophy Cabinet',
       //   routerLink: ['/', 'trophy-cabinet'],
@@ -107,10 +107,10 @@ export class WebsiteMenuComponent implements OnInit {
     }
 
     this.menuItems.push(
-      {
-        label: 'Blog',
-        routerLink: ['/', 'blog'],
-      },
+      // {
+      //   label: 'Blog',
+      //   routerLink: ['/', 'blog'],
+      // },
       {
         icon: 'pi pi-fw pi-heart',
         routerLink: ['/', 'favourites'],
