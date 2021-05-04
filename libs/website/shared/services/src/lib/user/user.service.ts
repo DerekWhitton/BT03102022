@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG } from '@bushtrade/app-config';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ISeller, IUser } from '@bushtrade/website/shared/entites';
+import { ISeller, IUserUpdateRequest, IUser } from '@bushtrade/website/shared/entites';
 @Injectable({
   providedIn: 'root',
 })
@@ -46,5 +46,10 @@ export class UserService {
     );
   }
 
+  updateProfileDetails(data: IUserUpdateRequest) {
+    return this.httpClient.put<IUser>(
+      `${this.base}api/v${this.version}/Profiles/Me/Update`, data
+    );
+  }
   
 }

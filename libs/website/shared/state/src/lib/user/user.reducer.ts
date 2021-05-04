@@ -19,7 +19,13 @@ export const userIntialState: UserState = {
   updatedAt: '',
   error: '',
   loaded: false,
-  profilePictureUri: ''
+  profilePictureUri: '',
+  age: 0,
+  bio: '',
+  countriesvisited: '',
+  gender: '',
+  location: '',
+  occupation: ''
 };
 
 const usersReducer = createReducer(
