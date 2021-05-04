@@ -1,5 +1,5 @@
-// Used when updating a seller's profile
-export interface ISellerUpdateRequest {
+// Used when updating a users's profile
+export interface IUserUpdateRequest {
     age: number;
     bio: string;
     countriesvisited: string;

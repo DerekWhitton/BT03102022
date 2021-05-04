@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { FormControl, FormGroup,  Validators } from '@angular/forms';
 import { Observable,  of as observableOf } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ISellerUpdateRequest, } from '@bushtrade/website/shared/entites';
+import { IUserUpdateRequest, } from '@bushtrade/website/shared/entites';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
@@ -89,7 +89,7 @@ export class UserComponent implements OnInit {
   }
 
   UpdateUser() {
-    const userequest = this.userFormGroup.value as ISellerUpdateRequest;
+    const userequest = this.userFormGroup.value as IUserUpdateRequest;
     this.isLoading = true;
 
     this.userService.updateProfileDetails(userequest).subscribe(
