@@ -28,6 +28,7 @@ export * from './site-settings/i-premium-package-setting';
 export * from './listings/i-listing-premium-package';
 export * from './listings/i-listing-premium-package-request';
 export * from './listings/listing-sort-field';
+export * from './sellers/i-seller-update';
 export * from './shared-models/sort-order';
 export * from './shared-models/i-location';
 export * from './reviews/i-seller-review-request';

@@ -7,4 +7,11 @@ export interface IUser {
   createdAt: any;
   updatedAt: any;
   profilePictureUri: string;
+
+  age: number;
+  bio: string;
+  countriesvisited: string;
+  gender: string;
+  location: string;
+  occupation: string;
 }
