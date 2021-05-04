@@ -7,3 +7,6 @@ export * from './definitions/i-category';
 export * from './forums/i-topic';
 export * from './advertisments/i-dashboard-advertisment';
 export * from './advertisments/i-create-dashboard-advertisment';
+export * from './transactions/i-transaction';
+export * from './transactions/transaction-sort-field';
+export * from './shared/sort-order';

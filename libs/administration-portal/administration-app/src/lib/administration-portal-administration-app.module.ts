@@ -51,10 +51,10 @@ import { HttpClientModule } from '@angular/common/http';
         canActivate: [MsalGuard],
       },
       {
-        path: 'escrow',
+        path: 'transactions',
         loadChildren: () =>
-          import('@bushtrade/administration-portal/escrow').then(
-            (module) => module.AdministrationPortalEscrowModule
+          import('@bushtrade/administration-portal/transactions').then(
+            (module) => module.AdministrationPortalTransactionsModule
           ),
         canActivate: [MsalGuard],
       },

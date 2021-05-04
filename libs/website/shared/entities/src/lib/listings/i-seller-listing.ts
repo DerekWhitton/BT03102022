@@ -32,6 +32,8 @@ export interface ISellerListing {
   createdAt: Date;
   updatedAt: Date;
   images: ISellerListingImage[];
+  isAuctionClosed: boolean;
   isSold: boolean;
   purchaseId: string;
+  numberOfInterestedUsers: number;
 }

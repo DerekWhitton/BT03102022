@@ -86,6 +86,11 @@ export class AppComponent implements OnInit {
           icon: 'pi pi-question-circle',
           routerLink: ['/', 'support'],
         },
+        {
+          label: 'Transactions',
+          icon: 'pi pi-money-bill',
+          routerLink: ['/', 'transactions'],
+        },
       ],
       routerLink: ['/', 'dashboard'],
     },
@@ -106,11 +111,6 @@ export class AppComponent implements OnInit {
         //   icon: 'pi pi-user',
         //   routerLink: ['/', 'articles'],
         // },
-        {
-          label: 'Escrow',
-          icon: 'pi pi-money-bill',
-          routerLink: ['/', 'escrow'],
-        },
         {
           label: 'Messages',
           icon: 'pi pi-comment',
