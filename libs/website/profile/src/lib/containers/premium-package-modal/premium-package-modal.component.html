@@ -10,17 +10,28 @@
     <progress-spinner *ngIf="loading"></progress-spinner>
     <div *ngIf="!loading">
       <div class="p-grid">
-        <progress-spinner class="premium-packages-spinner" *ngIf="placingPackage"></progress-spinner>
-        <div class="p-col-4" *ngFor="let package of premiumPackages">
+        <progress-spinner
+          class="premium-packages-spinner"
+          *ngIf="placingPackage"
+        ></progress-spinner>
+        <div class="p-col-12 p-md-4" *ngFor="let package of premiumPackages">
           <div
-            *ngIf="!placingPackage && selectedPackageId && package.id == selectedPackageId"
+            *ngIf="
+              !placingPackage &&
+              selectedPackageId &&
+              package.id == selectedPackageId
+            "
             class="p-shadow-5 p-m-2 premium-package-overlay"
             (click)="addPremiumPackage()"
           >
             Click to confirm selection
-          </div>          
+          </div>
           <div
-            [ngClass]="confirmedPackageId && package.id == confirmedPackageId ? 'confirmed' : ''"
+            [ngClass]="
+              confirmedPackageId && package.id == confirmedPackageId
+                ? 'confirmed'
+                : ''
+            "
             class="p-shadow-5 p-m-2 premium-package-card"
             (click)="selectPackage(package.id)"
           >
@@ -34,12 +45,7 @@
           </div>
         </div>
       </div>
-      <form
-        ngNoForm
-        method="POST"
-        [action]="paymentDetails?.url"
-        #payFastForm
-      >
+      <form ngNoForm method="POST" [action]="paymentDetails?.url" #payFastForm>
         <div *ngIf="paymentDetails && !paymentDetails.paid">
           <input
             type="hidden"
@@ -48,13 +54,12 @@
             [id]="field.key"
             *ngFor="let field of paymentDetails.fields | keyvalue: 0"
           />
-          <p-button
-            label="Proceed to PayFast"
-            type="submit"
-          ></p-button>
+          <p-button label="Proceed to PayFast" type="submit"></p-button>
         </div>
       </form>
-      <div *ngIf="!listingPremiumPackages || listingPremiumPackages.length == 0">
+      <div
+        *ngIf="!listingPremiumPackages || listingPremiumPackages.length == 0"
+      >
         <h2>No Premium Packages available for this listing</h2>
       </div>
       <p-table

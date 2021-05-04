@@ -7,15 +7,14 @@
   max-width: 100%;
   min-height: 140px;
   overflow: hidden;
-  background-size: 130%;
+  background-size: 100%;
   background-position: center center;
   background-repeat: no-repeat;
   filter: brightness(50%);
   transition: 0.3s ease-in-out background-size;
-  &:hover{
-    background-size: 140%;
+  &:hover {
+    background-size: 110%;
   }
-
 }
 
 h3 {
@@ -33,4 +32,4 @@ h3 {
 .category-wrapper {
   position: relative;
   cursor: pointer;
-} 
+}
