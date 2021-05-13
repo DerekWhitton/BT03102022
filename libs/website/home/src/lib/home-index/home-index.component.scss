@@ -1,76 +1,81 @@
-.category-icon{
-    text-align: center;
-    text-decoration: none;
-    color: #525252;
+.category-icon {
+  text-align: center;
+  text-decoration: none;
+  color: #525252;
 
-    img{
-        display: block;
-        margin-bottom: .5em;
-    }
-    
+  img {
+    display: block;
+    margin-bottom: 0.5em;
+  }
 }
 
-.sidebar{
-    padding-right: 30px;
-    ul{
-        margin: 0px;
-        padding: 0px;
-        list-style: none;
+.sidebar {
+  padding-right: 30px;
+  ul {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+  }
+  h4 {
+    border-top: 1px solid #52525242;
+    padding-top: 1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    span {
+      float: right;
+      .open {
+        transform: rotate(90deg);
+      }
     }
-    h4{
-        border-top: 1px solid #52525242;
-        padding-top: 1em;
-        font-weight: bold;
-        text-transform: uppercase;
-        span{
-            float: right;
-            .open{
-                transform: rotate(90deg);
-            }
-        }
-    }
+  }
 }
-
-
-
 
 .product-item {
-    .product-item-content {
-        border: 1px solid var(--surface-d);
-        border-radius: 3px;
-        margin: .3rem;
-        text-align: center;
-        padding: 2rem 0;
+  .product-item-content {
+    border: 1px solid var(--surface-d);
+    border-radius: 3px;
+    margin: 0.3rem;
+    text-align: center;
+    padding: 2rem 0;
+    div {
+      height: 200px !important;
+      overflow: hidden !important;
     }
+  }
 
-    .product-image {
-        width: 50%;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
-    }
+  .product-image {
+    width: 50%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
 }
 
-
-.text-uppercase{
-    text-transform: uppercase;
+.text-uppercase {
+  text-transform: uppercase;
 }
 
-.advert{
-    width:100%;
+.advert {
+  width: 100%;
 }
 
 .auction-listing:before {
-    left: -1px!important;
+  left: -1px !important;
 }
 
-.banner-placeholder{
-    min-height: 380px;
-
- 
+.banner-placeholder {
+  min-height: 380px;
 }
 @media screen and (max-width: 768px) {
-    .banner-placeholder{
-        min-height: 280px;
-    
-     
+  .banner-placeholder {
+    min-height: 280px;
+  }
+}
+
+:host ::ng-deep .product-item {
+  .image-container {
+    height: 188px;
+    overflow: hidden;
+    img {
+      height: 188px;
     }
   }
+}
