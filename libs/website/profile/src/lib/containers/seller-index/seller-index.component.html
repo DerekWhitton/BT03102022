@@ -19,7 +19,7 @@
             pRipple
             label="New Listing"
             icon="pi pi-plus"
-            class="p-button-success p-mr-1"
+            class="p-button-primary p-mr-1"
             (click)="initializeListingForm(); displayCreateUpdateDialog = true"
             pTooltip="Create an Auction or a For Sale Listing"
             tooltipPosition="top"
@@ -49,9 +49,9 @@
                 *ngIf="rowData.active"
                 pButton
                 pRipple
-                icon="pi pi-money-bill"
+                icon="pi pi-angle-double-up"
                 title="Make listing Premium"
-                class="p-button p-button-success p-mr-2 p-mb-2"
+                class="p-button p-button-gold p-mr-2 p-mb-2"
                 (click)="showPremiumPackagesModal(rowData.id)"
                 pTooltip="Upgrade Listing, to get premium placement and lower buyer fees."
                 tooltipPosition="top"
@@ -199,7 +199,7 @@
       pRipple
       label="Save"
       icon="pi pi-check"
-      class="p-button-text"
+      class="p-button-primary"
       [disabled]="!addlistingFormGroup.valid || isSaving"
       (click)="saveListing()"
     ></button>
@@ -214,6 +214,8 @@
     [formGroup]="addlistingFormGroup"
     *ngIf="!editModalDataIsInitializing; else initializingEditModalData"
   >
+    <p-steps [model]="items" [readonly]="false"></p-steps>
+
     <div class="p-fluid p-formgrid p-grid">
       <h3 class="p-col-12">Basic Information</h3>
 
@@ -254,6 +256,15 @@
           Title:
         </label>
         <input pInputText type="text" required formControlName="name" />
+        <small
+          *ngIf="
+            addlistingFormGroup.controls['name'].invalid &&
+            (addlistingFormGroup.controls['name'].dirty ||
+              addlistingFormGroup.controls['name'].touched)
+          "
+          class="p-error"
+          >Listing title is required.</small
+        >
       </div>
 
       <!-- starting price -->
@@ -275,6 +286,16 @@
               formControlName="startingPrice"
               (change)="checkReserve()"
             />
+
+            <small
+              *ngIf="
+                addlistingFormGroup.controls['startingPrice'].invalid &&
+                (addlistingFormGroup.controls['startingPrice'].dirty ||
+                  addlistingFormGroup.controls['startingPrice'].touched)
+              "
+              class="p-error"
+              >Price is required.</small
+            >
 
             <!-- <p-inputNumber
           [(ngModel)]="value2"
@@ -310,6 +331,15 @@
               formControlName="reservePrice"
               (change)="checkReserve()"
             />
+            <small
+              *ngIf="
+                addlistingFormGroup.controls['reservePrice'].invalid &&
+                (addlistingFormGroup.controls['reservePrice'].dirty ||
+                  addlistingFormGroup.controls['reservePrice'].touched)
+              "
+              class="p-error"
+              >Reserved price is required.</small
+            >
           </div>
 
           <!-- increment -->
@@ -329,6 +359,15 @@
               required
               formControlName="priceIncrement"
             />
+            <small
+              *ngIf="
+                addlistingFormGroup.controls['priceIncrement'].invalid &&
+                (addlistingFormGroup.controls['priceIncrement'].dirty ||
+                  addlistingFormGroup.controls['priceIncrement'].touched)
+              "
+              class="p-error"
+              >Price increment is required.</small
+            >
           </div>
         </div>
       </div>
@@ -336,7 +375,7 @@
       <!-- description -->
       <div class="p-field p-col-12 p-md-6">
         <label>
-          Description of Item:
+          Description of listing:
         </label>
         <textarea
           style="width: 100%;"
@@ -348,6 +387,15 @@
           autoResize="autoResize"
           maxlength="2500"
         ></textarea>
+        <small
+          *ngIf="
+            addlistingFormGroup.controls['description'].invalid &&
+            (addlistingFormGroup.controls['description'].dirty ||
+              addlistingFormGroup.controls['description'].touched)
+          "
+          class="p-error"
+          >Listing description is required.</small
+        >
       </div>
 
       <!-- shipping details -->
@@ -366,6 +414,15 @@
           autoResize="autoResize"
           maxlength="2500"
         ></textarea>
+        <small
+          *ngIf="
+            addlistingFormGroup.controls['shippingDetails'].invalid &&
+            (addlistingFormGroup.controls['shippingDetails'].dirty ||
+              addlistingFormGroup.controls['shippingDetails'].touched)
+          "
+          class="p-error"
+          >Shipping details are required.</small
+        >
       </div>
 
       <!-- category -->
@@ -382,6 +439,15 @@
           (categorySelected)="handleCategorySelection($event)"
           (chainComplete)="handleCategoryChainComplete($event)"
         ></bushtrade-category-selector>
+        <small
+          *ngIf="
+            !completedCategorySelection &&
+            (addlistingFormGroup.controls['categoryId'].dirty ||
+              addlistingFormGroup.controls['categoryId'].touched)
+          "
+          class="p-error"
+          >Please complete the category selection.</small
+        >
       </div>
 
       <!-- other category properties -->
@@ -433,6 +499,16 @@
           (onMapClick)="handleMapClick($event)"
           (onMapReady)="setMap($event)"
         ></p-gmap>
+
+        <small
+          *ngIf="
+            addlistingFormGroup.controls['listingLocation'].invalid &&
+            (addlistingFormGroup.controls['listingLocation'].dirty ||
+              addlistingFormGroup.controls['listingLocation'].touched)
+          "
+          class="p-error"
+          >Location is required.</small
+        >
       </div>
       <div class="p-field p-col-6">
         <button
@@ -510,19 +586,27 @@
           text="If you don't activate the post now, it will save to your drafts and you can activate it later."
         ></p-message>
       </div>
+
       <div
         class="p-field p-col-12"
-        *ngIf="
-          addlistingFormGroup.get('type').value == ListingType.Auction &&
-          addlistingFormGroup.get('active').value === true &&
-          !addlistingFormGroup.get('durationInDays').value
-        "
+        *ngIf="!addlistingFormGroup.get('durationInDays').value"
       >
         <p-message
           severity="error"
           text="Auctions require you to specify a duration, please select one."
         ></p-message>
       </div>
+
+      <div
+        class="p-field p-col-12"
+        *ngIf="!addlistingFormGroup.get('listingLocation').value"
+      >
+        <p-message
+          severity="error"
+          text="You need to select a location, or a general vacinity."
+        ></p-message>
+      </div>
+
       <div
         class="p-field p-col-12"
         *ngIf="
@@ -661,7 +745,7 @@
     <button
       pButton
       pRipple
-      class="p-button-text"
+      class="p-button-primary"
       icon="pi pi-check"
       label="Start Selling!"
       (click)="registerSeller()"

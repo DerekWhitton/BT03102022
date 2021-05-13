@@ -1,19 +1,19 @@
-
-h3, h2 {
+h3,
+h2 {
   color: #fff;
 }
 
-.banner-item{
+.banner-item {
   min-height: 380px;
   position: relative;
-  background-repeat: no-repeat!important;
+  background-repeat: no-repeat !important;
   background-position: center;
-  h2{
+  h2 {
     font-size: 2em;
     font-weight: bold;
-    max-width: 180px;
+    max-width: 360px;
   }
-  a{
+  a {
     text-decoration: none;
   }
   @media screen and (max-width: 768px) {
@@ -21,11 +21,11 @@ h3, h2 {
   }
 }
 
-.pos-relative{
-  position: relative
+.pos-relative {
+  position: relative;
 }
 
-.pos-absolute{
+.pos-absolute {
   position: absolute;
 }
 
@@ -50,9 +50,19 @@ h3, h2 {
 }
 
 :host ::ng-deep {
+  p-carousel.hide-controls {
+    .p-carousel-container {
+      button {
+        display: none !important;
+      }
+    }
+    .p-carousel-indicators {
+      display: none;
+    }
+  }
+
   .p-slider {
     margin-left: 10px;
     margin-right: 10px;
   }
 }
-

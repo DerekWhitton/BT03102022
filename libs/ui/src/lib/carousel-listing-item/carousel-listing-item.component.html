@@ -10,16 +10,18 @@
       class="product-item p-m-2"
       [routerLink]="['/', 'listings', product.id]"
     >
-
       <div class="product-item-content {{ product.type }}">
-        <div  class="p-mb-3" 
-              [ngClass]="{'auction-listing' : product.type == listingTypes.Auction}">
+        <div
+          class="p-mb-3"
+          [ngClass]="{
+            'auction-listing': product.type == listingTypes.Auction
+          }"
+        >
           <img
             *ngIf="(product?.images)[0]?.url"
             src="{{ (product?.images)[0]?.url }}"
             [alt]="product.name"
             class="product-image"
-           
           />
           <img
             *ngIf="!(product?.images)[0]?.url"
@@ -29,17 +31,23 @@
           />
         </div>
         <div class="item-details">
-          <p>{{  (product.name.length > 32)? (product.name | slice:0:32)+'...':(product.name) }}</p>
-          <p
-            *ngIf="product.type == listingTypes.Sale"
-            style="font-weight: bold;"
-          >
-            {{ product.startingPrice | currency:"R "}}
+          <p>
+            {{
+              product.name.length > 32
+                ? (product.name | slice: 0:32) + '...'
+                : product.name
+            }}
           </p>
+          <p style="font-weight: bold;">
+            {{ product.startingPrice | currency: 'R ' }}
+          </p>
+
           <div class="p-d-flex card-footer-text">
-            <span class="p-ml-auto" *ngIf="product.type == listingTypes.Sale">{{product.timeAgoCreated}}</span>
+            <span class="p-ml-auto" *ngIf="product.type == listingTypes.Sale">{{
+              product.timeAgoCreated
+            }}</span>
             <div class="p-ml-auto" *ngIf="product.type == listingTypes.Auction">
-              <p style="display: inline;">Closes in </p>
+              <p style="display: inline;">Closes in</p>
               <bushtrade-web-countdown-timer
                 [endDate]="product.endDate"
               ></bushtrade-web-countdown-timer>

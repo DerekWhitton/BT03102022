@@ -1,3 +1,4 @@
+import { getQuery } from './../../../../../administration-portal/listings/src/lib/+state/categories/categories.selectors';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import {
@@ -30,7 +31,7 @@ export class IndexComponent implements OnInit {
   type: ListingType;
   listingSortField: ListingSortField = ListingSortField.Price;
   sortOrder: SortOrder = SortOrder.Ascending;
-  maxFeaturedCategories = 8;
+  maxFeaturedCategories = 12;
   query: string = '';
   facets: { key: string; value: string }[] = [];
   categoryId: string;
@@ -96,7 +97,10 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selectedListingType = Number(this.route.snapshot.queryParams?.type);
+    this.route.queryParams.subscribe((params) => {
+      console.log(params.type);
+      this.selectedListingType = Number(params.type);
+    });
 
     this.selectableListingTypes = Object.keys(ListingType)
       .filter((s) => isNaN(Number(s)))

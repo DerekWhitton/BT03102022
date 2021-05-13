@@ -73,14 +73,14 @@ export class WebsiteMenuComponent implements OnInit {
         command: () => this.showBuySell(),
       },
 
-      // {
-      //   label: 'Marketplace',
-      //   command: (_) => {
-      //     this.router.navigate(['/', 'listings'], {
-      //       queryParams: { type: ListingType.Sale },
-      //     });
-      //   },
-      // },
+      {
+        label: 'Buy',
+        command: (_) => {
+          this.router.navigate(['/', 'listings'], {
+            queryParams: { type: ListingType.Sale },
+          });
+        },
+      },
       {
         label: 'Auctions',
         command: (_) => {
@@ -89,6 +89,16 @@ export class WebsiteMenuComponent implements OnInit {
           });
         },
       },
+
+      // {
+      //   label: 'Blog',
+      //   routerLink: ['/', 'blog'],
+      // },
+      {
+        icon: 'pi pi-fw pi-heart',
+        routerLink: ['/', 'favourites'],
+      },
+
       // {
       //   label: 'Forums',
       //   routerLink: ['/', 'forums'],
@@ -98,24 +108,6 @@ export class WebsiteMenuComponent implements OnInit {
       //   routerLink: ['/', 'trophy-cabinet'],
       // },
     ];
-
-    if (this.loggedIn) {
-      this.menuItems.push({
-        label: 'Support',
-        routerLink: ['/', 'support'],
-      });
-    }
-
-    this.menuItems.push(
-      // {
-      //   label: 'Blog',
-      //   routerLink: ['/', 'blog'],
-      // },
-      {
-        icon: 'pi pi-fw pi-heart',
-        routerLink: ['/', 'favourites'],
-      }
-    );
   }
 
   showBuySell() {

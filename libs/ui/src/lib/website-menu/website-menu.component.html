@@ -25,13 +25,32 @@
         [showClear]="true"
       ></p-dropdown>
 
-      <button
-        pButton
-        type="button"
-        label="Search"
-        class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-ml-auto"
-        (click)="handleSearch()"
-      ></button>
+      <div class="p-d-flex">
+        <button
+          *ngIf="!loggedIn"
+          (click)="login()"
+          pButton
+          type="button"
+          label="Post Listing"
+          class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-mr-2 p-order-1 p-order-md-2"
+        ></button>
+        <button
+          *ngIf="loggedIn"
+          [routerLink]="['/', 'profile', 'listings']"
+          pButton
+          type="button"
+          label="Post Listing"
+          class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-mr-2 p-order-1 p-order-md-2"
+        ></button>
+
+        <button
+          pButton
+          type="button"
+          label="Search"
+          class="p-button p-button-primary p-mt-1 p-mb-1 p-ml-auto p-mr-md-2 p-order-2 p-order-md-1"
+          (click)="handleSearch()"
+        ></button>
+      </div>
     </div>
   </div>
 </div>
@@ -55,6 +74,21 @@
               />
             </a>
           </ng-template>
+          <button
+            *ngIf="!loggedIn"
+            (click)="login()"
+            pButton
+            type="button"
+            label="Post Listing"
+            class="p-button-primary"
+          ></button>
+          <button
+            *ngIf="loggedIn"
+            pButton
+            class="p-button-primary"
+            label="Post Listing"
+            [routerLink]="['/', 'profile', 'listings']"
+          ></button>
         </p-menubar>
       </div>
       <div class="topbar-right">
@@ -150,6 +184,16 @@
               <button
                 pButton
                 type="button"
+                label="Support"
+                icon="pi pi-question-circle"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                [routerLink]="['/', 'support']"
+              ></button>
+              <hr />
+              <button
+                pButton
+                type="button"
                 label="Logout"
                 icon="pi pi-power-off"
                 iconPos="left"
@@ -177,13 +221,18 @@
     >
     <a (click)="showListings(null, '1')">Browse items for sale</a>
     <a (click)="showListings(null, '0')">Browse auctions</a>
-    <a
-      [routerLink]="['/', 'profile', 'listings']"
-      (click)="showBuySellMenu = false"
-      *ngIf="loggedIn"
-      >Post a listing</a
-    >
+
     <a (click)="login()" *ngIf="!loggedIn">Login to post a listing</a>
+
+    <button
+      *ngIf="loggedIn"
+      [routerLink]="['/', 'profile', 'listings']"
+      pButton
+      type="button"
+      label="Post Listing"
+      class="p-button-primary"
+      (click)="showBuySellMenu = false"
+    ></button>
   </div>
   <hr />
 

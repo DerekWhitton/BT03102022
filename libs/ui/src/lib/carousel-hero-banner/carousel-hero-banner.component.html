@@ -1,7 +1,14 @@
-<div class="p-col-12" class="pos-relative"  [ngClass]="(banners.length == 0)?'no-banner-loaded p-pt-5':'banner-loaded'">
+<div
+  class="p-col-12"
+  class="pos-relative"
+  [ngClass]="banners.length == 0 ? 'no-banner-loaded p-pt-5' : 'banner-loaded'"
+>
   <div
-    class="p-col p-md-4 p-fluid p-formgrid p-grid  form-box p-text-center"
-    *ngIf="!mobile" [ngClass]="(banners.length > 0)?'pos-absolute p-m-5':'pos-relative p-mx-auto'"
+    class="p-col p-md-4 p-fluid p-formgrid p-grid form-box p-text-center"
+    *ngIf="!mobile"
+    [ngClass]="
+      banners.length > 0 ? 'pos-absolute p-m-5' : 'pos-relative p-mx-auto'
+    "
   >
     <div class="p-field p-col-12">
       <h3 class="p-text-center">Quick Search</h3>
@@ -27,10 +34,10 @@
       ></p-dropdown>
     </div>
     <div class="p-field p-col-12" *ngIf="maxPrice">
-      <div class="price-range" >
+      <div class="price-range">
         Price Range:
-        {{ searchPriceRange[0]  | currency:"R " }} - {{ searchPriceRange[1]  | currency:"R " }}
-
+        {{ searchPriceRange[0] | currency: 'R ' }} -
+        {{ searchPriceRange[1] | currency: 'R ' }}
       </div>
       <p-slider
         [(ngModel)]="searchPriceRange"
@@ -52,21 +59,35 @@
     </div>
   </div>
 
-  <p-carousel [value]="banners" [circular]="true" [responsiveOptions]="responsiveOptions" *ngIf="loaded">
-    <ng-template let-banner pTemplate="item">
-      <div
-        class="banner-item"
-        style="background-image:url({{banner.imageUri}}); position:relative; background-size: cover;"
-      >
-        <div class="banner-item-content p-grid">
-          <div class="p-col-12 p-md-6 p-m-offset-6 p-text-right">
-            <div class="p-m-5 position-br">
-              <h2>{{ banner.title }}</h2>
-              <a pButton type="button" label="{{ banner.label }}" href="{{banner.link}}"></a>
+  <ng-container>
+    <p-carousel
+      [value]="banners"
+      [circular]="true"
+      [ngClass]="banners.length > 1 ? '' : 'hide-controls'"
+      *ngIf="loaded"
+    >
+      <ng-template let-banner pTemplate="item">
+        <div
+          class="banner-item"
+          style="background-image:url({{
+            banner.imageUri
+          }}); position:relative; background-size: cover;"
+        >
+          <div class="banner-item-content p-grid">
+            <div class="p-col-12 p-md-6 p-m-offset-6 p-text-right">
+              <div class="p-m-5 position-br">
+                <h2>{{ banner.title }}</h2>
+                <a
+                  pButton
+                  type="button"
+                  label="{{ banner.label }}"
+                  href="{{ banner.link }}"
+                ></a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </ng-template>
-  </p-carousel>
+      </ng-template>
+    </p-carousel>
+  </ng-container>
 </div>

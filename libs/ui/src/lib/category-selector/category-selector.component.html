@@ -1,10 +1,9 @@
 <span
-class="p-tag p-tag-rounded p-mr-2 p-mb-2"
+  class="p-tag p-tag-rounded p-mr-2 p-mb-2"
   (click)="returnToNode(item.id)"
   *ngFor="let item of selectedPath; let last = last"
 >
   {{ item.name }} <i class="pi pi-times p-ml-1"></i>
-
 </span>
 
 <ng-container *ngIf="!isChainComplete">
@@ -14,3 +13,17 @@ class="p-tag p-tag-rounded p-mr-2 p-mb-2"
     (onChange)="handleCategorySelectionChange()"
   ></p-dropdown>
 </ng-container>
+<div class="p-mt-2">
+  <p-message
+    *ngIf="!isChainComplete && this.selectedPath.length > 0"
+    class="p-my-5"
+    severity="warn"
+    text="Please select sub category, else you cannot complete your listing."
+  ></p-message>
+  <p-message
+    *ngIf="isChainComplete"
+    class="p-my-5"
+    severity="success"
+    text="Category selected."
+  ></p-message>
+</div>
