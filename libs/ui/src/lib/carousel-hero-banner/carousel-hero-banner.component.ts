@@ -20,7 +20,6 @@ export class CarouselHeroBannerComponent implements OnInit {
   maxPrice: number = null;
   selectableListingTypes: any[];
   categories: any[];
-  responsiveOptions;
   loaded = false;
   banners: any = [];
 

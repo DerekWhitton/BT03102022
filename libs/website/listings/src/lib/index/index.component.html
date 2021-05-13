@@ -102,7 +102,7 @@
           by category
         </h3>
 
-        <div class="p-d-flex p-jc-evenly p-flex-wrap">
+        <div class="p-d-flex p-jc-evenly">
           <div
             class="p-mr-2 p-mb-2 p-text-center category-button"
             *ngFor="let category of featuredCategories"
@@ -314,22 +314,27 @@
           </ng-container>
 
           <ng-template #noItems>
-            <div class="p-card p-p-5 p-col-12">
-              <h3>
-                There are currently no listings for this category
-                <ng-container *ngIf="type == 0">in auctions</ng-container>
-                <ng-container *ngIf="type == 1">in items for sale</ng-container
-                >.
-              </h3>
-              <p *ngIf="type">
-                Try adjusting your price range, filter or check for more results
-                in
-                <a *ngIf="type == 1" (click)="changeType(0)">auctions</a>
-                <a *ngIf="type == 0" (click)="changeType(1)">items for sale</a>
-              </p>
-              <p *ngIf="!type">
-                Try adjusting your price range and filters
-              </p>
+            <div class="p-col-12">
+              <div class="p-card p-p-5 p-col-12">
+                <h3>
+                  There are currently no listings for this category
+                  <ng-container *ngIf="type == 0">in auctions</ng-container>
+                  <ng-container *ngIf="type == 1"
+                    >in items for sale</ng-container
+                  >.
+                </h3>
+                <p *ngIf="type">
+                  Try adjusting your price range, filter or check for more
+                  results in
+                  <a *ngIf="type == 1" (click)="changeType(0)">auctions</a>
+                  <a *ngIf="type == 0" (click)="changeType(1)"
+                    >items for sale</a
+                  >
+                </p>
+                <p *ngIf="!type">
+                  Try adjusting your price range and filters
+                </p>
+              </div>
             </div>
           </ng-template>
         </div>

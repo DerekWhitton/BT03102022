@@ -56,7 +56,6 @@ export class SellerIndexComponent implements OnInit {
   isUpdate = false;
   isPrivate: boolean = true;
   isSaving: boolean = false;
-
   columns = [
     {
       field: 'startingPrice',
@@ -474,18 +473,10 @@ export class SellerIndexComponent implements OnInit {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
-        this.overlays = [];
-        this.overlays.push(
-          new google.maps.Marker({
-            position: this.selectedLocation,
-          })
-        );
+        this.addMarker();
         this.map.setCenter(this.selectedLocation);
         this.map.setZoom(this.specificLocationZoom);
       });
-      this.addlistingFormGroup.controls.listingLocation.setValue(
-        this.selectedLocation
-      );
     }
   }
 
@@ -531,7 +522,10 @@ export class SellerIndexComponent implements OnInit {
         listing?.startingPrice,
         Validators.required
       ),
-      durationInDays: new FormControl(listing?.durationInDays),
+      durationInDays: new FormControl(
+        listing?.durationInDays,
+        Validators.required
+      ),
       reservePrice: new FormControl(listing?.reservePrice ?? 1),
       priceIncrement: new FormControl(listing?.priceIncrement ?? 1),
       shippingDetails: new FormControl(listing?.shippingDetails),
