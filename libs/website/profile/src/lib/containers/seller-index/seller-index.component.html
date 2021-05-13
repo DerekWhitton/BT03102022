@@ -589,7 +589,10 @@
 
       <div
         class="p-field p-col-12"
-        *ngIf="!addlistingFormGroup.get('durationInDays').value"
+        *ngIf="
+          !addlistingFormGroup.get('durationInDays').value &&
+          addlistingFormGroup.get('type').value == ListingType.Auctio
+        "
       >
         <p-message
           severity="error"
