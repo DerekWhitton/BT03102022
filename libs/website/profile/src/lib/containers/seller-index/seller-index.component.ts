@@ -522,10 +522,7 @@ export class SellerIndexComponent implements OnInit {
         listing?.startingPrice,
         Validators.required
       ),
-      durationInDays: new FormControl(
-        listing?.durationInDays,
-        Validators.required
-      ),
+      durationInDays: new FormControl(listing?.durationInDays),
       reservePrice: new FormControl(listing?.reservePrice ?? 1),
       priceIncrement: new FormControl(listing?.priceIncrement ?? 1),
       shippingDetails: new FormControl(listing?.shippingDetails),
