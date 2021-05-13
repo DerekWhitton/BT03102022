@@ -363,7 +363,7 @@ export class IndexComponent implements OnInit {
     }
 
     this.categoryService
-      .loadCategories(categoryToGet)
+      .loadCategories(categoryToGet, true)
       .subscribe((categories) => {
         this.subCategories = categories;
       });
