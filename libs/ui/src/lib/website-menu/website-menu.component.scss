@@ -130,3 +130,14 @@ a {
     border-right: none;
   }
 }
+
+:host ::ng-deep {
+  .p-menubar-button {
+    // display: none;
+    width: 3rem;
+    height: 3rem;
+    .pi {
+      font-size: 2rem;
+    }
+  }
+}

@@ -80,12 +80,12 @@
             pButton
             type="button"
             label="Post Listing"
-            class="p-button-primary"
+            class="p-button-primary p-d-none p-d-md-inline-flex"
           ></button>
           <button
             *ngIf="loggedIn"
             pButton
-            class="p-button-primary"
+            class="p-button-primary p-d-none p-d-md-inline-flex"
             label="Post Listing"
             [routerLink]="['/', 'profile', 'listings']"
           ></button>
@@ -134,7 +134,35 @@
               showCloseIcon="true"
               class="side-bar-menu"
             >
-              <h1 style="font-weight: normal;">Profile Menu</h1>
+              <h1 style="font-weight: normal;">Menu</h1>
+
+              <button
+                pButton
+                type="button"
+                label="Buy &amp; Sell"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                (click)="showBuySellMenu = true"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Buy"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                (click)="showListings(null, '1')"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Auctions"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                (click)="showListings(null, '0')"
+              ></button>
+
+              <hr />
+
               <button
                 pButton
                 type="button"

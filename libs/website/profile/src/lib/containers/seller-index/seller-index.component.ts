@@ -58,6 +58,11 @@ export class SellerIndexComponent implements OnInit {
   isSaving: boolean = false;
   columns = [
     {
+      field: 'name',
+      header: 'Name',
+      converter: (val) => `${val}`,
+    },
+    {
       field: 'startingPrice',
       header: 'Starting Price',
       converter: (val) => `R${val}`,
@@ -141,8 +146,10 @@ export class SellerIndexComponent implements OnInit {
       .loadAuctionDurationSettings()
       .subscribe((settings) => {
         this.selectableAuctionDurationSettings = settings.map((s) => {
+          let dayLabel = 'days';
+          if (s.numberOfDays === 1) dayLabel = 'day';
           return {
-            label: `${s.numberOfDays} days`,
+            label: `${s.numberOfDays} ${dayLabel}`,
             value: s.numberOfDays,
           };
         });
