@@ -33,7 +33,7 @@
       >
         <ng-template pTemplate="header" let-columns>
           <tr>
-            <th style="width: 100px;">Premium</th>
+            <th style="width: 100px;">Promote</th>
             <th style="width: 50px;">Status</th>
             <th *ngFor="let col of columns">
               {{ col.header }}
@@ -46,7 +46,13 @@
           <tr>
             <td>
               <button
-                *ngIf="rowData.active"
+                *ngIf="
+                  rowData.active &&
+                    !rowData.isSold &&
+                    (rowData.type == ListingType.Sale ||
+                      !rowData.isAuctionClosed);
+                  else noPromotionAvailable
+                "
                 pButton
                 pRipple
                 icon="pi pi-angle-double-up"
@@ -57,6 +63,7 @@
                 tooltipPosition="top"
                 label="Promote"
               ></button>
+              <ng-template #noPromotionAvailable><hr /></ng-template>
             </td>
             <td>
               <span class="p-column-title">Status: </span>
@@ -90,7 +97,13 @@
             </td>
             <td *ngFor="let col of columns">
               <span class="p-column-title">{{ col.header }}:</span>
-              {{ rowData[col.field] }}
+              <span
+                [innerHtml]="
+                  col.converter
+                    ? col.converter(rowData[col.field])
+                    : rowData[col.field]
+                "
+              ></span>
             </td>
             <td>
               <button

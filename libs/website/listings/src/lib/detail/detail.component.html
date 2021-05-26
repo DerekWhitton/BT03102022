@@ -124,7 +124,7 @@
             <div class="p-grid">
               <div class="p-col-12 p-md-8p-lg-9">
                 <div class="p-grid text-center">
-                  <div class="p-col-3 align-center p-p-4 p-d-block">
+                  <div class="p-col-12 p-md-3 align-center p-p-4 p-d-block">
                     <img
                       [src]="
                         listingSellerSummary.userProfilePictureUri
@@ -132,15 +132,14 @@
                           : 'assets/layout/images/no-profile.png'
                       "
                       alt="User Profile Pic"
-                      class="bt-tile p-d-block p-my-4"
-                      style="margin: 0 auto; width: 100px; height: 100px;"
+                      class="bt-tile p-d-block p-my-4 seller-image"
                     />
                     <h3 class="p-m-0 p-text-center">
                       {{ listingSellerSummary.name }}
                     </h3>
                   </div>
 
-                  <div class="p-col-9">
+                  <div class="p-col-12 p-md-9">
                     <h3>Seller Information</h3>
 
                     <div class="p-grid p-mb-3">
@@ -263,7 +262,7 @@
                       ></button>
                     </div>
 
-                    <div class="new-message" *ngIf="!userCanQuestion">
+                    <div *ngIf="!userCanQuestion">
                       <h1>
                         No questions have been asked for you to answer yet.
                       </h1>
@@ -331,7 +330,7 @@
             </div>
           </div>
         </div>
-        <div class="p-col-6 p-md-4 p-lg-3">
+        <div class="p-col-12 p-md-4 p-lg-3">
           <div class="sidebar bg-white p-pt-0 p-pb-5">
             <div
               *ngIf="listingDetails.type == listingType.Auction"

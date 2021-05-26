@@ -21,26 +21,41 @@
                     </div>
                   </div>
                 </div>
-                <div class="person-actions">
-                  <!-- <button type="button" class="p-button-rounded p-button-success" pButton icon="pi pi-image"></button> -->
-                  <!-- <button type="button" class="p-button-rounded p-button-warning" pButton icon="pi pi-cog" ></button> -->
-
-                  <p-fileUpload
-                    #fileUpload
-                    name="image"
-                    mode="basic"
-                    [auto]="true"
-                    accept="image/*"
-                    customUpload="true"
-                    maxFileSize="3000000"
-                    chooseLabel=" Update Image"
-                    chooseIcon="pi-image"
-                    (uploadHandler)="UploadProfilePicture($event)"
-                    class="p-button-rounded p-button-success"
-                  >
-                  </p-fileUpload>
+                <div class="person-actions p-text-right">
+                  <button
+                    type="button"
+                    class="p-button-rounded p-button-primary"
+                    pButton
+                    icon="pi pi-pencil"
+                    (click)="editProfile = true"
+                    *ngIf="!editProfile"
+                  ></button>
+                  <button
+                    (click)="editProfile = false"
+                    *ngIf="editProfile"
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-times"
+                    class="p-button-rounded p-button-outlined p-button-danger"
+                  ></button>
                 </div>
               </li>
+              <p-fileUpload
+                *ngIf="editProfile"
+                #fileUpload
+                name="image"
+                mode="basic"
+                [auto]="true"
+                accept="image/*"
+                customUpload="true"
+                maxFileSize="3000000"
+                chooseLabel=" Update Profile Image"
+                chooseIcon="pi-image"
+                (uploadHandler)="UploadProfilePicture($event)"
+                class="p-button-rounded p-button-success"
+              >
+              </p-fileUpload>
             </ul>
 
             <hr [ngStyle]="{ clear: 'both' }" />
@@ -52,7 +67,7 @@
 
             <div class="p-m-4">
               <strong>Bio:</strong><br />
-              {{ !user.bio || user.bio.length === 0 ? '-' : user.bio }}
+              <span [innerHtml]="user.bio"></span>
             </div>
 
             <div class="p-m-4">
@@ -90,19 +105,28 @@
         </div>
 
         <div class="p-col-12 p-lg-8">
-          {{isLoaded}}
-          <p-progressSpinner *ngIf="(isLoading)"></p-progressSpinner>
-          
-          <form [formGroup]="userFormGroup" *ngIf="!isLoading" (ngSubmit)="UpdateUser()" ng-submit="userFormGroup.$valid && userFormGroup.submit()">
+          {{ isLoaded }}
+          <p-progressSpinner *ngIf="isLoading"></p-progressSpinner>
+
+          <form
+            [formGroup]="userFormGroup"
+            *ngIf="!isLoading && editProfile"
+            (ngSubmit)="UpdateUser()"
+            ng-submit="userFormGroup.$valid && userFormGroup.submit()"
+          >
             <div class="p-grid">
               <div class="p-col">
                 <div class="p-fluid">
-
                   <div class="p-field">
                     <label>
                       Age
                     </label>
-                      <input pInputText required formControlName="age" type="number" />
+                    <input
+                      pInputText
+                      required
+                      formControlName="age"
+                      type="number"
+                    />
                   </div>
 
                   <div class="p-field">
@@ -110,44 +134,56 @@
                       Bio
                     </label>
                     <!-- <p-editor [(ngModel)]="text" [style]="{'height':'320px'}"></p-editor> -->
-                    <p-editor formControlName="bio" [style]="{'width':'100%', 'height':'320px'}"></p-editor>
+
+                    <p-editor
+                      formControlName="bio"
+                      [style]="{ width: '100%', height: '320px' }"
+                    >
+                    </p-editor>
                   </div>
 
                   <div class="p-field">
                     <label>
                       Gender
                     </label>
-                      <input pInputText required formControlName="gender" />
+                    <input pInputText required formControlName="gender" />
                   </div>
 
                   <div class="p-field">
                     <label>
                       Location
                     </label>
-                      <input pInputText required formControlName="location" />
+                    <input pInputText required formControlName="location" />
                   </div>
 
                   <div class="p-field">
                     <label>
                       Occupation
                     </label>
-                      <input pInputText required formControlName="occupation" />
+                    <input pInputText required formControlName="occupation" />
                   </div>
-                  
+
                   <div class="p-field">
                     <label>
                       Countries Visited
                     </label>
-                      <input pInputText required formControlName="countriesVisited" />
+                    <input
+                      pInputText
+                      required
+                      formControlName="countriesVisited"
+                    />
                   </div>
 
-                  <button pButton type="submit" label="Save" class="p-button-success" [disabled]="this.userFormGroup.invalid"></button>
-
+                  <p-button
+                    type="submit"
+                    label="Save"
+                    class="p-button-primary"
+                    [disabled]="this.userFormGroup.invalid"
+                  ></p-button>
                 </div>
               </div>
             </div>
           </form>
-
         </div>
       </div>
     </div>
