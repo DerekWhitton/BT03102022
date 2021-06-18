@@ -633,7 +633,7 @@
   </form>
 </ng-template>
 
-<ng-container *ngIf="loading$ | async">
+<ng-container *ngIf="!loading$ | async">
   <div class="p-col-12 p-text-center">
     <progress-spinner></progress-spinner>
   </div>
