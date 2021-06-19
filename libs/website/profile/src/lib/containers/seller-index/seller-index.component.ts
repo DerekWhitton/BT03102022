@@ -46,9 +46,7 @@ interface ICategoryPropertyWithUserSelectedValue extends ICategoryProperty {
 export class SellerIndexComponent implements OnInit {
   @ViewChild('fileUpload') fileUpload: any;
   sellers: ISeller[];
-
   listings$: Observable<ISellerListing[]>;
-  loading$: Observable<boolean>;
   lastListingError$ = this.listingsFacade.lastKnownError$;
   listingSaved$ = this.listingsFacade.listingSaved$;
   selectedSellerId: string;
@@ -56,6 +54,7 @@ export class SellerIndexComponent implements OnInit {
   isUpdate = false;
   isPrivate: boolean = true;
   isSaving: boolean = false;
+  categorySelected: boolean = false;
   columns = [
     {
       field: 'name',
@@ -70,7 +69,6 @@ export class SellerIndexComponent implements OnInit {
     { field: 'type', header: 'Type', converter: (val) => ListingType[val] },
   ];
 
-  loaded$: Observable<boolean>;
   displayStartSellingDialog: boolean = false;
 
   CategoryPropertyType = CategoryPropertyType;
@@ -92,13 +90,14 @@ export class SellerIndexComponent implements OnInit {
 
   addlistingFormGroup: FormGroup;
 
+  // Client changed the business logic escrow is no longer required, defaulting the  values to n/a unstil business logic changes again
   signUpSellerFormGroup: FormGroup = new FormGroup({
-    bank: new FormControl('', Validators.required),
-    branchCode: new FormControl('', Validators.required),
-    accountType: new FormControl('', Validators.required),
-    accountNumber: new FormControl('', Validators.required),
-    taxNumber: new FormControl('', Validators.required),
-    ckNumber: new FormControl('', Validators.required),
+    bank: new FormControl('n/a'),
+    branchCode: new FormControl('n/a'),
+    accountType: new FormControl('n/a'),
+    accountNumber: new FormControl('n/a'),
+    taxNumber: new FormControl('n/a'),
+    ckNumber: new FormControl('n/a'),
     name: new FormControl('username', Validators.required),
     isPrivateIndividual: new FormControl(true, Validators.required),
   });
@@ -115,6 +114,7 @@ export class SellerIndexComponent implements OnInit {
   defaultMapCenter = { lat: -31.066605, lng: 24.027446 };
   defaultZoom = 5;
   specificLocationZoom = 15;
+  allRequiredFieldsCompleted: boolean = false;
 
   constructor(
     private store: Store,
@@ -123,9 +123,7 @@ export class SellerIndexComponent implements OnInit {
     private listingSvc: ListingsService,
     private categoryService: CategoryService,
     private siteSettingsService: SiteSettingsService
-  ) {
-    this.loading$ = this.listingsFacade.loaded$;
-  }
+  ) {}
 
   ngOnInit(): void {
     this.options = {
@@ -350,6 +348,20 @@ export class SellerIndexComponent implements OnInit {
     this.images = [];
   }
 
+  checkProperties() {
+    //We check the required category properties to see that they are populated.
+    this.categoryProperties
+      .filter((x) => x.required == true)
+      .map((x) => {
+        if (x.value && x.value !== null && x.value !== '') {
+          this.allRequiredFieldsCompleted = true;
+        } else {
+          this.allRequiredFieldsCompleted = false;
+          return;
+        }
+      });
+  }
+
   private async loadCategories(parentId: string = null) {
     this.loadingCategories = true;
 
@@ -407,6 +419,7 @@ export class SellerIndexComponent implements OnInit {
       categoryId: isComplete ? this.selectedCategoryId : '',
     });
     if (isComplete) {
+      this.categorySelected = true;
       this.categoryProperties = (
         await this.categoryService
           .loadCategoryProperties(this.selectedCategoryId)
@@ -423,6 +436,13 @@ export class SellerIndexComponent implements OnInit {
               : [],
           } as ICategoryPropertyWithUserSelectedValue)
       );
+
+      //check if there are custom values
+      if (this.categoryProperties.length > 0) {
+        this.allRequiredFieldsCompleted = false;
+      } else {
+        this.allRequiredFieldsCompleted = true;
+      }
 
       // assign old values
       for (let i = 0; i < this.categoryProperties.length; i++) {
@@ -444,6 +464,7 @@ export class SellerIndexComponent implements OnInit {
   }
 
   checkReserve() {
+    console.log(this.addlistingFormGroup.value.startingPrice);
     if (this.addlistingFormGroup.value.type == 0) {
       if (
         this.addlistingFormGroup.value.startingPrice >
@@ -526,7 +547,7 @@ export class SellerIndexComponent implements OnInit {
       description: new FormControl(listing?.description, Validators.required),
       active: new FormControl(listing?.active ?? false, Validators.required),
       startingPrice: new FormControl(
-        listing?.startingPrice,
+        listing?.startingPrice ?? 1,
         Validators.required
       ),
       durationInDays: new FormControl(listing?.durationInDays),

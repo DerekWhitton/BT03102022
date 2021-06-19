@@ -346,6 +346,16 @@ a {
   }
 }
 
+// Mozilla being weird with the positioning lets fix that
+@-moz-document url-prefix() {
+  .premium-listing,
+  .auction-listing {
+    &:before {
+      top: 13px;
+    }
+  }
+}
+
 .profile-picture {
   width: 100px;
   height: 100px;

@@ -504,23 +504,40 @@
             <div *ngIf="refreshingSidebar">
               <progress-spinner></progress-spinner>
             </div>
-            <div class="sidebar-section p-pb-3">
-              <h3>Buying safely</h3>
-              <p>
-                <i class="pi pi-check"></i> Your payment is kept in escrow until
-                you have accepted delivery.
-              </p>
-              <p>
-                <i class="pi pi-check"></i> All of our auctions are subject to
-                notarial supervision.
-              </p>
-            </div>
             <div class="pay-options sidebar-section p-pb-3">
-              <h3>Payments</h3>
-              <p>
-                All payments are securely processed by
-                <a href="https://www.payfast.co.za/" traget="_blank">Payfast</a>
-              </p>
+              <ng-container *ngIf="listingDetails.type == listingType.Auction">
+                <h3>Auction</h3>
+                <p>
+                  <i class="pi pi-check"></i> Payments securely processed by
+                  <a href="https://www.payfast.co.za/" traget="_blank"
+                    >Payfast</a
+                  >
+                </p>
+
+                <p>
+                  You will be required to pay a
+                  <a href="javascript:void(0);" [routerLink]="['/', 'buying']"
+                    >auction fee</a
+                  >
+                  upon winning the auction, thereafter you will be able to
+                  contact the seller to arrange the final payment and
+                  arrangements to receive the item.
+                </p>
+              </ng-container>
+              <ng-container *ngIf="listingDetails.type !== listingType.Auction">
+                <h3>Listing</h3>
+                <p>
+                  This is a private listing, you (the buyer) will communicate
+                  with the seller and make all the required arrangements to
+                  trade the item amongst yourselves.
+                </p>
+                <p>
+                  Bush Trade is simply pairing the buyer with the seller, in
+                  this instance and does not take any responsibility for any
+                  loss or theft. It is your responsibility to ensure that the
+                  transaction has been successfully processed.
+                </p>
+              </ng-container>
             </div>
           </div>
         </div>
