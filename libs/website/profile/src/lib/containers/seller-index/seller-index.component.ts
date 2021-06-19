@@ -38,6 +38,8 @@ interface ICategoryPropertyWithUserSelectedValue extends ICategoryProperty {
   selectableOptions: { label: string; value: string }[];
 }
 
+// Resolving  failed build
+
 @Component({
   selector: 'website-seller-index',
   templateUrl: './seller-index.component.html',

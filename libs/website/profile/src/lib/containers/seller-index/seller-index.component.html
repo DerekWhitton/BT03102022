@@ -5,12 +5,11 @@
         <a (click)="loadSellersListings(seller)">{{ seller.name }}</a>
       </ng-template>
     </p-tabMenu>
-
     <p-toast position="top-center"></p-toast>
     <progress-spinner
       *ngIf="!(listings$ | async); else table"
     ></progress-spinner>
-
+    <!-- Resolving failed build -->
     <ng-template #table>
       <div class="card">
         <p-toolbar styleClass="p-mb-4">
