@@ -4,10 +4,17 @@
 
 <p-toast position="top-center"></p-toast>
 
-<div *ngIf="(loaded$ | async) && purchases$ | async as purchases">
-  <p *ngIf="purchases.length <= 0">
-    We couldn't find any purchases associated with your account.
-  </p>
+<div *ngIf="(loaded$ | async) && purchases$ | async as purchases" class="card">
+  <ng-container *ngIf="purchases.length < 1">
+    <p-messages severity="info">
+      <ng-template pTemplate>
+        <span class="p-message-icon pi pi-exclamation-triangle"></span>
+        <div class="p-ml-2">
+          You do not have any purchases associated with your account.
+        </div>
+      </ng-template>
+    </p-messages>
+  </ng-container>
 
   <p-table
     #dt

@@ -69,12 +69,12 @@ export class WebsiteMenuComponent implements OnInit {
 
     this.menuItems = [
       {
-        label: 'Buy & Sell',
+        label: 'View Categories',
         command: () => this.showBuySell(),
       },
 
       {
-        label: 'Buy',
+        label: 'For Sale',
         command: (_) => {
           this.router.navigate(['/', 'listings'], {
             queryParams: { type: ListingType.Sale },

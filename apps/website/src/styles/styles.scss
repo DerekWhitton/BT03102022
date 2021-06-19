@@ -61,6 +61,7 @@ body {
 
 .advertisement-horizontal-banner {
   img {
+    width: 100%;
     max-width: 100%;
   }
 }
@@ -342,6 +343,16 @@ a {
     width: 66px;
     height: 65px;
     z-index: 1;
+  }
+}
+
+// Mozilla being weird with the positioning lets fix that
+@-moz-document url-prefix() {
+  .premium-listing,
+  .auction-listing {
+    &:before {
+      top: 13px;
+    }
   }
 }
 

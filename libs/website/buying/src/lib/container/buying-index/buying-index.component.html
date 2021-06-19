@@ -2,57 +2,127 @@
   <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
     <div class="thread p-card p-p-5 p-mt-5 p-mb-5">
       <h1>Buying</h1>
-      <hr>
+      <hr />
 
       <h3 id="getting-started">Getting Started</h3>
       <h4>Register Yourself</h4>
       <p>To buy on Bush Trade you will need to register an account.</p>
       <p>This is a guide to helping you do this.</p>
-      <p>You will need click 'Sign in', where you will click 'Sign Up' and complete the registration form. Once you inserted your name,  you will need to enable your account by inserting a Verification code that has been sent your email before you can complete your registration. Insert the code on the website and complete the registration form. </p>
-      
+      <p>
+        You will need click 'Sign in', where you will click 'Sign Up' and
+        complete the registration form. Once you inserted your name, you will
+        need to enable your account by inserting a Verification code that has
+        been sent your email before you can complete your registration. Insert
+        the code on the website and complete the registration form.
+      </p>
+
+      <h3 id="auction-fees">Auction Fees</h3>
+      <hr />
+      <p>
+        Auction fees are payable via PayFast upon winning the auction, once you
+        have paid the fee you will be able to contact the seller to complete the
+        purchase.
+      </p>
+      <p>
+        Premium listings cap the total fee to the maximum, saving you money and
+        making premium listings more favourable on the buyer.
+      </p>
+      <p-table [value]="subCategories">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Name</th>
+            <th>Success Fee (Standard Listings)</th>
+            <th>Max Fee (Only on Premium Listings)</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-category>
+          <tr>
+            <td>{{ category.name }}</td>
+            <td *ngIf="category.successFee">
+              {{ category.successFee }}% of item value
+            </td>
+            <td *ngIf="category.maximumFee">R{{ category.maximumFee }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
 
       <h3 id="placing-your-bid">Placing your bid</h3>
-      <hr>
+      <hr />
 
       <h4>Find an Item</h4>
-      <p>You can search for your item of interest by using the 'What are your looking for?' box combined with either 'For Sale' or Auctions' and click Search. Or Click on the 'Buy and Sell' menu and proceed from there. </p>
+      <p>
+        You can search for your item of interest by using the 'What are your
+        looking for?' box combined with either 'For Sale' or Auctions' and click
+        Search. Or Click on the 'Buy and Sell' menu and proceed from there.
+      </p>
 
-      <p>From here you can view your results or use the Quick View menu to find your item of interest.</p>
+      <p>
+        From here you can view your results or use the Quick View menu to find
+        your item of interest.
+      </p>
 
-      <p>Read the Item Description and once you have found your item, click on the title to reach the 'Item' page. Read this page carefully. Take note of the item, transaction and Seller's details. Know the 'Warranties', 'Guarantees', 'Payment Methods' offered and the 'Shipping Charges'.</p>
+      <p>
+        Read the Item Description and once you have found your item, click on
+        the title to reach the 'Item' page. Read this page carefully. Take note
+        of the item, transaction and Seller's details. Know the 'Warranties',
+        'Guarantees', 'Payment Methods' offered and the 'Shipping Charges'.
+      </p>
 
       <h4>Place And Confirm Your Bid</h4>
 
-      <p>Once you have read the 'Item Page', click on 'Buy Now' or 'Bid Now' to place your order/bid. If you have not logged in yet, you will be prompted to do so at this point. Select the 'Payment Method', specify the 'Shipping Details' and confirm your order/bid.</p>
+      <p>
+        Once you have read the 'Item Page', click on 'Buy Now' or 'Bid Now' to
+        place your order/bid. If you have not logged in yet, you will be
+        prompted to do so at this point. Select the 'Payment Method', specify
+        the 'Shipping Details' and confirm your order/bid.
+      </p>
 
-      <p>Note: If you have not given your contact details when you registered, you will be asked to do so before the 'Order/Bid Confirmation'.</p>
-    
+      <p>
+        Note: If you have not given your contact details when you registered,
+        you will be asked to do so before the 'Order/Bid Confirmation'.
+      </p>
+
       <h4>Review And Submit Your Bid</h4>
-      <p>Post Ordering Process </p>
+      <p>Post Ordering Process</p>
       <ul>
-        <li>'Auctions': Once you have placed your bid, you will be informed of this bid by e-mail. If another user outbids you, you will also receive an email informing you of this. If you wish, you may bid higher on the same item. If you win the auction, you will also receive an e-mail displaying the 'Pay Now' button. Once you have chosen how you will pay, contact the Seller, if required, and arrange for the delivery.</li>
-        <li>'Listings': Once you have responded to a 'Listing', you will be able to contact them via a chat on that listing. From this chat area, you will be able to communicate with the seller until he selects a user to complete the sale with.</li>
+        <li>
+          'Auctions': Once you have placed your bid, you will be informed of
+          this bid by e-mail. If another user outbids you, you will also receive
+          an email informing you of this. If you wish, you may bid higher on the
+          same item. If you win the auction, you will also receive an e-mail
+          displaying the 'Pay Now' button. Once you have chosen how you will
+          pay, contact the Seller, if required, and arrange for the delivery.
+        </li>
+        <li>
+          'Listings': Once you have responded to a 'Listing', you will be able
+          to contact them via a chat on that listing. From this chat area, you
+          will be able to communicate with the seller until he selects a user to
+          complete the sale with.
+        </li>
       </ul>
-      <p>Note: Please remember to keep proof of your payments, such as proof of payment from your bank.</p>
-      
+      <p>
+        Note: Please remember to keep proof of your payments, such as proof of
+        payment from your bank.
+      </p>
+
       <h4>Ratings and Reviews</h4>
-      <p>Once you have received the item you bought, you should rate the seller based on the level of service received (the communication, the delivery), as well as the product quality.</p>
-      
+      <p>
+        Once you have received the item you bought, you should rate the seller
+        based on the level of service received (the communication, the
+        delivery), as well as the product quality.
+      </p>
 
       <h3 id="fair-business">Fair business practice</h3>
-      <hr>
+      <hr />
       <p>Content to be confirmed</p>
 
       <h3 id="law-guidelines">Law enforcement guidelines</h3>
-      <hr>
+      <hr />
       <p>Content to be confirmed</p>
 
       <h3 id="notarial">Notarial supervision</h3>
-      <hr>
+      <hr />
       <p>Content to be confirmed</p>
-
     </div>
-
   </div>
-
 </div>
