@@ -62,12 +62,15 @@
       <button
         pButton
         type="button"
-        class="p-button-raised"
+        class="p-button-raised no-label"
         [ngClass]="{
           'p-button-gold': item.isPremium,
           'p-button-brown': !item.isPremium
         }"
-        label="View this item"
+        [innerHtml]="
+          item.type === ListingType.Auction ? 'View Auction' : 'View Listing'
+        "
+        label=" "
         [routerLink]="['/', 'listings', item.id]"
       ></button>
     </div>
