@@ -31,7 +31,7 @@
           (click)="login()"
           pButton
           type="button"
-          label="Post Listing"
+          label="Sell Items"
           class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-mr-2 p-order-1 p-order-md-2"
         ></button>
         <button
@@ -39,7 +39,7 @@
           [routerLink]="['/', 'profile', 'listings']"
           pButton
           type="button"
-          label="Post Listing"
+          label="Sell Items"
           class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-mr-2 p-order-1 p-order-md-2"
         ></button>
 
@@ -79,14 +79,14 @@
             (click)="login()"
             pButton
             type="button"
-            label="Post Listing"
+            label="Sell Online"
             class="p-button-primary p-d-none p-d-md-inline-flex"
           ></button>
           <button
             *ngIf="loggedIn"
             pButton
             class="p-button-primary p-d-none p-d-md-inline-flex"
-            label="Post Listing"
+            label="Sell Online"
             [routerLink]="['/', 'profile', 'listings']"
           ></button>
         </p-menubar>
@@ -257,7 +257,7 @@
       [routerLink]="['/', 'profile', 'listings']"
       pButton
       type="button"
-      label="Post Listing"
+      label="Sell Online"
       class="p-button-primary"
       (click)="showBuySellMenu = false"
     ></button>
