@@ -363,7 +363,7 @@
             *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
           >
             <label
-              pTooltip="The reserve price cannot be lower than the starting price."
+              pTooltip="The price stipulated as the lowest acceptable price by the seller, the reserve price cannot be lower than the starting price. "
             >
               Reserve Price:
               <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
@@ -731,7 +731,8 @@
           <div class="p-fluid"></div>
           <div class="p-field">
             <label>
-              Trade in your Private Capacity:
+              Trade in your Private Capacity (You are not trading under a
+              business name):
             </label>
             <br />
             <p-inputSwitch

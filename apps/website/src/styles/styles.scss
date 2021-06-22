@@ -63,10 +63,15 @@ body {
   img {
     width: 100%;
     max-width: 100%;
+    border: 1px solid #dee2e6;
   }
 }
 
 /* COLOURS */
+.gold-text {
+  color: $COLOUR-GOLD-LIGHT !important;
+}
+
 .bg-gold {
   background: $COLOUR-GOLD;
   color: #fff;
@@ -199,7 +204,7 @@ hr {
 }
 
 .p-button-brown {
-  color: $COLOUR-GOLD-LIGHT;
+  color: #fff;
   background: $COLOUR-BROWN;
   border: 1px solid $COLOUR-BROWN;
   padding: 0.5rem 1rem;
@@ -208,8 +213,7 @@ hr {
     box-shadow 0.2s;
   border-radius: 4px;
   &:enabled:hover {
-    color: $COLOUR-BROWN;
-    background: $COLOUR-GOLD-LIGHT;
+    background: $COLOUR-GOLD;
     border: 1px solid $COLOUR-GOLD-LIGHT;
   }
 }

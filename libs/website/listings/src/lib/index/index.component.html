@@ -226,7 +226,7 @@
             class="p-col-12 p-px-0 p-text-center advertisement-horizontal-banner"
           >
             <img
-              src="https://via.placeholder.com/850x100.jpg"
+              src="assets/layout/images/advertise.png"
               alt="Advertise Here"
             />
           </div>
@@ -315,7 +315,7 @@
 
           <ng-container *ngIf="searchResponse?.items.length > 0; else noItems">
             <bushtrade-web-product-item
-              class="p-mb-4 p-col-12"
+              class="p-col-12"
               *ngFor="let item of searchResponse.items"
               [item]="item"
             ></bushtrade-web-product-item>
@@ -342,6 +342,10 @@
                 <p *ngIf="!type">
                   Try adjusting your price range and filters
                 </p>
+                <p>
+                  Why not start trading today and sell a product in this
+                  category!
+                </p>
               </div>
             </div>
           </ng-template>
@@ -350,7 +354,7 @@
             class="p-col-12 p-px-0 p-text-center advertisement-horizontal-banner"
           >
             <img
-              src="https://via.placeholder.com/850x100.jpg"
+              src="assets/layout/images/advertise.png"
               alt="Advertise Here"
             />
           </div>

@@ -14,6 +14,16 @@
   }
 }
 
+.bidding-progress {
+  position: absolute;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  z-index: 999;
+}
+
 .sidebar-section {
   border-bottom: 1px solid #e9e9e9;
 }
@@ -27,6 +37,7 @@ i {
 }
 
 .quickbid {
+  position: relative;
   color: #fff;
   h3 {
     color: #fff;
