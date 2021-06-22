@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
   style$: Observable<IUiStyle>;
 
   menuItems: any = [
-
     {
       label: 'Listings',
       icon: 'pi pi-fw pi-list',
@@ -70,7 +69,7 @@ export class AppComponent implements OnInit {
           label: 'Users',
           icon: 'pi pi-fw pi-id-card',
           routerLink: ['/', 'users'],
-        },        
+        },
         {
           label: 'Roles',
           icon: 'pi pi-fw pi-lock',
@@ -91,46 +90,14 @@ export class AppComponent implements OnInit {
           icon: 'pi pi-money-bill',
           routerLink: ['/', 'transactions'],
         },
-      ],
-      routerLink: ['/', 'dashboard'],
-    },
-
-    { separator: true },
-    {
-      label: 'Under Development',
-      icon: 'pi pi-fw pi-home',
-      items: [
         {
-          label: 'Sponsored',
+          label: 'Home Page Banner',
           icon: 'pi pi-briefcase',
           routerLink: ['/', 'sponsored'],
         },
-        // Using wordpress for this, we might integrate wp api later.
-        // {
-        //   label: 'Articles',
-        //   icon: 'pi pi-user',
-        //   routerLink: ['/', 'articles'],
-        // },
-        {
-          label: 'Messages',
-          icon: 'pi pi-comment',
-          routerLink: ['/', 'messages'],
-        },
-        // {
-        //   label: 'Reports',
-        //   icon: 'pi pi-chart-line',
-        //   routerLink: ['/', 'reports'],
-        // },
-
       ],
       routerLink: ['/', 'dashboard'],
-    }
-
-
-
-
-
-
+    },
   ];
   constructor(private primengConfig: PrimeNGConfig, private store: Store) {}
 

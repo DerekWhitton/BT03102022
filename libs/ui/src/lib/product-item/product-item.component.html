@@ -7,7 +7,10 @@
   }"
 >
   <div class="p-grid">
-    <div class="p-col-12 p-md-4 p-text-center">
+    <div
+      class="p-col-12 p-md-4 p-text-center"
+      [routerLink]="['/', 'listings', item.id]"
+    >
       <img
         *ngIf="item.images && item.images.length"
         [src]="item.images[0].url"

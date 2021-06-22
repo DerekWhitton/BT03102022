@@ -1,66 +1,104 @@
 <div class="p-grid" *ngIf="userIsAuthenticated; else elseBlock">
-  <div [ngClass]="isAdmin ? 'p-col-12' : 'p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2'">
+  <div
+    [ngClass]="
+      isAdmin
+        ? 'p-col-12'
+        : 'p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2'
+    "
+  >
     <div [ngClass]="isAdmin ? '' : 'p-mt-5'" class="thread p-card p-p-5 p-mb-5">
-      <div style="position: relative;">
-        <h1>Support tickets</h1>
-        <button 
-          *ngIf="!isAdmin"
-          pButton
-          class="header-button"
-          type="button"
-          label="Add Support Ticket"
-          (click)="showCreateSupportTicketModal = true;"
-        ></button>
+      <div class="p-grid">
+        <div class="p-col p-md-6">
+          <h1>Support tickets</h1>
+        </div>
+        <div class="p-col p-md-6 p-text-right">
+          <button
+            *ngIf="!isAdmin"
+            pButton
+            class="header-button"
+            type="button"
+            label="Add Ticket"
+            (click)="showCreateSupportTicketModal = true"
+          ></button>
+        </div>
       </div>
+
       <hr />
       <div class="p-grid p-fluid p-p-3">
         <div class="p-col-12 p-md-6 p-lg-3">
           <span class="p-float-label">
-            <p-dropdown id="categoryFilter" [showClear]="true" [options]="selectableTicketCategories" [autoDisplayFirst]="false" [(ngModel)]="filters.category"></p-dropdown>
-            <label for="categoryFilter">Category</label>
+            <p-dropdown
+              id="categoryFilter"
+              [showClear]="true"
+              [options]="selectableTicketCategories"
+              [autoDisplayFirst]="false"
+              [(ngModel)]="filters.category"
+              (onChange)="pageOrFilterAction()"
+            ></p-dropdown>
+            <label for="categoryFilter">Choose Category</label>
           </span>
         </div>
         <div class="p-col-12 p-md-6 p-lg-3">
           <span class="p-float-label">
-            <input id="queryFilter" pInputText type="text" [(ngModel)]="filters.query"/>
-            <label for="queryFilter">Title</label>
+            <input
+              id="queryFilter"
+              pInputText
+              type="text"
+              [(ngModel)]="filters.query"
+              (keyup.enter)="pageOrFilterAction()"
+            />
+            <label for="queryFilter">Search Title</label>
           </span>
         </div>
         <div class="p-col-12 p-md-6 p-lg-3">
-          <label style="display: inline;">Include closed:</label>
-          <p-inputSwitch [(ngModel)]="filters.includeClosed"></p-inputSwitch>
+          <label class="p-mr-2">Include closed:</label>
+          <p-inputSwitch
+            [(ngModel)]="filters.includeClosed"
+            (onChange)="pageOrFilterAction()"
+          ></p-inputSwitch>
         </div>
         <div class="p-col-12 p-md-6 p-lg-3">
-          <button 
+          <button
             pButton
             type="button"
-            label="Apply filters"
+            label="Search"
             (click)="pageOrFilterAction()"
           ></button>
         </div>
       </div>
-      
+
       <progress-spinner *ngIf="!loaded"></progress-spinner>
-      <p *ngIf="error">{{error.message}}</p>
+      <p *ngIf="error">{{ error.message }}</p>
 
       <div *ngIf="loaded && supportTickets">
-        <div class="thread p-card p-p-5 p-mb-5">
+        <div
+          class="thread p-card p-p-5 p-mb-5"
+          *ngIf="supportTickets && supportTickets.length > 0; else noTickets"
+        >
           <ng-container *ngFor="let ticket of supportTickets">
             <div class="p-mb-4 p-p-3 ticket-card">
               <div class="p-grid">
                 <div class="p-col-12 p-md-6 p-lg-3">
-                  <i class="pi pi-clock p-mr-1"
-                    style="font-size: 1rem;"></i>
+                  <i class="pi pi-clock p-mr-1" style="font-size: 1rem;"></i>
                   {{ ticket.createdAt | date: 'dd MMM yyyy HH:MM:ss' }}
                 </div>
                 <div class="p-col-12 p-md-6 p-lg-3">
-                  <p [routerLink]="[ticket.id]" class="ticket-title">{{ ticket.title }} (#{{ ticket.id.split('-')[0] }})</p>
+                  <p [routerLink]="[ticket.id]" class="ticket-title">
+                    {{ ticket.title }} (#{{ ticket.id.split('-')[0] }})
+                  </p>
                 </div>
                 <div class="p-col-12 p-md-6 p-lg-3">
                   Category: {{ ticket.category }}
                 </div>
                 <div class="p-col-12 p-md-6 p-lg-3">
-                  Status: {{ ticket.isClosed ? 'Closed' : ticket.inProgress ? 'InProgress' : 'Open' }}
+                  Status:
+                  {{
+                    ticket.isClosed
+                      ? 'Closed'
+                      : ticket.inProgress
+                      ? 'InProgress'
+                      : 'Open'
+                  }}
                 </div>
               </div>
               <div class="p-col-12 p-md-6 p-lg-3">
@@ -83,6 +121,15 @@
             </div>
           </div>
         </div>
+        <ng-template #noTickets>
+          <p-messages severity="info">
+            <ng-template pTemplate>
+              <span class="custom-message"
+                >You currently have no support tickets.</span
+              >
+            </ng-template>
+          </p-messages>
+        </ng-template>
       </div>
     </div>
   </div>
@@ -105,7 +152,11 @@
               <label>
                 Category:
               </label>
-              <p-dropdown [options]="selectableTicketCategories" [placeholder]="'Select a category'" formControlName="category"></p-dropdown>
+              <p-dropdown
+                [options]="selectableTicketCategories"
+                [placeholder]="'Select a category'"
+                formControlName="category"
+              ></p-dropdown>
             </div>
             <div class="p-field">
               <label>
@@ -117,7 +168,12 @@
               <label>
                 Message (2500 characters maximum):
               </label>
-              <textarea pInputText type="text" required formControlName="message"></textarea>
+              <textarea
+                pInputText
+                type="text"
+                required
+                formControlName="message"
+              ></textarea>
             </div>
           </div>
         </div>
@@ -147,10 +203,11 @@
 </p-dialog>
 
 <ng-template #elseBlock>
-<div class="grid">
-  <div class="p-col p-text-center">
-    <h3 class="p-p-5">You are not logged in, log in to view your support tickets.</h3>
+  <div class="grid">
+    <div class="p-col p-text-center">
+      <h3 class="p-p-5">
+        You are not logged in, log in to view your support tickets.
+      </h3>
+    </div>
   </div>
-</div>
-
 </ng-template>

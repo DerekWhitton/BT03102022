@@ -1,5 +1,5 @@
 <div class="p-grid">
-  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+  <div class="p-col-12 p-offset-0 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
     <div class="thread p-p-5 p-mt-5 p-mx-auto" *ngIf="detailsLoading">
       <progress-spinner></progress-spinner>
     </div>
@@ -82,7 +82,12 @@
             <hr />
             <h3>Location</h3>
             <div *ngIf="listingDetails.locationName; else locationNotAvailable">
-              <p>{{ listingDetails.locationName }}</p>
+              <p>
+                {{ listingDetails.locationName }} is the general area of the
+                listing, we do not divulge the exact location of the seller, you
+                will discuss delivery and collection in the private chat with
+                the seller.
+              </p>
               <a
                 href="https://www.google.com/maps/place/{{
                   listingDetails.locationName
@@ -93,7 +98,9 @@
                   class="listing-location-map"
                   src="https://maps.googleapis.com/maps/api/staticmap?center={{
                     listingDetails.locationName
-                  }}&size=600x300&maptype=roadmap&key={{ mapsApiKey }}"
+                  }}&zoom=15&size=600x300&scale=2&maptype=roadmap&key={{
+                    mapsApiKey
+                  }}"
                 />
               </a>
             </div>
@@ -390,56 +397,87 @@
                 <p>Auction fee: 9% of the winning bid</p>
               </div>
               <div class="quickbid sidebar-section p-pb-3 bg-grey">
-                <h3 class="p-pt-2 p-mt-0">Quick Bid</h3>
+                <ng-container *ngIf="isSeller">
+                  <p>
+                    This is your listing, you cannot bid.
+                  </p>
+                </ng-container>
+
+                <div
+                  class="bidding-progress p-text-center"
+                  *ngIf="userHasWinningBid"
+                >
+                  <h3 class="gold-text">
+                    Congratulations! You are the leading bid.
+                  </h3>
+                  <p>We will email you if anyone outbids you.</p>
+                </div>
 
                 <ng-container *ngIf="!loggedIn">
                   <p>
                     Sign in or Register to Bid
                   </p>
                 </ng-container>
-                <ng-container *ngIf="loggedIn">
-                  <button
-                    class="p-button p-mb-2 p-mr-1"
-                    (click)="placeBid(bid)"
-                    *ngFor="let bid of biddingRecommendations"
-                  >
-                    {{ bid | currency: 'R ' }}
-                  </button>
-                  <p>Bid Directly:</p>
-                  <div class="p-inputgroup p-p-0">
-                    <input
-                      type="number"
-                      pInputText
-                      [(ngModel)]="customBid"
-                      min="{{ biddingRecommendations[0] }}"
-                      placeholder="{{
-                        biddingRecommendations[0] | currency: 'R '
-                      }}"
-                    />
-                    <button
-                      type="button"
-                      pButton
-                      pRipple
-                      label="Place Bid"
-                      class="p-ml-auto p-button-gold"
-                      (click)="placeBid(customBid)"
-                    ></button>
-                  </div>
+                <div class="bidding-progress p-text-center" *ngIf="isBidding">
+                  <progress-spinner></progress-spinner>
+                  <h3>Placing Bid...</h3>
+                </div>
+                <ng-container *ngIf="loggedIn && !isSeller">
+                  <h3 class="p-pt-2 p-mt-0">
+                    Quick Bid
+                    <span style="float: right;">
+                      <p-inputSwitch [(ngModel)]="showQuickBid"></p-inputSwitch
+                    ></span>
+                  </h3>
 
-                  <!-- <p>Place an automatic bid:</p>
-                  <p-messages severity="warn">
-                    <ng-template pTemplate>
-                      <span class="p-message-icon pi pi-exclamation-triangle"></span>
-                        <div class="p-ml-2">To be implemented</div>
-                    </ng-template>
-                </p-messages>
-          
-                  <div class="p-inputgroup p-pb-5 p-pl-0 p-pr-0"
-                    pTooltip="Automatic bidding will place a bid for you at the next minimum highest bid when someone outbids you.">
-                    <input type="number" pInputText placeholder="{{ biddingRecommendations[0] * 2 | currency:'R '}}">
-                    <button type="button" pButton pRipple label="Set Auto" class="p-ml-auto p-button-gold"></button>
-                  </div>
-                   -->
+                  <ng-container *ngIf="showQuickBid">
+                    <button
+                      class="p-button p-mb-2 p-mr-1"
+                      [disabled]="isBidding"
+                      (click)="placeBid(bid)"
+                      *ngFor="let bid of biddingRecommendations"
+                    >
+                      {{ bid | currency: 'R ' }}
+                    </button>
+                  </ng-container>
+
+                  <p>Bid Directly:</p>
+
+                  <input
+                    type="number"
+                    pInputText
+                    [(ngModel)]="customBid"
+                    min="{{ biddingRecommendations[0] }}"
+                    placeholder="{{
+                      biddingRecommendations[0] | currency: 'R '
+                    }}"
+                    class="p-mr-2 p-mb-2"
+                  />
+                  <br />
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    label="Place Bid"
+                    [disabled]="
+                      !customBid ||
+                      customBid < biddingRecommendations[0] ||
+                      isBidding
+                    "
+                    class="p-button-gold"
+                    (click)="placeBid(customBid)"
+                  ></button>
+
+                  <p class="p-mt-2">
+                    By placing a bid, you agree that you are
+                    <strong>over 18</strong> and that you have read and agree to
+                    our
+                    <a
+                      href="assets/documents/Bush-Trade-210512-Terms-and-Conditions.pdf"
+                      target="_blank"
+                      >Terms and Conditions</a
+                    >.
+                  </p>
                 </ng-container>
               </div>
               <div class="bid-history sidebar-section p-pb-3">
@@ -545,10 +583,7 @@
       <div
         class="p-col-12 p-px-0 p-text-center advertisement-horizontal-banner"
       >
-        <img
-          src="https://via.placeholder.com/1404x100.jpg"
-          alt="Advertise Here"
-        />
+        <img src="assets/layout/images/advertise.png" alt="Advertise Here" />
       </div>
 
       <!-- <div class="p-col-12" *ngIf="suggestions.length > 0">

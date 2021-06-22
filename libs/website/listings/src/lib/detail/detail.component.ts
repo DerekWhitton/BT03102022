@@ -60,7 +60,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   displayCustom: boolean;
   customBid: string;
   sellerProfilePicture: string = 'assets/layout/images/no-profile.png';
-
+  latestBidUserId: string;
   // Q&A Section
   questions: ISellerListingConversationMessage[] = []; // Questions retrieved for the current listing
   newQuestion: string = ''; // Holds any new question that is to be asked
@@ -73,6 +73,9 @@ export class DetailComponent implements OnInit, OnDestroy {
   isSeller = false; // The current user is the seller of the product
   isBuyer = false;
   // End - Q&A Section
+
+  showQuickBid: boolean = false;
+  isBidding: boolean = false;
 
   activeIndex: number = 0;
   paymentDetails: any;
@@ -223,6 +226,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   placeBid(amount: number): void {
+    this.isBidding = true;
     if (this.isAuctionClosed()) {
       this.messageService.add({
         severity: 'error',
@@ -326,6 +330,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   private refreshAuctionBids(): void {
+    this.isBidding = false;
     this.refreshingSidebar = true;
     this.biddingService.getListingBids(this.listingId).subscribe(
       (bids) => {
