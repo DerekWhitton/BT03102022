@@ -26,6 +26,7 @@ import {
 import { MessageService } from 'primeng/api';
 import { forkJoin, Observable } from 'rxjs';
 import { APP_CONFIG } from '@bushtrade/app-config';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'bushtrade-web-detail',
@@ -85,6 +86,8 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   thisUrl: string;
 
+  sanitizedUrl = this.sanitizer.bypassSecurityTrustUrl('whatsapp://send');
+
   constructor(
     @Inject(APP_CONFIG) private configuration: any,
     private route: ActivatedRoute,
@@ -96,7 +99,8 @@ export class DetailComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private msalService: MsalService,
     private searchService: SearchService,
-    private conversationService: ConversationsService
+    private conversationService: ConversationsService,
+    private sanitizer: DomSanitizer
   ) {
     this.mapsApiKey = configuration.googleMapsApiKey;
     this.route.params.subscribe(() => this.ngOnInit()); // reset and set based on new parameter this time
@@ -429,5 +433,9 @@ export class DetailComponent implements OnInit, OnDestroy {
     var copyTextarea = document.getElementById('weburl') as HTMLInputElement;
     copyTextarea.select(); //select the text area
     document.execCommand('copy'); //copy to clipboard
+  }
+
+  sanitize(url: string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 }
