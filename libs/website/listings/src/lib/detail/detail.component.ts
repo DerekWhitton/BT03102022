@@ -83,6 +83,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   // Google Maps
   mapsApiKey: string;
 
+  thisUrl: string;
+
   constructor(
     @Inject(APP_CONFIG) private configuration: any,
     private route: ActivatedRoute,
@@ -101,6 +103,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.thisUrl = window.location.href;
     const { params } = this.route.snapshot;
     this.listingId = params.id;
 
@@ -419,5 +422,12 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.visibilityChangedListenerFunction,
       false
     );
+  }
+
+  copyLink() {
+    console.log('hey');
+    var copyTextarea = document.getElementById('weburl') as HTMLInputElement;
+    copyTextarea.select(); //select the text area
+    document.execCommand('copy'); //copy to clipboard
   }
 }
