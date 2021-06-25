@@ -510,10 +510,12 @@
 
                 <a
                   [href]="
-                    'whatsapp://send?text=Check this listing I found on BushTrade: ' +
-                    listingDetails.name +
-                    ' ' +
-                    thisUrl
+                    sanitize(
+                      'whatsapp://send?text=Check this listing I found on BushTrade: ' +
+                        listingDetails.name +
+                        ' ' +
+                        thisUrl
+                    )
                   "
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
