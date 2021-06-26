@@ -1,17 +1,30 @@
 :host ::ng-deep .product-item {
   cursor: pointer;
+  max-width: 358px;
 
   .product-item-content {
     background: #fff;
     min-height: 250px;
+    position: relative;
 
-    img {
-      object-fit: contain;
-      width: 100%;
-      max-height: 250px;
+    .image-container {
+      img {
+        object-fit: cover;
+        width: 100%;
+        max-height: 250px;
+        height: 188px;
+        &.placeholder {
+          object-fit: contain;
+          background: #fff;
+          padding: 1em;
+          opacity: 0.5;
+        }
+      }
     }
+
     .item-details {
       padding: 0em 1em 1em;
+      min-height: 176px;
     }
     .card-footer-text span,
     .card-footer-text p {

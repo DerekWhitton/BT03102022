@@ -8,7 +8,7 @@
   </ng-template>
 
   <div class="p-grid" *ngIf="categories && categories.length > 0; else loading">
-    <div class="p-col-12 p-offset-0 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+    <div class="p-col-12 p-offset-0 p-lg-8 p-lg-offset-2">
       <div class="p-grid">
         <div class="p-col-12">
           <carousel-hero-banner> </carousel-hero-banner>
@@ -52,7 +52,8 @@
         *ngIf="closingAuctions && closingAuctions.length > 0"
       >
         <h3 class="p-text-left p-ml-7 p-mr-7">
-          Auctions closing Soon<span style="float: right;"
+          Auctions closing Soon
+          <span style="float: right;"
             ><a
               [routerLink]="['/', 'listings']"
               [queryParams]="{ type: listingTypes.Auction }"

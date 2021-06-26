@@ -53,7 +53,7 @@
                 <img
                   [src]="listingDetails.images[0]?.url"
                   style="cursor: pointer;"
-                  style="max-height: 640px; max-width: 100%;"
+                  style="max-height: 640px; width: 100%;"
                   (click)="imageClick(0)"
                 />
               </div>
@@ -109,7 +109,6 @@
             </ng-template>
             <hr />
 
-            {{ listingDetails | json }}
             <ng-container
               *ngIf="listingDetails.listingPropertyValues.length > 0"
             >
@@ -368,6 +367,7 @@
                 </p>
               </div>
             </div>
+
             <ng-container
               *ngIf="
                 !timesUp &&
@@ -482,68 +482,86 @@
                   </p>
                 </ng-container>
               </div>
-              <div class="sharing-box sidebar-section p-pb-3">
-                <a (click)="copyLink()">
-                  <svg
-                    style="padding: 2px;"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"
-                  >
-                    <path
-                      fill="#c09a6a"
-                      d="M7.9,256C7.9,119,119,7.9,256,7.9C393,7.9,504.1,119,504.1,256c0,137-111.1,248.1-248.1,248.1C119,504.1,7.9,393,7.9,256z"
-                    ></path>
-                    <path
-                      fill="#FFF"
-                      d="M402.4 159.2l-49.6-49.6c-10.7-10.7-28.1-10.7-38.8 0l-76.6 76.6c-10.7 10.7-10.7 28.1 0 38.8l49.6 49.6c10.7 10.7 28.1 10.7 38.8 0l76.6-76.6C413.1 187.3 413.1 170 402.4 159.2zM320.5 243.3c-6.3 6.3-16.5 6.3-22.8 0l-29.1-29.1c-6.3-6.3-6.3-16.5 0-22.8l50.5-50.5c6.3-6.3 16.5-6.3 22.8 0l29.1 29.1c6.3 6.3 6.3 16.5 0 22.8L320.5 243.3zM274.7 286.9l-49.6-49.6c-10.7-10.7-28.1-10.7-38.8 0l-76.6 76.6c-10.7 10.7-10.7 28.1 0 38.8l49.6 49.6c10.7 10.7 28.1 10.7 38.8 0l76.6-76.6C285.4 315 285.4 297.6 274.7 286.9zM192.8 371c-6.3 6.3-16.5 6.3-22.8 0L141 341.9c-6.3-6.3-6.3-16.5 0-22.8l50.5-50.5c6.3-6.3 16.5-6.3 22.8 0l29.1 29.1c6.3 6.3 6.3 16.5 0 22.8L192.8 371z"
-                    ></path>
-                    <path
-                      fill="#c09a6a"
-                      d="M314.8,199.6l-2.4-2.4c-7.7-7.7-20.3-7.7-28.1,0l-87.2,87.2c-7.7,7.7-7.7,20.3,0,28.1l2.4,2.4c7.7,7.7,20.3,7.7,28.1,0l87.2-87.2C322.6,219.9,322.6,207.3,314.8,199.6z"
-                    ></path>
-                    <path
-                      fill="#FFF"
-                      d="M223.3,310.5c-5.3,5.3-14,5.3-19.4,0l-2.4-2.4c-5.3-5.3-5.3-14,0-19.4l87.2-87.2c5.3-5.3,14-5.3,19.4,0l2.4,2.4c5.3,5.3,5.3,14,0,19.4L223.3,310.5z"
-                    ></path>
-                  </svg>
-                </a>
+            </ng-container>
 
-                <a
-                  [href]="
-                    sanitize(
-                      'whatsapp://send?text=Check this listing I found on BushTrade: ' +
-                        listingDetails.name +
-                        ' ' +
-                        thisUrl
-                    )
-                  "
+            <div class="sharing-box sidebar-section p-pb-3">
+              <a (click)="copyLink()">
+                <svg
+                  style="padding: 2px;"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                      fill="#c09a6a"
-                      d="M19.077,4.928C17.191,3.041,14.683,2.001,12.011,2c-5.506,0-9.987,4.479-9.989,9.985 c-0.001,1.76,0.459,3.478,1.333,4.992L2,22l5.233-1.237c1.459,0.796,3.101,1.215,4.773,1.216h0.004 c5.505,0,9.986-4.48,9.989-9.985C22.001,9.325,20.963,6.816,19.077,4.928z M16.898,15.554c-0.208,0.583-1.227,1.145-1.685,1.186 c-0.458,0.042-0.887,0.207-2.995-0.624c-2.537-1-4.139-3.601-4.263-3.767c-0.125-0.167-1.019-1.353-1.019-2.581 S7.581,7.936,7.81,7.687c0.229-0.25,0.499-0.312,0.666-0.312c0.166,0,0.333,0,0.478,0.006c0.178,0.007,0.375,0.016,0.562,0.431 c0.222,0.494,0.707,1.728,0.769,1.853s0.104,0.271,0.021,0.437s-0.125,0.27-0.249,0.416c-0.125,0.146-0.262,0.325-0.374,0.437 c-0.125,0.124-0.255,0.26-0.11,0.509c0.146,0.25,0.646,1.067,1.388,1.728c0.954,0.85,1.757,1.113,2.007,1.239 c0.25,0.125,0.395,0.104,0.541-0.063c0.146-0.166,0.624-0.728,0.79-0.978s0.333-0.208,0.562-0.125s1.456,0.687,1.705,0.812 c0.25,0.125,0.416,0.187,0.478,0.291C17.106,14.471,17.106,14.971,16.898,15.554z"
-                    ></path>
-                  </svg>
-                </a>
+                  <path
+                    fill="#c09a6a"
+                    d="M7.9,256C7.9,119,119,7.9,256,7.9C393,7.9,504.1,119,504.1,256c0,137-111.1,248.1-248.1,248.1C119,504.1,7.9,393,7.9,256z"
+                  ></path>
+                  <path
+                    fill="#FFF"
+                    d="M402.4 159.2l-49.6-49.6c-10.7-10.7-28.1-10.7-38.8 0l-76.6 76.6c-10.7 10.7-10.7 28.1 0 38.8l49.6 49.6c10.7 10.7 28.1 10.7 38.8 0l76.6-76.6C413.1 187.3 413.1 170 402.4 159.2zM320.5 243.3c-6.3 6.3-16.5 6.3-22.8 0l-29.1-29.1c-6.3-6.3-6.3-16.5 0-22.8l50.5-50.5c6.3-6.3 16.5-6.3 22.8 0l29.1 29.1c6.3 6.3 6.3 16.5 0 22.8L320.5 243.3zM274.7 286.9l-49.6-49.6c-10.7-10.7-28.1-10.7-38.8 0l-76.6 76.6c-10.7 10.7-10.7 28.1 0 38.8l49.6 49.6c10.7 10.7 28.1 10.7 38.8 0l76.6-76.6C285.4 315 285.4 297.6 274.7 286.9zM192.8 371c-6.3 6.3-16.5 6.3-22.8 0L141 341.9c-6.3-6.3-6.3-16.5 0-22.8l50.5-50.5c6.3-6.3 16.5-6.3 22.8 0l29.1 29.1c6.3 6.3 6.3 16.5 0 22.8L192.8 371z"
+                  ></path>
+                  <path
+                    fill="#c09a6a"
+                    d="M314.8,199.6l-2.4-2.4c-7.7-7.7-20.3-7.7-28.1,0l-87.2,87.2c-7.7,7.7-7.7,20.3,0,28.1l2.4,2.4c7.7,7.7,20.3,7.7,28.1,0l87.2-87.2C322.6,219.9,322.6,207.3,314.8,199.6z"
+                  ></path>
+                  <path
+                    fill="#FFF"
+                    d="M223.3,310.5c-5.3,5.3-14,5.3-19.4,0l-2.4-2.4c-5.3-5.3-5.3-14,0-19.4l87.2-87.2c5.3-5.3,14-5.3,19.4,0l2.4,2.4c5.3,5.3,5.3,14,0,19.4L223.3,310.5z"
+                  ></path>
+                </svg>
+              </a>
 
-                <a
-                  [href]="
-                    'https://www.facebook.com/sharer/sharer.php?u=' + thisUrl
-                  "
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-                    <path
-                      fill="#c09a6a"
-                      d="M32,6C17.642,6,6,17.642,6,32c0,13.035,9.603,23.799,22.113,25.679V38.89H21.68v-6.834h6.433v-4.548	c0-7.529,3.668-10.833,9.926-10.833c2.996,0,4.583,0.223,5.332,0.323v5.965h-4.268c-2.656,0-3.584,2.52-3.584,5.358v3.735h7.785	l-1.055,6.834h-6.73v18.843C48.209,56.013,58,45.163,58,32C58,17.642,46.359,6,32,6z"
-                    ></path>
-                  </svg>
-                </a>
+              <a
+                [href]="
+                  sanitize(
+                    'whatsapp://send?text=Check this listing I found on BushTrade: ' +
+                      listingDetails.name +
+                      ' ' +
+                      thisUrl
+                  )
+                "
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    fill="#c09a6a"
+                    d="M19.077,4.928C17.191,3.041,14.683,2.001,12.011,2c-5.506,0-9.987,4.479-9.989,9.985 c-0.001,1.76,0.459,3.478,1.333,4.992L2,22l5.233-1.237c1.459,0.796,3.101,1.215,4.773,1.216h0.004 c5.505,0,9.986-4.48,9.989-9.985C22.001,9.325,20.963,6.816,19.077,4.928z M16.898,15.554c-0.208,0.583-1.227,1.145-1.685,1.186 c-0.458,0.042-0.887,0.207-2.995-0.624c-2.537-1-4.139-3.601-4.263-3.767c-0.125-0.167-1.019-1.353-1.019-2.581 S7.581,7.936,7.81,7.687c0.229-0.25,0.499-0.312,0.666-0.312c0.166,0,0.333,0,0.478,0.006c0.178,0.007,0.375,0.016,0.562,0.431 c0.222,0.494,0.707,1.728,0.769,1.853s0.104,0.271,0.021,0.437s-0.125,0.27-0.249,0.416c-0.125,0.146-0.262,0.325-0.374,0.437 c-0.125,0.124-0.255,0.26-0.11,0.509c0.146,0.25,0.646,1.067,1.388,1.728c0.954,0.85,1.757,1.113,2.007,1.239 c0.25,0.125,0.395,0.104,0.541-0.063c0.146-0.166,0.624-0.728,0.79-0.978s0.333-0.208,0.562-0.125s1.456,0.687,1.705,0.812 c0.25,0.125,0.416,0.187,0.478,0.291C17.106,14.471,17.106,14.971,16.898,15.554z"
+                  ></path>
+                </svg>
+              </a>
 
-                <div class="p-inputgroup">
-                  <input pInputText type="text" [value]="thisUrl" id="weburl" />
-                </div>
+              <a
+                [href]="
+                  'https://www.facebook.com/sharer/sharer.php?u=' + thisUrl
+                "
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                  <path
+                    fill="#c09a6a"
+                    d="M32,6C17.642,6,6,17.642,6,32c0,13.035,9.603,23.799,22.113,25.679V38.89H21.68v-6.834h6.433v-4.548	c0-7.529,3.668-10.833,9.926-10.833c2.996,0,4.583,0.223,5.332,0.323v5.965h-4.268c-2.656,0-3.584,2.52-3.584,5.358v3.735h7.785	l-1.055,6.834h-6.73v18.843C48.209,56.013,58,45.163,58,32C58,17.642,46.359,6,32,6z"
+                  ></path>
+                </svg>
+              </a>
+
+              <div class="p-inputgroup">
+                <input pInputText type="text" [value]="thisUrl" id="weburl" />
               </div>
+            </div>
 
+            <div class="sidebar-section p-pb-3" *ngIf="loggedIn">
+              <p-button
+                label="Report Listing"
+                icon="pi pi-exclamation-triangle"
+                [routerLink]="['/', 'support']"
+                [queryParams]="{ listingId: listingDetails.id }"
+              ></p-button>
+            </div>
+
+            <ng-container
+              *ngIf="
+                !timesUp &&
+                listingDetails.type == listingType.Auction &&
+                !refreshingSidebar
+              "
+            >
               <div class="bid-history sidebar-section p-pb-3">
                 <h3>Bid history</h3>
                 <ng-container *ngIf="listingBids.length > 0; else noBids">
@@ -571,6 +589,7 @@
                   There are no bids placed on this auction yet.
                 </ng-template>
               </div>
+              <!-- End of auction bar -->
             </ng-container>
             <div
               class="p-pt-3"
@@ -586,21 +605,35 @@
                 This item has been sold.
               </p>
               <div *ngIf="!listingDetails.isSold" class="p-pl-0">
-                <p-button
-                  *ngIf="!userBid"
-                  [label]="'Contact seller'"
-                  (click)="showConfirmModal = true"
-                ></p-button>
-                <p-button
-                  *ngIf="userBid"
-                  [label]="'Go to conversation'"
-                  [routerLink]="[
-                    '../..',
-                    'conversations',
-                    'purchase',
-                    userBid.conversationId
-                  ]"
-                ></p-button>
+                <ng-container *ngIf="isSeller">
+                  <p-button
+                    *ngIf="userBid"
+                    [label]="'View Interested Buyers'"
+                    [routerLink]="[
+                      '../..',
+                      'conversations',
+                      'listing',
+                      listingDetails.id
+                    ]"
+                  ></p-button>
+                </ng-container>
+                <ng-container *ngIf="!isSeller">
+                  <p-button
+                    *ngIf="!userBid"
+                    [label]="'Contact seller'"
+                    (click)="showConfirmModal = true"
+                  ></p-button>
+                  <p-button
+                    *ngIf="userBid"
+                    [label]="'Go to conversation'"
+                    [routerLink]="[
+                      '../..',
+                      'conversations',
+                      'purchase',
+                      userBid.conversationId
+                    ]"
+                  ></p-button>
+                </ng-container>
               </div>
             </div>
             <div *ngIf="refreshingSidebar">
@@ -682,8 +715,10 @@
 >
   <ng-template pTemplate="content">
     <p>
-      After clicking confirm you will be able to contact the seller and discuss
-      more details.
+      After clicking confirm a private chat will be created between you and the
+      seller. There you can discuss the details surrounding the purchase of the
+      listing. Please note that contacting the seller does not garauntee you the
+      listing it, the seller will have to select you as the buyer.
     </p>
   </ng-template>
 

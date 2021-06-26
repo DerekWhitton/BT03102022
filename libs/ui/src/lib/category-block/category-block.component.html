@@ -1,9 +1,6 @@
 <div class="p-grid categories">
-  <div class="p-col-12 p-md-12 p-lg-3" *ngFor="let category of categories">
-    <div
-      class="category-wrapper"
-      (click)="navigateToCategory(category.id)"
-    >
+  <div class="p-col-12 p-md-6 p-lg-3" *ngFor="let category of categories">
+    <div class="category-wrapper" (click)="navigateToCategory(category.id)">
       <div
         class="category-block"
         [ngStyle]="{

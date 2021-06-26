@@ -21,7 +21,7 @@ import { SupportTicketDetailsComponent } from './support-ticket-details/support-
     ReactiveFormsModule,
     RouterModule.forChild([
       { path: '', pathMatch: 'full', component: SupportIndexComponent },
-      { path: ':ticketId', component: SupportTicketDetailsComponent }
+      { path: ':ticketId', component: SupportTicketDetailsComponent },
     ]),
 
     StoreModule.forFeature(

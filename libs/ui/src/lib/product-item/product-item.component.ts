@@ -12,32 +12,24 @@ export class ProductItemComponent implements OnInit {
 
   ListingType = ListingType;
 
-
   todayNumber: number = Date.now();
 
-  
   constructor(private listingsService: ListingsService) {}
 
   ngOnInit(): void {}
   updateUrl() {
-    this.item.images[0].url = "https://place-hold.it/600x300&text=No%20Image%20Available";
+    this.item.images[0].url = '/assets/layout/images/logo-light.png';
   }
-  
+
   toggleFavorite() {
     if (this.item.isFavorite) {
-      this.listingsService.removeFavorite(this.item.id)
-        .subscribe(
-          () => {
-            this.item.isFavorite = false;
-          }
-        );
+      this.listingsService.removeFavorite(this.item.id).subscribe(() => {
+        this.item.isFavorite = false;
+      });
     } else {
-      this.listingsService.addFavorite(this.item.id)
-        .subscribe(
-        () => {
-          this.item.isFavorite = true;
-        }
-      );
+      this.listingsService.addFavorite(this.item.id).subscribe(() => {
+        this.item.isFavorite = true;
+      });
     }
   }
 }

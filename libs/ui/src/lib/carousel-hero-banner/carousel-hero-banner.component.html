@@ -4,7 +4,7 @@
   [ngClass]="banners.length == 0 ? 'no-banner-loaded p-pt-5' : 'banner-loaded'"
 >
   <div
-    class="p-col p-md-4 p-fluid p-formgrid p-grid form-box p-text-center"
+    class="p-col p-md-5 p-fluid p-formgrid p-grid form-box p-text-center"
     *ngIf="!mobile"
     [ngClass]="
       banners.length > 0 ? 'pos-absolute p-m-5' : 'pos-relative p-mx-auto'
@@ -14,7 +14,7 @@
       <h3 class="p-text-center">Quick Search</h3>
     </div>
 
-    <div class="p-field p-col-12 p-text-left">
+    <div class="p-field p-col-12 p-md-6 p-text-left">
       <p-dropdown
         [options]="categories"
         [placeholder]="'Category'"
@@ -23,7 +23,7 @@
       ></p-dropdown>
     </div>
 
-    <div class="p-field p-col-12 p-text-left">
+    <div class="p-field p-col-12 p-md-6 p-text-left">
       <p-dropdown
         [options]="selectableListingTypes"
         [placeholder]="'All Listings'"
@@ -73,15 +73,19 @@
             banner.imageUri
           }}); position:relative; background-size: cover;"
         >
-          <div class="banner-item-content p-grid">
-            <div class="p-col-12 p-md-6 p-m-offset-6 p-text-right">
-              <div class="p-m-5 position-br">
-                <h2>{{ banner.title }}</h2>
+          <div
+            class="banner-item-content p-grid"
+            *ngIf="banner.title || banner.link"
+          >
+            <div class="p-m-2 p-md-offset-6 p-text-right">
+              <div class="p-col-10 p-offset-1 p-md-4 p-lg-4 p-m-5 position-br">
+                <h2 *ngIf="banner.title">{{ banner.title }}</h2>
                 <a
                   pButton
                   type="button"
                   label="{{ banner.label }}"
                   href="{{ banner.link }}"
+                  *ngIf="banner.link && banner.label"
                 ></a>
               </div>
             </div>

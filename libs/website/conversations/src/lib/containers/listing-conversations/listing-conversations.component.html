@@ -34,9 +34,17 @@
                 <p class="title-name">{{ rowData.buyerName }}</p>
               </td>
               <td>
-                <span *ngIf="!rowData.dateCancelled && !rowData.isWinner" class="p-tag p-tag-info">Open</span>
-                <span *ngIf="rowData.isWinner" class="p-tag p-tag-warning">Winner</span>
-                <span *ngIf="rowData.dateCancelled" class="p-tag p-tag-danger">Cancelled</span>
+                <span
+                  *ngIf="!rowData.dateCancelled && !rowData.isWinner"
+                  class="p-tag p-tag-info"
+                  >Open</span
+                >
+                <span *ngIf="rowData.isWinner" class="p-tag p-tag-warning"
+                  >Winner</span
+                >
+                <span *ngIf="rowData.dateCancelled" class="p-tag p-tag-danger"
+                  >Cancelled</span
+                >
               </td>
               <td>
                 <i class="pi pi-clock p-mr-1" style="font-size: 1rem;"></i>
@@ -72,7 +80,8 @@
                   *ngIf="!listingDetails?.isSold || rowData.isWinner"
                   pButton
                   pRipple
-                  icon="pi pi-sign-out"
+                  icon="pi pi-comments"
+                  label="Chat"
                   pTooltip="Open conversation"
                   class="p-button p-button-info p-mr-2"
                   [routerLink]="['../..', 'purchase', rowData.id]"

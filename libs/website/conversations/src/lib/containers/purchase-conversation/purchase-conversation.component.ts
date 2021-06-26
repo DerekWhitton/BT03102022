@@ -33,17 +33,19 @@ export class PurchaseConversationComponent implements OnInit {
     if (this.conversationId) {
       this.store.select(getUserSellers).subscribe((sellers: any) => {
         let isSellerUser = false;
+        // This logic makes no sense as I will always be the slot 0 seller in state if I am a seller it doesnt mean I am this listings seller
+        // This also causses an error in console.
         if (sellers.length > 0) {
           this.sellerId = sellers[0].id;
           isSellerUser = true;
         }
 
         this.conversationsService
-        .loadPurchaseConversation(this.conversationId, isSellerUser)
-        .subscribe((conversation) => {
-          this.conversation = conversation;
-          this.loadMoreMessages();
-        });
+          .loadPurchaseConversation(this.conversationId, isSellerUser)
+          .subscribe((conversation) => {
+            this.conversation = conversation;
+            this.loadMoreMessages();
+          });
       });
     }
   }

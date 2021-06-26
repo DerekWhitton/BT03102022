@@ -21,6 +21,7 @@ export class SupportComponent implements OnInit {
   @Input() error;
   @Input() added;
   @Input() isAdmin;
+  @Input() listingId;
   @Output() loadPage = new EventEmitter<any>();
   @Output() addSupportTicket = new EventEmitter<any>();
   @Output() closeSupportTicket = new EventEmitter<string>();
@@ -61,6 +62,17 @@ export class SupportComponent implements OnInit {
       if (isAdded) this.pageOrFilterAction(this.currentPage);
     });
     this.pageOrFilterAction(this.currentPage);
+    if (this.listingId) {
+      //set category
+
+      this.addSupportTicketFormGroup.patchValue({
+        listing: this.listingId,
+        category: 0,
+      });
+
+      //display modal
+      this.showCreateSupportTicketModal = true;
+    }
   }
 
   pageOrFilterAction(page: number = null) {
