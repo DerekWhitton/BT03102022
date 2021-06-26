@@ -246,6 +246,14 @@
       "
       (click)="saveListing()"
     ></button>
+    <p
+      *ngIf="
+        !addlistingFormGroup.valid || isSaving || !allRequiredFieldsCompleted
+      "
+    >
+      Please complete all the fields to post your listing. (scroll down to see
+      fields youm)
+    </p>
   </ng-template>
 </p-dialog>
 

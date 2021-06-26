@@ -1,7 +1,11 @@
-import { createSupportTicket, loadSupportTickets } from './../+state/support-tickets.actions';
+import {
+  createSupportTicket,
+  loadSupportTickets,
+} from './../+state/support-tickets.actions';
 import { Component, OnInit } from '@angular/core';
 import { SupportTicketsFacade } from '../+state/support-tickets.facade';
 import { ICreateSupportTicket } from '@bushtrade/website/shared/entites';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'bushtrade-web-support-index',
@@ -17,23 +21,32 @@ export class SupportIndexComponent implements OnInit {
   loaded$ = this.supportTicketsFacade.loaded$;
   error$ = this.supportTicketsFacade.lastKnownError$;
   added$ = this.supportTicketsFacade.supportTicketAdded$;
+  listingId: string = '';
 
-  constructor(private supportTicketsFacade: SupportTicketsFacade) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private supportTicketsFacade: SupportTicketsFacade
+  ) {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.listingId = params['listingId'];
+      console.log(this.listingId);
+    });
+  }
 
   ngOnInit(): void {
-    this.loadPage({page:1, perPage: 10})
+    this.loadPage({ page: 1, perPage: 10 });
   }
 
   loadPage(params: any) {
     this.currentPage = params.page;
-    this.supportTicketsFacade.dispatch(
-      loadSupportTickets(params)
-    );
+    this.supportTicketsFacade.dispatch(loadSupportTickets(params));
   }
 
   saveSupportTicket(supportTicket: any) {
     this.supportTicketsFacade.dispatch(
-      createSupportTicket({ supportTicket: supportTicket as ICreateSupportTicket })
+      createSupportTicket({
+        supportTicket: supportTicket as ICreateSupportTicket,
+      })
     );
   }
 }

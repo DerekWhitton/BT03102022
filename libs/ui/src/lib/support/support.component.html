@@ -156,7 +156,15 @@
                 [options]="selectableTicketCategories"
                 [placeholder]="'Select a category'"
                 formControlName="category"
+                [disabled]="listingId"
               ></p-dropdown>
+            </div>
+            <div class="p-field p-col-12" *ngIf="listingId">
+              <p-message
+                class="p-my-5"
+                severity="warn"
+                text="You are reporting a listing, please describe exactly what is the problem with the listing."
+              ></p-message>
             </div>
             <div class="p-field">
               <label>

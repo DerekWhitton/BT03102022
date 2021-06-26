@@ -17,6 +17,7 @@
             'auction-listing': product.type == listingTypes.Auction
           }"
         >
+          <!-- {{ product | json }} -->
           <img
             *ngIf="(product?.images)[0]?.url"
             src="{{ (product?.images)[0]?.url }}"
@@ -25,21 +26,25 @@
           />
           <img
             *ngIf="!(product?.images)[0]?.url"
-            src="https://via.placeholder.com/229x152.jpg"
+            src="/assets/layout/images/logo-light.png"
             [alt]="product.name"
-            class="product-image"
+            class="product-image placeholder"
           />
         </div>
+
         <div class="item-details">
           <p>
             {{
-              product.name.length > 32
-                ? (product.name | slice: 0:32) + '...'
+              product.name.length > 65
+                ? (product.name | slice: 0:65) + '...'
                 : product.name
             }}
           </p>
           <p style="font-weight: bold;">
             {{ product.startingPrice | currency: 'R ' }}
+          </p>
+          <p *ngIf="product.listingLocationName">
+            {{ product.listingLocationName }}
           </p>
 
           <div class="p-d-flex card-footer-text">
@@ -47,7 +52,7 @@
               product.timeAgoCreated
             }}</span>
             <div class="p-ml-auto" *ngIf="product.type == listingTypes.Auction">
-              <p style="display: inline;">Closes in</p>
+              <p style="display: inline;" class="p-mr-1">Closes in</p>
               <bushtrade-web-countdown-timer
                 [endDate]="product.endDate"
               ></bushtrade-web-countdown-timer>

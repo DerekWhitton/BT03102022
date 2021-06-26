@@ -18,12 +18,15 @@
         style="max-width: 100%; max-height: 150px;"
         alt="listing"
       />
-      <img
-        *ngIf="!item.images || !item.images.length"
-        src="https://place-hold.it/600x300&text=No%20Image%20Available"
-        style="max-width: 100%; max-height: 150px;"
-        alt="listing"
-      />
+      <ng-container *ngIf="!item.images || !item.images.length">
+        <img
+          src="/assets/layout/images/logo-light.png"
+          style="max-width: 100%; max-height: 150px;"
+          alt="listing"
+          class="placeholder"
+        />
+        <p>No image Provided</p>
+      </ng-container>
     </div>
     <div class="p-col-12 p-md-4">
       <!-- <span *ngIf="item.isPremium" class="p-tag p-tag-warning premium-tag">Premium</span> -->
