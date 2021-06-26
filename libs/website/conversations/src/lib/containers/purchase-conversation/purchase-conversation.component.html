@@ -7,7 +7,6 @@
         </h1>
         <!-- {{ conversation.isSellerConversation }} -->
       </div>
-
       <ng-container *ngIf="messages && messages.length > 0; else noMessages">
         <div class="load-more-container">
           <button
@@ -63,15 +62,18 @@
                       message.sellerId === null ? 'message-from' : 'message-own'
                     "
                   >
-                    <img
+                    <!-- <img
                       _ngcontent-rce-c159=""
                       src="assets/layout/images/no-profile.png"
                       alt="{{ message.name }}"
                       style="display: inline-block;"
-                    />
+                    /> -->
                     <div>
                       <p>{{ message.content }}</p>
 
+                      <p class="time-right p-m-0 p-p-0">
+                        {{ message.name }}
+                      </p>
                       <p class="time-right">
                         {{ message.createdAt | date: 'dd-MMM-yyyy HH:mm:ss' }}
                       </p>
@@ -91,20 +93,6 @@
                   <i class="pi pi-send" (click)="addMessage()"></i>
                 </div>
               </div> -->
-              <div class="p-col-12 p-mt-5 message-box">
-                <textarea
-                  [(ngModel)]="message"
-                  class="message-input"
-                  placeholder="Send a message"
-                ></textarea>
-                <button
-                  (click)="addMessage()"
-                  class="message-button"
-                  type="button"
-                  pButton
-                  icon="pi pi-comment"
-                ></button>
-              </div>
             </div>
           </div>
         </div>
@@ -113,6 +101,26 @@
       <ng-template #noMessages>
         <h2>There are currently no messages in this conversation</h2>
       </ng-template>
+
+      <div class="p-col-12 p-md-9 p-md-offset-3 p-mt-1">
+        <div class="card">
+          <textarea
+            [(ngModel)]="message"
+            class="message-input"
+            placeholder="Send a message"
+          ></textarea>
+          <p class="p-text-right p-mt-3">
+            <button
+              (click)="addMessage()"
+              class="message-button"
+              type="button"
+              pButton
+              label="Send"
+              icon="pi pi-comment"
+            ></button>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
