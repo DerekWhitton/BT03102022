@@ -78,11 +78,11 @@ export class PremiumPackageModalComponent implements OnInit {
     );
   }
 
-  selectPackage(packageId: string) {
-    this.selectedPackageId = packageId;
-  }
-
-  addPremiumPackage() {
+  addPremiumPackage(packageId: string) {
+    if (this.selectedPackageId !== packageId) {
+      this.selectedPackageId = packageId;
+      return;
+    }
     this.placingPackage = true;
     const listingPremiumPackage = {
       listingId: this.listingId,
