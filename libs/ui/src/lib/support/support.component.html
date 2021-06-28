@@ -148,7 +148,7 @@
       <div class="p-grid">
         <div class="p-col">
           <div class="p-fluid">
-            <div class="p-field">
+            <div class="p-field" [ngClass]="{'hidden': listingId || isListingReport}">
               <label>
                 Category:
               </label>
@@ -156,10 +156,10 @@
                 [options]="selectableTicketCategories"
                 [placeholder]="'Select a category'"
                 formControlName="category"
-                [disabled]="listingId"
+                [disabled]="listingId && isListingReport"
               ></p-dropdown>
             </div>
-            <div class="p-field p-col-12" *ngIf="listingId">
+            <div class="p-field p-col-12" *ngIf="listingId && isListingReport">
               <p-message
                 class="p-my-5"
                 severity="warn"

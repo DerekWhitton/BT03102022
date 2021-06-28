@@ -67,6 +67,7 @@
                 <td>
                   <button
                     *ngIf="
+                      !rowData.isDeleted &&
                       rowData.active &&
                         !rowData.isSold &&
                         (rowData.type == ListingType.Sale ||
@@ -87,34 +88,39 @@
                 </td>
                 <td>
                   <span class="p-column-title">Status: </span>
-                  <span
-                    *ngIf="
-                      rowData.active &&
-                      rowData.type == ListingType.Auction &&
-                      rowData.isAuctionClosed &&
-                      !rowData.isSold
-                    "
-                    class="p-tag p-tag-danger"
-                    >Closed</span
-                  >
-                  <span
-                    *ngIf="
-                      rowData.active &&
-                      !rowData.isSold &&
-                      (rowData.type == ListingType.Sale ||
-                        !rowData.isAuctionClosed)
-                    "
-                    class="p-tag p-tag-success"
-                    >Live</span
-                  >
-                  <span *ngIf="!rowData.active" class="p-tag p-tag-info"
-                    >Draft</span
-                  >
-                  <span
-                    *ngIf="rowData.active && rowData.isSold"
-                    class="p-tag p-tag-warning"
-                    >Sold</span
-                  >
+                  <div *ngIf="!rowData.isDeleted">
+                    <span
+                      *ngIf="
+                        rowData.active &&
+                        rowData.type == ListingType.Auction &&
+                        rowData.isAuctionClosed &&
+                        !rowData.isSold
+                      "
+                      class="p-tag p-tag-danger"
+                      >Closed</span
+                    >
+                    <span
+                      *ngIf="
+                        rowData.active &&
+                        !rowData.isSold &&
+                        (rowData.type == ListingType.Sale ||
+                          !rowData.isAuctionClosed)
+                      "
+                      class="p-tag p-tag-success"
+                      >Live</span
+                    >
+                    <span *ngIf="!rowData.active" class="p-tag p-tag-info"
+                      >Draft</span
+                    >
+                    <span
+                      *ngIf="rowData.active && rowData.isSold"
+                      class="p-tag p-tag-warning"
+                      >Sold</span
+                    >
+                  </div>
+                  <div *ngIf="rowData.isDeleted">
+                    <span class="p-tag p-tag-danger">Deleted</span>
+                  </div>
                 </td>
                 <td *ngFor="let col of columns">
                   <span class="p-column-title">{{ col.header }}:</span>
@@ -126,7 +132,7 @@
                     "
                   ></span>
                 </td>
-                <td>
+                <td *ngIf="!rowData.isDeleted">
                   <button
                     *ngIf="rowData.active && !rowData.isSold"
                     pButton
@@ -161,7 +167,7 @@
                     label="Review Buyer"
                   ></button>
                 </td>
-                <td class="p-text-right">
+                <td class="p-text-right" *ngIf="!rowData.isDeleted">
                   <button
                     *ngIf="
                       !rowData.isSold &&
@@ -193,6 +199,9 @@
                     tooltipPosition="top"
                     label="Delete"
                   ></button>
+                </td>
+                <td *ngIf="rowData.isDeleted">
+                  Listing deleted by the Admin on {{rowData.deletedAt | date: 'dd-MMM-yyyy HH:mm'}}
                 </td>
               </tr>
             </ng-template>

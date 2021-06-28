@@ -1,6 +1,5 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-
 import * as PurchasesActions from './purchases.actions';
 import { IPaymentDetails, IPurchase } from '@bushtrade/website/shared/entites';
 

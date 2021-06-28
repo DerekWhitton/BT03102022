@@ -29,7 +29,7 @@ export class ListingsService {
 
   loadSellerListings(sellerId: string) {
     return this.httpClient.get<IPaginatedResponse<ISellerListing>>(
-      `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings`
+      `${this.base}api/v${this.version}/Sellers/${sellerId}/Listings?page=1&perPage=100`
     );
   }
 
