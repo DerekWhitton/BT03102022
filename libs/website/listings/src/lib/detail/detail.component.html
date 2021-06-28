@@ -131,8 +131,9 @@
 
             <div class="p-grid">
               <div class="p-col-12 p-md-8p-lg-9">
+                <h3>Seller Information</h3>
                 <div class="p-grid text-center">
-                  <div class="p-col-12 p-md-3 align-center p-p-4 p-d-block">
+                  <div class="p-col-12 p-md-3">
                     <img
                       [src]="
                         listingSellerSummary.userProfilePictureUri
@@ -140,17 +141,15 @@
                           : 'assets/layout/images/no-profile.png'
                       "
                       alt="User Profile Pic"
-                      class="bt-tile p-d-block p-my-4 seller-image"
+                      class="bt-tile p-mb-4 seller-image"
                     />
-                    <h3 class="p-m-0 p-text-center">
-                      {{ listingSellerSummary.name }}
-                    </h3>
                   </div>
 
                   <div class="p-col-12 p-md-9">
-                    <h3>Seller Information</h3>
-
                     <div class="p-grid p-mb-3">
+                      <h3 class="p-col-12">
+                        {{ listingSellerSummary.name }}
+                      </h3>
                       <div class="p-col-6"><strong>Member Since:</strong></div>
                       <div class="p-col-6">
                         {{ listingSellerSummary.createdAt | date: 'MMMM yyyy' }}
@@ -252,10 +251,10 @@
                       class="new-message p-pt-1"
                       *ngIf="userCanQuestion && loggedIn"
                     >
-                      <div class="message-input">
+                      <div class="message-input p-mt-3">
                         <input
                           type="text"
-                          placeholder="Ask a question"
+                          placeholder="Click here to ask a question"
                           class="p-inputtext"
                           [(ngModel)]="newQuestion"
                         />
@@ -267,6 +266,7 @@
                         label="Ask"
                         (click)="submitQuestion()"
                         style="float: right;"
+                        class="p-mt-3"
                       ></button>
                     </div>
 
