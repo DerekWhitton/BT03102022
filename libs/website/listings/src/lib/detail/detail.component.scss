@@ -95,3 +95,8 @@ i {
 .widget-chat .new-message .message-input input {
   border: #e9e9e9 1px solid;
 }
+
+.widget-chat .new-message .message-input {
+  position: unset;
+  width: 100%;
+}
