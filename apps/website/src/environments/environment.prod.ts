@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   enforceHttps: true,
   blogRoute: 'https://blog.bushtrade.co.za/',
-  apiRoute: 'https://bush-trade-production-api-client.azurewebsites.net',
+  apiRoute: 'https://bush-trade-production-api-client.azurewebsites.net/',
   apiVersion: '1.0',
   b2c: {
     clientId: '7a9f8a9d-067f-4cfb-a9ea-182ac4e1229f',
