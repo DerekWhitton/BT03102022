@@ -22,6 +22,7 @@ export class SupportComponent implements OnInit {
   @Input() added;
   @Input() isAdmin;
   @Input() listingId;
+  @Input() isListingReport: boolean;
   @Output() loadPage = new EventEmitter<any>();
   @Output() addSupportTicket = new EventEmitter<any>();
   @Output() closeSupportTicket = new EventEmitter<string>();
@@ -36,7 +37,7 @@ export class SupportComponent implements OnInit {
   };
   showCreateSupportTicketModal = false;
   addSupportTicketFormGroup: FormGroup = new FormGroup({
-    listing: new FormControl(''),
+    listingId: new FormControl(''),
     title: new FormControl('', Validators.required),
     message: new FormControl('', [
       Validators.required,
@@ -54,7 +55,7 @@ export class SupportComponent implements OnInit {
         ? true
         : false;
     this.selectableTicketCategories = Object.keys(SupportTicketCategory)
-      .filter((s) => isNaN(Number(s)))
+      .filter((s) => isNaN(Number(s)) && s !== SupportTicketCategory[SupportTicketCategory.ListingReport] && s !== SupportTicketCategory[SupportTicketCategory.Dispute])
       .map((s) => {
         return { label: s, value: SupportTicketCategory[s] };
       });
@@ -62,12 +63,12 @@ export class SupportComponent implements OnInit {
       if (isAdded) this.pageOrFilterAction(this.currentPage);
     });
     this.pageOrFilterAction(this.currentPage);
-    if (this.listingId) {
+    
+    if (this.listingId && this.isListingReport) {
       //set category
-
       this.addSupportTicketFormGroup.patchValue({
-        listing: this.listingId,
-        category: 0,
+        listingId: this.listingId,
+        category: SupportTicketCategory.ListingReport,
       });
 
       //display modal
@@ -97,6 +98,8 @@ export class SupportComponent implements OnInit {
 
   hideCreateSupportTicketModal() {
     this.showCreateSupportTicketModal = false;
+    this.listingId = null;
+    this.isListingReport = false;
     this.addSupportTicketFormGroup.reset();
   }
 }

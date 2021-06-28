@@ -192,11 +192,14 @@ export class DetailComponent implements OnInit, OnDestroy {
             });
           }
         },
-        () => {
-          this.messageService.add({
-            severity: 'error',
-            detail: 'There was an error loading listing details',
-          });
+        (error: any) => {
+          this.detailsLoading = false;
+          if (error) {
+            this.messageService.add({
+              severity: 'error',
+              detail: 'There was an error loading listing details',
+            });
+          }
         },
         () => {
           this.detailsLoading = false;
@@ -407,7 +410,8 @@ export class DetailComponent implements OnInit, OnDestroy {
     } else {
       if (
         this.listingDetails &&
-        this.listingDetails.type == ListingType.Auction
+        this.listingDetails.type == ListingType.Auction &&
+        !this.refreshInterval
       ) {
         this.refreshAuctionBids();
         this.refreshInterval = setInterval(() => {

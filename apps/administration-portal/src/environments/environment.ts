@@ -7,6 +7,7 @@ export const environment = {
   enforceHttps: false,
   apiRoute: 'https://staging-bush-trade-administration-api.azurewebsites.net/',
   apiVersion: '1.0',
+  websiteUrl: 'https://staging.bushtrade.com',
   b2c: {
     clientId: '2068976d-1f14-480a-a014-d2d64ddbdcf4',
     names: {

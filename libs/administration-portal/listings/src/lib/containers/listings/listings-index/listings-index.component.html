@@ -1,4 +1,30 @@
 <div class="card">
+  <p-toast position="top-center"></p-toast>
+  <div class="p-grid p-fluid p-p-3">
+    <div class="p-col-12 p-md-6 p-lg-3">
+      <span class="p-float-label">
+        <input id="queryFilter" pInputText type="text" [(ngModel)]="query" />
+        <label for="queryFilter">Filter</label>
+      </span>
+    </div>
+    <div class="p-col-12 p-md-6 p-lg-3">
+      <label style="display: inline;">Show only reported listings:</label>
+      <p-inputSwitch [(ngModel)]="onlyReported"></p-inputSwitch>
+    </div>
+    <div class="p-col-12 p-md-6 p-lg-3">
+      <label style="display: inline;">Include deleted:</label>
+      <p-inputSwitch [(ngModel)]="includeDeleted"></p-inputSwitch>
+    </div>
+    <div class="p-col-12 p-md-6 p-lg-3">
+      <button
+        pButton
+        type="button"
+        label="Apply filters"
+        (click)="pageOrFilterAction()"
+      ></button>
+    </div>
+  </div>
+
   <bushtrade-web-crud-table
     [data]="listings$ | async"
     [selectableColumns]="columns"
@@ -7,6 +33,103 @@
     [viewable]="true"
     (viewSelection)="onViewSelection($event)"
     [searchable]="false"
+    [allowDelete]="true"
+    (itemDeleted)="onListingMarkAsDeleted($event)"
   >
   </bushtrade-web-crud-table>
+  <div class="p-grid">
+    <div class="p-col-12 p-mt-3 p-mb-3 p-text-right">
+      <a
+        *ngIf="previousPageValue"
+        (click)="pageOrFilterAction(previousPageValue)"
+        class="p-mr-3"
+        >Previous Page</a
+      >
+      <a *ngIf="nextPageValue" (click)="pageOrFilterAction(nextPageValue)"
+        >Next Page</a
+      >
+    </div>
+  </div>
 </div>
+
+<p-dialog
+  [(visible)]="showDeleteListingModal"
+  [style]="{ width: '450px' }"
+  [modal]="true"
+  [closable]="false"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="markListingDeletedFormGroup">
+      <div class="p-grid">
+        <div class="p-col">
+          <div class="p-fluid">
+            <div class="p-field">
+              <label>
+                Please provide a delete reason for this Listing:
+              </label>
+              <textarea
+                pInputText
+                type="text"
+                required
+                formControlName="deleteReason"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideModal()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      class="p-button-text"
+      icon="pi pi-check"
+      label="Mark as Deleted"
+      [disabled]="!this.markListingDeletedFormGroup.valid"
+      (click)="markListingAsDeleted()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="listingUrl"
+  [style]="{ width: '800px', height: '500px' }"
+  [modal]="true"
+  [closable]="false"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="iframe-container">
+      <div class="thumbnail-container">
+        <div class="thumbnail">
+          <iframe
+            [src]="listingUrl"
+            frameborder="0"
+            onload="this.style.opacity = 1"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      class="p-button-text"
+      icon="pi pi-check"
+      label="Close"
+      (click)="closeListing()"
+    ></button>
+  </ng-template>
+</p-dialog>

@@ -21,6 +21,9 @@
           <div class="p-col-12 p-md-12 p-lg-12">
             <h4>Ticket Reference ID: #{{ supportTicket.id }}</h4>
           </div>
+          <div *ngIf="supportTicket.listingId" class="p-col-12 p-md-12 p-lg-12">
+            <h5>Listing ID: {{ supportTicket.listingId }}</h5>
+          </div>
           <div class="p-col-12" *ngIf="!supportTicket?.isClosed && isAdmin">
             <button
               pButton
