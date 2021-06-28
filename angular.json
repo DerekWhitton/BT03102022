@@ -23,7 +23,12 @@
             "aot": true,
             "assets": [
               "apps/administration-portal/src/favicon.ico",
-              "apps/administration-portal/src/assets"
+              "apps/administration-portal/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./libs/shared/assets",
+                "output": "./assets"
+              }
             ],
             "styles": ["apps/administration-portal/src/styles.scss"],
             "scripts": []
@@ -95,36 +100,6 @@
           "options": {
             "jestConfig": "apps/administration-portal/jest.config.js",
             "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "administration-portal-e2e": {
-      "root": "apps/administration-portal-e2e",
-      "sourceRoot": "apps/administration-portal-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/administration-portal-e2e/cypress.json",
-            "tsConfig": "apps/administration-portal-e2e/tsconfig.e2e.json",
-            "devServerTarget": "administration-portal:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "administration-portal:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/administration-portal-e2e/tsconfig.e2e.json"],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/administration-portal-e2e/**/*"
-            ]
           }
         }
       }
@@ -224,66 +199,699 @@
         }
       }
     },
-    "seller-portal-e2e": {
-      "root": "apps/seller-portal-e2e",
-      "sourceRoot": "apps/seller-portal-e2e/src",
-      "projectType": "application",
+    "ui": {
+      "projectType": "library",
+      "root": "libs/ui",
+      "sourceRoot": "libs/ui/src",
+      "prefix": "bushtrade.web",
       "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/seller-portal-e2e/cypress.json",
-            "tsConfig": "apps/seller-portal-e2e/tsconfig.e2e.json",
-            "devServerTarget": "seller-portal:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "seller-portal:serve:production"
-            }
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/seller-portal-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/seller-portal-e2e/**/*"]
+            "tsConfig": [
+              "libs/ui/tsconfig.lib.json",
+              "libs/ui/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/**/*"]
           }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
         }
       }
     },
-    "buyer-portal": {
+    "administration-portal-users": {
+      "projectType": "library",
+      "root": "libs/administration-portal/users",
+      "sourceRoot": "libs/administration-portal/users/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/users/tsconfig.lib.json",
+              "libs/administration-portal/users/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/users/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/users/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-advertisments": {
+      "projectType": "library",
+      "root": "libs/administration-portal/advertisments",
+      "sourceRoot": "libs/administration-portal/advertisments/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/advertisments/tsconfig.lib.json",
+              "libs/administration-portal/advertisments/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/advertisments/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/advertisments/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-listings": {
+      "projectType": "library",
+      "root": "libs/administration-portal/listings",
+      "sourceRoot": "libs/administration-portal/listings/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/listings/tsconfig.lib.json",
+              "libs/administration-portal/listings/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/listings/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/listings/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-reports": {
+      "projectType": "library",
+      "root": "libs/administration-portal/reports",
+      "sourceRoot": "libs/administration-portal/reports/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/reports/tsconfig.lib.json",
+              "libs/administration-portal/reports/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/reports/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/reports/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-messages": {
+      "projectType": "library",
+      "root": "libs/administration-portal/messages",
+      "sourceRoot": "libs/administration-portal/messages/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/messages/tsconfig.lib.json",
+              "libs/administration-portal/messages/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/messages/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/messages/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-articles": {
+      "projectType": "library",
+      "root": "libs/administration-portal/articles",
+      "sourceRoot": "libs/administration-portal/articles/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/articles/tsconfig.lib.json",
+              "libs/administration-portal/articles/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/articles/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/articles/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-support": {
+      "projectType": "library",
+      "root": "libs/administration-portal/support",
+      "sourceRoot": "libs/administration-portal/support/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/support/tsconfig.lib.json",
+              "libs/administration-portal/support/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/support/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/support/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-transactions": {
+      "projectType": "library",
+      "root": "libs/administration-portal/transactions",
+      "sourceRoot": "libs/administration-portal/transactions/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/transactions/tsconfig.lib.json",
+              "libs/administration-portal/transactions/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/transactions/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/transactions/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-forums": {
+      "projectType": "library",
+      "root": "libs/administration-portal/forums",
+      "sourceRoot": "libs/administration-portal/forums/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/forums/tsconfig.lib.json",
+              "libs/administration-portal/forums/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/forums/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/forums/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-administration-app": {
+      "projectType": "library",
+      "root": "libs/administration-portal/administration-app",
+      "sourceRoot": "libs/administration-portal/administration-app/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/administration-app/tsconfig.lib.json",
+              "libs/administration-portal/administration-app/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/administration-app/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/administration-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-dashboard": {
+      "projectType": "library",
+      "root": "libs/administration-portal/dashboard",
+      "sourceRoot": "libs/administration-portal/dashboard/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/dashboard/tsconfig.lib.json",
+              "libs/administration-portal/dashboard/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/dashboard/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/dashboard/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "seller-portal-listings": {
+      "projectType": "library",
+      "root": "libs/seller-portal/listings",
+      "sourceRoot": "libs/seller-portal/listings/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/seller-portal/listings/tsconfig.lib.json",
+              "libs/seller-portal/listings/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/seller-portal/listings/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/seller-portal/listings/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "seller-portal-banking": {
+      "projectType": "library",
+      "root": "libs/seller-portal/banking",
+      "sourceRoot": "libs/seller-portal/banking/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/seller-portal/banking/tsconfig.lib.json",
+              "libs/seller-portal/banking/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/seller-portal/banking/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/seller-portal/banking/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "seller-portal-sales": {
+      "projectType": "library",
+      "root": "libs/seller-portal/sales",
+      "sourceRoot": "libs/seller-portal/sales/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/seller-portal/sales/tsconfig.lib.json",
+              "libs/seller-portal/sales/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/seller-portal/sales/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/seller-portal/sales/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "seller-portal-messages": {
+      "projectType": "library",
+      "root": "libs/seller-portal/messages",
+      "sourceRoot": "libs/seller-portal/messages/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/seller-portal/messages/tsconfig.lib.json",
+              "libs/seller-portal/messages/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/seller-portal/messages/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/seller-portal/messages/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "seller-portal-buyers": {
+      "projectType": "library",
+      "root": "libs/seller-portal/buyers",
+      "sourceRoot": "libs/seller-portal/buyers/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/seller-portal/buyers/tsconfig.lib.json",
+              "libs/seller-portal/buyers/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/seller-portal/buyers/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/seller-portal/buyers/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "seller-portal-account": {
+      "projectType": "library",
+      "root": "libs/seller-portal/account",
+      "sourceRoot": "libs/seller-portal/account/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/seller-portal/account/tsconfig.lib.json",
+              "libs/seller-portal/account/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/seller-portal/account/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/seller-portal/account/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "seller-portal-seller-app": {
+      "projectType": "library",
+      "root": "libs/seller-portal/seller-app",
+      "sourceRoot": "libs/seller-portal/seller-app/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/seller-portal/seller-app/tsconfig.lib.json",
+              "libs/seller-portal/seller-app/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/seller-portal/seller-app/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/seller-portal/seller-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "seller-portal-dashboard": {
+      "projectType": "library",
+      "root": "libs/seller-portal/dashboard",
+      "sourceRoot": "libs/seller-portal/dashboard/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/seller-portal/dashboard/tsconfig.lib.json",
+              "libs/seller-portal/dashboard/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/seller-portal/dashboard/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/seller-portal/dashboard/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "apps/buyer-portal",
-      "sourceRoot": "apps/buyer-portal/src",
+      "root": "apps/website",
+      "sourceRoot": "apps/website/src",
       "prefix": "bushtrade.web",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/buyer-portal",
-            "index": "apps/buyer-portal/src/index.html",
-            "main": "apps/buyer-portal/src/main.ts",
-            "polyfills": "apps/buyer-portal/src/polyfills.ts",
-            "tsConfig": "apps/buyer-portal/tsconfig.app.json",
+            "outputPath": "dist/apps/website",
+            "index": "apps/website/src/index.html",
+            "main": "apps/website/src/main.ts",
+            "polyfills": "apps/website/src/polyfills.ts",
+            "tsConfig": "apps/website/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "apps/buyer-portal/src/favicon.ico",
-              "apps/buyer-portal/src/assets"
+              "apps/website/src/favicon.ico",
+              "apps/website/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./libs/shared/assets",
+                "output": "./assets"
+              }
             ],
-            "styles": ["apps/buyer-portal/src/styles.scss"],
-            "scripts": []
+            "styles": [
+              "apps/website/src/styles/styles.scss",
+              "./node_modules/quill/dist/quill.core.css",
+              "./node_modules/quill/dist/quill.snow.css"
+            ],
+            "scripts": ["./node_modules/quill/dist/quill.js"]
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/buyer-portal/src/environments/environment.ts",
-                  "with": "apps/buyer-portal/src/environments/environment.prod.ts"
+                  "replace": "apps/website/src/environments/environment.ts",
+                  "with": "apps/website/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -312,87 +920,855 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "buyer-portal:build"
+            "browserTarget": "website:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "buyer-portal:build:production"
+              "browserTarget": "website:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "buyer-portal:build"
+            "browserTarget": "website:build"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "apps/buyer-portal/tsconfig.app.json",
-              "apps/buyer-portal/tsconfig.spec.json",
-              "apps/buyer-portal/tsconfig.editor.json"
+              "apps/website/tsconfig.app.json",
+              "apps/website/tsconfig.spec.json",
+              "apps/website/tsconfig.editor.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/buyer-portal/**/*"]
+            "exclude": ["**/node_modules/**", "!apps/website/**/*"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/buyer-portal/jest.config.js",
+            "jestConfig": "apps/website/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "buyer-portal-e2e": {
-      "root": "apps/buyer-portal-e2e",
-      "sourceRoot": "apps/buyer-portal-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/buyer-portal-e2e/cypress.json",
-            "tsConfig": "apps/buyer-portal-e2e/tsconfig.e2e.json",
-            "devServerTarget": "buyer-portal:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "buyer-portal:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/buyer-portal-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/buyer-portal-e2e/**/*"]
-          }
-        }
-      }
-    },
-    "ui": {
+    "website-home": {
       "projectType": "library",
-      "root": "libs/ui",
-      "sourceRoot": "libs/ui/src",
+      "root": "libs/website/home",
+      "sourceRoot": "libs/website/home/src",
       "prefix": "bushtrade.web",
       "architect": {
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/ui/tsconfig.lib.json",
-              "libs/ui/tsconfig.spec.json"
+              "libs/website/home/tsconfig.lib.json",
+              "libs/website/home/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/ui/**/*"]
+            "exclude": ["**/node_modules/**", "!libs/website/home/**/*"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/ui/jest.config.js",
+            "jestConfig": "libs/website/home/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-buy-sell": {
+      "projectType": "library",
+      "root": "libs/website/buy-sell",
+      "sourceRoot": "libs/website/buy-sell/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/buy-sell/tsconfig.lib.json",
+              "libs/website/buy-sell/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/buy-sell/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/buy-sell/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-forums": {
+      "projectType": "library",
+      "root": "libs/website/forums",
+      "sourceRoot": "libs/website/forums/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/forums/tsconfig.lib.json",
+              "libs/website/forums/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/forums/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/forums/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-favourites": {
+      "projectType": "library",
+      "root": "libs/website/favourites",
+      "sourceRoot": "libs/website/favourites/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/favourites/tsconfig.lib.json",
+              "libs/website/favourites/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/favourites/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/favourites/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-support": {
+      "projectType": "library",
+      "root": "libs/website/support",
+      "sourceRoot": "libs/website/support/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/support/tsconfig.lib.json",
+              "libs/website/support/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/support/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/support/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-website-app": {
+      "projectType": "library",
+      "root": "libs/website/website-app",
+      "sourceRoot": "libs/website/website-app/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/website-app/tsconfig.lib.json",
+              "libs/website/website-app/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/website-app/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/website-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-shared-state": {
+      "root": "libs/administration-portal/shared/state",
+      "sourceRoot": "libs/administration-portal/shared/state/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/shared/state/tsconfig.lib.json",
+              "libs/administration-portal/shared/state/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/shared/state/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/shared/state/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "administration-portal-shared-entities": {
+      "root": "libs/administration-portal/shared/entities",
+      "sourceRoot": "libs/administration-portal/shared/entities/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/shared/entities/tsconfig.lib.json",
+              "libs/administration-portal/shared/entities/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/shared/entities/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/shared/entities/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "administration-portal-shared-services": {
+      "projectType": "library",
+      "root": "libs/administration-portal/shared/services",
+      "sourceRoot": "libs/administration-portal/shared/services/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/shared/services/tsconfig.lib.json",
+              "libs/administration-portal/shared/services/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/shared/services/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/shared/services/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "app-config": {
+      "projectType": "library",
+      "root": "libs/app-config",
+      "sourceRoot": "libs/app-config/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/app-config/tsconfig.lib.json",
+              "libs/app-config/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/app-config/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/app-config/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-settings": {
+      "projectType": "library",
+      "root": "libs/administration-portal/settings",
+      "sourceRoot": "libs/administration-portal/settings/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/settings/tsconfig.lib.json",
+              "libs/administration-portal/settings/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/settings/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/settings/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "ui-elements": {
+      "projectType": "library",
+      "root": "libs/ui-elements",
+      "sourceRoot": "libs/ui-elements/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui-elements/tsconfig.lib.json",
+              "libs/ui-elements/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui-elements/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui-elements/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-trophy-cabinet": {
+      "projectType": "library",
+      "root": "libs/website/trophy-cabinet",
+      "sourceRoot": "libs/website/trophy-cabinet/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/trophy-cabinet/tsconfig.lib.json",
+              "libs/website/trophy-cabinet/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/trophy-cabinet/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/trophy-cabinet/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-shared-state": {
+      "projectType": "library",
+      "root": "libs/website/shared/state",
+      "sourceRoot": "libs/website/shared/state/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/shared/state/tsconfig.lib.json",
+              "libs/website/shared/state/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/shared/state/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/shared/state/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-shared-entities": {
+      "projectType": "library",
+      "root": "libs/website/shared/entities",
+      "sourceRoot": "libs/website/shared/entities/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/shared/entities/tsconfig.lib.json",
+              "libs/website/shared/entities/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/shared/entities/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/shared/entities/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-shared-services": {
+      "projectType": "library",
+      "root": "libs/website/shared/services",
+      "sourceRoot": "libs/website/shared/services/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/shared/services/tsconfig.lib.json",
+              "libs/website/shared/services/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/shared/services/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/shared/services/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-profile": {
+      "projectType": "library",
+      "root": "libs/website/profile",
+      "sourceRoot": "libs/website/profile/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/profile/tsconfig.lib.json",
+              "libs/website/profile/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/profile/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/profile/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-blog": {
+      "projectType": "library",
+      "root": "libs/website/blog",
+      "sourceRoot": "libs/website/blog/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/blog/tsconfig.lib.json",
+              "libs/website/blog/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/blog/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/blog/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-shared-interceptors": {
+      "root": "libs/website/shared/interceptors",
+      "sourceRoot": "libs/website/shared/interceptors/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/shared/interceptors/tsconfig.lib.json",
+              "libs/website/shared/interceptors/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/shared/interceptors/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/shared/interceptors/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "website-listings": {
+      "projectType": "library",
+      "root": "libs/website/listings",
+      "sourceRoot": "libs/website/listings/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/listings/tsconfig.lib.json",
+              "libs/website/listings/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/listings/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/listings/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-buying": {
+      "projectType": "library",
+      "root": "libs/website/buying",
+      "sourceRoot": "libs/website/buying/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/buying/tsconfig.lib.json",
+              "libs/website/buying/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/buying/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/buying/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-selling": {
+      "projectType": "library",
+      "root": "libs/website/selling",
+      "sourceRoot": "libs/website/selling/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/selling/tsconfig.lib.json",
+              "libs/website/selling/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/selling/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/selling/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-about": {
+      "projectType": "library",
+      "root": "libs/website/about",
+      "sourceRoot": "libs/website/about/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/about/tsconfig.lib.json",
+              "libs/website/about/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/about/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/about/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-contact-us": {
+      "projectType": "library",
+      "root": "libs/website/contact-us",
+      "sourceRoot": "libs/website/contact-us/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/contact-us/tsconfig.lib.json",
+              "libs/website/contact-us/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/contact-us/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/contact-us/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-payments": {
+      "projectType": "library",
+      "root": "libs/website/payments",
+      "sourceRoot": "libs/website/payments/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/payments/tsconfig.lib.json",
+              "libs/website/payments/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/website/payments/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/payments/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "website-conversations": {
+      "projectType": "library",
+      "root": "libs/website/conversations",
+      "sourceRoot": "libs/website/conversations/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/website/conversations/tsconfig.lib.json",
+              "libs/website/conversations/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/website/conversations/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/website/conversations/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "administration-portal-site-settings": {
+      "projectType": "library",
+      "root": "libs/administration-portal/site-settings",
+      "sourceRoot": "libs/administration-portal/site-settings/src",
+      "prefix": "bushtrade.web",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/administration-portal/site-settings/tsconfig.lib.json",
+              "libs/administration-portal/site-settings/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/administration-portal/site-settings/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/administration-portal/site-settings/jest.config.js",
             "passWithNoTests": true
           }
         }

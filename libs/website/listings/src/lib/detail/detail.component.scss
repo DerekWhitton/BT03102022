@@ -1,0 +1,92 @@
+.sidebar {
+  color: #4141419a;
+  height: 100%;
+  div {
+    padding: 1em;
+  }
+  h3 {
+    color: #4d2a28;
+    text-transform: uppercase;
+  }
+  .price {
+    color: #414141 !important;
+    font-weight: bold;
+  }
+}
+
+.bidding-progress {
+  position: absolute;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  z-index: 999;
+}
+
+.sidebar-section {
+  border-bottom: 1px solid #e9e9e9;
+}
+
+.sharing-box {
+  a {
+    svg {
+      max-width: 32px;
+    }
+  }
+}
+
+#weburl {
+  pointer-events: none;
+}
+
+.text-timeout {
+  font-size: 1.3rem;
+}
+
+i {
+  color: #c09a6a;
+}
+
+.quickbid {
+  position: relative;
+  color: #fff;
+  h3 {
+    color: #fff;
+  }
+}
+
+.thumbnail {
+  max-width: 100px;
+}
+
+.listing-location-map {
+  max-height: 100%;
+  max-width: 100%;
+  display: block;
+}
+
+:host ::ng-deep {
+  .t-answer-icon {
+    margin-left: 0.5rem;
+    order: 2;
+  }
+}
+
+.seller-image {
+  margin: 0 auto;
+  width: auto;
+  height: auto;
+  max-width: 150px;
+  max-height: 150px;
+}
+
+@media (max-width: 768px) {
+  .sharing-box {
+    a {
+      svg {
+        max-width: 64px;
+      }
+    }
+  }
+}

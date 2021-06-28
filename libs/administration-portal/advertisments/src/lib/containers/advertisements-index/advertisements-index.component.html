@@ -1,0 +1,128 @@
+<div class="card">
+  <bushtrade-web-crud-table
+    [data]="dashboardAdvertisments$ | async"
+    [selectableColumns]="columns"
+    [loading]="loaded$ | async"
+    [headersValue]="'Dashboard Advertisments'"
+    [createFormTemplateReference]="createFormTemplate"
+    (createSubmit)="onCreateSubmit()"
+    [createFormValid]="createFormGroup.valid"
+    (updateSelection)="handleUpdateSelection($event)"
+    [updateFormTemplateReference]="updateFormTemplate"
+    (updateSubmit)="onUpdateSubmit()"
+    [allowDelete]="true"
+    (itemDeleted)="onItemDeleted($event)"
+    [searchable]="false"
+  >
+  </bushtrade-web-crud-table>
+</div>
+
+<ng-template #createFormTemplate>
+  <form [formGroup]="createFormGroup">
+    <div class="p-field">
+      <label>
+        Title:
+      </label>
+      <input pInputText type="text" required formControlName="title" />
+    </div>
+    <div class="p-field">
+      <label>
+        Label:
+      </label>
+      <input pInputText type="text" required formControlName="label" />
+    </div>
+    <div class="p-field">
+      <label>
+        Link:
+      </label>
+      <input pInputText type="text" required formControlName="link" />
+    </div>
+    <div class="p-field">
+      <label>
+        IsActive:
+      </label>
+      <br />
+      <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+    </div>
+    <div class="p-field">
+      <label>
+        Sponsored banner:
+      </label>
+      <p-fileUpload
+        *ngIf="!bannerUri"
+        #advertismentBannerUpload
+        name="advertismentBanner"
+        customUpload="true"
+        (uploadHandler)="uploadAdvertismentBanner($event)"
+      ></p-fileUpload>
+
+      <p *ngIf="isUploading">
+        Uploading...
+      </p>
+      <div class="p-grid p-mt-2">
+        <div class="p-col-3">
+          <bushtrade-listing-image-preview
+            *ngIf="bannerUri"
+            (removed)="removeAdvertismentBanner()"
+            [src]="bannerUri"
+          ></bushtrade-listing-image-preview>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #updateFormTemplate>
+  <form [formGroup]="updateFormGroup">
+    <div class="p-field">
+      <label>
+        Title:
+      </label>
+      <input pInputText type="text" required formControlName="title" />
+    </div>
+    <div class="p-field">
+      <label>
+        Label:
+      </label>
+      <input pInputText type="text" required formControlName="label" />
+    </div>
+    <div class="p-field">
+      <label>
+        Link:
+      </label>
+      <input pInputText type="text" required formControlName="link" />
+    </div>
+    <div class="p-field">
+      <label>
+        IsActive:
+      </label>
+      <br />
+      <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+    </div>
+    <div class="p-field">
+      <label>
+        Sponsored banner:
+      </label>
+      <p-fileUpload
+        *ngIf="!bannerUri"
+        #advertismentBannerUpload
+        name="advertismentBanner"
+        customUpload="true"
+        (uploadHandler)="uploadAdvertismentBanner($event)"
+      ></p-fileUpload>
+
+      <p *ngIf="isUploading">
+        Uploading...
+      </p>
+      <div class="p-grid p-mt-2">
+        <div class="p-col-3">
+          <bushtrade-listing-image-preview
+            *ngIf="bannerUri"
+            (removed)="removeAdvertismentBanner()"
+            [src]="bannerUri"
+          ></bushtrade-listing-image-preview>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

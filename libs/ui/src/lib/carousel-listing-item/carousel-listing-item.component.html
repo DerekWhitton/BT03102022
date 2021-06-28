@@ -1,0 +1,65 @@
+<p-carousel
+  [value]="processedlistings"
+  [numVisible]="4"
+  [numScroll]="3"
+  [circular]="true"
+  [responsiveOptions]="responsiveOptions"
+>
+  <ng-template let-product pTemplate="item">
+    <div
+      class="product-item p-m-2"
+      [routerLink]="['/', 'listings', product.id]"
+    >
+      <div class="product-item-content {{ product.type }}">
+        <div
+          class="p-mb-3 image-container"
+          [ngClass]="{
+            'auction-listing': product.type == listingTypes.Auction
+          }"
+        >
+          <!-- {{ product | json }} -->
+          <img
+            *ngIf="(product?.images)[0]?.url"
+            src="{{ (product?.images)[0]?.url }}"
+            [alt]="product.name"
+            class="product-image"
+          />
+          <img
+            *ngIf="!(product?.images)[0]?.url"
+            src="/assets/layout/images/logo-light.png"
+            [alt]="product.name"
+            class="product-image placeholder"
+          />
+        </div>
+
+        <div class="item-details">
+          <p>
+            {{
+              product.name.length > 65
+                ? (product.name | slice: 0:65) + '...'
+                : product.name
+            }}
+          </p>
+          <p style="font-weight: bold;">
+            {{ product.startingPrice | currency: 'R ' }}
+          </p>
+          <p *ngIf="product.listingLocationName">
+            {{ product.listingLocationName }}
+          </p>
+
+          <div class="p-d-flex card-footer-text">
+            <span class="p-ml-auto" *ngIf="product.type == listingTypes.Sale">{{
+              product.timeAgoCreated
+            }}</span>
+            <div class="p-ml-auto" *ngIf="product.type == listingTypes.Auction">
+              <p style="display: inline;" class="p-mr-1">Closes in</p>
+              <bushtrade-web-countdown-timer
+                [endDate]="product.endDate"
+              ></bushtrade-web-countdown-timer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-carousel>

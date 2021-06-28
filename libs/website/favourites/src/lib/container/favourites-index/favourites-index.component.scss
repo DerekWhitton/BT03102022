@@ -1,0 +1,82 @@
+:host ::ng-deep .p-galleria {
+  .p-galleria-item {
+    max-height: 150px;
+    min-height: 150px;
+    overflow: hidden;
+  }
+
+  .p-galleria-item-nav {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .p-galleria-item-prev-icon,
+  .p-galleria-item-next-icon {
+    font-size: 1rem;
+  }
+
+  .p-galleria-indicators {
+    padding: 1px;
+    .p-galleria-indicator {
+      margin-right: 0.5rem;
+      .p-link {
+        width: 0.5rem;
+        height: 0.5rem;
+      }
+    }
+  }
+}
+
+:host ::ng-deep .favourite-card .p-card {
+  padding: 10px;
+  box-shadow: 1px 1px 11px #999999;
+  max-width: 100%;
+  height: 100%;
+  background-color: #fff;
+
+  .p-card-body {
+    padding: 0;
+  }
+
+  h4 {
+    margin: 0 0 0 8px;
+  }
+
+  .p-card-footer {
+    text-align: center;
+    padding: 0;
+    .p-button {
+      width: 100%;
+      padding: 0.3rem 0.3rem;
+      span {
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+
+.header-dropdown {
+  margin-top: 22px;
+}
+
+.listing-label {
+  position: absolute;
+  z-index: 100;
+  margin-top: 7px;
+  margin-left: 6px;
+}
+
+.favorite-body-text {
+  font-weight: bold;
+
+  label {
+    font-weight: bold;
+  }
+}
+
+.favourite-container {
+  img {
+    height: 300px;
+    overflow: hidden;
+  }
+}

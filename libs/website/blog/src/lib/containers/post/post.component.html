@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="https://blog.bushtrade.co.za/wp-includes/css/dist/block-library/style.min.css?ver=5.5.3" />
+
+
+
+<div class="p-grid">
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+    <div class="bg-white p-p-5 p-mt-5 p-mb-5">
+
+
+      <progress-spinner *ngIf="!(loaded$ | async) || !(post$ | async)"></progress-spinner>
+
+      <div *ngIf="post$ | async as post">
+        <div class="p-grid">
+          <div class="p-col">
+            <h1 class="p-mt-0">
+              {{ post.title.rendered }}
+            </h1>
+          </div>
+          <div class="p-col"><h4 style="float:right"><i class="pi pi-user p-mr-1" style="font-size: 1rem"></i> {{post._embedded.author[0].name}} <i
+            class="pi pi-clock p-mr-1 p-ml-3"
+            style="font-size: 1rem"></i>{{post.date}}</h4></div>
+        </div>
+
+
+        <hr>
+        <div [innerHtml]="post.content.rendered | safeHtml"></div>
+      </div>
+    </div>
+
+  </div>
+</div>

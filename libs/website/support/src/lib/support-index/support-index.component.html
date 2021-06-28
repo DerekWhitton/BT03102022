@@ -1,0 +1,16 @@
+<bushtrade-web-support
+  [supportTickets]="supportTickets$ | async"
+  [loaded]="loaded$ | async"
+  [added]="added$"
+  [pageSize]="pageSize"
+  [currentPage]="currentPage"
+  [previousPage]="previousPage$ | async"
+  [nextPage]="nextPage$ | async"
+  [error]="error$ | async"
+  [isAdmin]="false"
+  [listingId]="listingId"
+  [isListingReport]="isListingReport"
+  (loadPage)="loadPage($event)"
+  (addSupportTicket)="saveSupportTicket($event)"
+>
+</bushtrade-web-support>

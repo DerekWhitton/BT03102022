@@ -1,0 +1,44 @@
+<div class="layout-topbar">
+  <div class="topbar-left">
+    <a
+      tabindex="0"
+      class="menu-button"
+      (click)="this.handleMenuButtonClick.emit($event)"
+    >
+      <i class="pi pi-chevron-left"></i>
+    </a>
+    <span class="topbar-separator"></span>
+    <ng-template ngFor let-item let-last="last" [ngForOf]="items">
+      <span class="viewname" style="text-transform: uppercase;">{{
+        item.label
+      }}</span>
+    </ng-template>
+    <img
+      id="logo-mobile"
+      class="mobile-logo"
+      src="assets/layout/images/logo-dark.png"
+      alt="logo"
+    />
+  </div>
+
+  <div class="topbar-right">
+    <ul class="topbar-menu">
+      <li
+        class="profile-item"
+        [ngClass]="{ 'active-menuitem fadeInDown': topbarUserMenuActive }"
+      >
+        <a href="#" (click)="this.handleTopbarUserMenuButtonClick.emit($event)">
+          <span class="profile-name">Profile</span>
+        </a>
+        <ul class="profile-menu fade-in-up">
+          <li>
+            <a [routerLink]="['/', 'account']">
+              <i class="pi pi-user"></i>
+              <span>My Account</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

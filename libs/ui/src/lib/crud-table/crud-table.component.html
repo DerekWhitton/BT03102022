@@ -1,1 +1,192 @@
-<p>crud-table works!</p>
+<progress-spinner *ngIf="!loading; else table"></progress-spinner>
+
+<ng-template #table>
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <span class="p-input-icon-left p-mr-1" *ngIf="searchable == true">
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          pInputText
+          [value]="queryParam"
+          (input)="searchUpdated($event)"
+          placeholder="Search"
+        />
+      </span>
+      <button
+        *ngIf="createFormTemplateReference"
+        pButton
+        pRipple
+        label="New {{singularTerm}}"
+        icon="pi pi-plus"
+        class="p-button-success p-mr-1"
+        (click)="handleCreateSelection()"
+      ></button>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <p-multiSelect 
+        *ngIf="customizeColumn"
+        class="p-mr-1"
+        [options]="selectableColumns"
+        [(ngModel)]="selectedColumns"
+        optionLabel="header"
+        selectedItemsLabel="{0} columns selected"
+        [style]="{ minWidth: '200px' }"
+        defaultLabel="Choose Columns"
+      ></p-multiSelect>
+    </ng-template>
+  </p-toolbar>
+  <p-table [columns]="selectedColumns" [value]="data">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
+        <th *ngIf="updateFormTemplateReference || allowDelete || viewable"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td
+          *ngFor="let col of columns"
+          [innerHtml]="
+            col.converter
+              ? col.converter(rowData[col.field])
+              : rowData[col.field]
+          "
+        ></td>
+
+        <td
+          *ngIf="updateFormTemplateReference || allowDelete || viewable"
+          class="p-text-right"
+        >
+          <button
+            pButton
+            pRipple
+            icon="pi pi-eye"
+            class="p-button-rounded p-button-primary p-mr-2"
+            (click)="handleItemView(rowData)"
+            *ngIf="viewable"
+          ></button>
+
+          <button
+            *ngIf="updateFormTemplateReference"
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success p-mr-2"
+            (click)="handleItemUpdateSelection(rowData)"
+          ></button>
+
+          <button
+            *ngIf="allowDelete"
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning"
+            (click)="deleteItem(rowData)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <button
+    pButton
+    type="button"
+    class="p-mt-3"
+    label="Load More"
+    (click)="loadNextPage()"
+    *ngIf="nextPage"
+  ></button>
+
+  <!-- Create Dialog -->
+  <p-dialog
+    [(visible)]="displayCreateDialog"
+    [style]="{ width: modalWidth }"
+    [header]="'Add ' + headersValue"
+    [modal]="true"
+    [closeOnEscape]="false"
+    (onHide)="resetForm()"
+    styleClass="p-fluid"
+  >
+    <ng-template pTemplate="content">
+      <ng-container *ngTemplateOutlet="createFormTemplateReference">
+      </ng-container>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="this.displayCreateDialog = false"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-text"
+        [disabled]="!createFormValid"
+        (click)="createItem()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Update Dialog -->
+  <p-dialog
+    [(visible)]="displayUpdateDialog"
+    [style]="{ width: modalWidth }"
+    [header]="'Update ' + headersValue"
+    [modal]="true"
+    [closeOnEscape]="false"
+    (onHide)="resetForm()"
+    styleClass="p-fluid"
+  >
+    <ng-template pTemplate="content">
+      <ng-container *ngTemplateOutlet="updateFormTemplateReference">
+      </ng-container>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="this.displayUpdateDialog = false"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="updateItem()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+
+  <p-confirmDialog #cd [style]="{ width: '450px' }">
+    <p-footer>
+      <button
+        type="button"
+        pButton
+        icon="pi pi-times"
+        label="No"
+        (click)="cd.reject()"
+      ></button>
+      <button
+        type="button"
+        pButton
+        icon="pi pi-check"
+        label="Yes"
+        (click)="cd.accept()"
+      ></button>
+    </p-footer>
+  </p-confirmDialog>
+</ng-template>

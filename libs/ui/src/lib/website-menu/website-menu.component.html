@@ -1,0 +1,279 @@
+<div class="p-grid bg-gold" *ngIf="showMegaSearchMenu">
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+    <div class="p-d-flex p-flex-column p-flex-md-row p-pt-2 p-pb-2">
+      <span
+        class="p-input-icon-left p-mt-1 p-mb-1 p-mr-md-2"
+        style="flex-grow: 1;"
+      >
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          class="ui-block"
+          pInputText
+          placeholder="What are you looking for?"
+          [(ngModel)]="searchQuery"
+          (keydown.enter)="handleSearch()"
+        />
+      </span>
+
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        [options]="selectableListingTypes"
+        [placeholder]="'All Listings'"
+        class="p-mt-1 p-mb-1 p-mr-md-2"
+        [(ngModel)]="selectedListingType"
+        [showClear]="true"
+      ></p-dropdown>
+
+      <div class="p-d-flex">
+        <button
+          *ngIf="!loggedIn"
+          (click)="login()"
+          pButton
+          type="button"
+          label="Sell Items"
+          class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-mr-2 p-order-1 p-order-md-2"
+        ></button>
+        <button
+          *ngIf="loggedIn"
+          [routerLink]="['/', 'profile', 'listings']"
+          pButton
+          type="button"
+          label="Sell Items"
+          class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-mr-2 p-order-1 p-order-md-2"
+        ></button>
+
+        <button
+          pButton
+          type="button"
+          label="Search"
+          class="p-button p-button-primary p-mt-1 p-mb-1 p-ml-auto p-mr-md-2 p-order-2 p-order-md-1"
+          (click)="handleSearch()"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="p-grid bg-grey p-py-2">
+  <div
+    class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2 p-p-0"
+  >
+    <div class="layout-topbar p-px-0 p-mb-2">
+      <div class="topbar-left">
+        <p-menubar [model]="menuItems" class="menu-light">
+          <ng-template pTemplate="start">
+            <a
+              href="javascript:void(0)"
+              [routerLink]="['/', 'home']"
+              id="app-logo"
+            >
+              <img
+                class="logo-image p-mr-2 ng-star-inserted p-mt-2"
+                src="assets/layout/images/logo-dark.png"
+                alt="Bush Trade"
+              />
+            </a>
+          </ng-template>
+          <button
+            *ngIf="!loggedIn"
+            (click)="login()"
+            pButton
+            type="button"
+            label="Sell Online"
+            class="p-button-primary p-d-none p-d-md-inline-flex"
+          ></button>
+          <button
+            *ngIf="loggedIn"
+            pButton
+            class="p-button-primary p-d-none p-d-md-inline-flex"
+            label="Sell Online"
+            [routerLink]="['/', 'profile', 'listings']"
+          ></button>
+        </p-menubar>
+      </div>
+      <div class="topbar-right">
+        <button
+          *ngIf="!loggedIn"
+          (click)="login()"
+          pButton
+          type="button"
+          label="Log in"
+          class="p-button p-button-primary"
+        ></button>
+
+        <ng-container *ngIf="loggedIn">
+          <ng-container *ngIf="user$ | async as user">
+            <ul class="topbar-menu">
+              <li
+                class="profile-item"
+                [ngClass]="{
+                  'active-menuitem fadeInDown': topbarUserMenuActive
+                }"
+              >
+                <a
+                  href="#"
+                  (click)="onTopbarUserMenuButtonClick($event)"
+                  class="p-p-0"
+                >
+                  <img
+                    [src]="image"
+                    alt="{{ user.firstName }} {{ user.surname }}"
+                    class="profile-image p-m-0"
+                  />
+                  <span class="p-mx-2 profile-name p-d-none p-d-md-inline-flex"
+                    >{{ user.firstName }} {{ user.surname }}</span
+                  >
+                </a>
+              </li>
+            </ul>
+
+            <p-sidebar
+              [(visible)]="topbarUserMenuActive"
+              position="right"
+              [baseZIndex]="10000"
+              showCloseIcon="true"
+              class="side-bar-menu"
+            >
+              <h1 style="font-weight: normal;">Menu</h1>
+
+              <button
+                pButton
+                type="button"
+                label="Buy &amp; Sell"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                (click)="showBuySellMenu = true"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Buy"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                (click)="showListings(null, '1')"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Auctions"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                (click)="showListings(null, '0')"
+              ></button>
+
+              <hr />
+
+              <button
+                pButton
+                type="button"
+                label="My Listings"
+                icon="pi pi-list"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                [routerLink]="['/', 'profile', 'listings']"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="My Purchases"
+                icon="pi pi-money-bill"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                [routerLink]="['/', 'profile', 'purchases']"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="My Messages"
+                icon="pi pi-inbox"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                [routerLink]="['/', 'profile', 'messages']"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Favourites"
+                icon="pi pi-heart"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                [routerLink]="['/', 'favourites']"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Profile"
+                icon="pi pi-user"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                [routerLink]="['/', 'profile', 'account']"
+              ></button>
+              <hr />
+              <button
+                pButton
+                type="button"
+                label="Support"
+                icon="pi pi-question-circle"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                [routerLink]="['/', 'support']"
+              ></button>
+              <hr />
+              <button
+                pButton
+                type="button"
+                label="Logout"
+                icon="pi pi-power-off"
+                iconPos="left"
+                class="p-button-text p-button-text"
+                (click)="this.logout()"
+              ></button>
+            </p-sidebar>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-sidebar
+  [(visible)]="showBuySellMenu"
+  [baseZIndex]="10000"
+  [fullScreen]="true"
+  position="top"
+  class="buy-sell-menu"
+>
+  <div class="p-col-12 buysell-links p-text-center">
+    <a [routerLink]="['/', 'listings']" (click)="showBuySellMenu = false"
+      >Browse all listings</a
+    >
+    <a (click)="showListings(null, '1')">Browse items for sale</a>
+    <a (click)="showListings(null, '0')">Browse auctions</a>
+
+    <a (click)="login()" *ngIf="!loggedIn">Login to post a listing</a>
+
+    <button
+      *ngIf="loggedIn"
+      [routerLink]="['/', 'profile', 'listings']"
+      pButton
+      type="button"
+      label="Sell Online"
+      class="p-button-primary"
+      (click)="showBuySellMenu = false"
+    ></button>
+  </div>
+  <hr />
+
+  <div class="p-grid">
+    <div class="p-col-4 p-md-3 p-lg-2" *ngFor="let category of categories">
+      <h4 (click)="showListings(category.id, null)" class="p-mb-0">
+        {{ category.name }}
+      </h4>
+      <ul class="category-list">
+        <li *ngFor="let child of category.children">
+          <a (click)="showListings(category.id, null)">{{ child.name }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</p-sidebar>

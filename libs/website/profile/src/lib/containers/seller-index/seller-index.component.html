@@ -1,0 +1,858 @@
+<ng-container>
+  <ng-container *ngIf="sellers?.length > 0; else register">
+    <p-tabMenu [model]="sellers" *ngIf="sellers?.length > 1">
+      <ng-template pTemplate="item" let-seller let-i="index">
+        <a (click)="loadSellersListings(seller)">{{ seller.name }}</a>
+      </ng-template>
+    </p-tabMenu>
+    <p-toast position="top-center"></p-toast>
+    <progress-spinner
+      *ngIf="!(listings$ | async); else table"
+    ></progress-spinner>
+    <!-- Resolving failed build -->
+    <ng-template #table>
+      <div class="card">
+        <p-toolbar styleClass="p-mb-4">
+          <ng-template pTemplate="right">
+            <h3 *ngIf="(listings$ | async)?.length">
+              Total {{ (listings$ | async)?.length }}
+            </h3>
+          </ng-template>
+          <ng-template pTemplate="left">
+            <button
+              *ngIf="addOrUpdateListingTemplate"
+              pButton
+              pRipple
+              label="New Listing"
+              icon="pi pi-plus"
+              class="p-button-primary p-mr-1"
+              (click)="
+                initializeListingForm(); displayCreateUpdateDialog = true
+              "
+              pTooltip="Create an Auction or a For Sale Listing"
+              tooltipPosition="top"
+            ></button>
+          </ng-template>
+        </p-toolbar>
+
+        <ng-container *ngIf="(listings$ | async)?.length === 0">
+          <p-messages severity="info">
+            <ng-template pTemplate>
+              <span class="p-message-icon pi pi-exclamation-triangle"></span>
+              <div class="p-ml-2">
+                You have not created any listings yet.
+              </div>
+            </ng-template>
+          </p-messages>
+        </ng-container>
+        <ng-container *ngIf="(listings$ | async)?.length > 0">
+          <p-table
+            [columns]="columns"
+            [value]="listings$ | async"
+            styleClass="p-datatable-responsive-demo"
+          >
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="width: 100px;">Promote</th>
+                <th style="width: 50px;">Status</th>
+                <th *ngFor="let col of columns">
+                  {{ col.header }}
+                </th>
+                <th></th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td>
+                  <button
+                    *ngIf="
+                      !rowData.isDeleted &&
+                      rowData.active &&
+                        !rowData.isSold &&
+                        (rowData.type == ListingType.Sale ||
+                          !rowData.isAuctionClosed);
+                      else noPromotionAvailable
+                    "
+                    pButton
+                    pRipple
+                    icon="pi pi-angle-double-up"
+                    title="Make listing Premium"
+                    class="p-button p-button-gold p-mr-2 p-mb-2"
+                    (click)="showPremiumPackagesModal(rowData.id)"
+                    pTooltip="Upgrade Listing, to get premium placement and lower buyer fees."
+                    tooltipPosition="top"
+                    label="Promote"
+                  ></button>
+                  <ng-template #noPromotionAvailable><hr /></ng-template>
+                </td>
+                <td>
+                  <span class="p-column-title">Status: </span>
+                  <div *ngIf="!rowData.isDeleted">
+                    <span
+                      *ngIf="
+                        rowData.active &&
+                        rowData.type == ListingType.Auction &&
+                        rowData.isAuctionClosed &&
+                        !rowData.isSold
+                      "
+                      class="p-tag p-tag-danger"
+                      >Closed</span
+                    >
+                    <span
+                      *ngIf="
+                        rowData.active &&
+                        !rowData.isSold &&
+                        (rowData.type == ListingType.Sale ||
+                          !rowData.isAuctionClosed)
+                      "
+                      class="p-tag p-tag-success"
+                      >Live</span
+                    >
+                    <span *ngIf="!rowData.active" class="p-tag p-tag-info"
+                      >Draft</span
+                    >
+                    <span
+                      *ngIf="rowData.active && rowData.isSold"
+                      class="p-tag p-tag-warning"
+                      >Sold</span
+                    >
+                  </div>
+                  <div *ngIf="rowData.isDeleted">
+                    <span class="p-tag p-tag-danger">Deleted</span>
+                  </div>
+                </td>
+                <td *ngFor="let col of columns">
+                  <span class="p-column-title">{{ col.header }}:</span>
+                  <span
+                    [innerHtml]="
+                      col.converter
+                        ? col.converter(rowData[col.field])
+                        : rowData[col.field]
+                    "
+                  ></span>
+                </td>
+                <td *ngIf="!rowData.isDeleted">
+                  <button
+                    *ngIf="rowData.active && !rowData.isSold"
+                    pButton
+                    pRipple
+                    icon="pi pi-users"
+                    class="p-button p-button-primary p-mr-2 p-mb-2"
+                    [routerLink]="[
+                      '../..',
+                      'conversations',
+                      'listing',
+                      rowData.id
+                    ]"
+                    pTooltip="View Interested Buyers Messages"
+                    tooltipPosition="top"
+                    label="Buyers"
+                  ></button>
+                  <button
+                    *ngIf="rowData.active && rowData.isSold"
+                    pButton
+                    pRipple
+                    icon="pi pi-star-o"
+                    title="Rate Buyer"
+                    class="p-button p-button-warning p-mr-2 p-mb-2"
+                    [routerLink]="[
+                      '../..',
+                      'conversations',
+                      'listing',
+                      rowData.id
+                    ]"
+                    pTooltip="Go and review your buyer"
+                    tooltipPosition="top"
+                    label="Review Buyer"
+                  ></button>
+                </td>
+                <td class="p-text-right" *ngIf="!rowData.isDeleted">
+                  <button
+                    *ngIf="
+                      !rowData.isSold &&
+                      (rowData.type != ListingType.Auction || !rowData.active)
+                    "
+                    pButton
+                    pRipple
+                    icon="pi pi-pencil"
+                    title="Edit Listing"
+                    class="p-button p-button-success p-mb-2"
+                    (click)="handleUpdateSelection(rowData)"
+                    pTooltip="Edit Listing"
+                    tooltipPosition="top"
+                    label="Edit"
+                  ></button>
+                  <button
+                    *ngIf="
+                      !rowData.isSold &&
+                      (rowData.type == ListingType.Sale ||
+                        !rowData.isAuctionClosed)
+                    "
+                    pButton
+                    pRipple
+                    icon="pi pi-trash"
+                    title="Delete Listing"
+                    class="p-button p-button-danger p-mb-2 p-ml-2"
+                    (click)="deleteListing(rowData)"
+                    pTooltip="Delete Listing"
+                    tooltipPosition="top"
+                    label="Delete"
+                  ></button>
+                </td>
+                <td *ngIf="rowData.isDeleted">
+                  Listing deleted by the Admin on {{rowData.deletedAt | date: 'dd-MMM-yyyy HH:mm'}}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </ng-container>
+      </div>
+    </ng-template>
+  </ng-container>
+</ng-container>
+
+<ng-template #register>
+  <button
+    pButton
+    icon=""
+    label="Start Selling"
+    (click)="this.displayStartSellingDialog = true"
+  ></button>
+</ng-template>
+
+<p-dialog
+  [(visible)]="displayCreateUpdateDialog"
+  [style]="{ width: '800px' }"
+  [header]="isUpdate ? 'Updating a Listing' : 'Creating a Listing'"
+  [modal]="true"
+  [closeOnEscape]="false"
+  (onHide)="clearForm()"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <ng-container *ngTemplateOutlet="addOrUpdateListingTemplate">
+    </ng-container>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="displayCreateUpdateDialog = false"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-primary"
+      [disabled]="
+        !addlistingFormGroup.valid || isSaving || !allRequiredFieldsCompleted
+      "
+      (click)="saveListing()"
+    ></button>
+    <p
+      *ngIf="
+        !addlistingFormGroup.valid || isSaving || !allRequiredFieldsCompleted
+      "
+    >
+      Please complete all the fields to post your listing. (scroll down to see
+      fields youm)
+    </p>
+  </ng-template>
+</p-dialog>
+
+<ng-template #addOrUpdateListingTemplate>
+  <ng-template #initializingEditModalData>
+    <progress-spinner></progress-spinner>
+  </ng-template>
+  <form
+    [formGroup]="addlistingFormGroup"
+    *ngIf="!editModalDataIsInitializing; else initializingEditModalData"
+  >
+    <p-steps [model]="items" [readonly]="false"></p-steps>
+
+    <div class="p-fluid p-formgrid p-grid">
+      <h3 class="p-col-12">Basic Information</h3>
+
+      <!-- type -->
+      <div class="p-field p-col-12">
+        <label
+          pTooltip="Auctions will have run for a set duration taking bids. For sale listings buyers will contact you on the set price."
+        >
+          Type of Listing:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <p-selectButton
+          [options]="selectableListingTypeOptions"
+          formControlName="type"
+        ></p-selectButton>
+      </div>
+
+      <!-- duration -->
+      <div
+        class="p-field p-col-12"
+        *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+      >
+        <label
+          pTooltip="The EndDate will be calculated based on the duration immediately after you activate the Auction."
+        >
+          Duration:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <p-selectButton
+          [options]="selectableAuctionDurationSettings"
+          formControlName="durationInDays"
+        ></p-selectButton>
+      </div>
+
+      <!-- name -->
+      <div class="p-field p-col-12">
+        <label>
+          Title:
+        </label>
+        <input pInputText type="text" required formControlName="name" />
+        <small
+          *ngIf="
+            addlistingFormGroup.controls['name'].invalid &&
+            (addlistingFormGroup.controls['name'].dirty ||
+              addlistingFormGroup.controls['name'].touched)
+          "
+          class="p-error"
+          >Listing title is required.</small
+        >
+      </div>
+
+      <!-- starting price -->
+      <div class="p-field p-col-12">
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col-12 p-md-4">
+            <label>
+              {{
+                addlistingFormGroup.get('type').value == ListingType.Auction
+                  ? 'Starting Price'
+                  : 'Price'
+              }}
+            </label>
+
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">R</span>
+              <input
+                pInputText
+                type="number"
+                required
+                formControlName="startingPrice"
+                (change)="checkReserve()"
+              />
+            </div>
+
+            <small
+              *ngIf="
+                addlistingFormGroup.controls['startingPrice'].invalid &&
+                (addlistingFormGroup.controls['startingPrice'].dirty ||
+                  addlistingFormGroup.controls['startingPrice'].touched)
+              "
+              class="p-error"
+              >Price is required.</small
+            >
+
+            <!-- <p-inputNumber
+          [(ngModel)]="value2"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          spinnerMode="horizontal"
+          decrementButtonClass="p-button-danger"
+          incrementButtonClass="p-button-success"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+          mode="currency"
+          currency="ZAR"
+        ></p-inputNumber> -->
+          </div>
+
+          <!-- starting price -->
+          <div
+            class="p-field p-col-12 p-md-4"
+            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+          >
+            <label
+              pTooltip="The price stipulated as the lowest acceptable price by the seller, the reserve price cannot be lower than the starting price. "
+            >
+              Reserve Price:
+              <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+            </label>
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">R</span>
+              <input
+                pInputText
+                type="number"
+                mode="currency"
+                currency="R"
+                required
+                formControlName="reservePrice"
+                (change)="checkReserve()"
+              />
+            </div>
+            <small
+              *ngIf="
+                addlistingFormGroup.controls['reservePrice'].invalid &&
+                (addlistingFormGroup.controls['reservePrice'].dirty ||
+                  addlistingFormGroup.controls['reservePrice'].touched)
+              "
+              class="p-error"
+              >Reserved price is required.</small
+            >
+          </div>
+
+          <!-- increment -->
+          <div
+            class="p-field p-col-12 p-md-4"
+            *ngIf="addlistingFormGroup.get('type').value == ListingType.Auction"
+          >
+            <label pTooltip="The minimum increment between bids">
+              Price Increment:
+              <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+            </label>
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">R</span>
+              <input
+                pInputText
+                type="number"
+                mode="currency"
+                currency="R"
+                required
+                formControlName="priceIncrement"
+              />
+            </div>
+            <small
+              *ngIf="
+                addlistingFormGroup.controls['priceIncrement'].invalid &&
+                (addlistingFormGroup.controls['priceIncrement'].dirty ||
+                  addlistingFormGroup.controls['priceIncrement'].touched)
+              "
+              class="p-error"
+              >Price increment is required.</small
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- description -->
+      <div class="p-field p-col-12 p-md-6">
+        <label>
+          Description of listing:
+        </label>
+        <textarea
+          style="width: 100%;"
+          pInputTextarea
+          [rows]="5"
+          type="text"
+          required
+          formControlName="description"
+          autoResize="autoResize"
+          maxlength="2500"
+        ></textarea>
+        <small
+          *ngIf="
+            addlistingFormGroup.controls['description'].invalid &&
+            (addlistingFormGroup.controls['description'].dirty ||
+              addlistingFormGroup.controls['description'].touched)
+          "
+          class="p-error"
+          >Listing description is required.</small
+        >
+      </div>
+
+      <!-- shipping details -->
+      <div class="p-field p-col-12 p-md-6">
+        <label
+          pTooltip="Sepcify how the buyer will get his goods once purchased."
+        >
+          Shipping Details:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <textarea
+          style="width: 100%;"
+          pInputTextarea
+          [rows]="5"
+          type="text"
+          required
+          formControlName="shippingDetails"
+          autoResize="autoResize"
+          maxlength="2500"
+          placeholder="eg: Will ship anywhere in South Africa for R250, or buyer to collect."
+        ></textarea>
+        <small
+          *ngIf="
+            addlistingFormGroup.controls['shippingDetails'].invalid &&
+            (addlistingFormGroup.controls['shippingDetails'].dirty ||
+              addlistingFormGroup.controls['shippingDetails'].touched)
+          "
+          class="p-error"
+          >Shipping details are required.</small
+        >
+      </div>
+
+      <!-- category -->
+      <div class="p-field p-col-12">
+        <label pTooltip="Click the category if you need to change it.">
+          Category:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <br />
+        <bushtrade-category-selector
+          [categoryTree]="categoryTree"
+          [loading]="loadingCategories"
+          [selectedCategoryId]="addlistingFormGroup.get('categoryId').value"
+          (categorySelected)="handleCategorySelection($event)"
+          (chainComplete)="handleCategoryChainComplete($event)"
+        ></bushtrade-category-selector>
+        <small
+          *ngIf="
+            !completedCategorySelection &&
+            (addlistingFormGroup.controls['categoryId'].dirty ||
+              addlistingFormGroup.controls['categoryId'].touched)
+          "
+          class="p-error"
+          >Please complete the category selection.</small
+        >
+      </div>
+
+      <!-- other category properties -->
+      <ng-container *ngIf="showProperties == true">
+        <h3 *ngIf="categoryProperties.length > 0" class="p-col-12">
+          Additional Product Information
+        </h3>
+        <div
+          class="p-field p-col-12 p-md-6"
+          *ngFor="let property of categoryProperties; let i = index"
+        >
+          <label> {{ property.name }}: </label>
+          <input
+            pInputText
+            id="field-{{ property.name }}"
+            type="text"
+            [(ngModel)]="categoryProperties[i].value"
+            [ngModelOptions]="{ standalone: true }"
+            *ngIf="property.type == CategoryPropertyType.Text"
+            [ngClass]="property.required ? 'required-input' : ''"
+            (change)="checkProperties()"
+          />
+
+          <p-inputNumber
+            id="field-{{ property.name }}"
+            [(ngModel)]="categoryProperties[i].value"
+            [ngModelOptions]="{ standalone: true }"
+            mode="decimal"
+            *ngIf="property.type == CategoryPropertyType.Numeric"
+            [ngClass]="property.required ? 'required-input' : ''"
+            (change)="checkProperties()"
+          ></p-inputNumber>
+
+          <p-dropdown
+            id="field-{{ property.name }}"
+            [options]="property.selectableOptions"
+            [(ngModel)]="categoryProperties[i].value"
+            [ngModelOptions]="{ standalone: true }"
+            *ngIf="property.type == CategoryPropertyType.SingleSelect"
+            [ngClass]="property.required ? 'required-input' : ''"
+            (change)="checkProperties()"
+          ></p-dropdown>
+          <small *ngIf="property.required" class="required">* Required</small>
+        </div>
+      </ng-container>
+
+      <h3 class="p-col-12">
+        Location
+      </h3>
+
+      <div class="p-field p-col-12">
+        <p>Click on the map to set the listing location</p>
+
+        <p-gmap
+          #gmap
+          [style]="{ width: '100%', height: '320px' }"
+          [options]="options"
+          [overlays]="overlays"
+          (onMapClick)="handleMapClick($event)"
+          (onMapReady)="setMap($event)"
+        ></p-gmap>
+
+        <small
+          *ngIf="
+            addlistingFormGroup.controls['listingLocation'].invalid &&
+            (addlistingFormGroup.controls['listingLocation'].dirty ||
+              addlistingFormGroup.controls['listingLocation'].touched)
+          "
+          class="p-error"
+          >Location is required.</small
+        >
+      </div>
+      <div class="p-field p-col-6">
+        <button
+          type="button"
+          pButton
+          label="Use current location"
+          icon="pi pi-globe"
+          (click)="setCurrentLocation()"
+        ></button>
+      </div>
+      <div class="p-field p-col-6">
+        <button
+          type="button"
+          pButton
+          label="Clear Location"
+          icon="pi pi-times"
+          (click)="clearMap()"
+        ></button>
+      </div>
+
+      <h3 class="p-col-12">Images of Item</h3>
+      <!-- images -->
+      <div class="p-field p-col-12">
+        <label pTooltip="You can upload up to 10 images.">
+          Upload Images For Listing:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <p-fileUpload
+          #fileUpload
+          name="myfile[]"
+          mode="basic"
+          customUpload="true"
+          (uploadHandler)="uploadListingImage($event)"
+          multiple="multiple"
+          accept="image/*"
+          auto="true"
+          chooseLabel="Upload Images"
+          fileLimit="10"
+        >
+        </p-fileUpload>
+
+        <p *ngIf="isUploadingImageFiles">
+          Uploading Files...
+          <i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i>
+        </p>
+        <div class="p-grid p-mt-2">
+          <div class="p-col-3" *ngFor="let image of images">
+            <bushtrade-listing-image-preview
+              (removed)="handleImageRemoval(image.id)"
+              [src]="image.src"
+            ></bushtrade-listing-image-preview>
+          </div>
+        </div>
+      </div>
+
+      <!-- quantity -->
+      <div class="p-field p-col-12" style="display: none;">
+        <label>
+          Quantity:
+        </label>
+        <p-inputNumber formControlName="quantity"></p-inputNumber>
+      </div>
+
+      <!-- active -->
+      <div class="p-field p-col-12 p-text-right">
+        <label>
+          Activate:
+        </label>
+        <br />
+        <p-inputSwitch formControlName="active"></p-inputSwitch>
+        <p-message
+          class="p-my-5"
+          *ngIf="!addlistingFormGroup.get('active').value"
+          severity="info"
+          text="If you don't activate the post now, it will save to your drafts and you can activate it later."
+        ></p-message>
+      </div>
+
+      <div
+        class="p-field p-col-12"
+        *ngIf="!this.allRequiredFieldsCompleted && this.categoryProperties"
+      >
+        <p-message
+          severity="warn"
+          text="Please complete the additional product information/category fields, before you can save."
+        ></p-message>
+      </div>
+      <div class="p-field p-col-12" *ngIf="!this.categorySelected">
+        <p-message
+          class="p-my-5"
+          severity="warn"
+          text="You need to complete selecting the category for your product."
+        ></p-message>
+      </div>
+      <div
+        class="p-field p-col-12"
+        *ngIf="
+          !addlistingFormGroup.get('durationInDays').value &&
+          addlistingFormGroup.get('type').value == ListingType.Auction
+        "
+      >
+        <p-message
+          severity="warn"
+          text="Auctions require you to specify a duration, please select one."
+        ></p-message>
+      </div>
+
+      <div
+        class="p-field p-col-12"
+        *ngIf="!addlistingFormGroup.get('listingLocation').value"
+      >
+        <p-message
+          severity="warn"
+          text="You need to select a location, or a general vacinity."
+        ></p-message>
+      </div>
+
+      <div
+        class="p-field p-col-12"
+        *ngIf="
+          addlistingFormGroup.get('type').value == ListingType.Auction &&
+          addlistingFormGroup.get('active').value === true
+        "
+      >
+        <p-message
+          severity="warn"
+          text="Auctions cannot be edited once submitted."
+        ></p-message>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<website-premium-package-modal
+  *ngIf="premiumPackagesModalVisible"
+  [sellerId]="selectedSellerId"
+  [listingId]="selectedListingId"
+  [visible]="premiumPackagesModalVisible"
+  (packageActivated)="premiumPackageActivated()"
+  (closeEvent)="closePremiumPackagesModal()"
+>
+</website-premium-package-modal>
+
+<p-dialog
+  [(visible)]="displayStartSellingDialog"
+  header="Create Seller Profile"
+  [style]="{ width: '450px' }"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="signUpSellerFormGroup">
+      <div class="p-grid">
+        <div class="p-col">
+          <div class="p-fluid"></div>
+          <div class="p-field">
+            <label>
+              Trade in your Private Capacity (You are not trading under a
+              business name):
+            </label>
+            <br />
+            <p-inputSwitch
+              (onChange)="handleChange($event)"
+              formControlName="isPrivateIndividual"
+            ></p-inputSwitch>
+          </div>
+
+          <div [ngStyle]="{ display: isPrivate ? 'none' : 'block' }">
+            <h2>Trading Details</h2>
+            <div class="p-field">
+              <label>
+                Name:
+              </label>
+              <input pInputText type="text" required formControlName="name" />
+            </div>
+            <div class="p-field">
+              <label>
+                Company Number:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="ckNumber"
+              />
+            </div>
+            <div class="p-field">
+              <label>
+                Tax Number:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="taxNumber"
+              />
+            </div>
+          </div>
+          <div style="display: none;">
+            <h2>Banking Details</h2>
+
+            <div class="p-field">
+              <label>
+                Bank:
+              </label>
+              <input pInputText type="text" required formControlName="bank" />
+            </div>
+            <div class="p-field">
+              <label>
+                Branch Code:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="branchCode"
+              />
+            </div>
+            <div class="p-field">
+              <label>
+                Account Type:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="accountType"
+              />
+            </div>
+            <div class="p-field">
+              <label>
+                Account Number:
+              </label>
+              <input
+                pInputText
+                type="text"
+                required
+                formControlName="accountNumber"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text p-button-danger"
+      (click)="this.displayStartSellingDialog = false"
+    ></button>
+    <button
+      pButton
+      pRipple
+      class="p-button-primary"
+      icon="pi pi-check"
+      label="Start Selling!"
+      (click)="registerSeller()"
+    ></button>
+  </ng-template>
+</p-dialog>

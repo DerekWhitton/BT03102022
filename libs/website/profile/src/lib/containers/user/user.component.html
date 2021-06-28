@@ -1,0 +1,191 @@
+<div *ngIf="user$ | async as user">
+  <div class="p-grid">
+    <div class="p-col-12 p-md-8p-lg-9">
+      <div class="p-grid">
+        <div class="p-col-12 p-lg-4">
+          <div class="card">
+            <ul class="widget-person-list">
+              <li>
+                <div class="person-item">
+                  <img
+                    [src]="image"
+                    alt="{{ user.firstName }}"
+                    class="user-card-avatar bt-tile"
+                  />
+                  <div class="person-info">
+                    <div class="person-name">
+                      {{ user.firstName + ' ' + user.surname }}
+                    </div>
+                    <div class="person-subtext" *ngIf="user.sellers">
+                      Registered Seller
+                    </div>
+                  </div>
+                </div>
+                <div class="person-actions p-text-right">
+                  <button
+                    type="button"
+                    class="p-button-rounded p-button-primary"
+                    pButton
+                    icon="pi pi-pencil"
+                    (click)="editProfile = true"
+                    *ngIf="!editProfile"
+                  ></button>
+                  <button
+                    (click)="editProfile = false"
+                    *ngIf="editProfile"
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-times"
+                    class="p-button-rounded p-button-outlined p-button-danger"
+                  ></button>
+                </div>
+              </li>
+              <p-fileUpload
+                *ngIf="editProfile"
+                #fileUpload
+                name="image"
+                mode="basic"
+                [auto]="true"
+                accept="image/*"
+                customUpload="true"
+                maxFileSize="3000000"
+                chooseLabel=" Update Profile Image"
+                chooseIcon="pi-image"
+                (uploadHandler)="UploadProfilePicture($event)"
+                class="p-button-rounded p-button-success"
+              >
+              </p-fileUpload>
+            </ul>
+
+            <hr [ngStyle]="{ clear: 'both' }" />
+
+            <div class="p-m-4">
+              <strong>Age:</strong><br />
+              {{ !user.age || user.age.length === 0 ? '-' : user.age }}
+            </div>
+
+            <div class="p-m-4">
+              <strong>Bio:</strong><br />
+              <span [innerHtml]="user.bio"></span>
+            </div>
+
+            <div class="p-m-4">
+              <strong>Countries Visited:</strong><br />
+              {{
+                !user.countriesVisited || user.countriesVisited.length === 0
+                  ? '-'
+                  : user.countriesVisited
+              }}
+            </div>
+
+            <div class="p-m-4">
+              <strong>Gender:</strong><br />
+              {{ !user.gender || user.gender.length === 0 ? '-' : user.gender }}
+            </div>
+
+            <div class="p-m-4">
+              <strong>Location:</strong><br />
+              {{
+                !user.location || user.location.length === 0
+                  ? '-'
+                  : user.location
+              }}
+            </div>
+
+            <div class="p-m-4">
+              <strong>Occupation:</strong><br />
+              {{
+                !user.occupation || user.occupation.length === 0
+                  ? '-'
+                  : user.occupation
+              }}
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-lg-8">
+          {{ isLoaded }}
+          <p-progressSpinner *ngIf="isLoading"></p-progressSpinner>
+
+          <form
+            [formGroup]="userFormGroup"
+            *ngIf="!isLoading && editProfile"
+            (ngSubmit)="UpdateUser()"
+            ng-submit="userFormGroup.$valid && userFormGroup.submit()"
+          >
+            <div class="p-grid">
+              <div class="p-col">
+                <div class="p-fluid">
+                  <div class="p-field">
+                    <label>
+                      Age
+                    </label>
+                    <input
+                      pInputText
+                      required
+                      formControlName="age"
+                      type="number"
+                    />
+                  </div>
+
+                  <div class="p-field">
+                    <label>
+                      Bio
+                    </label>
+                    <!-- <p-editor [(ngModel)]="text" [style]="{'height':'320px'}"></p-editor> -->
+
+                    <p-editor
+                      formControlName="bio"
+                      [style]="{ width: '100%', height: '320px' }"
+                    >
+                    </p-editor>
+                  </div>
+
+                  <div class="p-field">
+                    <label>
+                      Gender
+                    </label>
+                    <input pInputText required formControlName="gender" />
+                  </div>
+
+                  <div class="p-field">
+                    <label>
+                      Location
+                    </label>
+                    <input pInputText required formControlName="location" />
+                  </div>
+
+                  <div class="p-field">
+                    <label>
+                      Occupation
+                    </label>
+                    <input pInputText required formControlName="occupation" />
+                  </div>
+
+                  <div class="p-field">
+                    <label>
+                      Countries Visited
+                    </label>
+                    <input
+                      pInputText
+                      required
+                      formControlName="countriesVisited"
+                    />
+                  </div>
+
+                  <p-button
+                    type="submit"
+                    label="Save"
+                    class="p-button-primary"
+                    [disabled]="this.userFormGroup.invalid"
+                  ></p-button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

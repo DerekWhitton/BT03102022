@@ -1,1 +1,54 @@
-<p>portal-menu works!</p>
+<div class="layout-sidebar" (click)="this.handleMenuClick.emit($event)">
+  <a [routerLink]="['/']" class="logo">
+    <img
+      id="app-logo"
+      class="logo-image"
+      src="assets/layout/images/logo-light.png"
+      alt="Bush Trade"
+    />
+    <span class="app-name">Admin Portal</span>
+  </a>
+
+  <div class="layout-menu-container">
+    <ul class="layout-menu">
+      <ng-container *ngFor="let item of menuItems; let i = index">
+        <li
+          boma-portal-menu-item
+          *ngIf="!item.separator"
+          [item]="item"
+          [index]="i"
+          [root]="true"
+          [isSlim]="isSlim"
+          [isMobile]="isMobile"
+          [isDesktop]="isDesktop"
+          [menuHoverActive]="isMenuHoverActive"
+          (setMenuHoverActive)="handleSetMenuHoverActive()"
+          (setMenuHoverActiveFalse)="handleSetMenuHoverActiveFalse()"
+          (unblockBodyScroll)="unblockBodyScroll()"
+          (staticMenuMobileActiveFalse)="staticMenuMobileActiveFalse()"
+        ></li>
+        <li *ngIf="item.separator" class="menu-separator"></li>
+      </ng-container>
+    </ul>
+  </div>
+  <div class="layout-menu-footer">
+    <ul>
+      <li *ngIf="!isSlim; else iconOnly">
+        <a pRipple [routerLink]="['/', 'settings']">
+          <i class="pi pi-fw pi-cog"></i>
+          <span class="layout-menuitem-text">Settings</span>
+        </a>
+      </li>
+      <ng-template #iconOnly>
+        <li>
+          <a pRipple [routerLink]="['/', 'settings']">
+            <i
+              class="pi pi-fw pi-cog"
+              style="font-size: 1.5em; margin: 0 auto;"
+            ></i>
+          </a>
+        </li>
+      </ng-template>
+    </ul>
+  </div>
+</div>

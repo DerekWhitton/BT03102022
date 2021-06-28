@@ -1,15 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MegaMenuItem } from 'primeng/api';
 
 @Component({
-  selector: 'bushtrade.web-portal-menu',
+  selector: 'bushtrade-portal-menu',
   templateUrl: './portal-menu.component.html',
-  styleUrls: ['./portal-menu.component.scss']
+  styleUrls: ['./portal-menu.component.scss'],
 })
 export class PortalMenuComponent implements OnInit {
+  @Input() menuItems;
 
-  constructor() { }
+  @Input() isSlim = false;
 
-  ngOnInit(): void {
+  @Input() isMobile = false;
+
+  @Input() isDesktop = false;
+
+  @Input() isMenuHoverActive = false;
+  @Output() handleMenuClick = new EventEmitter();
+
+  @Output() handleMenuHoverActive = new EventEmitter();
+  @Output() handleMenuHoverActiveFalse = new EventEmitter();
+  @Output() handleUnblockBodyScroll = new EventEmitter();
+  @Output() handleStaticMenuMobileActiveFalse = new EventEmitter();
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  handleSetMenuHoverActive() {
+    this.handleMenuHoverActive.emit();
   }
 
+  handleSetMenuHoverActiveFalse() {
+    this.handleMenuHoverActiveFalse.emit();
+  }
+
+  unblockBodyScroll() {
+    this.handleUnblockBodyScroll.emit();
+  }
+
+  staticMenuMobileActiveFalse() {
+    this.handleStaticMenuMobileActiveFalse.emit();
+  }
 }

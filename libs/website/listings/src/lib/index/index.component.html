@@ -1,0 +1,365 @@
+<div class="p-grid bg-white bt-all-caps p-text-left" *ngIf="query">
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+    <div class="p-grid p-mt-1 p-mb-1">
+      <div class="p-col-12">
+        <ng-container *ngIf="searchResponse; else noSearchResponseHeader">
+          <h3 *ngIf="searchResponse.items && searchResponse.items.length < 1">
+            No Search Results were found for "{{ query }}", try another term, or
+            select a category.
+          </h3>
+          <h3 *ngIf="searchResponse.items && searchResponse.items.length > 0">
+            {{ searchResponse.items.length }} Results for "{{ query }}"
+          </h3>
+        </ng-container>
+
+        <ng-template #noSearchResponseHeader>
+          <h3>Searching for {{ query }}</h3>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-sidebar
+  [(visible)]="displayFilters"
+  [style]="{ width: '90%' }"
+  *ngIf="mobile"
+>
+  <p>
+    Displaying
+    {{ searchResponse?.items.length * searchResponse?.page }}/{{
+      searchResponse?.totalItems
+    }}
+    items
+  </p>
+
+  <h4 class="p-mt-3">
+    Categories
+    <span style="float: right;"
+      ><a (click)="handleCategorySelection(null)"> All</a></span
+    >
+  </h4>
+
+  <ul class="category-list">
+    <li *ngFor="let category of subCategories">
+      <a (click)="changeSubCategory(category.id, category.name)">{{
+        category.name
+      }}</a>
+    </li>
+
+    <li *ngIf="parentCategory != ''">
+      <a (click)="getParentCategory()">Back</a>
+    </li>
+  </ul>
+
+  <hr />
+  <h4 class="p-pt-0 p-mt-1">
+    PRICE
+  </h4>
+  <div class="p-grid">
+    <div class="p-col">
+      <div class="p-mb-2" *ngIf="searchPriceRange">
+        <p class="p-mt-0 p-pt-0">
+          {{ searchPriceRange[0] | currency: 'R' }} -
+          {{ searchPriceRange[1] | currency: 'R' }}
+        </p>
+      </div>
+      <p-slider
+        [(ngModel)]="searchPriceRange"
+        [range]="true"
+        [step]="100"
+        [min]="0"
+        [max]="maxPrice"
+        (onSlideEnd)="navigate()"
+      ></p-slider>
+    </div>
+  </div>
+  <bushtrade-search-facet
+    [facet]="facet"
+    *ngFor="let facet of facetsResponse"
+    [selectedFacets]="facets"
+    (facetSelected)="handleFacetSelection($event)"
+  ></bushtrade-search-facet>
+</p-sidebar>
+
+<div class="p-grid">
+  <ng-template #noSearchResponse>
+    <div class="p-col-12 p-text-center">
+      <progress-spinner></progress-spinner>
+    </div>
+  </ng-template>
+
+  <div
+    class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2"
+    *ngIf="searchResponse; else noSearchResponse"
+  >
+    <div class="p-grid">
+      <div class="p-col-12 p-mb-4 p-d-none p-d-md-block p-mt-3">
+        <h3 class="p-text-center">
+          Browse <ng-container *ngIf="type == 0">auctions</ng-container>
+          <ng-container *ngIf="type == 1">items for sale</ng-container>
+          <ng-container *ngIf="!type">all listings</ng-container>
+          by category
+        </h3>
+
+        <div class="p-d-flex p-jc-evenly">
+          <div
+            class="p-mr-2 p-mb-2 p-text-center category-button"
+            *ngFor="let category of featuredCategories"
+            (click)="handleCategorySelection(category.id, category.name)"
+            [ngClass]="[
+              categoryId == category.id ? 'selected-category' : '',
+              currentCategory == category.id ? 'selected-category' : ''
+            ]"
+          >
+            <div class="category-icon">
+              <img
+                *ngIf="category.categoryIconUri"
+                src="{{ category.categoryIconUri }}"
+              />
+              <img
+                *ngIf="!category.categoryIconUri"
+                src="assets/layout/images/cat-000.png"
+              />
+              <p class="word-break">{{ category.name }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-col-3 sidebar">
+        <p *ngIf="searchResponse?.totalItems > 0">
+          Displaying
+          {{ searchResponse?.items.length * searchResponse?.page }}/{{
+            searchResponse?.totalItems
+          }}
+          items
+        </p>
+        <h4 class="p-d-flex p-jc-between">
+          <span>
+            Categories
+          </span>
+          <span style="float: right;"
+            ><a (click)="handleCategorySelection(null)"> All</a></span
+          >
+        </h4>
+
+        <ul class="category-list">
+          <li *ngFor="let category of subCategories">
+            <a (click)="changeSubCategory(category.id, category.name)"
+              >{{ category.name }}
+              <!-- <span style="float: right;" *ngIf="category.children.length">{{
+                category.children.length
+              }}</span> -->
+            </a>
+          </li>
+          <li *ngIf="parentCategory != ''">
+            <a (click)="getParentCategory()" class="secondary-link"
+              ><i class="pi pi-backward"></i> Back</a
+            >
+          </li>
+        </ul>
+
+        <hr />
+        <h4 class="p-pt-0 p-mt-1">
+          Price
+        </h4>
+        <div class="p-grid">
+          <div class="p-col">
+            <div class="p-mb-2" *ngIf="searchPriceRange">
+              <p class="p-mt-0 p-pt-0">
+                {{ searchPriceRange[0] | currency: 'R' }} -
+                {{ searchPriceRange[1] | currency: 'R' }}
+              </p>
+            </div>
+            <p-slider
+              [(ngModel)]="searchPriceRange"
+              [range]="true"
+              [step]="100"
+              [min]="0"
+              [max]="maxPrice"
+              (onSlideEnd)="navigate()"
+            ></p-slider>
+          </div>
+        </div>
+        <hr />
+        <h4 class="p-pt-0 p-mt-1">
+          REGION
+        </h4>
+        <div class="p-grid">
+          <div class="p-col">
+            <p-dropdown
+              [options]="selectableRegions"
+              [autoDisplayFirst]="false"
+              [showClear]="true"
+              [(ngModel)]="selectedRegion"
+              (onChange)="navigate()"
+            ></p-dropdown>
+          </div>
+        </div>
+        <hr />
+        <h4 class="p-pt-0 p-mt-1">
+          LOCATION RANGE
+        </h4>
+        <div class="p-grid">
+          <div class="p-col">
+            <p-dropdown
+              [options]="selectableDistanceRanges"
+              [autoDisplayFirst]="false"
+              [showClear]="true"
+              [(ngModel)]="selectedRange"
+              (onChange)="filterDistanceRange()"
+            ></p-dropdown>
+          </div>
+        </div>
+        <bushtrade-search-facet
+          [facet]="facet"
+          *ngFor="let facet of facetsResponse"
+          [selectedFacets]="facets"
+          (facetSelected)="handleFacetSelection($event)"
+        ></bushtrade-search-facet>
+      </div>
+
+      <div class="p-col-12 p-sm-9">
+        <div class="p-grid p-my-3">
+          <div
+            class="p-col-12 p-px-0 p-text-center advertisement-horizontal-banner"
+          >
+            <img
+              src="assets/layout/images/advertise.png"
+              alt="Advertise Here"
+            />
+          </div>
+          <div class="p-col-12 p-md-6">
+            <span>Sort by: </span>
+            <a
+              (click)="sortBy(0)"
+              [ngClass]="listingSortField == 0 ? 'selected-sorting' : ''"
+              >Price</a
+            >
+            |
+            <a
+              (click)="sortBy(1)"
+              [ngClass]="listingSortField == 1 ? 'selected-sorting' : ''"
+              >Closing Date</a
+            >
+            |
+            <a
+              (click)="sortBy(2)"
+              [ngClass]="listingSortField == 2 ? 'selected-sorting' : ''"
+              >Created Date</a
+            >
+            <i
+              *ngIf="sortOrder == sortOrderEnum.Ascending"
+              class="pi pi-sort-amount-up-alt p-ml-2"
+              pTooltip="Click the filter again to sort listings in Decending order"
+              tooltipPosition="top"
+            ></i>
+            <i
+              *ngIf="sortOrder == sortOrderEnum.Descending"
+              class="pi pi-sort-amount-down p-ml-2"
+              pTooltip="Click the filter again to sort listings in Ascending order"
+              tooltipPosition="top"
+            ></i>
+          </div>
+
+          <div class="p-d-md-none p-col-3">
+            <p-button
+              type="text"
+              (click)="displayFilters = true"
+              icon="pi pi-filter"
+              label="Filter"
+            ></p-button>
+          </div>
+
+          <div class="p-col p-text-right">
+            <p-selectButton
+              [options]="selectableListingTypes"
+              [(ngModel)]="selectedListingType"
+              (onChange)="changeType($event.value)"
+            ></p-selectButton>
+          </div>
+          <div
+            class="p-col-fixed"
+            style="width: 35px;"
+            *ngIf="selectedListingType == 1 || selectedListingType == 0"
+          >
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-times"
+              class="p-button-rounded p-button-danger p-button-text"
+              (click)="changeType(null)"
+            ></button>
+          </div>
+        </div>
+
+        <div class="p-grid">
+          <div class="p-col">
+            <div class="bread-crumbs p-mb-3">
+              <a
+                class="bread-crumb p-mr-1"
+                (click)="handleCategorySelection(null)"
+                >All</a
+              >
+              <a
+                *ngFor="let breadCrumb of breadCrumbs; let i = index"
+                class="bread-crumb p-mr-1"
+                (click)="updateSubCategory(breadCrumb[1], i + 1)"
+              >
+                {{ breadCrumb[0] }}
+              </a>
+            </div>
+          </div>
+
+          <ng-container *ngIf="searchResponse?.items.length > 0; else noItems">
+            <bushtrade-web-product-item
+              class="p-col-12"
+              *ngFor="let item of searchResponse.items"
+              [item]="item"
+            ></bushtrade-web-product-item>
+          </ng-container>
+
+          <ng-template #noItems>
+            <div class="p-col-12">
+              <div class="p-card p-p-5 p-col-12">
+                <h3>
+                  There are currently no listings for this category
+                  <ng-container *ngIf="type == 0">in auctions</ng-container>
+                  <ng-container *ngIf="type == 1"
+                    >in items for sale</ng-container
+                  >.
+                </h3>
+                <p *ngIf="type">
+                  Try adjusting your price range, filter or check for more
+                  results in
+                  <a *ngIf="type == 1" (click)="changeType(0)">auctions</a>
+                  <a *ngIf="type == 0" (click)="changeType(1)"
+                    >items for sale</a
+                  >
+                </p>
+                <p *ngIf="!type">
+                  Try adjusting your price range and filters
+                </p>
+                <p>
+                  Why not start trading today and sell a product in this
+                  category!
+                </p>
+              </div>
+            </div>
+          </ng-template>
+
+          <div
+            class="p-col-12 p-px-0 p-text-center advertisement-horizontal-banner"
+          >
+            <img
+              src="assets/layout/images/advertise.png"
+              alt="Advertise Here"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

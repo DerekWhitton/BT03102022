@@ -1,0 +1,150 @@
+$COLOUR-ORANGE: #ff7600;
+
+.category-icon {
+  text-align: center;
+  text-decoration: none;
+  color: #525252;
+
+  img {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 0.5em;
+    max-width: 60px;
+  }
+}
+
+.countdown-timer {
+  color: $COLOUR-ORANGE;
+  font-weight: bold;
+}
+
+h4 {
+  text-transform: uppercase;
+}
+
+.bt-all-caps {
+  text-transform: uppercase;
+}
+
+.bread-crumbs {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 3px;
+  padding: 1rem;
+
+  .bread-crumb {
+    text-decoration: none;
+    color: #495057;
+    &:after {
+      content: ' > ';
+    }
+
+    &:last-child {
+      color: #c09a6a;
+      &:after {
+        content: none;
+      }
+    }
+  }
+}
+.category-button {
+  cursor: pointer;
+  outline: none;
+  width: 70px;
+  transition: all 0.2s ease-out;
+
+  &:hover {
+    transform: scale(1.1);
+    .category-icon {
+      img {
+        box-shadow: 0px 4px 4px 0px #00000042;
+        border-radius: 15px;
+        background: #4d2b29;
+      }
+    }
+  }
+
+  &.selected-category {
+    .category-icon {
+      img {
+        box-shadow: 0px 4px 4px 0px #00000042;
+        border-radius: 15px;
+        background: #4d2b29;
+        filter: invert(1);
+      }
+
+      p {
+        font-weight: bold;
+        margin-bottom: 0px;
+      }
+    }
+  }
+}
+
+h4 {
+  font-weight: bold;
+}
+
+:host ::ng-deep {
+  .p-slider {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .p-dropdown {
+    width: 100%;
+  }
+}
+
+.sidebar {
+  padding-right: 30px;
+  display: none;
+}
+
+.category-list {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+
+  li {
+    padding: 2px 0px;
+    cursor: pointer;
+
+    a {
+      font-size: 1.2em;
+      display: block;
+      transition: 0.1s all;
+      padding: 0.33em;
+
+      &:hover {
+        color: #4d2b29;
+        background: #c09a6a;
+      }
+    }
+  }
+}
+
+.selected-sorting {
+  font-weight: bold;
+}
+
+@media screen and (min-width: 512px) {
+  .sidebar {
+    padding-right: 30px;
+    display: block;
+  }
+
+  .category-list {
+    li {
+      a {
+        font-size: 1em;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .category-button {
+    width: 100px;
+  }
+}

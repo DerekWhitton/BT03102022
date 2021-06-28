@@ -1,0 +1,12 @@
+<bushtrade-web-support
+  [supportTickets]="supportTickets$ | async"
+  [loaded]="loaded$ | async"
+  [pageSize]="pageSize"  
+  [currentPage]="currentPage"
+  [previousPage]="previousPage$ | async"
+  [nextPage]="nextPage$ | async"
+  [error]="error$ | async"
+  [isAdmin]="true"
+  (loadPage)="loadPage($event)"
+>
+</bushtrade-web-support>

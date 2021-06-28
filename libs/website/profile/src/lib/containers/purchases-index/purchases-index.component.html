@@ -1,0 +1,437 @@
+<div class="p-col-12 p-text-center" *ngIf="!(loaded$ | async)">
+  <progress-spinner></progress-spinner>
+</div>
+
+<p-toast position="top-center"></p-toast>
+
+<div *ngIf="(loaded$ | async) && purchases$ | async as purchases" class="card">
+  <ng-container *ngIf="purchases.length < 1">
+    <p-messages severity="info">
+      <ng-template pTemplate>
+        <span class="p-message-icon pi pi-exclamation-triangle"></span>
+        <div class="p-ml-2">
+          You do not have any purchases associated with your account.
+        </div>
+      </ng-template>
+    </p-messages>
+  </ng-container>
+
+  <p-table
+    #dt
+    [value]="purchases"
+    *ngIf="purchases.length > 0"
+    dataKey="id"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[25, 50, 100]"
+    [loading]="loading"
+    styleClass="p-datatable-customers p-datatable-responsive-demo"
+    [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [filterDelay]="0"
+    [globalFilterFields]="['listing.name', 'amount']"
+  >
+    <ng-template pTemplate="caption">
+      <div class="table-header">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filterGlobal($event.target.value, 'contains')"
+            placeholder="Search Purchases"
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>
+          Type
+        </th>
+        <th>
+          Listing
+        </th>
+        <th>
+          Amount
+        </th>
+        <th style="width: 50px;"></th>
+        <th>
+          Status
+        </th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>
+          <p-dropdown
+            [options]="purchasetypes"
+            (onChange)="dt.filter($event.value, 'listing.type', 'equals')"
+            styleClass="p-column-filter"
+            placeholder="All"
+            [showClear]="true"
+          >
+            <ng-template let-option pTemplate="item">
+              <span [class]="'customer-badge status-' + option.value">{{
+                option.label
+              }}</span>
+            </ng-template>
+          </p-dropdown>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-purchase>
+      <tr>
+        <td>
+          <span class="p-column-title">Type: </span>
+          <span
+            class="p-tag"
+            [ngClass]="
+              purchase.listing.type == listingType.Auction
+                ? 'p-tag-success'
+                : 'p-tag-primary'
+            "
+            >{{
+              purchase.listing.type == listingType.Auction
+                ? 'Auction'
+                : 'Listing'
+            }}</span
+          >
+        </td>
+        <td>
+          <span class="p-column-title">Listing</span>
+          {{ purchase.listing.name }}
+        </td>
+        <td>
+          <span class="p-column-title">Amount: </span
+          >{{ purchase.amount.toFixed(2) | currency: 'R ' }}
+        </td>
+        <td style="width: 50px;">
+          <button
+            *ngIf="purchase.dateCompleted"
+            pButton
+            (click)="reviewSeller(purchase)"
+            icon="pi pi-star-o"
+            class="p-mr-2 p-mb-2 p-button-warning"
+            pTooltip="Review the seller"
+            tooltipPosition="right"
+            label="Review Seller"
+          ></button>
+        </td>
+        <td *ngIf="purchase.dateCompleted && !purchase.dateReceivedGoods">
+          <span class="p-column-title">Status: </span>Completed on
+          {{ purchase.dateCompleted | date }}
+        </td>
+        <td *ngIf="purchase.dateCancelled">
+          <span class="p-column-title">Status: </span>Cancelled on
+          {{ purchase.dateCancelled | date }}
+        </td>
+        <td *ngIf="purchase.dateReceivedGoods">
+          <span class="p-column-title">Status: </span> Received goods on
+          {{ purchase.dateReceivedGoods | date }}
+        </td>
+        <td
+          *ngIf="
+            !purchase.dateCompleted &&
+            !purchase.dateCancelled &&
+            !purchase.dateReceivedGoods
+          "
+        >
+          <span class="p-column-title">Status: </span>
+          Pending
+        </td>
+        <td>
+          <div
+            *ngIf="
+              !purchase.dateCompleted &&
+              !purchase.dateCancelled &&
+              purchase.listing.type == listingType.Auction
+            "
+          >
+            <button
+              pButton
+              (click)="initiatePayment(purchase.id)"
+              icon="pi pi-money-bill"
+              class="p-mr-2 p-mb-2 p-button-success"
+              pTooltip="Pay to complete purchase"
+              tooltipPosition="right"
+              label="Pay"
+            ></button>
+            <button
+              pButton
+              (click)="cancelPurchase(purchase.id)"
+              icon="pi pi-times"
+              class="p-mr-2 p-mb-2 p-button-danger"
+              pTooltip="Cancel the purchase."
+              tooltipPosition="right"
+              label="Cancel"
+            ></button>
+          </div>
+          <div>
+            <button
+              pButton
+              *ngIf="purchase.conversationId"
+              icon="pi pi-comments"
+              [routerLink]="[
+                '../..',
+                'conversations',
+                'purchase',
+                purchase.conversationId
+              ]"
+              pTooltip="View all messages between you and the seller on this purchase."
+              tooltipPosition="right"
+              class="p-mr-2 p-mb-2"
+              label="Conversation"
+            ></button>
+            <button
+              *ngIf="
+                purchase.dateCompleted &&
+                purchase.listing.type == listingType.Auction &&
+                !purchase.dateReceivedGoods
+              "
+              pButton
+              style="margin-top: 5px;"
+              class="p-mr-2 p-mb-2 p-button-raised p-button-success"
+              icon="pi pi-thumbs-up"
+              pTooltip="Click here if you have received the goods, to complete the transaction."
+              tooltipPosition="right"
+              (click)="markReceivedGoods(purchase.id)"
+              label="Received Goods"
+            ></button>
+            <button
+              *ngIf="
+                purchase.dateCompleted &&
+                purchase.listing.type == listingType.Auction &&
+                !purchase.disputeId &&
+                !purchase.dateReceivedGoods
+              "
+              pButton
+              style="margin-top: 5px;"
+              class="p-mr-2 p-mb-2 p-button-raised p-button-warning"
+              icon="pi pi-bell"
+              pTooltip="Click here if there is a problem with your transaction."
+              tooltipPosition="right"
+              (click)="showCreateDispute(purchase)"
+              label="Create Dispute"
+            ></button>
+            <button
+              *ngIf="purchase.disputeId"
+              pButton
+              style="margin-top: 5px;"
+              [ngClass]="
+                purchase.disputeResolved
+                  ? 'p-button-success'
+                  : 'p-button-warning'
+              "
+              class="p-mr-2 p-mb-2 p-button-raised"
+              icon="pi pi-sign-out"
+              pTooltip="Click here to check the details of your dispute."
+              tooltipPosition="right"
+              [routerLink]="['../..', 'support', purchase.disputeId]"
+              label="Disputes"
+            ></button>
+            <button
+              *ngIf="
+                !purchase.dateCompleted &&
+                !purchase.dateCancelled &&
+                purchase.listing.type == listingType.Sale
+              "
+              pButton
+              (click)="cancelPurchase(purchase.id)"
+              icon="pi pi-times"
+              pTooltip="This will cancel your purchase."
+              tooltipPosition="right"
+              class="p-mr-2 p-mb-2 p-button-danger"
+              label="Cancel"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">No customers found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [(visible)]="showCreateSupportTicketModal"
+  [style]="{ width: '450px' }"
+  [modal]="true"
+  [closable]="false"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="header">
+    <h3>Create Dispute</h3>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <form [formGroup]="addSupportTicketFormGroup">
+      <div class="p-grid">
+        <div class="p-col">
+          <div class="p-fluid">
+            <div class="p-field">
+              <label>
+                Summary:
+              </label>
+              <input pInputText type="text" required formControlName="title" />
+            </div>
+            <div class="p-field">
+              <label>
+                Please describe the problem in detail (2500 characters maximum):
+              </label>
+              <textarea
+                pInputTextarea
+                [rows]="5"
+                [autoResize]="true"
+                required
+                formControlName="message"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideCreateSupportTicketModal()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      class="p-button-text"
+      icon="pi pi-check"
+      label="Add ticket"
+      [disabled]="!this.addSupportTicketFormGroup.valid"
+      (click)="saveSupportTicket()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="showReviewModal"
+  [style]="{ width: '450px' }"
+  [modal]="true"
+  [closable]="false"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="header">
+    <div>
+      <h3 *ngIf="!listingReviews.sellerReview">Review this seller</h3>
+      <h3 *ngIf="listingReviews.sellerReview">Your review for this seller</h3>
+      <hr />
+      <h4>Listing: {{ selectedListing.name }}</h4>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <form [formGroup]="reviewFormGroup" *ngIf="!listingReviews.sellerReview">
+      <div class="p-grid">
+        <div class="p-col">
+          <div class="p-fluid">
+            <div class="p-field">
+              <label>
+                Rating:
+              </label>
+              <p-rating [cancel]="false" formControlName="rating"></p-rating>
+            </div>
+            <div class="p-field">
+              <label>
+                Review comment (2500 characters maximum):
+              </label>
+              <textarea
+                pInputTextarea
+                [rows]="5"
+                [autoResize]="true"
+                required
+                formControlName="comment"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="p-fluid" *ngIf="listingReviews.sellerReview">
+      <div class="p-field">
+        <label>
+          Rating:
+        </label>
+        <p-rating
+          [cancel]="false"
+          [readonly]="true"
+          [(ngModel)]="listingReviews.sellerReview.rating"
+        ></p-rating>
+      </div>
+      <div class="p-field">
+        <label>
+          Review comment:
+        </label>
+        <br />
+        <label>{{ listingReviews.sellerReview.comment }}</label>
+      </div>
+    </div>
+    <div
+      class="p-fluid"
+      *ngIf="listingReviews.sellerReview && listingReviews.buyerReview"
+    >
+      <hr />
+      <h3>Seller's review:</h3>
+      <div class="p-field">
+        <label>
+          Rating:
+        </label>
+        <p-rating
+          [cancel]="false"
+          [readonly]="true"
+          [(ngModel)]="listingReviews.buyerReview.rating"
+        ></p-rating>
+      </div>
+      <div class="p-field">
+        <label>
+          Review comment:
+        </label>
+        <br />
+        <label>{{ listingReviews.buyerReview.comment }}</label>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideReviewModal()"
+    ></button>
+    <button
+      *ngIf="!listingReviews.sellerReview"
+      pButton
+      pRipple
+      class="p-button-text"
+      icon="pi pi-check"
+      label="Save review"
+      [disabled]="!this.reviewFormGroup.valid"
+      (click)="saveReview()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<bushtrade-portal-initiate-payment
+  [showPurchaseDetailDialog]="showPurchaseDetailDialog"
+  [paymentDetailsLoaded$]="paymentDetailsLoaded$ | async"
+  [paymentDetails$]="paymentDetails$ | async"
+  (modalClosed)="showPurchaseDetailDialog = false"
+></bushtrade-portal-initiate-payment>

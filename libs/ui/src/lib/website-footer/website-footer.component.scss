@@ -1,0 +1,27 @@
+.footer{
+    color: #fff;
+
+    h3{
+        border-bottom: 1px solid rgba(255,255,255,0.5);
+        margin-bottom: 1em;
+        padding-bottom: 1em;
+        font-size: 20px;
+
+    }
+
+    ul{
+        list-style-type: none;
+        margin-left: 0px;
+        padding-left: 0px;
+        
+        a{
+            color: #fff;
+            text-decoration: none;
+            line-height: 30px;
+        }
+    }
+}
+
+h1,h2,h3,h4,h5,h6{
+    color: #fff;
+}

@@ -1,0 +1,40 @@
+<div class="p-grid p-fluid">
+
+    <div class="p-col-12 p-lg-12">
+  
+      <h3>Welcome to the Bush Trade Administration Portal</h3>
+      <p>This portal is built for Employees to manage the global enviroments.</p>
+    </div>
+  
+    <div class="p-col-12 p-lg-4">
+      <div class="card"  [routerLink]="['/','users']">
+        <h3><i class="pi pi-id-card"></i> Users</h3>
+        <p>Manage the internal staff.</p>
+      </div>
+    </div>
+    <div class="p-col-12 p-lg-4">
+        <div class="card"  [routerLink]="['/','users', 'roles']">
+          <h3><i class="pi pi-lock"></i> Roles</h3>
+          <p>Assign and manage roles for all users</p>
+        </div>
+      </div>   
+    <div class="p-col-12 p-lg-4">
+      <div class="card"  [routerLink]="['/','forums']">
+        <h3><i class="pi pi-comments" ></i> Forums</h3>
+        <p>Manage forum topics</p>
+      </div>
+    </div>
+    <div class="p-col-12 p-lg-4"  [routerLink]="['/','listings']">
+      <div class="card">
+        <h3><i class="pi pi-list"></i> Listings</h3>
+        <p>View all listings on Bush Trade</p>
+      </div>
+    </div>
+    <div class="p-col-12 p-lg-4"  [routerLink]="['/','listings', 'categories']">
+      <div class="card">
+        <h3><i class="pi pi-tags"></i> Categories</h3>
+        <p>Manage all listing categories</p>
+      </div>
+    </div>
+  </div>
+  

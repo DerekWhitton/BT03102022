@@ -1,0 +1,97 @@
+<div
+  class="p-col-12"
+  class="pos-relative"
+  [ngClass]="banners.length == 0 ? 'no-banner-loaded p-pt-5' : 'banner-loaded'"
+>
+  <div
+    class="p-col p-md-5 p-fluid p-formgrid p-grid form-box p-text-center"
+    *ngIf="!mobile"
+    [ngClass]="
+      banners.length > 0 ? 'pos-absolute p-m-5' : 'pos-relative p-mx-auto'
+    "
+  >
+    <div class="p-field p-col-12">
+      <h3 class="p-text-center">Quick Search</h3>
+    </div>
+
+    <div class="p-field p-col-12 p-md-6 p-text-left">
+      <p-dropdown
+        [options]="categories"
+        [placeholder]="'Category'"
+        [showClear]="true"
+        [(ngModel)]="searchCategoryId"
+      ></p-dropdown>
+    </div>
+
+    <div class="p-field p-col-12 p-md-6 p-text-left">
+      <p-dropdown
+        [options]="selectableListingTypes"
+        [placeholder]="'All Listings'"
+        [showClear]="true"
+        [autoDisplayFirst]="false"
+        [(ngModel)]="searchListingType"
+        (onChange)="setMaxPrice()"
+      ></p-dropdown>
+    </div>
+    <div class="p-field p-col-12" *ngIf="maxPrice">
+      <div class="price-range">
+        Price Range:
+        {{ searchPriceRange[0] | currency: 'R ' }} -
+        {{ searchPriceRange[1] | currency: 'R ' }}
+      </div>
+      <p-slider
+        [(ngModel)]="searchPriceRange"
+        [range]="true"
+        [step]="100"
+        [min]="0"
+        [max]="maxPrice"
+      ></p-slider>
+    </div>
+
+    <div class="p-field p-col-12">
+      <button
+        pButton
+        type="button"
+        label="Search"
+        class="p-button-gold"
+        (click)="submitQuickSearch()"
+      ></button>
+    </div>
+  </div>
+
+  <ng-container>
+    <p-carousel
+      [value]="banners"
+      [circular]="true"
+      [ngClass]="banners.length > 1 ? '' : 'hide-controls'"
+      *ngIf="loaded"
+    >
+      <ng-template let-banner pTemplate="item">
+        <div
+          class="banner-item"
+          style="background-image:url({{
+            banner.imageUri
+          }}); position:relative; background-size: cover;"
+        >
+          <div
+            class="banner-item-content p-grid"
+            *ngIf="banner.title || banner.link"
+          >
+            <div class="p-m-2 p-md-offset-6 p-text-right">
+              <div class="p-col-10 p-offset-1 p-md-4 p-lg-4 p-m-5 position-br">
+                <h2 *ngIf="banner.title">{{ banner.title }}</h2>
+                <a
+                  pButton
+                  type="button"
+                  label="{{ banner.label }}"
+                  href="{{ banner.link }}"
+                  *ngIf="banner.link && banner.label"
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </ng-container>
+</div>

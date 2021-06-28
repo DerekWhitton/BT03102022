@@ -1,0 +1,71 @@
+h3,
+h2 {
+  color: #fff;
+}
+
+.banner-item {
+  min-height: 380px;
+  position: relative;
+  background-repeat: no-repeat !important;
+  background-position: center;
+  h2 {
+    font-size: 2em;
+    font-weight: bold;
+    text-shadow: 2px 2px 0px #000000;
+  }
+  a {
+    text-decoration: none;
+  }
+  @media screen and (max-width: 768px) {
+    min-height: 250px;
+    h2 {
+      font-size: 1.5em;
+    }
+  }
+}
+
+.pos-relative {
+  position: relative;
+}
+
+.pos-absolute {
+  position: absolute;
+}
+
+.form-box {
+  z-index: 999;
+  background: #170c0ccc;
+  left: 3.5em;
+
+  label {
+    display: none;
+  }
+
+  @media screen and (max-width: 560px) {
+    position: relative;
+    left: unset;
+  }
+
+  .price-range {
+    color: #fff;
+    margin-bottom: 20px;
+  }
+}
+
+:host ::ng-deep {
+  p-carousel.hide-controls {
+    .p-carousel-container {
+      button {
+        display: none !important;
+      }
+    }
+    .p-carousel-indicators {
+      display: none;
+    }
+  }
+
+  .p-slider {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}

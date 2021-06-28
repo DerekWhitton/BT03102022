@@ -1,0 +1,358 @@
+<div class="chain-link">
+  <span
+    *ngFor="let link of categoryChain; index as i; last as isLast"
+    (click)="onJumpChain(link.id, link.name, i)"
+    >{{ link.name }} <span *ngIf="!isLast">-&nbsp;</span>
+  </span>
+</div>
+
+<div>
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <button
+        pButton
+        pRipple
+        [label]="!sub ? 'Add Category' : 'Add Subcategory'"
+        icon="pi pi-plus"
+        class="p-button-success p-mr-1"
+        (click)="initializeCategoryCreation()"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+  <p-progressBar
+    mode="indeterminate"
+    *ngIf="!loaded; else tableMain"
+  ></p-progressBar>
+  <ng-template #tableMain>
+    <div *ngIf="sub == false">
+      <p-table [value]="categories" dataKey="id">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 50px;"></th>
+            <th pSortableColumn="name">
+              Index
+            </th>
+            <th pSortableColumn="name">
+              Name
+            </th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-category let-expanded="expanded">
+          <tr>
+            <td>
+              <button
+                class="move-button p-mb-2"
+                *ngIf="category.orderIndex > 1"
+                pButton
+                pRipple
+                title="Move up"
+                icon="pi pi-chevron-up"
+                (click)="moveCategoryUp(category)"
+              ></button>
+              <button
+                class="move-button"
+                *ngIf="category.orderIndex < maxOrderIndex"
+                pButton
+                pRipple
+                title="Move down"
+                icon="pi pi-chevron-down"
+                (click)="moveCategoryDown(category)"
+              ></button>
+            </td>
+            <td>
+              {{ category.orderIndex }}
+            </td>
+            <td>
+              <a (click)="onGoDeeper(category)">{{ category.name }}</a>
+            </td>
+            <td class="p-text-right">
+              <button
+                type="button"
+                pButton
+                icon="pi pi-chevron-right"
+                class="p-button-rounded p-button-primary p-mr-2"
+                (click)="onGoDeeper(category)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success p-mr-2"
+                (click)="handleCategoryUpdateSelection(category.id)"
+              ></button>
+              <button
+                type="button"
+                pButton
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-warning"
+                (click)="deleteCategory(category.id)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div *ngIf="sub == true">
+      <div *ngIf="categories.length > 0; else noSubCategory" #tableSub>
+        <p-table [value]="categories" dataKey="id">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="name">
+                Name
+              </th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-category let-expanded="expanded">
+            <tr>
+              <td>
+                <a (click)="onGoDeeper(category)">{{ category.name }}</a>
+              </td>
+              <td class="p-text-right">
+                <button
+                  type="button"
+                  pButton
+                  icon="pi pi-chevron-right"
+                  class="p-button-rounded p-button-primary p-mr-2"
+                  (click)="onGoDeeper(category)"
+                ></button>
+                <button
+                  pButton
+                  pRipple
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success p-mr-2"
+                  (click)="handleCategoryUpdateSelection(category.id)"
+                ></button>
+                <button
+                  type="button"
+                  pButton
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-warning"
+                  (click)="deleteCategory(category.id)"
+                ></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+      <ng-template #noSubCategory>
+        <p>There are no subcategories. Add one above</p>
+      </ng-template>
+    </div>
+  </ng-template>
+</div>
+
+<p-dialog
+  [(visible)]="displayCreateDialog"
+  [style]="{ width: '450px' }"
+  header="Add Category"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="categoryForm">
+      <div class="p-field">
+        <label>
+          Name:
+        </label>
+        <input pInputText type="text" required formControlName="name" />
+      </div>
+      <div class="p-field">
+        <label>
+          Active:
+        </label>
+        <br />
+        <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+      </div>
+      <div class="p-field" *ngIf="sub == false">
+        <label>
+          Featured:
+        </label>
+        <br />
+        <p-inputSwitch formControlName="isFeatured"></p-inputSwitch>
+      </div>
+      <div class="p-field" *ngIf="sub == false">
+        <label>
+          Success fee:
+        </label>
+        <br />
+        <p-inputNumber
+          suffix="%"
+          [min]="0"
+          [max]="100"
+          formControlName="successFee"
+        ></p-inputNumber>
+      </div>
+      <div class="p-field" *ngIf="sub == false">
+        <label>
+          Maximum fee:
+        </label>
+        <br />
+        <p-inputNumber
+          prefix="R "
+          [min]="0"
+          formControlName="maximumFee"
+        ></p-inputNumber>
+      </div>
+      <div class="p-field" *ngIf="sub == false">
+        <label>
+          Category icon:
+        </label>
+        <p-fileUpload
+          *ngIf="!categoryForm.controls.categoryIconUri.value"
+          #categoryIconUpload
+          name="categoryIcon"
+          customUpload="true"
+          (uploadHandler)="uploadCategoryImage($event, false)"
+        ></p-fileUpload>
+
+        <p *ngIf="isUploadingImageFiles">
+          Uploading...
+        </p>
+        <div class="p-grid p-mt-2">
+          <div class="p-col-3">
+            <bushtrade-listing-image-preview
+              *ngIf="categoryForm.controls.categoryIconUri.value"
+              (removed)="removeCategoryIcon()"
+              [src]="categoryForm.controls.categoryIconUri.value"
+            ></bushtrade-listing-image-preview>
+          </div>
+        </div>
+      </div>
+      <div class="p-field" *ngIf="sub == false">
+        <label>
+          Category banner:
+        </label>
+        <p-fileUpload
+          *ngIf="!categoryForm.controls.categoryBannerUri.value"
+          #categoryBannerUpload
+          name="categoryBanner"
+          customUpload="true"
+          (uploadHandler)="uploadCategoryImage($event, true)"
+        ></p-fileUpload>
+
+        <p *ngIf="isUploadingImageFiles">
+          Uploading...
+        </p>
+        <div class="p-grid p-mt-2">
+          <div class="p-col-3">
+            <bushtrade-listing-image-preview
+              *ngIf="categoryForm.controls.categoryBannerUri.value"
+              (removed)="removeCategoryBanner()"
+              [src]="categoryForm.controls.categoryBannerUri.value"
+            ></bushtrade-listing-image-preview>
+          </div>
+        </div>
+      </div>
+    </form>
+    <p-table
+      [value]="categoryProperties"
+      dataKey="name"
+      *ngIf="categoryProperties.length"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            Name
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        let-categoryProperty
+        let-expanded="expanded"
+      >
+        <tr>
+          <td>
+            {{ categoryProperty.name }}
+          </td>
+          <td>
+            <button
+              type="button"
+              pButton
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-warning"
+              (click)="discardCategoryProperty(categoryProperty.name)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <form
+      [formGroup]="addPropertyFormGroup"
+      *ngIf="sub == true"
+      style="border: 1px solid #ced4da; padding: 1em;"
+    >
+      <div class="p-field">
+        <h5>Add A Property</h5>
+      </div>
+      <div class="p-field">
+        <label>
+          Name:
+        </label>
+        <input pInputText type="text" required formControlName="name" />
+      </div>
+      <div class="p-field">
+        <label>
+          Type:
+        </label>
+        <p-dropdown
+          [options]="categoryPropertyTypeOptions"
+          [(ngModel)]="this.propertyType"
+          formControlName="type"
+        ></p-dropdown>
+      </div>
+      <div
+        class="p-field"
+        *ngIf="
+          addPropertyFormGroup.get('type').value ==
+          CategoryPropertyType.SingleSelect
+        "
+      >
+        <label>
+          Options(press enter after each option):
+        </label>
+        <p-chips formControlName="options"></p-chips>
+      </div>
+      <div class="p-field">
+        <label>
+          Required:
+        </label>
+        <br />
+        <p-inputSwitch formControlName="required"></p-inputSwitch>
+      </div>
+      <p-button
+        label="Add Property"
+        [disabled]="(!this.addPropertyFormGroup.valid)"
+        (click)="attachProperty()"
+      ></p-button>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="this.displayCreateDialog = false"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Add"
+      icon="pi pi-check"
+      class="p-button-text"
+      [disabled]="!this.categoryForm.valid"
+      (click)="saveCategory()"
+    ></button>
+  </ng-template>
+</p-dialog>
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+></p-confirmDialog>

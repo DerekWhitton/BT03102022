@@ -1,0 +1,54 @@
+<p-dialog
+  [(visible)]="showPurchaseDetailDialog"
+  header="Pay Now"
+  [style]="{ width: '450px' }"
+  [modal]="true"
+  (onHide)="hideModal()"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div
+      class="p-col-12 p-text-center"
+      *ngIf="!paymentDetailsLoaded$"
+    >
+      <progress-spinner></progress-spinner>
+    </div>
+
+    <form
+      ngNoForm
+      method="POST"
+      [action]="paymentDetails.url"
+      *ngIf="
+        paymentDetailsLoaded$ && paymentDetails$ as paymentDetails
+      "
+    >
+      <div *ngIf="!paymentDetails.paid">
+        <input
+          type="hidden"
+          [value]="field.value"
+          [name]="field.key"
+          [id]="field.key"
+          *ngFor="let field of paymentDetails.fields | keyvalue: 0"
+        />
+        <p>
+          You will be redirected to PayFast to complete your payment of R{{
+            paymentDetails.total | number: '1.2'
+          }}
+        </p>
+        <p *ngIf="isDirectPurchase">
+          You will have 10 minutes to complete the purchase of this item.
+          Thereafter your reservation will be removed and the item will become
+          available to other members again.
+        </p>
+        <p-button label="Proceed to PayFast" type="submit" (click)="hideModal()"></p-button>
+      </div>
+
+      <div *ngIf="paymentDetails.paid">
+        <p>
+          You have already paid.
+        </p>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer"></ng-template>
+</p-dialog>

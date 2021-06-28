@@ -1,0 +1,84 @@
+<p-card
+  styleClass="p-mb-4 p-col-12"
+  [style]="{ position: 'relative' }"
+  [ngClass]="{
+    'auction-listing': item.type == ListingType.Auction,
+    'premium-listing': item.isPremium
+  }"
+>
+  <div class="p-grid">
+    <div
+      class="p-col-12 p-md-4 p-text-center"
+      [routerLink]="['/', 'listings', item.id]"
+    >
+      <img
+        *ngIf="item.images && item.images.length"
+        [src]="item.images[0].url"
+        (error)="updateUrl($event)"
+        style="max-width: 100%; max-height: 150px;"
+        alt="listing"
+      />
+      <ng-container *ngIf="!item.images || !item.images.length">
+        <img
+          src="/assets/layout/images/logo-light.png"
+          style="max-width: 100%; max-height: 150px;"
+          alt="listing"
+          class="placeholder"
+        />
+        <p>No image Provided</p>
+      </ng-container>
+    </div>
+    <div class="p-col-12 p-md-4">
+      <!-- <span *ngIf="item.isPremium" class="p-tag p-tag-warning premium-tag">Premium</span> -->
+      <h4 class="p-mt-0">{{ item.name }}</h4>
+      <p>
+        {{
+          item.description.length > 120
+            ? (item.description | slice: 0:120) + '...'
+            : item.description
+        }}
+      </p>
+      <bushtrade-web-countdown-timer
+        *ngIf="item.type == ListingType.Auction"
+        [endDate]="item.endDate"
+      ></bushtrade-web-countdown-timer>
+    </div>
+    <div class="p-col-12 p-md-4 p-text-right">
+      <p>{{ item.listingLocationName }}</p>
+      <p>{{ item.createdAt | date: 'short' }}</p>
+
+      <h3 class="p-m-0">
+        {{ item.type == ListingType.Auction ? 'Starting at ' : '' }}
+        {{ item.startingPrice | currency: 'R ' }}
+      </h3>
+    </div>
+
+    <div class="p-col-12 p-text-right">
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-heart"
+        class="p-button-rounded p-mr-3"
+        [pTooltip]="item.isFavorite ? 'Remove Favourite' : 'Add to Favourites'"
+        [ngClass]="item.isFavorite ? 'p-button-danger' : 'p-button-plain'"
+        (click)="toggleFavorite()"
+      ></button>
+
+      <button
+        pButton
+        type="button"
+        class="p-button-raised no-label"
+        [ngClass]="{
+          'p-button-gold': item.isPremium,
+          'p-button-brown': !item.isPremium
+        }"
+        [innerHtml]="
+          item.type === ListingType.Auction ? 'View Auction' : 'View Listing'
+        "
+        label=" "
+        [routerLink]="['/', 'listings', item.id]"
+      ></button>
+    </div>
+  </div>
+</p-card>

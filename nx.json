@@ -26,25 +26,151 @@
     "administration-portal": {
       "tags": []
     },
-    "administration-portal-e2e": {
-      "tags": [],
-      "implicitDependencies": ["administration-portal"]
-    },
     "seller-portal": {
       "tags": []
     },
-    "seller-portal-e2e": {
-      "tags": [],
-      "implicitDependencies": ["seller-portal"]
-    },
-    "buyer-portal": {
+    "ui": {
       "tags": []
     },
-    "buyer-portal-e2e": {
-      "tags": [],
-      "implicitDependencies": ["buyer-portal"]
+    "administration-portal-users": {
+      "tags": []
     },
-    "ui": {
+    "administration-portal-advertisments": {
+      "tags": []
+    },
+    "administration-portal-listings": {
+      "tags": []
+    },
+    "administration-portal-reports": {
+      "tags": []
+    },
+    "administration-portal-messages": {
+      "tags": []
+    },
+    "administration-portal-articles": {
+      "tags": []
+    },
+    "administration-portal-support": {
+      "tags": []
+    },
+    "administration-portal-transactions": {
+      "tags": []
+    },
+    "administration-portal-forums": {
+      "tags": []
+    },
+    "administration-portal-administration-app": {
+      "tags": []
+    },
+    "administration-portal-dashboard": {
+      "tags": []
+    },
+    "seller-portal-listings": {
+      "tags": []
+    },
+    "seller-portal-banking": {
+      "tags": []
+    },
+    "seller-portal-sales": {
+      "tags": []
+    },
+    "seller-portal-messages": {
+      "tags": []
+    },
+    "seller-portal-buyers": {
+      "tags": []
+    },
+    "seller-portal-account": {
+      "tags": []
+    },
+    "seller-portal-seller-app": {
+      "tags": []
+    },
+    "seller-portal-dashboard": {
+      "tags": []
+    },
+    "website": {
+      "tags": []
+    },
+    "website-home": {
+      "tags": []
+    },
+    "website-buy-sell": {
+      "tags": []
+    },
+    "website-forums": {
+      "tags": []
+    },
+    "website-favourites": {
+      "tags": []
+    },
+    "website-support": {
+      "tags": []
+    },
+    "website-website-app": {
+      "tags": []
+    },
+    "administration-portal-shared-state": {
+      "tags": []
+    },
+    "administration-portal-shared-entities": {
+      "tags": []
+    },
+    "administration-portal-shared-services": {
+      "tags": []
+    },
+    "app-config": {
+      "tags": []
+    },
+    "administration-portal-settings": {
+      "tags": []
+    },
+    "ui-elements": {
+      "tags": []
+    },
+    "website-trophy-cabinet": {
+      "tags": []
+    },
+    "website-shared-state": {
+      "tags": []
+    },
+    "website-shared-entities": {
+      "tags": []
+    },
+    "website-shared-services": {
+      "tags": []
+    },
+    "website-profile": {
+      "tags": []
+    },
+    "website-blog": {
+      "tags": []
+    },
+    "website-shared-interceptors": {
+      "tags": []
+    },
+    "website-listings": {
+      "tags": []
+    },
+    "website-buying": {
+      "tags": []
+    },
+    "website-selling": {
+      "tags": []
+    },
+    "website-about": {
+      "tags": []
+    },
+    "website-contact-us": {
+      "tags": []
+    },
+    "website-payments": {
+      "tags": []
+    },
+    "website-conversations": {
+      "tags": []
+    },
+    "administration-portal-site-settings": {
       "tags": []
     }
   }

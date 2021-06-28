@@ -1,0 +1,114 @@
+<h1>Listings Settings</h1>
+<p-toast position="top-center"></p-toast>
+<p-tabView (onChange)="handleChange($event)">
+  <p-tabPanel header="Auction Duration">
+    <bushtrade-web-crud-table
+      [data]="auctionDurationSettings$ | async"
+      [selectableColumns]="auctionDurationSettingsColumns"
+      [loading]="auctionDurationSettingsLoaded$ | async"
+      [headersValue]="'Auction Duration Settings'"
+      [createFormTemplateReference]="createOrUpdateAuctionDurationFormTemplate"
+      (createSubmit)="onAuctionDurationCreateSubmit()"
+      [createFormValid]="createOrUpdateAuctionDurationFormGroup.valid"
+      (updateSelection)="handleAuctionDurationUpdateSelection($event)"
+      [updateFormTemplateReference]="createOrUpdateAuctionDurationFormTemplate"
+      (updateSubmit)="onUpdateAuctionDurationSubmit()"
+      [allowDelete]="true"
+      (itemDeleted)="onAuctionDurationDeleted($event)"
+      [searchable]="false"
+      (formClosed)="resetForms()"
+    >
+    </bushtrade-web-crud-table>
+  </p-tabPanel>
+  <p-tabPanel header="Premium Packages">
+    <bushtrade-web-crud-table
+      [data]="premiumPackagesSettings$ | async"
+      [selectableColumns]="premiumPackagesSettingsColumns"
+      [loading]="premiumPackagesSettingsLoaded$ | async"
+      [headersValue]="'Premium Packages Settings'"
+      [createFormTemplateReference]="createOrUpdatePremiumPackageFormTemplate"
+      (createSubmit)="onPremiumPackageCreateSubmit()"
+      [createFormValid]="createOrUpdatePremiumPackageFormGroup.valid"
+      (updateSelection)="handlePremiumPackageUpdateSelection($event)"
+      [updateFormTemplateReference]="createOrUpdatePremiumPackageFormTemplate"
+      (updateSubmit)="onUpdatePremiumPackageSubmit()"
+      [allowDelete]="true"
+      (itemDeleted)="onPremiumPackageDeleted($event)"
+      [searchable]="false"
+      (formClosed)="resetForms()"
+    >
+    </bushtrade-web-crud-table>
+  </p-tabPanel>
+</p-tabView>
+
+<ng-template #createOrUpdateAuctionDurationFormTemplate>
+  <form [formGroup]="createOrUpdateAuctionDurationFormGroup">
+    <div class="p-field">
+      <label>
+        Number of Days:
+      </label>
+      <input
+        pInputText
+        type="number"
+        min="0"
+        required
+        formControlName="numberOfDays"
+      />
+    </div>
+    <div class="p-field">
+      <label>
+        IsActive:
+      </label>
+      <br />
+      <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #createOrUpdatePremiumPackageFormTemplate>
+  <form [formGroup]="createOrUpdatePremiumPackageFormGroup">
+    <div class="p-field">
+      <label>
+        Number of Days:
+      </label>
+      <input
+        pInputText
+        type="number"
+        min="0"
+        required
+        formControlName="numberOfDays"
+      />
+    </div>
+    <div class="p-field">
+      <label>
+        Price:
+      </label>
+      <input
+        pInputText
+        type="number"
+        min="0"
+        required
+        formControlName="price"
+      />
+    </div>
+    <div class="p-field">
+      <label>
+        Priority:
+      </label>
+      <input
+        pInputText
+        type="number"
+        min="0"
+        required
+        formControlName="priority"
+      />
+    </div>
+    <div class="p-field">
+      <label>
+        IsActive:
+      </label>
+      <br />
+      <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+    </div>
+  </form>
+</ng-template>

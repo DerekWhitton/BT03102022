@@ -1,0 +1,72 @@
+<div class="banner-placeholder">
+  <ng-template #loading>
+    <div class="p-grid">
+      <div class="p-col-12 p-text-center p-pt-5 p-pb-5">
+        <progress-spinner></progress-spinner>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="p-grid" *ngIf="categories && categories.length > 0; else loading">
+    <div class="p-col-12 p-offset-0 p-lg-8 p-lg-offset-2">
+      <div class="p-grid">
+        <div class="p-col-12">
+          <carousel-hero-banner> </carousel-hero-banner>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+    <div class="p-grid">
+      <div class="p-col-12 p-text-center">
+        <h1 class="text-uppercase">
+          Connect and trade with outdoor enthusiasts
+        </h1>
+        <!-- <p>
+          Bush Trade is a community built for hunters, campers and outdoor
+          enthusiasts to connect, trade or sell goods and share experiences.
+        </p> -->
+      </div>
+    </div>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+    <div class="p-grid">
+      <div class="p-col-12" *ngIf="categories && categories.length > 0">
+        <category-block [categories]="categories"> </category-block>
+      </div>
+      <div class="p-col-12" *ngIf="latestItems && latestItems.length > 0">
+        <h3 class="p-text-left p-ml-7 p-mr-7">
+          Latest listings added<span style="float: right;"
+            ><a href="">View All</a></span
+          >
+        </h3>
+        <carousel-listing-item [listings]="latestItems"></carousel-listing-item>
+      </div>
+      <div
+        class="p-col-12"
+        *ngIf="closingAuctions && closingAuctions.length > 0"
+      >
+        <h3 class="p-text-left p-ml-7 p-mr-7">
+          Auctions closing Soon
+          <span style="float: right;"
+            ><a
+              [routerLink]="['/', 'listings']"
+              [queryParams]="{ type: listingTypes.Auction }"
+              >View All</a
+            ></span
+          >
+        </h3>
+        <carousel-listing-item
+          [listings]="closingAuctions"
+        ></carousel-listing-item>
+      </div>
+    </div>
+  </div>
+</div>
+
+<advertisement-blocks></advertisement-blocks>

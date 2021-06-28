@@ -1,0 +1,36 @@
+<div class="card">
+  <bushtrade-web-crud-table
+    [data]="listings$ | async"
+    [selectableColumns]="columns"
+    [loading]="loading$ | async"
+    [headersValue]="'Topic'"
+    [createFormTemplateReference]="createFormTemplate"
+    (createSubmit)="onCreateSubmit()"
+    [createFormValid]="createFormGroup.valid"
+    (updateSelection)="handleUpdateSelection($event)"
+    [updateFormTemplateReference]="updateFormTemplate"
+    (updateSubmit)="onUpdateSubmit()"
+    [allowDelete]="false"
+    (queryChanged)="search($event)"
+    [searchable]="false"
+  >
+  </bushtrade-web-crud-table>
+</div>
+
+<ng-template #createFormTemplate>
+  <form [formGroup]="createFormGroup">
+    <label>
+      Name:
+    </label>
+    <input pInputText type="text" required formControlName="name" />
+  </form>
+</ng-template>
+
+<ng-template #updateFormTemplate>
+  <form [formGroup]="updateFormGroup">
+    <label>
+      Name:
+    </label>
+    <input pInputText type="text" required formControlName="name" />
+  </form>
+</ng-template>

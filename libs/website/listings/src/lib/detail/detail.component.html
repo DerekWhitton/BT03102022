@@ -1,0 +1,785 @@
+<div class="p-grid">
+  <div class="p-col-12 p-offset-0 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+    <div class="thread p-p-5 p-mt-5 p-mx-auto" *ngIf="detailsLoading">
+      <progress-spinner></progress-spinner>
+    </div>
+    <p-toast position="top-center"></p-toast>
+    <div class="thread p-p-0 p-my-5" *ngIf="!detailsLoading">
+      <ng-container *ngIf="!loggedIn">
+        <p-messages severity="warn">
+          <ng-template pTemplate>
+            <span class="p-message-icon pi pi-exclamation-triangle"></span>
+            <div class="p-ml-2">
+              You have to be signed in to bid or ask questions.
+            </div>
+          </ng-template>
+        </p-messages>
+      </ng-container>
+
+      <div class="p-grid" *ngIf="listingDetails">
+        <div class="p-col-12 p-md-8 p-lg-9">
+          <div
+            *ngIf="listingDetails?.images?.length > 0"
+            class="p-p-3 bg-white p-mb-3"
+          >
+            <p-galleria
+              [(value)]="listingDetails.images"
+              [(visible)]="displayCustom"
+              [(activeIndex)]="activeIndex"
+              [responsiveOptions]="responsiveOptions"
+              [containerStyle]="{ 'max-width': '1024px' }"
+              [numVisible]="7"
+              [circular]="true"
+              [fullScreen]="true"
+              [showItemNavigators]="true"
+              [showThumbnails]="false"
+              [baseZIndex]="100000"
+            >
+              <ng-template pTemplate="item" let-item>
+                <img
+                  [src]="item.url"
+                  style="max-width: 100%; display: block; max-height: 80vh;"
+                />
+              </ng-template>
+            </p-galleria>
+
+            <div
+              *ngIf="listingDetails.images"
+              class="p-grid"
+              style="margin: 0 auto;"
+            >
+              <div class="p-col-12">
+                <img
+                  [src]="listingDetails.images[0]?.url"
+                  style="cursor: pointer;"
+                  style="max-height: 640px; width: 100%;"
+                  (click)="imageClick(0)"
+                />
+              </div>
+              <div class="p-col-12">
+                <ng-container
+                  *ngFor="let image of listingDetails.images; let index = index"
+                  style="margin: 0 auto;"
+                  key="index"
+                >
+                  <img
+                    [src]="image.url"
+                    [alt]="image.alt"
+                    style="cursor: pointer;"
+                    class="thumbnail p-mr-2"
+                    (click)="imageClick(index)"
+                  />
+                </ng-container>
+              </div>
+            </div>
+          </div>
+          <div class="p-p-3 bg-white">
+            <h1>{{ listingDetails.name }}</h1>
+            <hr />
+            <h3>Description</h3>
+            <p>{{ listingDetails.description }}</p>
+            <hr />
+            <h3>Location</h3>
+            <div *ngIf="listingDetails.locationName; else locationNotAvailable">
+              <p>
+                {{ listingDetails.locationName }} is the general area of the
+                listing, we do not divulge the exact location of the seller, you
+                will discuss delivery and collection in the private chat with
+                the seller.
+              </p>
+              <a
+                href="https://www.google.com/maps/place/{{
+                  listingDetails.locationName
+                }}"
+                target="_blank"
+              >
+                <img
+                  class="listing-location-map"
+                  src="https://maps.googleapis.com/maps/api/staticmap?center={{
+                    listingDetails.locationName
+                  }}&zoom=15&size=600x300&scale=2&maptype=roadmap&key={{
+                    mapsApiKey
+                  }}"
+                />
+              </a>
+            </div>
+            <ng-template #locationNotAvailable>
+              <p>Location not available</p>
+            </ng-template>
+            <hr />
+
+            <ng-container
+              *ngIf="listingDetails.listingPropertyValues.length > 0"
+            >
+              <h3>Specifications</h3>
+
+              <p-table
+                [value]="listingDetails.listingPropertyValues"
+                styleClass="p-datatable-striped"
+              >
+                <ng-template pTemplate="body" let-specification>
+                  <tr>
+                    <td>{{ specification.categoryPropertyName }}</td>
+                    <td>{{ specification.value }}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+              <hr />
+            </ng-container>
+
+            <div class="p-grid">
+              <div class="p-col-12 p-md-8p-lg-9">
+                <div class="p-grid text-center">
+                  <div class="p-col-12 p-md-3 align-center p-p-4 p-d-block">
+                    <img
+                      [src]="
+                        listingSellerSummary.userProfilePictureUri
+                          ? listingSellerSummary.userProfilePictureUri
+                          : 'assets/layout/images/no-profile.png'
+                      "
+                      alt="User Profile Pic"
+                      class="bt-tile p-d-block p-my-4 seller-image"
+                    />
+                    <h3 class="p-m-0 p-text-center">
+                      {{ listingSellerSummary.name }}
+                    </h3>
+                  </div>
+
+                  <div class="p-col-12 p-md-9">
+                    <h3>Seller Information</h3>
+
+                    <div class="p-grid p-mb-3">
+                      <div class="p-col-6"><strong>Member Since:</strong></div>
+                      <div class="p-col-6">
+                        {{ listingSellerSummary.createdAt | date: 'MMMM yyyy' }}
+                      </div>
+                      <div class="p-col-6"><strong>Active ads:</strong></div>
+                      <div class="p-col-6">2</div>
+                      <div class="p-col-6"><strong>Total ads:</strong></div>
+                      <div class="p-col-6">20</div>
+                    </div>
+                  </div>
+                </div>
+
+                <ng-container *ngIf="!loggedIn">
+                  <p>You have to sign in or register to ask questions.</p>
+                </ng-container>
+
+                <hr />
+
+                <div class="p-col-12">
+                  <!-- Q&A Chat -->
+                  <div class="widget-chat">
+                    <ul>
+                      <!-- Q/A Combo -->
+                      <!-- A question will only show to the poster and the seller, until answered - and only then it will be made public -->
+                      <ng-container
+                        *ngFor="let question of questions; index as i"
+                      >
+                        <ng-container *ngIf="loggedIn">
+                          <!-- Question -->
+                          <li class="message-from">
+                            <p-badge
+                              size="large"
+                              severity="warning"
+                              styleclass="p-mr-2"
+                            >
+                              <span
+                                class="p-mr-2 p-badge p-component p-badge-no-gutter p-badge-lg p-badge-success"
+                                >Q</span
+                              >
+                            </p-badge>
+
+                            <div>
+                              <small
+                                >{{ question.name }} -
+                                {{
+                                  question.createdAt | date: 'dd/MM/yyyy'
+                                }}</small
+                              ><br />
+                              {{ question.content }}
+
+                              <button
+                                *ngIf="isSeller"
+                                pButton
+                                type="button"
+                                icon="pi pi-reply"
+                                label="Reply"
+                                class="p-button-text p-button-sm"
+                                (click)="
+                                  op.toggle($event);
+                                  openAnswerDialog(question.id)
+                                "
+                                dynamic="true"
+                              ></button>
+                            </div>
+                          </li>
+
+                          <!-- Answer -->
+                          <li
+                            class="message-own"
+                            *ngFor="let answer of question.children; index as j"
+                          >
+                            <p-badge
+                              size="large"
+                              severity="warning"
+                              styleclass="p-mr-2"
+                              class="t-answer-icon"
+                            >
+                              <span
+                                class="p-mr-2 p-badge p-component p-badge-no-gutter p-badge-lg p-badge-info"
+                                >A</span
+                              >
+                            </p-badge>
+                            <div>
+                              <small
+                                >{{ answer.name }} -
+                                {{
+                                  answer.createdAt | date: 'dd/MM/yyyy'
+                                }}</small
+                              ><br />
+                              {{ answer.content }}
+                            </div>
+                          </li>
+                        </ng-container>
+                      </ng-container>
+                    </ul>
+
+                    <!-- New Question -->
+                    <div
+                      class="new-message p-pt-1"
+                      *ngIf="userCanQuestion && loggedIn"
+                    >
+                      <div class="message-input">
+                        <input
+                          type="text"
+                          placeholder="Ask a question"
+                          class="p-inputtext"
+                          [(ngModel)]="newQuestion"
+                        />
+                      </div>
+                      <button
+                        pButton
+                        type="button"
+                        iconPos="left"
+                        label="Ask"
+                        (click)="submitQuestion()"
+                        style="float: right;"
+                      ></button>
+                    </div>
+
+                    <div class="new-message" *ngIf="!userCanQuestion && (!questions || questions.length === 0)">
+                      <h1>
+                        No questions have been asked for you to answer yet.
+                      </h1>
+                    </div>
+                  </div>
+
+                  <!-- Pop-up shown when answering a question -->
+                  <p-overlayPanel #op>
+                    <ng-template pTemplate>
+                      <input
+                        type="text"
+                        placeholder="Answer the Question here"
+                        class="p-inputtext"
+                        [(ngModel)]="questionAnswer"
+                      />
+                      <button
+                        pButton
+                        type="button"
+                        icon="pi pi-save"
+                        iconPos="left"
+                        class="p-button-success"
+                        (click)="submitAnswer()"
+                      ></button>
+                    </ng-template>
+                  </p-overlayPanel>
+                </div>
+              </div>
+              <div class="p-lg-8 p-md-12">
+                <ng-container
+                  *ngIf="
+                    listingSellerSummary.latestReviews.length > 0;
+                    else noReviews
+                  "
+                >
+                  <h4>Recent Reviews</h4>
+
+                  <div
+                    class="p-my-4"
+                    *ngFor="let review of listingSellerSummary.latestReviews"
+                  >
+                    <div class="review">
+                      <p-rating
+                        [ngModel]="review.rating"
+                        readonly="true"
+                        stars="5"
+                        [cancel]="false"
+                      ></p-rating>
+                      <p>{{ review.comment }}</p>
+                      <small
+                        >{{ review.buyerName }} |
+                        {{ review.createdAt | date: 'dd MMMM yyyy' }}</small
+                      >
+                    </div>
+                  </div>
+                  <a
+                    href="#"
+                    *ngIf="listingSellerSummary.latestReviews.length > 1"
+                    >View all reviews</a
+                  >
+                </ng-container>
+                <ng-template #noReviews>
+                  <h3>There are no recent reviews for this seller</h3>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <div class="sidebar bg-white p-pt-0 p-pb-5">
+            <div
+              *ngIf="listingDetails.type == listingType.Auction"
+              class="bg-gold p-pt-3 p-pb-3 p-text-center"
+            >
+              <p class="text-timeout p-m-0" *ngIf="!timesUp">
+                Closes in<br />
+                <bushtrade-web-countdown-timer
+                  [endDate]="listingDetails.endDate"
+                  (timeDifferenceRemaining)="checkTimeRemaining($event)"
+                ></bushtrade-web-countdown-timer>
+              </p>
+              <p class="p-text-bold text-timeout" *ngIf="timesUp">
+                CLOSED
+              </p>
+
+              <div *ngIf="userId">
+                <p *ngIf="!userHasPlacedBid" class="p-m-0">
+                  You haven't bid on this lot yet.
+                </p>
+                <p *ngIf="userHasPlacedBid && !userHasWinningBid">
+                  You are not currently the highest bidder on this listing.
+                </p>
+                <p *ngIf="userHasPlacedBid && userHasWinningBid">
+                  You are currently the highest bidder on this listing.
+                </p>
+              </div>
+            </div>
+
+            <ng-container
+              *ngIf="
+                !timesUp &&
+                listingDetails.type == listingType.Auction &&
+                !refreshingSidebar
+              "
+            >
+              <div class="current-bid sidebar-section">
+                <h3>Current Bid</h3>
+                <h3 class="price" *ngIf="highestBid != null">
+                  {{ highestBid.amount | currency: 'R ' }}
+                </h3>
+                <p *ngIf="highestBid == null">There is no current bid</p>
+                <p
+                  *ngIf="
+                    highestBid != null &&
+                    highestBid.amount < listingDetails.reservePrice
+                  "
+                >
+                  The current bid for this lot falls below its reserve price.
+                </p>
+              </div>
+              <div class="next-bid sidebar-section">
+                <h3>Next Minimum Bid</h3>
+                <p class="price" *ngIf="biddingRecommendations.length > 0">
+                  {{ biddingRecommendations[0] | currency: 'R ' }}
+                </p>
+                <p>Bids exclude the auction fee and (shipping) costs.</p>
+                <p>Auction fee: 9% of the winning bid</p>
+              </div>
+              <div class="quickbid sidebar-section p-pb-3 bg-grey">
+                <ng-container *ngIf="isSeller">
+                  <p>
+                    This is your listing, you cannot bid.
+                  </p>
+                </ng-container>
+
+                <div
+                  class="bidding-progress p-text-center"
+                  *ngIf="userHasWinningBid"
+                >
+                  <h3 class="gold-text">
+                    Congratulations! You are the leading bid.
+                  </h3>
+                  <p>We will email you if anyone outbids you.</p>
+                </div>
+
+                <ng-container *ngIf="!loggedIn">
+                  <p>
+                    Sign in or Register to Bid
+                  </p>
+                </ng-container>
+                <div class="bidding-progress p-text-center" *ngIf="isBidding">
+                  <progress-spinner></progress-spinner>
+                  <h3>Placing Bid...</h3>
+                </div>
+                <ng-container *ngIf="loggedIn && !isSeller">
+                  <h3 class="p-pt-2 p-mt-0">
+                    Quick Bid
+                    <span style="float: right;">
+                      <p-inputSwitch [(ngModel)]="showQuickBid"></p-inputSwitch
+                    ></span>
+                  </h3>
+
+                  <ng-container *ngIf="showQuickBid">
+                    <button
+                      class="p-button p-mb-2 p-mr-1"
+                      [disabled]="isBidding"
+                      (click)="placeBid(bid)"
+                      *ngFor="let bid of biddingRecommendations"
+                    >
+                      {{ bid | currency: 'R ' }}
+                    </button>
+                  </ng-container>
+
+                  <p>Bid Directly:</p>
+
+                  <input
+                    type="number"
+                    pInputText
+                    [(ngModel)]="customBid"
+                    min="{{ biddingRecommendations[0] }}"
+                    placeholder="{{
+                      biddingRecommendations[0] | currency: 'R '
+                    }}"
+                    class="p-mr-2 p-mb-2"
+                  />
+                  <br />
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    label="Place Bid"
+                    [disabled]="
+                      !customBid ||
+                      customBid < biddingRecommendations[0] ||
+                      isBidding
+                    "
+                    class="p-button-gold"
+                    (click)="placeBid(customBid)"
+                  ></button>
+
+                  <p class="p-mt-2">
+                    By placing a bid, you agree that you are
+                    <strong>over 18</strong> and that you have read and agree to
+                    our
+                    <a
+                      href="assets/documents/Bush-Trade-210512-Terms-and-Conditions.pdf"
+                      target="_blank"
+                      >Terms and Conditions</a
+                    >.
+                  </p>
+                </ng-container>
+              </div>
+            </ng-container>
+
+            <div class="sharing-box sidebar-section p-pb-3">
+              <a (click)="copyLink()">
+                <svg
+                  style="padding: 2px;"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    fill="#c09a6a"
+                    d="M7.9,256C7.9,119,119,7.9,256,7.9C393,7.9,504.1,119,504.1,256c0,137-111.1,248.1-248.1,248.1C119,504.1,7.9,393,7.9,256z"
+                  ></path>
+                  <path
+                    fill="#FFF"
+                    d="M402.4 159.2l-49.6-49.6c-10.7-10.7-28.1-10.7-38.8 0l-76.6 76.6c-10.7 10.7-10.7 28.1 0 38.8l49.6 49.6c10.7 10.7 28.1 10.7 38.8 0l76.6-76.6C413.1 187.3 413.1 170 402.4 159.2zM320.5 243.3c-6.3 6.3-16.5 6.3-22.8 0l-29.1-29.1c-6.3-6.3-6.3-16.5 0-22.8l50.5-50.5c6.3-6.3 16.5-6.3 22.8 0l29.1 29.1c6.3 6.3 6.3 16.5 0 22.8L320.5 243.3zM274.7 286.9l-49.6-49.6c-10.7-10.7-28.1-10.7-38.8 0l-76.6 76.6c-10.7 10.7-10.7 28.1 0 38.8l49.6 49.6c10.7 10.7 28.1 10.7 38.8 0l76.6-76.6C285.4 315 285.4 297.6 274.7 286.9zM192.8 371c-6.3 6.3-16.5 6.3-22.8 0L141 341.9c-6.3-6.3-6.3-16.5 0-22.8l50.5-50.5c6.3-6.3 16.5-6.3 22.8 0l29.1 29.1c6.3 6.3 6.3 16.5 0 22.8L192.8 371z"
+                  ></path>
+                  <path
+                    fill="#c09a6a"
+                    d="M314.8,199.6l-2.4-2.4c-7.7-7.7-20.3-7.7-28.1,0l-87.2,87.2c-7.7,7.7-7.7,20.3,0,28.1l2.4,2.4c7.7,7.7,20.3,7.7,28.1,0l87.2-87.2C322.6,219.9,322.6,207.3,314.8,199.6z"
+                  ></path>
+                  <path
+                    fill="#FFF"
+                    d="M223.3,310.5c-5.3,5.3-14,5.3-19.4,0l-2.4-2.4c-5.3-5.3-5.3-14,0-19.4l87.2-87.2c5.3-5.3,14-5.3,19.4,0l2.4,2.4c5.3,5.3,5.3,14,0,19.4L223.3,310.5z"
+                  ></path>
+                </svg>
+              </a>
+
+              <a
+                [href]="
+                  sanitize(
+                    'whatsapp://send?text=Check this listing I found on BushTrade: ' +
+                      listingDetails.name +
+                      ' ' +
+                      thisUrl
+                  )
+                "
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    fill="#c09a6a"
+                    d="M19.077,4.928C17.191,3.041,14.683,2.001,12.011,2c-5.506,0-9.987,4.479-9.989,9.985 c-0.001,1.76,0.459,3.478,1.333,4.992L2,22l5.233-1.237c1.459,0.796,3.101,1.215,4.773,1.216h0.004 c5.505,0,9.986-4.48,9.989-9.985C22.001,9.325,20.963,6.816,19.077,4.928z M16.898,15.554c-0.208,0.583-1.227,1.145-1.685,1.186 c-0.458,0.042-0.887,0.207-2.995-0.624c-2.537-1-4.139-3.601-4.263-3.767c-0.125-0.167-1.019-1.353-1.019-2.581 S7.581,7.936,7.81,7.687c0.229-0.25,0.499-0.312,0.666-0.312c0.166,0,0.333,0,0.478,0.006c0.178,0.007,0.375,0.016,0.562,0.431 c0.222,0.494,0.707,1.728,0.769,1.853s0.104,0.271,0.021,0.437s-0.125,0.27-0.249,0.416c-0.125,0.146-0.262,0.325-0.374,0.437 c-0.125,0.124-0.255,0.26-0.11,0.509c0.146,0.25,0.646,1.067,1.388,1.728c0.954,0.85,1.757,1.113,2.007,1.239 c0.25,0.125,0.395,0.104,0.541-0.063c0.146-0.166,0.624-0.728,0.79-0.978s0.333-0.208,0.562-0.125s1.456,0.687,1.705,0.812 c0.25,0.125,0.416,0.187,0.478,0.291C17.106,14.471,17.106,14.971,16.898,15.554z"
+                  ></path>
+                </svg>
+              </a>
+
+              <a
+                [href]="
+                  'https://www.facebook.com/sharer/sharer.php?u=' + thisUrl
+                "
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                  <path
+                    fill="#c09a6a"
+                    d="M32,6C17.642,6,6,17.642,6,32c0,13.035,9.603,23.799,22.113,25.679V38.89H21.68v-6.834h6.433v-4.548	c0-7.529,3.668-10.833,9.926-10.833c2.996,0,4.583,0.223,5.332,0.323v5.965h-4.268c-2.656,0-3.584,2.52-3.584,5.358v3.735h7.785	l-1.055,6.834h-6.73v18.843C48.209,56.013,58,45.163,58,32C58,17.642,46.359,6,32,6z"
+                  ></path>
+                </svg>
+              </a>
+
+              <div class="p-inputgroup">
+                <input pInputText type="text" [value]="thisUrl" id="weburl" />
+              </div>
+            </div>
+
+            <div class="sidebar-section p-pb-3" *ngIf="loggedIn">
+              <p-button
+                label="Report Listing"
+                icon="pi pi-exclamation-triangle"
+                [routerLink]="['/', 'support']"
+                [queryParams]="{ listingId: listingDetails.id }"
+              ></p-button>
+            </div>
+
+            <ng-container
+              *ngIf="
+                !timesUp &&
+                listingDetails.type == listingType.Auction &&
+                !refreshingSidebar
+              "
+            >
+              <div class="bid-history sidebar-section p-pb-3">
+                <h3>Bid history</h3>
+                <ng-container *ngIf="listingBids.length > 0; else noBids">
+                  <p-table
+                    [value]="listingBids.slice(0, 3)"
+                    styleClass="p-datatable-striped"
+                  >
+                    <ng-template pTemplate="body" let-bid>
+                      <tr>
+                        <td class="p-m-0 p-py-2 p-px-0">{{ bid.firstName }}</td>
+                        <td class="p-m-0 p-py-2 p-px-0">
+                          {{ bid.placedAt | date: 'dd MMM yyyy hh:mm:ss' }}
+                        </td>
+                        <td class="p-m-0 p-py-2 p-px-0 p-text-right price">
+                          {{ bid.amount | currency: 'R ' }}
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                  <p class="p-pt-3">
+                    <a (click)="showBidsModal = true">View all bids</a>
+                  </p>
+                </ng-container>
+                <ng-template #noBids>
+                  There are no bids placed on this auction yet.
+                </ng-template>
+              </div>
+              <!-- End of auction bar -->
+            </ng-container>
+            <div
+              class="p-pt-3"
+              *ngIf="
+                listingDetails.type == listingType.Sale && !refreshingSidebar
+              "
+            >
+              <h3>Price</h3>
+              <h3 class="price">
+                {{ listingDetails.startingPrice | currency: 'R ' }}
+              </h3>
+              <p *ngIf="listingDetails.isSold">
+                This item has been sold.
+              </p>
+              <div *ngIf="!listingDetails.isSold" class="p-pl-0">
+                <ng-container *ngIf="isSeller">
+                  <p-button
+                    *ngIf="userBid"
+                    [label]="'View Interested Buyers'"
+                    [routerLink]="[
+                      '../..',
+                      'conversations',
+                      'listing',
+                      listingDetails.id
+                    ]"
+                  ></p-button>
+                </ng-container>
+                <ng-container *ngIf="!isSeller">
+                  <p-button
+                    *ngIf="!userBid"
+                    [label]="'Contact seller'"
+                    (click)="showConfirmModal = true"
+                  ></p-button>
+                  <p-button
+                    *ngIf="userBid"
+                    [label]="'Go to conversation'"
+                    [routerLink]="[
+                      '../..',
+                      'conversations',
+                      'purchase',
+                      userBid.conversationId
+                    ]"
+                  ></p-button>
+                </ng-container>
+              </div>
+            </div>
+            <div *ngIf="refreshingSidebar">
+              <progress-spinner></progress-spinner>
+            </div>
+            <div class="pay-options sidebar-section p-pb-3">
+              <ng-container *ngIf="listingDetails.type == listingType.Auction">
+                <h3>Auction</h3>
+                <p>
+                  <i class="pi pi-check"></i> Payments securely processed by
+                  <a href="https://www.payfast.co.za/" traget="_blank"
+                    >Payfast</a
+                  >
+                </p>
+
+                <p>
+                  You will be required to pay a
+                  <a href="javascript:void(0);" [routerLink]="['/', 'buying']"
+                    >auction fee</a
+                  >
+                  upon winning the auction, thereafter you will be able to
+                  contact the seller to arrange the final payment and
+                  arrangements to receive the item.
+                </p>
+              </ng-container>
+              <ng-container *ngIf="listingDetails.type !== listingType.Auction">
+                <h3>Listing</h3>
+                <p>
+                  This is a private listing, you (the buyer) will communicate
+                  with the seller and make all the required arrangements to
+                  trade the item amongst yourselves.
+                </p>
+                <p>
+                  Bush Trade is simply pairing the buyer with the seller, in
+                  this instance and does not take any responsibility for any
+                  loss or theft. It is your responsibility to ensure that the
+                  transaction has been successfully processed.
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid" *ngIf="!listingDetails">
+        <div class="p-col-12 p-md-12 p-lg-12">
+          <div class="p-p-3 bg-white p-mb-3">
+            <h2>Your listing could not be loaded. It might not be available anymore.</h2>
+          </div>
+        </div>
+      <div
+        class="p-col-12 p-px-0 p-text-center advertisement-horizontal-banner"
+      >
+        <img src="assets/layout/images/advertise.png" alt="Advertise Here" />
+      </div>
+
+      <!-- <div class="p-col-12" *ngIf="suggestions.length > 0">
+        {{suggestions |json }}
+        <carousel-listing-item> </carousel-listing-item>
+      </div> -->
+
+      <div class="p-col-12">
+        <div class="p-col-12" *ngIf="latestItems && latestItems.length > 0">
+          <h3 class="p-text-left p-ml-7 p-mr-7">
+            Latest listings added<span style="float: right;"
+              ><a href="">View All</a></span
+            >
+          </h3>
+          <carousel-listing-item
+            [listings]="latestItems"
+          ></carousel-listing-item>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create Dialog -->
+<p-dialog
+  [(visible)]="showConfirmModal"
+  [style]="'width: 400px;'"
+  [header]="'Confirm Contact Seller'"
+  [modal]="true"
+  [closable]="false"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <p>
+      After clicking confirm a private chat will be created between you and the
+      seller. There you can discuss the details surrounding the purchase of the
+      listing. Please note that contacting the seller does not garauntee you the
+      listing it, the seller will have to select you as the buyer.
+    </p>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="showConfirmModal = false"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Confirm"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="contactSeller()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="showBidsModal"
+  [style]="{ width: '50vw' }"
+  [header]="'Bid history'"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div>
+      <p-table [value]="listingBids" styleClass="p-datatable-striped">
+        <ng-template pTemplate="body" let-bid>
+          <tr>
+            <td class="">{{ bid.firstName }}</td>
+            <td class="">
+              {{ bid.placedAt | date: 'dd MMM yyyy hh:mm:ss' }}
+            </td>
+            <td class="p-text-right price">
+              {{ bid.amount | currency: 'R ' }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="showBidsModal = false"
+    ></button>
+  </ng-template>
+</p-dialog>

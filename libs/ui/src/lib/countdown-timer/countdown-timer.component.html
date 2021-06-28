@@ -1,0 +1,14 @@
+<div *ngIf="!loaded">
+  <p class="text-warning">Loading...</p>
+</div>
+
+<div style="display: inline;" *ngIf="timeDifference >= 0 && loaded" [ngClass]="{'text-danger' : daysToDday == 0, 'text-warning' : daysToDday < 2}">
+  <p style="display: inline;" *ngIf="daysToDday">{{daysToDday}}d </p>
+  <p style="display: inline;" *ngIf="daysToDday || hoursToDday">{{hoursToDday}}h </p>
+  <p style="display: inline;" *ngIf="daysToDday || hoursToDday || minutesToDday">{{minutesToDday}}m </p>
+  <p style="display: inline;">{{secondsToDday}}s </p>
+</div>
+
+<div  *ngIf="timeDifference < 0 && loaded">
+  <p class="text-danger">Auction Closed</p>
+</div>

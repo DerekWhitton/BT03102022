@@ -16,7 +16,116 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@bushtrade.web/ui": ["libs/ui/src/index.ts"]
+      "@bushtrade/ui": ["libs/ui/src/index.ts"],
+      "@bushtrade/administration-portal/users": [
+        "libs/administration-portal/users/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/advertisments": [
+        "libs/administration-portal/advertisments/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/listings": [
+        "libs/administration-portal/listings/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/reports": [
+        "libs/administration-portal/reports/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/messages": [
+        "libs/administration-portal/messages/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/articles": [
+        "libs/administration-portal/articles/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/support": [
+        "libs/administration-portal/support/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/transactions": [
+        "libs/administration-portal/transactions/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/forums": [
+        "libs/administration-portal/forums/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/app": [
+        "libs/administration-portal/administration-app/src/index.ts"
+      ],
+      "@bushtrade/adminsitration-portal/dashboard": [
+        "libs/administration-portal/dashboard/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/listings": [
+        "libs/seller-portal/listings/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/banking": [
+        "libs/seller-portal/banking/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/sales": [
+        "libs/seller-portal/sales/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/messages": [
+        "libs/seller-portal/messages/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/buyers": [
+        "libs/seller-portal/buyers/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/account": [
+        "libs/seller-portal/account/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/app": [
+        "libs/seller-portal/seller-app/src/index.ts"
+      ],
+      "@bushtrade/seller-portal/dashboard": [
+        "libs/seller-portal/dashboard/src/index.ts"
+      ],
+      "@bushtrade/website/home": ["libs/website/home/src/index.ts"],
+      "@bushtrade/website/buy-sell": ["libs/website/buy-sell/src/index.ts"],
+      "@bushtrade/website/marketplace": [
+        "libs/website/marketplace/src/index.ts"
+      ],
+      "@bushtrade/website/auctions": ["libs/website/auctions/src/index.ts"],
+      "@bushtrade/website/forums": ["libs/website/forums/src/index.ts"],
+      "@bushtrade/website/favourites": ["libs/website/favourites/src/index.ts"],
+      "@bushtrade/website/support": ["libs/website/support/src/index.ts"],
+      "@bushtrade/website/website-app": [
+        "libs/website/website-app/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/shared/state": [
+        "libs/administration-portal/shared/state/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/shared/entites": [
+        "libs/administration-portal/shared/entities/src/index.ts"
+      ],
+      "@bushtrade/administration-portal/shared/services": [
+        "libs/administration-portal/shared/services/src/index.ts"
+      ],
+      "@bushtrade/app-config": ["libs/app-config/index.ts"],
+      "@bushtrade/administration-portal/settings": [
+        "libs/administration-portal/settings/src/index.ts"
+      ],
+      "@bushtrade/ui-elements": ["libs/ui-elements/src/index.ts"],
+      "@bushtrade/website/trophy-cabinet": [
+        "libs/website/trophy-cabinet/src/index.ts"
+      ],
+      "@bushtrade/website/shared/state": [
+        "libs/website/shared/state/src/index.ts"
+      ],
+      "@bushtrade/website/shared/entites": [
+        "libs/website/shared/entities/src/index.ts"
+      ],
+      "@bushtrade/website/shared/services": [
+        "libs/website/shared/services/src/index.ts"
+      ],
+      "@bushtrade/website/search": ["libs/website/search/src/index.ts"],
+      "@bushtrade/website/profile": ["libs/website/profile/src/index.ts"],
+      "@bushtrade/website/blog": ["libs/website/blog/src/index.ts"],
+      "@bushtrade/website/shared/interceptors": [
+        "libs/website/shared/interceptors/src/index.ts"
+      ],
+      "@bushtrade/website/listings": ["libs/website/listings/src/index.ts"],
+      "@bushtrade/website/buying": ["libs/website/buying/src/index.ts"],
+      "@bushtrade/website/selling": ["libs/website/selling/src/index.ts"],
+      "@bushtrade/website/about": ["libs/website/about/src/index.ts"],
+      "@bushtrade/website/contact-us": ["libs/website/contact-us/src/index.ts"],
+      "@bushtrade/website/payments": ["libs/website/payments/src/index.ts"],
+      "@bushtrade/website/conversations": ["libs/website/conversations/src/index.ts"],
+      "@bushtrade/administration-portal/site-settings": ["libs/administration-portal/site-settings/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

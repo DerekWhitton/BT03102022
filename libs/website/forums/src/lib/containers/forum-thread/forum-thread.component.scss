@@ -1,0 +1,26 @@
+@import '../../../../../../shared/assets/sass/layout/vars';
+
+
+.forum-post{
+
+    line-height: 1.4em;
+    background: #fcfcfc;
+    
+
+    .post-meta{
+        
+        margin-bottom: -0.5rem;
+    }
+    .post-content{
+        margin-bottom: -0.5rem;
+        background: #fff;
+        min-height: 76px;
+    }
+    
+}
+
+h3{
+    background: $COLOUR-BLUE;
+    color: #fff;
+}
+

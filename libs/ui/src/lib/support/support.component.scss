@@ -1,0 +1,21 @@
+$COLOUR-BROWN: #c09a6a;
+
+.ticket-title {
+  color: $COLOUR-BROWN;
+  text-decoration: underline;
+  cursor: pointer;
+  margin: 0;
+}
+
+.ticket-card {
+  background-color: floralwhite;
+  box-shadow: 1px 1px wheat;
+}
+
+.p-text-right > a {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}

@@ -1,0 +1,13 @@
+<bushtrade-web-menu
+  class="p-mb-5"
+  (signIn)="login()"
+  (signOut)="logout()"
+  [loggedIn]="this.loggedIn"
+></bushtrade-web-menu>
+<div class="bt-content-area">
+  <router-outlet></router-outlet>
+</div>
+<bushtrade-web-footer
+  (signIn)="login()"
+  [loggedIn]="this.loggedIn"
+></bushtrade-web-footer>
