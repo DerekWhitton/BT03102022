@@ -22,14 +22,15 @@ export class SupportIndexComponent implements OnInit {
   error$ = this.supportTicketsFacade.lastKnownError$;
   added$ = this.supportTicketsFacade.supportTicketAdded$;
   listingId: string = '';
+  isListingReport = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private supportTicketsFacade: SupportTicketsFacade
   ) {
     this.activatedRoute.queryParams.subscribe((params) => {
+      this.isListingReport = true;
       this.listingId = params['listingId'];
-      console.log(this.listingId);
     });
   }
 

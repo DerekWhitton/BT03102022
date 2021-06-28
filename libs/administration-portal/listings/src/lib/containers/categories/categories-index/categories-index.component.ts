@@ -21,14 +21,14 @@ import {
 })
 export class CategoriesIndexComponent implements OnInit {
   categories$: Observable<any>;
-  isSub: boolean = false;
+  isSub = false;
   cols: any[];
-  loaded: boolean = false;
-  subLoaded: boolean = false;
+  loaded = false;
+  subLoaded = false;
   queryParam$: Observable<string>;
   nextPage$: Observable<number>;
-  displayCreateDialog: boolean = false;
-  displayAddLocaleDialog: boolean = false;
+  displayCreateDialog = false;
+  displayAddLocaleDialog = false;
 
   localeTypes: any[];
   localAddId: string;

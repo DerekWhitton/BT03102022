@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { UiModule } from '@bushtrade/ui';
 import { UiElementsModule } from '@bushtrade/ui-elements';
@@ -46,6 +46,6 @@ export const administrationPortalListingsRoutes: Route[] = [];
     CategoriesComponent,
   ],
   entryComponents: [ListingsIndexComponent],
-  providers: [ListingsFacade, CategoriesFacade],
+  providers: [ListingsFacade, CategoriesFacade, DatePipe],
 })
 export class AdministrationPortalListingsModule {}

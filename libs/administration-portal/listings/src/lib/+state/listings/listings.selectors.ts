@@ -43,3 +43,18 @@ export const getSelected = createSelector(
   getSelectedId,
   (entities, selectedId) => selectedId && entities[selectedId]
 );
+
+export const getNextPage = createSelector(
+  getListingsState,
+  (state: State) => state.nextPage
+)
+
+export const getPreviousPage = createSelector(
+  getListingsState,
+  (state: State) => state.previousPage
+)
+
+export const getDeleteStatus = createSelector(
+  getListingsState,
+  (state: State) => state.deletionSuccessful
+)
