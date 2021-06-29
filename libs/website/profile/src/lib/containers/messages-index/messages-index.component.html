@@ -1,7 +1,16 @@
 <div *ngIf="(loaded$ | async) && purchases$ | async as purchases">
-  <p *ngIf="purchases.length <= 0">
-    We couldn't find any open messages associated with your account.
-  </p>
+  <div class="p-mb-3">
+    <p-message
+      class="p-py-3"
+      severity="info"
+      text="If you are looking to answer a question on one of your listings you will
+have to visit the actual listing's page, and look at the question and answer
+section located at the bottom of your listing."
+    ></p-message>
+  </div>
+  <ng-container *ngIf="purchases.length <= 0">
+    <p>We couldn't find any open conversations associated with your account.</p>
+  </ng-container>
 
   <table>
     <ng-container *ngFor="let purchase of purchases; let i = index">
