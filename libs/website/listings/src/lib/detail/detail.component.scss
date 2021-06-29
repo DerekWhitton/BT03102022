@@ -73,6 +73,15 @@ i {
   }
 }
 
+.detail-image-holder {
+  text-align: center;
+  margin: 0 auto;
+  img {
+    max-height: 640px;
+    max-width: 100%;
+  }
+}
+
 .seller-image {
   margin: 0 auto;
   width: auto;
