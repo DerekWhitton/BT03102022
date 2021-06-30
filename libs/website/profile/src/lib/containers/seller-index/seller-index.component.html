@@ -45,6 +45,17 @@
             </ng-template>
           </p-messages>
         </ng-container>
+
+        <div class="p-mb-3">
+          <p-message
+            class="p-py-3"
+            severity="info"
+            text="If you are looking to answer a question on one of your listings you will
+      have to visit the actual listing's page, and look at the question and answer
+      section located at the bottom of your listing."
+          ></p-message>
+        </div>
+
         <ng-container *ngIf="(listings$ | async)?.length > 0">
           <p-table
             [columns]="columns"
@@ -68,7 +79,7 @@
                   <button
                     *ngIf="
                       !rowData.isDeleted &&
-                      rowData.active &&
+                        rowData.active &&
                         !rowData.isSold &&
                         (rowData.type == ListingType.Sale ||
                           !rowData.isAuctionClosed);
@@ -199,9 +210,22 @@
                     tooltipPosition="top"
                     label="Delete"
                   ></button>
+
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-eye"
+                    title="View Listing"
+                    class="p-button p-button-primary p-mb-2 p-ml-2"
+                    pTooltip="View Listing"
+                    tooltipPosition="top"
+                    label="View"
+                    [routerLink]="['/', 'listings', rowData.id]"
+                  ></button>
                 </td>
                 <td *ngIf="rowData.isDeleted">
-                  Listing deleted by the Admin on {{rowData.deletedAt | date: 'dd-MMM-yyyy HH:mm'}}
+                  Listing deleted by the Admin on
+                  {{ rowData.deletedAt | date: 'dd-MMM-yyyy HH:mm' }}
                 </td>
               </tr>
             </ng-template>

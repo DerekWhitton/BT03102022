@@ -62,6 +62,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   customBid: string;
   sellerProfilePicture: string = 'assets/layout/images/no-profile.png';
   latestBidUserId: string;
+  submittingQuestion: boolean = false;
   // Q&A Section
   questions: ISellerListingConversationMessage[] = []; // Questions retrieved for the current listing
   newQuestion: string = ''; // Holds any new question that is to be asked
@@ -160,9 +161,11 @@ export class DetailComponent implements OnInit, OnDestroy {
               x.sellers
                 .map((t) => t.id)
                 .indexOf(this.listingSellerSummary.id) === -1
-            )
+            ) {
               this.userCanQuestion = true;
-            else this.isSeller = true;
+            } else {
+              this.isSeller = true;
+            }
           });
 
           this.refreshingSidebar = true;
@@ -298,6 +301,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   // Q&A - Ask a question that is to be answered by the supplier
   submitQuestion() {
+    this.submittingQuestion = true;
     const question: ICreateListingQuestion = {
       parentId: null,
       content: this.newQuestion,
@@ -308,6 +312,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       .subscribe((message) => {
         this.newQuestion = '';
         this.questions.push(message);
+        this.submittingQuestion = false;
       });
   }
 

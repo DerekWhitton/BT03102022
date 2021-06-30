@@ -73,7 +73,7 @@ export class ConversationsService {
   }
 
   // (Q&A) Ask a new question
-  addListingQuestion(question: ICreateListingQuestion,) {
+  addListingQuestion(question: ICreateListingQuestion) {
     return this.httpClient.post<IConversationMessage>(
       `${this.base}api/v${this.version}/Conversations/AddListingQuestion`,
       {
@@ -83,7 +83,7 @@ export class ConversationsService {
   }
 
   // (Q&A) Answer a question
-  addListingAnswer(sellerId: string, answer: ICreateListingAnswer,) {
+  addListingAnswer(sellerId: string, answer: ICreateListingAnswer) {
     return this.httpClient.post<ISellerListingConversationMessage>(
       `${this.base}api/v${this.version}/Conversations/AddListingQuestionResponse/${sellerId}`,
       {
@@ -91,5 +91,4 @@ export class ConversationsService {
       }
     );
   }
-  
 }

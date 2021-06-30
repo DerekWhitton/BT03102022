@@ -395,3 +395,13 @@ small {
     background: $COLOUR-GOLD;
   }
 }
+
+.display-on-mobile-only {
+  display: none;
+}
+// Cool solution to finding only mobile device
+@media (pointer: none), (pointer: coarse) {
+  .display-on-mobile-only {
+    display: unset;
+  }
+}

@@ -48,11 +48,10 @@
               class="p-grid"
               style="margin: 0 auto;"
             >
-              <div class="p-col-12">
+              <div class="p-col-12" class="detail-image-holder">
                 <img
                   [src]="listingDetails.images[0]?.url"
                   style="cursor: pointer;"
-                  style="max-height: 640px; width: 100%;"
                   (click)="imageClick(0)"
                 />
               </div>
@@ -130,8 +129,9 @@
 
             <div class="p-grid">
               <div class="p-col-12 p-md-8p-lg-9">
+                <h3>Seller Information</h3>
                 <div class="p-grid text-center">
-                  <div class="p-col-12 p-md-3 align-center p-p-4 p-d-block">
+                  <div class="p-col-12 p-md-3">
                     <img
                       [src]="
                         listingSellerSummary.userProfilePictureUri
@@ -139,17 +139,15 @@
                           : 'assets/layout/images/no-profile.png'
                       "
                       alt="User Profile Pic"
-                      class="bt-tile p-d-block p-my-4 seller-image"
+                      class="bt-tile p-mb-4 seller-image"
                     />
-                    <h3 class="p-m-0 p-text-center">
-                      {{ listingSellerSummary.name }}
-                    </h3>
                   </div>
 
                   <div class="p-col-12 p-md-9">
-                    <h3>Seller Information</h3>
-
                     <div class="p-grid p-mb-3">
+                      <h3 class="p-col-12">
+                        {{ listingSellerSummary.name }}
+                      </h3>
                       <div class="p-col-6"><strong>Member Since:</strong></div>
                       <div class="p-col-6">
                         {{ listingSellerSummary.createdAt | date: 'MMMM yyyy' }}
@@ -171,7 +169,7 @@
                 <div class="p-col-12">
                   <!-- Q&A Chat -->
                   <div class="widget-chat">
-                    <ul>
+                    <ul *ngIf="questions && questions.length > 0">
                       <!-- Q/A Combo -->
                       <!-- A question will only show to the poster and the seller, until answered - and only then it will be made public -->
                       <ng-container
@@ -251,10 +249,10 @@
                       class="new-message p-pt-1"
                       *ngIf="userCanQuestion && loggedIn"
                     >
-                      <div class="message-input">
+                      <div class="message-input p-mt-3">
                         <input
                           type="text"
-                          placeholder="Ask a question"
+                          placeholder="Click here to ask a question"
                           class="p-inputtext"
                           [(ngModel)]="newQuestion"
                         />
@@ -263,17 +261,23 @@
                         pButton
                         type="button"
                         iconPos="left"
-                        label="Ask"
+                        [label]="submittingQuestion ? 'Asking...' : 'Ask'"
                         (click)="submitQuestion()"
                         style="float: right;"
+                        class="p-mt-3"
+                        [disabled]="submittingQuestion"
                       ></button>
                     </div>
 
-                    <div class="new-message" *ngIf="!userCanQuestion && (!questions || questions.length === 0)">
-                      <h1>
-                        No questions have been asked for you to answer yet.
-                      </h1>
-                    </div>
+                    <h3
+                      *ngIf="
+                        !userCanQuestion &&
+                        (!questions || questions.length === 0)
+                      "
+                    >
+                      No questions have been asked for you to answer yet.
+                    </h3>
+                    <hr />
                   </div>
 
                   <!-- Pop-up shown when answering a question -->
@@ -297,14 +301,14 @@
                   </p-overlayPanel>
                 </div>
               </div>
-              <div class="p-lg-8 p-md-12">
+              <div class="p-col-12 p-md-12 p-lg-8">
                 <ng-container
                   *ngIf="
                     listingSellerSummary.latestReviews.length > 0;
                     else noReviews
                   "
                 >
-                  <h4>Recent Reviews</h4>
+                  <h3>Recent Reviews</h3>
 
                   <div
                     class="p-my-4"
@@ -518,6 +522,7 @@
                       thisUrl
                   )
                 "
+                class="display-on-mobile-only"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path
@@ -679,107 +684,112 @@
       <div class="p-grid" *ngIf="!listingDetails">
         <div class="p-col-12 p-md-12 p-lg-12">
           <div class="p-p-3 bg-white p-mb-3">
-            <h2>Your listing could not be loaded. It might not be available anymore.</h2>
+            <h2>
+              Your listing could not be loaded. It might not be available
+              anymore.
+            </h2>
           </div>
         </div>
-      <div
-        class="p-col-12 p-px-0 p-text-center advertisement-horizontal-banner"
-      >
-        <img src="assets/layout/images/advertise.png" alt="Advertise Here" />
-      </div>
+        <div
+          class="p-col-12 p-px-0 p-text-center advertisement-horizontal-banner"
+        >
+          <img src="assets/layout/images/advertise.png" alt="Advertise Here" />
+        </div>
 
-      <!-- <div class="p-col-12" *ngIf="suggestions.length > 0">
+        <!-- <div class="p-col-12" *ngIf="suggestions.length > 0">
         {{suggestions |json }}
         <carousel-listing-item> </carousel-listing-item>
       </div> -->
 
-      <div class="p-col-12">
-        <div class="p-col-12" *ngIf="latestItems && latestItems.length > 0">
-          <h3 class="p-text-left p-ml-7 p-mr-7">
-            Latest listings added<span style="float: right;"
-              ><a href="">View All</a></span
-            >
-          </h3>
-          <carousel-listing-item
-            [listings]="latestItems"
-          ></carousel-listing-item>
+        <div class="p-col-12">
+          <div class="p-col-12" *ngIf="latestItems && latestItems.length > 0">
+            <h3 class="p-text-left p-ml-7 p-mr-7">
+              Latest listings added<span style="float: right;"
+                ><a href="">View All</a></span
+              >
+            </h3>
+            <carousel-listing-item
+              [listings]="latestItems"
+            ></carousel-listing-item>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Create Dialog -->
+  <p-dialog
+    [(visible)]="showConfirmModal"
+    [style]="'width: 400px;'"
+    [header]="'Confirm Contact Seller'"
+    [modal]="true"
+    [closable]="false"
+    styleClass="p-fluid"
+  >
+    <ng-template pTemplate="content">
+      <p>
+        After clicking confirm a private chat will be created between you and
+        the seller. There you can discuss the details surrounding the purchase
+        of the listing. Please note that contacting the seller does not
+        garauntee you the listing it, the seller will have to select you as the
+        buyer.
+      </p>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="showConfirmModal = false"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Confirm"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="contactSeller()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+
+  <p-dialog
+    [(visible)]="showBidsModal"
+    [style]="{ width: '50vw' }"
+    [header]="'Bid history'"
+    [modal]="true"
+    styleClass="p-fluid"
+  >
+    <ng-template pTemplate="content">
+      <div>
+        <p-table [value]="listingBids" styleClass="p-datatable-striped">
+          <ng-template pTemplate="body" let-bid>
+            <tr>
+              <td class="">{{ bid.firstName }}</td>
+              <td class="">
+                {{ bid.placedAt | date: 'dd MMM yyyy hh:mm:ss' }}
+              </td>
+              <td class="p-text-right price">
+                {{ bid.amount | currency: 'R ' }}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="showBidsModal = false"
+      ></button>
+    </ng-template>
+  </p-dialog>
 </div>
-
-<!-- Create Dialog -->
-<p-dialog
-  [(visible)]="showConfirmModal"
-  [style]="'width: 400px;'"
-  [header]="'Confirm Contact Seller'"
-  [modal]="true"
-  [closable]="false"
-  styleClass="p-fluid"
->
-  <ng-template pTemplate="content">
-    <p>
-      After clicking confirm a private chat will be created between you and the
-      seller. There you can discuss the details surrounding the purchase of the
-      listing. Please note that contacting the seller does not garauntee you the
-      listing it, the seller will have to select you as the buyer.
-    </p>
-  </ng-template>
-
-  <ng-template pTemplate="footer">
-    <button
-      pButton
-      pRipple
-      label="Cancel"
-      icon="pi pi-times"
-      class="p-button-text"
-      (click)="showConfirmModal = false"
-    ></button>
-    <button
-      pButton
-      pRipple
-      label="Confirm"
-      icon="pi pi-check"
-      class="p-button-text"
-      (click)="contactSeller()"
-    ></button>
-  </ng-template>
-</p-dialog>
-
-<p-dialog
-  [(visible)]="showBidsModal"
-  [style]="{ width: '50vw' }"
-  [header]="'Bid history'"
-  [modal]="true"
-  styleClass="p-fluid"
->
-  <ng-template pTemplate="content">
-    <div>
-      <p-table [value]="listingBids" styleClass="p-datatable-striped">
-        <ng-template pTemplate="body" let-bid>
-          <tr>
-            <td class="">{{ bid.firstName }}</td>
-            <td class="">
-              {{ bid.placedAt | date: 'dd MMM yyyy hh:mm:ss' }}
-            </td>
-            <td class="p-text-right price">
-              {{ bid.amount | currency: 'R ' }}
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
-  </ng-template>
-
-  <ng-template pTemplate="footer">
-    <button
-      pButton
-      pRipple
-      label="Cancel"
-      icon="pi pi-times"
-      class="p-button-text"
-      (click)="showBidsModal = false"
-    ></button>
-  </ng-template>
-</p-dialog>
