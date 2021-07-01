@@ -9,19 +9,17 @@ import { ICategory, ListingType } from '@bushtrade/website/shared/entites';
 })
 export class CategoryBlockComponent implements OnInit {
   @Input() categories: ICategory[];
-  
-  constructor(private router:Router) {}
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
   navigateToCategory(categoryId): void {
     this.router.navigate(['/', 'listings'], {
-      queryParams: { 
-        type: ListingType.Auction,
-        categoryId: categoryId
+      queryParams: {
+        // type: ListingType.Auction,
+        categoryId: categoryId,
       },
     });
   }
 }
-
-
