@@ -24,6 +24,13 @@ h2 {
   }
 }
 
+.absolute-center {
+  position: absolute !important;
+  top: calc(50% - 2em) !important;
+  left: calc(50% - 2em) !important;
+  transform: translate(-50%, -50%);
+}
+
 .pos-relative {
   position: relative;
 }

@@ -1,17 +1,33 @@
 <div
   class="p-col-12"
   class="pos-relative"
-  [ngClass]="banners.length == 0 ? 'no-banner-loaded p-pt-5' : 'banner-loaded'"
+  [ngClass]="banners.length == 0 ? 'no-banner-loaded p-pt-5 ' : 'banner-loaded'"
 >
   <div
-    class="p-col p-md-5 p-fluid p-formgrid p-grid form-box p-text-center"
+    class="p-col-10 p-md-5 p-fluid p-formgrid p-grid form-box p-text-center p-mx-auto"
     *ngIf="!mobile"
-    [ngClass]="
-      banners.length > 0 ? 'pos-absolute p-m-5' : 'pos-relative p-mx-auto'
-    "
+    [ngClass]="{
+      'pos-absolute  p-m-5': banners.length > 0,
+      'pos-relative': !banners.length,
+      'p-mx-auto': !banners.length,
+      'absolute-center': banners.length > 0 && banners[0].title == ''
+    }"
   >
-    <div class="p-field p-col-12">
-      <h3 class="p-text-center">Quick Search</h3>
+    <div class="p-field p-col-12 p-text-left">
+      <span
+        class="p-input-icon-left p-mt-1 p-mb-1 p-mr-md-2"
+        style="flex-grow: 1;"
+      >
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          class="ui-block"
+          pInputText
+          placeholder="What are you looking for?"
+          [(ngModel)]="searchQuery"
+          (keydown.enter)="submitQuickSearch()"
+        />
+      </span>
     </div>
 
     <div class="p-field p-col-12 p-md-6 p-text-left">
@@ -75,7 +91,7 @@
         >
           <div
             class="banner-item-content p-grid"
-            *ngIf="banner.title || banner.link"
+            *ngIf="banner.title || (banner.title && banner.link)"
           >
             <div class="p-m-2 p-md-offset-6 p-text-right">
               <div class="p-col-10 p-offset-1 p-md-4 p-lg-4 p-m-5 position-br">

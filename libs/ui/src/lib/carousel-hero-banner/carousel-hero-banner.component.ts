@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class CarouselHeroBannerComponent implements OnInit {
   mobile: boolean;
+  searchQuery: string;
   searchCategoryId: string;
   searchPriceRange: number[] = [];
   searchListingType: ListingType;
@@ -60,6 +61,7 @@ export class CarouselHeroBannerComponent implements OnInit {
   submitQuickSearch() {
     this.router.navigate(['/', 'listings'], {
       queryParams: {
+        q: this.searchQuery,
         type: this.searchListingType,
         categoryId: this.searchCategoryId,
         minPrice: this.searchPriceRange[0],
