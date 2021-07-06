@@ -1,7 +1,13 @@
 import { ActivatedRoute } from '@angular/router';
-import { IListing, ListingType } from './../../../../shared/entities/src/lib/listings/i-listing';
+import {
+  IListing,
+  ListingType,
+} from './../../../../shared/entities/src/lib/listings/i-listing';
 import { ICategory } from '@bushtrade/website/shared/entites';
-import { CategoryService, ListingsService } from '@bushtrade/website/shared/services';
+import {
+  CategoryService,
+  ListingsService,
+} from '@bushtrade/website/shared/services';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -77,14 +83,20 @@ export class HomeIndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoryService.loadFeaturedCategories(this.maxFeaturedCategories).subscribe((categories) => {
-      this.categories = categories;
-    });
-    this.listingsService.loadLatestListings(this.maxLatestListings).subscribe((categories) => {
-      this.latestItems = categories;
-    });
-    this.listingsService.loadAuctionsClosing(this.maxClosingAuctions).subscribe((categories) => {
-      this.closingAuctions = categories;
-    });
+    this.categoryService
+      .loadFeaturedCategories(this.maxFeaturedCategories)
+      .subscribe((categories) => {
+        this.categories = categories;
+      });
+    this.listingsService
+      .loadLatestListings(this.maxLatestListings)
+      .subscribe((categories) => {
+        this.latestItems = categories;
+      });
+    this.listingsService
+      .loadAuctionsClosing(this.maxClosingAuctions)
+      .subscribe((categories) => {
+        this.closingAuctions = categories;
+      });
   }
 }

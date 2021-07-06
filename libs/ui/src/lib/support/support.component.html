@@ -1,11 +1,5 @@
 <div class="p-grid" *ngIf="userIsAuthenticated; else elseBlock">
-  <div
-    [ngClass]="
-      isAdmin
-        ? 'p-col-12'
-        : 'p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2'
-    "
-  >
+  <div [ngClass]="isAdmin ? 'p-col-12' : 'p-col-10  p-lg-8 p-mx-auto'">
     <div [ngClass]="isAdmin ? '' : 'p-mt-5'" class="thread p-card p-p-5 p-mb-5">
       <div class="p-grid">
         <div class="p-col p-md-6">
@@ -148,7 +142,10 @@
       <div class="p-grid">
         <div class="p-col">
           <div class="p-fluid">
-            <div class="p-field" [ngClass]="{'hidden': listingId || isListingReport}">
+            <div
+              class="p-field"
+              [ngClass]="{ hidden: listingId || isListingReport }"
+            >
               <label>
                 Category:
               </label>
