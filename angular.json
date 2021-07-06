@@ -34,11 +34,11 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "staging": {
               "fileReplacements": [
                 {
                   "replace": "apps/administration-portal/src/environments/environment.ts",
-                  "with": "apps/administration-portal/src/environments/environment.prod.ts"
+                  "with": "apps/administration-portal/src/environments/environment.staging.ts"
                 }
               ],
               "optimization": true,
@@ -62,6 +62,34 @@
                 }
               ]
             }
+          },
+          "production": {
+            "fileReplacements": [
+              {
+                "replace": "apps/administration-portal/src/environments/environment.ts",
+                "with": "apps/administration-portal/src/environments/environment.prod.ts"
+              }
+            ],
+            "optimization": true,
+            "outputHashing": "all",
+            "sourceMap": false,
+            "extractCss": true,
+            "namedChunks": false,
+            "extractLicenses": true,
+            "vendorChunk": false,
+            "buildOptimizer": true,
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "10kb"
+              }
+            ]
           }
         },
         "serve": {
@@ -70,6 +98,9 @@
             "browserTarget": "administration-portal:build"
           },
           "configurations": {
+            "staging": {
+              "browserTarget": "administration-portal:build:staging"
+            },
             "production": {
               "browserTarget": "administration-portal:build:production"
             }
@@ -887,11 +918,11 @@
             "scripts": ["./node_modules/quill/dist/quill.js"]
           },
           "configurations": {
-            "production": {
+            "staging": {
               "fileReplacements": [
                 {
                   "replace": "apps/website/src/environments/environment.ts",
-                  "with": "apps/website/src/environments/environment.prod.ts"
+                  "with": "apps/website/src/environments/environment.staging.ts"
                 }
               ],
               "optimization": true,
@@ -915,6 +946,34 @@
                 }
               ]
             }
+          },
+          "production": {
+            "fileReplacements": [
+              {
+                "replace": "apps/website/src/environments/environment.ts",
+                "with": "apps/website/src/environments/environment.prod.ts"
+              }
+            ],
+            "optimization": true,
+            "outputHashing": "all",
+            "sourceMap": false,
+            "extractCss": true,
+            "namedChunks": false,
+            "extractLicenses": true,
+            "vendorChunk": false,
+            "buildOptimizer": true,
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "10kb"
+              }
+            ]
           }
         },
         "serve": {
@@ -923,6 +982,9 @@
             "browserTarget": "website:build"
           },
           "configurations": {
+            "staging": {
+              "browserTarget": "website:build:staging"
+            },
             "production": {
               "browserTarget": "website:build:production"
             }
