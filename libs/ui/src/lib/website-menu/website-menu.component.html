@@ -1,5 +1,5 @@
-<div class="p-grid bg-gold" *ngIf="showMegaSearchMenu">
-  <div class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2">
+<div class="p-grid bg-gold p-m-0" *ngIf="showMegaSearchMenu">
+  <div class="p-col-10 p-md-10 p-lg-8 p-mx-auto p-pr-0">
     <div class="p-d-flex p-flex-column p-flex-md-row p-pt-2 p-pb-2">
       <span
         class="p-input-icon-left p-mt-1 p-mb-1 p-mr-md-2"
@@ -31,16 +31,16 @@
           (click)="login()"
           pButton
           type="button"
-          label="Sell Items"
-          class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-mr-2 p-order-1 p-order-md-2"
+          label="Sell Online"
+          class="p-mr-md-3 p-button-white p-button-outlined p-mt-1 p-mb-1 p-mr-2 p-order-1 p-order-md-2"
         ></button>
         <button
           *ngIf="loggedIn"
           [routerLink]="['/', 'profile', 'listings']"
           pButton
           type="button"
-          label="Sell Items"
-          class="p-button-white p-button-outlined p-mt-1 p-mb-1 p-mr-2 p-order-1 p-order-md-2"
+          label="Sell Online"
+          class="p-mr-md-3 p-button-white p-button-outlined p-mt-1 p-mb-1 p-mr-2 p-order-1 p-order-md-2"
         ></button>
 
         <button
@@ -54,13 +54,11 @@
     </div>
   </div>
 </div>
-<div class="p-grid bg-grey p-py-2">
-  <div
-    class="p-col-10 p-offset-1 p-md-10 p-md-offset-1 p-lg-8 p-lg-offset-2 p-p-0"
-  >
-    <div class="layout-topbar p-px-0 p-mb-2">
+<div class="p-grid bg-grey p-m-0 p-py-2">
+  <div class="p-col-10 p-lg-8 p-mx-auto p-px-0">
+    <div class="layout-topbar p-px-0 p-mb-2 p-mr-md-3">
       <div class="topbar-left">
-        <p-menubar [model]="menuItems" class="menu-light">
+        <p-menubar [model]="menuItems" class="menu-light p-p-0">
           <ng-template pTemplate="start">
             <a
               href="javascript:void(0)"
