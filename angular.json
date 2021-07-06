@@ -61,35 +61,35 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/administration-portal/src/environments/environment.ts",
+                  "with": "apps/administration-portal/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
             }
-          },
-          "production": {
-            "fileReplacements": [
-              {
-                "replace": "apps/administration-portal/src/environments/environment.ts",
-                "with": "apps/administration-portal/src/environments/environment.prod.ts"
-              }
-            ],
-            "optimization": true,
-            "outputHashing": "all",
-            "sourceMap": false,
-            "extractCss": true,
-            "namedChunks": false,
-            "extractLicenses": true,
-            "vendorChunk": false,
-            "buildOptimizer": true,
-            "budgets": [
-              {
-                "type": "initial",
-                "maximumWarning": "2mb",
-                "maximumError": "5mb"
-              },
-              {
-                "type": "anyComponentStyle",
-                "maximumWarning": "6kb",
-                "maximumError": "10kb"
-              }
-            ]
           }
         },
         "serve": {
@@ -163,6 +163,34 @@
             "scripts": []
           },
           "configurations": {
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/seller-portal/src/environments/environment.ts",
+                  "with": "apps/seller-portal/src/environments/environment.staging.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -199,6 +227,9 @@
             "browserTarget": "seller-portal:build"
           },
           "configurations": {
+            "staging": {
+              "browserTarget": "seller-portal:build:staging"
+            },
             "production": {
               "browserTarget": "seller-portal:build:production"
             }
@@ -945,35 +976,35 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/website/src/environments/environment.ts",
+                  "with": "apps/website/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
             }
-          },
-          "production": {
-            "fileReplacements": [
-              {
-                "replace": "apps/website/src/environments/environment.ts",
-                "with": "apps/website/src/environments/environment.prod.ts"
-              }
-            ],
-            "optimization": true,
-            "outputHashing": "all",
-            "sourceMap": false,
-            "extractCss": true,
-            "namedChunks": false,
-            "extractLicenses": true,
-            "vendorChunk": false,
-            "buildOptimizer": true,
-            "budgets": [
-              {
-                "type": "initial",
-                "maximumWarning": "2mb",
-                "maximumError": "5mb"
-              },
-              {
-                "type": "anyComponentStyle",
-                "maximumWarning": "6kb",
-                "maximumError": "10kb"
-              }
-            ]
           }
         },
         "serve": {
