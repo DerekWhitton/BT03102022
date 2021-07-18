@@ -168,7 +168,9 @@
             </div>
             <div class="p-col-6 p-offset-2 p-text-right">
               <h6 class="expand-label p-mr-2">Payment Date/Time:</h6>
-              <label>{{ product.createdAt | date: 'dd MMM yyyy | HH:mm:ss zz' }}</label>
+              <label>{{
+                product.createdAt | date: 'dd MMM yyyy | HH:mm:ss zz'
+              }}</label>
             </div>
           </div>
           <div *ngIf="product.userName">
@@ -196,7 +198,13 @@
               class="p-col-3 p-text-left"
             >
               <h6 class="expand-label p-mr-2">Acquired Package:</h6>
-              <label>{{ product.premiumPackageNumberOfDays }} days</label>
+              <label class="p-tag p-tag-default">{{
+                packageTypes[product.premiumPackageType]
+              }}</label>
+              <div *ngIf="product.premiumPackageNumberOfDays > 0">
+                <h6 class="expand-label p-mr-2">Duration:</h6>
+                <label>{{ product.premiumPackageNumberOfDays }} days</label>
+              </div>
             </div>
           </div>
         </td>

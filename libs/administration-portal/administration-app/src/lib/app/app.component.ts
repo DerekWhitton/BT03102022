@@ -4,6 +4,7 @@ import { from, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { getUiStyle } from '@bushtrade/administration-portal/shared/state';
 import { IUiStyle } from '@bushtrade/administration-portal/shared/entites';
+import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'bushtrade-aministration-app',
@@ -99,7 +100,12 @@ export class AppComponent implements OnInit {
       routerLink: ['/', 'dashboard'],
     },
   ];
-  constructor(private primengConfig: PrimeNGConfig, private store: Store) {}
+
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private store: Store,
+    private authService: MsalService,
+  ) {}
 
   ngOnInit(): void {
     this.style$ = this.store.select(getUiStyle);
@@ -308,6 +314,10 @@ export class AppComponent implements OnInit {
 
   onConfigClick(event) {
     this.configClick = true;
+  }
+
+  signOut() {
+    this.authService.logout();
   }
 
   isSlim() {

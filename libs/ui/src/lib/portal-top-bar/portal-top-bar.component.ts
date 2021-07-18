@@ -19,6 +19,7 @@ export class PortalTopBarComponent implements OnDestroy {
 
   @Output() handleMenuButtonClick = new EventEmitter();
   @Output() handleTopbarUserMenuButtonClick = new EventEmitter();
+  @Output() handleSignOut = new EventEmitter();
 
   subscription: Subscription;
 
@@ -28,6 +29,10 @@ export class PortalTopBarComponent implements OnDestroy {
     this.subscription = breadcrumbService.itemsHandler.subscribe((response) => {
       this.items = response;
     });
+  }
+
+  logout() {
+    this.handleSignOut.emit();
   }
 
   ngOnDestroy() {

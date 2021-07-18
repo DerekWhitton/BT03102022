@@ -89,7 +89,7 @@ export class HomeIndexComponent implements OnInit {
         this.categories = categories;
       });
     this.listingsService
-      .loadLatestListings(this.maxLatestListings)
+      .loadHomepageListings()
       .subscribe((categories) => {
         this.latestItems = categories;
       });

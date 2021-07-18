@@ -1,3 +1,5 @@
+import { PackageType } from "../site-settings/i-package-type";
+
 export enum TransactionType {
   ListingPayment,
   PremiumPackagePayment
@@ -24,5 +26,6 @@ export interface ITransaction {
   listingName: string,
   listingStartingPrice: number,
   bidAmount: number,
+  premiumPackageType: PackageType,
   premiumPackageNumberOfDays: number
 }

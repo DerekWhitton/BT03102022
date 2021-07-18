@@ -1,13 +1,5 @@
 import { MessageService } from 'primeng/api';
-import {
-  Component,
-  Input,
-  OnInit,
-  EventEmitter,
-  Output,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import {
   ListingsService,
   PurchasesService,
@@ -17,6 +9,7 @@ import {
   IListingPremiumPackage,
   IPaymentDetails,
   IPremiumPackageSetting,
+  PackageType,
 } from '@bushtrade/website/shared/entites';
 
 @Component({
@@ -29,6 +22,7 @@ export class PremiumPackageModalComponent implements OnInit {
   @Input() sellerId: string;
   @Input() visible: boolean;
   @Output() closeEvent = new EventEmitter();
+  packageTypes = PackageType;
 
   currentDate = Date.now();
   selectedPackageId: string;
@@ -37,6 +31,10 @@ export class PremiumPackageModalComponent implements OnInit {
   loading: boolean;
   placingPackage: boolean;
   listingPremiumPackages: IListingPremiumPackage[] = [];
+  groupedPremiumPackages: {
+    packageType: PackageType;
+    packages: IPremiumPackageSetting[];
+  }[] = [];
   paymentDetails: IPaymentDetails;
 
   constructor(
@@ -51,6 +49,18 @@ export class PremiumPackageModalComponent implements OnInit {
     this.siteSettingsService.getPremiumPackagesSettings().subscribe(
       (premiumPackages) => {
         this.premiumPackages = premiumPackages;
+        this.premiumPackages.forEach((pck) => {
+          var group = this.groupedPremiumPackages[pck.packageType];
+          if (group) {
+            group.packages.push(pck);
+          } else {
+            var newGroup = {
+              packageType: pck.packageType,
+              packages: [pck],
+            };
+            this.groupedPremiumPackages.push(newGroup);
+          }
+        });
         this.loading = false;
         this.listingService
           .getPremiumPackageHistory(this.sellerId, this.listingId)

@@ -145,7 +145,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
       forkJoin([listingDetails$, sellerSummary$]).subscribe(
         ([listingDetails, sellerSummary]) => {
-          this.listingDetails = listingDetails;
+          this.listingDetails = new IListingDetails(listingDetails);
 
           this.searchService
             .getSuggestions('', this.listingDetails.name)
