@@ -576,7 +576,12 @@ export class SellerIndexComponent implements OnInit {
         listing?.categoryId ?? '',
         Validators.required
       ),
-      hyperlink: new FormControl(listing?.hyperlink),
+      hyperlink: new FormControl(listing?.hyperlink, [
+        Validators.pattern(
+          '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'
+        ),
+      ]),
+
       listingLocation: new FormControl(
         this.selectedLocation,
         Validators.required

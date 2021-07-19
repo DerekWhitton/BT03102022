@@ -74,6 +74,18 @@
           </div>
           <div class="p-p-3 bg-white">
             <h1>{{ listingDetails.name }}</h1>
+            <!-- <h3>Posted by </h3> -->
+            <ng-container *ngIf="listingDetails.isHyperlink">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-external-link"
+                label="Visit Suppliers Website"
+                class="p-button-gold"
+                (click)="openWebsite(listingDetails.hyperlink)"
+              ></button>
+            </ng-container>
+            <!-- {{ listingDetails | json }} -->
             <hr />
             <h3>Description</h3>
             <p>{{ listingDetails.description }}</p>
@@ -86,21 +98,34 @@
                 will discuss delivery and collection in the private chat with
                 the seller.
               </p>
-              <a
-                href="https://www.google.com/maps/place/{{
-                  listingDetails.locationName
-                }}"
-                target="_blank"
-              >
-                <img
-                  class="listing-location-map"
-                  src="https://maps.googleapis.com/maps/api/staticmap?center={{
+              <ng-container *ngIf="showMap">
+                <a
+                  href="https://www.google.com/maps/place/{{
                     listingDetails.locationName
-                  }}&zoom=15&size=600x300&scale=2&maptype=roadmap&key={{
-                    mapsApiKey
                   }}"
-                />
-              </a>
+                  target="_blank"
+                >
+                  <img
+                    class="listing-location-map"
+                    src="https://maps.googleapis.com/maps/api/staticmap?center={{
+                      listingDetails.locationName
+                    }}&zoom=15&size=600x300&scale=2&maptype=roadmap&key={{
+                      mapsApiKey
+                    }}"
+                  />
+                </a>
+              </ng-container>
+              <ng-container *ngIf="!showMap">
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-map-marker"
+                  label="Show Map"
+                  class="p-button-text p-button-sm"
+                  (click)="showMap = !showMap"
+                  dynamic="true"
+                ></button>
+              </ng-container>
             </div>
             <ng-template #locationNotAvailable>
               <p>Location not available</p>
@@ -156,6 +181,18 @@
                       <div class="p-col-6">2</div>
                       <div class="p-col-6"><strong>Total ads:</strong></div>
                       <div class="p-col-6">20</div> -->
+                    </div>
+                    <div class="p-col-12">
+                      <ng-container *ngIf="listingDetails.isHyperlink">
+                        <button
+                          pButton
+                          type="button"
+                          icon="pi pi-external-link"
+                          label="Visit Suppliers Website"
+                          class="p-button-gold"
+                          (click)="openWebsite(listingDetails.hyperlink)"
+                        ></button>
+                      </ng-container>
                     </div>
                   </div>
                 </div>
@@ -343,6 +380,19 @@
         </div>
         <div class="p-col-12 p-md-4 p-lg-3">
           <div class="sidebar bg-white p-pt-0 p-pb-5">
+            <div class="sidebar-section">
+              <ng-container *ngIf="listingDetails.isHyperlink">
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-external-link"
+                  label="Visit Suppliers Website"
+                  class="p-button-gold"
+                  (click)="openWebsite(listingDetails.hyperlink)"
+                ></button>
+              </ng-container>
+            </div>
+
             <div
               *ngIf="listingDetails.type == listingType.Auction"
               class="bg-gold p-pt-3 p-pb-3 p-text-center"
@@ -685,8 +735,8 @@
         <div class="p-col-12 p-md-12 p-lg-12">
           <div class="p-p-3 bg-white p-mb-3">
             <h2>
-              Your listing could not be loaded. There is an issue or it might not be available
-              anymore.
+              Your listing could not be loaded. There is an issue or it might
+              not be available anymore.
             </h2>
           </div>
         </div>

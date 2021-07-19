@@ -31,18 +31,17 @@
           <span class="profile-name">Profile</span>
         </a>
         <ul class="profile-menu fade-in-up">
-          <li>
+          <!--  <li>
             <a [routerLink]="['/', 'account']">
               <i class="pi pi-user"></i>
               <span>My Account</span>
             </a>
-            <a
-                pButton
-                label="Logout"
-                icon="pi pi-power-off"
-                iconPos="left"
-                (click)="this.logout()"
-              ></a>
+          </li> -->
+          <li>
+            <a (click)="this.logout()">
+              <i class="pi pi-power-off"></i>
+              <span>Logout</span>
+            </a>
           </li>
         </ul>
       </li>
