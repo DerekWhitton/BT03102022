@@ -48,15 +48,16 @@ interface ICategoryPropertyWithUserSelectedValue extends ICategoryProperty {
 export class SellerIndexComponent implements OnInit {
   @ViewChild('fileUpload') fileUpload: any;
   sellers: ISeller[];
-  listings$: Observable<ISellerListing[]>;
+  loaded$ = this.listingsFacade.loaded$;
+  listings$ = this.listingsFacade.allListings$;
   lastListingError$ = this.listingsFacade.lastKnownError$;
   listingSaved$ = this.listingsFacade.listingSaved$;
   selectedSellerId: string;
   displayCreateUpdateDialog = false;
   isUpdate = false;
-  isPrivate: boolean = true;
-  isSaving: boolean = false;
-  categorySelected: boolean = false;
+  isPrivate = true;
+  isSaving = false;
+  categorySelected = false;
   columns = [
     {
       field: 'name',
@@ -71,7 +72,7 @@ export class SellerIndexComponent implements OnInit {
     { field: 'type', header: 'Type', converter: (val) => ListingType[val] },
   ];
 
-  displayStartSellingDialog: boolean = false;
+  displayStartSellingDialog = false;
 
   CategoryPropertyType = CategoryPropertyType;
   ListingType = ListingType;
@@ -81,13 +82,13 @@ export class SellerIndexComponent implements OnInit {
   ];
   selectableAuctionDurationSettings: { label: string; value: ListingType }[];
 
-  showProperties: boolean = false;
+  showProperties = false;
   categoryProperties: ICategoryPropertyWithUserSelectedValue[];
 
   images: { id: string; src: string }[] = [];
 
   categoryTree: ICategory[] = [];
-  loadingCategories: boolean = false;
+  loadingCategories = false;
   selectedCategoryId: string = null;
 
   addlistingFormGroup: FormGroup;
@@ -116,7 +117,7 @@ export class SellerIndexComponent implements OnInit {
   defaultMapCenter = { lat: -31.066605, lng: 24.027446 };
   defaultZoom = 5;
   specificLocationZoom = 15;
-  allRequiredFieldsCompleted: boolean = false;
+  allRequiredFieldsCompleted = false;
 
   constructor(
     private store: Store,
@@ -174,7 +175,6 @@ export class SellerIndexComponent implements OnInit {
   loadSellersListings(seller) {
     this.selectedSellerId = seller.id;
     this.listingsFacade.dispatch(loadListings({ sellerId: seller.id }));
-    this.listings$ = this.listingsFacade.allListings$;
   }
 
   handleChange(e) {
@@ -201,9 +201,9 @@ export class SellerIndexComponent implements OnInit {
         .uploadSellerListingImage(this.selectedSellerId, files[i])
         .toPromise();
 
-      let ctx = this;
+      const ctx = this;
 
-      let reader = new FileReader();
+      const reader = new FileReader();
       reader.readAsDataURL(files[i]);
       reader.onload = function () {
         ctx.images.push({ id: imageId, src: reader.result as string });
@@ -352,16 +352,17 @@ export class SellerIndexComponent implements OnInit {
 
   checkProperties() {
     //We check the required category properties to see that they are populated.
-    this.categoryProperties
-      .filter((x) => x.required == true)
-      .map((x) => {
-        if (x.value && x.value !== null && x.value !== '') {
-          this.allRequiredFieldsCompleted = true;
-        } else {
-          this.allRequiredFieldsCompleted = false;
-          return;
-        }
-      });
+    this.allRequiredFieldsCompleted = true;
+    // this.categoryProperties
+    //   .filter((x) => x.required == true)
+    //   .map((x) => {
+    //     if (x.value && x.value !== null && x.value !== '') {
+    //       this.allRequiredFieldsCompleted = true;
+    //     } else {
+    //       this.allRequiredFieldsCompleted = true;
+    //       return;
+    //     }
+    //   });
   }
 
   private async loadCategories(parentId: string = null) {
@@ -575,6 +576,7 @@ export class SellerIndexComponent implements OnInit {
         listing?.categoryId ?? '',
         Validators.required
       ),
+      hyperlink: new FormControl(listing?.hyperlink),
       listingLocation: new FormControl(
         this.selectedLocation,
         Validators.required

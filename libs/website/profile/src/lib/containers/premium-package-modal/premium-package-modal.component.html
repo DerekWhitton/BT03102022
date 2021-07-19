@@ -14,33 +14,45 @@
           class="premium-packages-spinner"
           *ngIf="placingPackage"
         ></progress-spinner>
-        <div class="p-col-12 p-md-4" *ngFor="let package of premiumPackages">
-          <div
-            [ngClass]="package.id == selectedPackageId ? 'confirmed' : ''"
-            class="p-shadow-5 p-m-2 premium-package-card"
-            (click)="addPremiumPackage(package.id)"
-          >
-            <ng-container *ngIf="package.id !== selectedPackageId">
-              <h3>R {{ package.price }}</h3>
-              <p style="text-align: center;">
-                Active for
-                <span style="font-weight: bold;"
-                  >{{ package.numberOfDays }} days</span
+        <div class="p-col-12">
+          <p-accordion>
+            <p-accordionTab
+              header="{{ packageTypes[packagesGroup.packageType] }}"
+              *ngFor="let packagesGroup of groupedPremiumPackages"
+            >
+              <div
+                class="p-col-6 p-md-4"
+                *ngFor="let package of packagesGroup.packages"
+              >
+                <div
+                  [ngClass]="package.id == selectedPackageId ? 'confirmed' : ''"
+                  class="p-shadow-5 p-m-2 premium-package-card"
+                  (click)="addPremiumPackage(package.id)"
                 >
-              </p>
-            </ng-container>
+                  <ng-container *ngIf="package.id !== selectedPackageId">
+                    <h3>R {{ package.price }}</h3>
+                    <p style="text-align: center;">
+                      Active for
+                      <span style="font-weight: bold;"
+                        >{{ package.numberOfDays }} days</span
+                      >
+                    </p>
+                  </ng-container>
 
-            <ng-container *ngIf="package.id == selectedPackageId">
-              <h4 class="p-text-center">
-                Click to confirm this purchase.
-              </h4>
-              <p style="text-align: center;">
-                You will be taken to payfast to pay R{{ package.price }}, your
-                listing will be made premium for {{ package.numberOfDays }} days
-                immediately after payment.
-              </p>
-            </ng-container>
-          </div>
+                  <ng-container *ngIf="package.id == selectedPackageId">
+                    <h4 class="p-text-center">
+                      Click to confirm this purchase.
+                    </h4>
+                    <p style="text-align: center;">
+                      You will be taken to payfast to pay R{{ package.price }},
+                      your listing will be made premium for
+                      {{ package.numberOfDays }} days immediately after payment.
+                    </p>
+                  </ng-container>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
         </div>
       </div>
       <form ngNoForm method="POST" [action]="paymentDetails?.url" #payFastForm>
@@ -71,6 +83,7 @@
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
+            <th>Package Type</th>
             <th>Number of days</th>
             <th>Price paid</th>
             <th>Date activated</th>
@@ -79,6 +92,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-premiumPackage>
           <tr>
+            <td>{{ packageTypes[premiumPackage.packageType] }}</td>
             <td>{{ premiumPackage.numberOfDays }}</td>
             <td>R {{ premiumPackage.price }}</td>
             <td>

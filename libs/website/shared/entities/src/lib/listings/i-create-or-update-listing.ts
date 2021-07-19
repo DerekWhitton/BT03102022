@@ -12,6 +12,7 @@ export interface ICreateOrUpdateListing {
   priceIncrement: number;
   quantity: number;
   type: ListingType;
+  hyperlink: string;
   categoryId: string;
   listingImageIds: string[];
   listingPropertyValues: ListingPropertyValue[];

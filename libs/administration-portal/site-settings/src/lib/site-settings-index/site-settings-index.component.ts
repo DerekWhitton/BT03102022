@@ -20,7 +20,10 @@ import {
   PremiumPackagesSettingsFacade,
 } from '../..';
 import { DatePipe } from '@angular/common';
-import { ICreateOrUpdatePremiumPackageSetting } from '@bushtrade/administration-portal/shared/entites';
+import {
+  ICreateOrUpdatePremiumPackageSetting,
+  PackageType,
+} from '@bushtrade/administration-portal/shared/entites';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -29,6 +32,11 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./site-settings-index.component.scss'],
 })
 export class SiteSettingsIndexComponent implements OnInit {
+  packageTypes = PackageType;
+  selectablePackageTypes: { label: string; value: PackageType }[];
+  priorityRequired: boolean;
+  selectedPremiumPackageId;
+
   auctionDurationSettings$ = this.auctionDurationSettingsFacade
     .allAuctionDurationSettings$;
   auctionDurationSettingsLoaded$ = this.auctionDurationSettingsFacade.loaded$;
@@ -50,11 +58,16 @@ export class SiteSettingsIndexComponent implements OnInit {
       field: 'createdAt',
       header: 'Created At',
       converter: (val: any) =>
-        this.datePipe.transform(val, 'dd MMM yyyy hh:mm'),
+        this.datePipe.transform(val, 'dd MMM yyyy HH:mm'),
     },
   ];
 
   premiumPackagesSettingsColumns = [
+    {
+      field: 'packageType',
+      header: 'Package Type',
+      converter: (val: any) => PackageType[val],
+    },
     { field: 'numberOfDays', header: 'Number of days' },
     {
       field: 'isActive',
@@ -66,12 +79,16 @@ export class SiteSettingsIndexComponent implements OnInit {
       header: 'Price',
       converter: (val: any) => `R ${val}`,
     },
-    { field: 'priority', header: 'Priority' },
+    { 
+      field: 'priority',
+      header: 'Priority',
+      converter: (val: any) => isNaN(val) ? null : val,
+    },
     {
       field: 'createdAt',
       header: 'Created At',
       converter: (val: any) =>
-        this.datePipe.transform(val, 'dd MMM yyyy hh:mm'),
+        this.datePipe.transform(val, 'dd MMM yyyy HH:mm'),
     },
   ];
 
@@ -83,7 +100,8 @@ export class SiteSettingsIndexComponent implements OnInit {
   createOrUpdatePremiumPackageFormGroup: FormGroup = new FormGroup({
     numberOfDays: new FormControl('', Validators.required),
     price: new FormControl('', Validators.required),
-    priority: new FormControl('', Validators.required),
+    priority: new FormControl('', [Validators.required, Validators.min(1)]),
+    packageType: new FormControl('', Validators.required),
     isActive: new FormControl(false),
   });
 
@@ -96,7 +114,6 @@ export class SiteSettingsIndexComponent implements OnInit {
 
   ngOnInit(): void {
     this.auctionDurationSettingsFacade.dispatch(loadAuctionDurationSettings());
-    this.premiumPackagesSettingsFacade.dispatch(loadPremiumPackagesSettings());
     this.lastAuctionDurationError$.subscribe((error) => {
       if (error) {
         this.messageService.add({
@@ -113,6 +130,11 @@ export class SiteSettingsIndexComponent implements OnInit {
         });
       }
     });
+    this.selectablePackageTypes = Object.keys(PackageType)
+      .filter((s) => isNaN(Number(s)))
+      .map((s) => {
+        return { label: s, value: PackageType[s] };
+      });
   }
 
   handleChange(event) {
@@ -126,7 +148,7 @@ export class SiteSettingsIndexComponent implements OnInit {
       );
     }
   }
-  
+
   onAuctionDurationCreateSubmit() {
     var auctionDurationSetting = this.createOrUpdateAuctionDurationFormGroup
       .value as ICreateOrUpdateAuctionDurationSetting;
@@ -139,8 +161,11 @@ export class SiteSettingsIndexComponent implements OnInit {
   }
 
   handleAuctionDurationUpdateSelection(event) {
+    if (event) {
+      this.selectedPremiumPackageId = event.id;
+    }
     this.auctionDurationSettingsFacade.dispatch(
-      setSelectedAuctionDurationSetting({ settingId: event.id })
+      setSelectedAuctionDurationSetting({ settingId: this.selectedPremiumPackageId })
     );
     var ctx = this;
     this.auctionDurationSettingsFacade.selectedAuctionDurationSettings$.subscribe(
@@ -193,12 +218,20 @@ export class SiteSettingsIndexComponent implements OnInit {
           ctx.createOrUpdatePremiumPackageFormGroup.patchValue({
             ...premiumPackageSetting,
           });
+          ctx.packageTypeSelected();
         },
       }
     );
   }
 
   onUpdatePremiumPackageSubmit() {
+    if (!this.createOrUpdatePremiumPackageFormGroup.valid) {
+      this.messageService.add({
+        severity: 'error',
+        detail: 'Invalid form. Please check the values again',
+      });
+      return;
+    }
     var premiumPackageSetting = this.createOrUpdatePremiumPackageFormGroup
       .value as ICreateOrUpdatePremiumPackageSetting;
     this.premiumPackagesSettingsFacade.dispatch(
@@ -207,6 +240,19 @@ export class SiteSettingsIndexComponent implements OnInit {
       })
     );
     this.createOrUpdatePremiumPackageFormGroup.reset();
+  }
+
+  packageTypeSelected() {
+    this.priorityRequired =
+      this.createOrUpdatePremiumPackageFormGroup.controls.packageType.value ==
+        PackageType['Top Ad'] ||
+      this.createOrUpdatePremiumPackageFormGroup.controls.packageType.value ==
+        PackageType['Homepage Ad'];
+    if (!this.priorityRequired) {
+      this.createOrUpdatePremiumPackageFormGroup.controls.priority.disable();
+    } else {
+      this.createOrUpdatePremiumPackageFormGroup.controls.priority.enable();
+    }
   }
 
   onPremiumPackageDeleted(event) {

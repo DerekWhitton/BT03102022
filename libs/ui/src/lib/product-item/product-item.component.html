@@ -3,7 +3,9 @@
   [style]="{ position: 'relative' }"
   [ngClass]="{
     'auction-listing': item.type == ListingType.Auction,
-    'premium-listing': item.isPremium
+    'premium-listing': item.isPremium,
+    'highlight-listing': item.isHighlight,
+    'urgent-listing': item.isUrgent
   }"
 >
   <div class="p-grid">

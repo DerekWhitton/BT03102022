@@ -2,6 +2,7 @@ import { TransactionsService } from './../../../../../shared/services/src/lib/tr
 import { Component, OnInit } from '@angular/core';
 import {
   ITransaction,
+  PackageType,
   PaymentStatus,
   SortOrder,
   TransactionSortField,
@@ -17,6 +18,7 @@ import { MessageService } from 'primeng/api';
 export class TransactionsIndexComponent implements OnInit {
   transactionType = TransactionType;
   paymentStatus = PaymentStatus;
+  packageTypes = PackageType;
 
   loading = false;
   transactions: ITransaction[];

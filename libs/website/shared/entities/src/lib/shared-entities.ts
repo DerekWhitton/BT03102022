@@ -25,6 +25,7 @@ export * from './conversations/i-conversation-message';
 export * from './conversations/i-create-purchase-message';
 export * from './site-settings/i-auction-duration-setting';
 export * from './site-settings/i-premium-package-setting';
+export * from './site-settings/i-package-type';
 export * from './listings/i-listing-premium-package';
 export * from './listings/i-listing-premium-package-request';
 export * from './listings/listing-sort-field';

@@ -28,6 +28,7 @@ export interface ISellerListing {
   durationInDays: number;
   endDate: Date;
   categoryId: string;
+  hyperlink: string;
   listingPropertyValues: ISellerListingPropertyValue[];
   createdAt: Date;
   updatedAt: Date;

@@ -9,3 +9,4 @@ export * from './lib/site-settings/i-auction-duration-setting';
 export * from './lib/site-settings/i-premium-package-setting';
 export * from './lib/site-settings/i-create-update-auction-duration-setting';
 export * from './lib/site-settings/i-create-update-premium-package-setting';
+export * from './lib/site-settings/i-package-type';
