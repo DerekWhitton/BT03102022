@@ -303,7 +303,14 @@ export class IndexComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          this.searchResponse = res;
+          this.searchResponse = {
+            page: res.page,
+            totalItems: res.totalItems,
+            nextPage: res.nextPage,
+            previousPage: res.previousPage,
+            totalPages: res.totalPages,
+            items: res.items.map(i => new IListing(i))
+          }
         },
         (err) => console.log(err),
         () => {

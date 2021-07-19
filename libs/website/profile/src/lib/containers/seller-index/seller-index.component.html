@@ -6,9 +6,9 @@
       </ng-template>
     </p-tabMenu>
     <p-toast position="top-center"></p-toast>
-    <progress-spinner
-      *ngIf="!(listings$ | async); else table"
-    ></progress-spinner>
+    <div class="p-col-12 p-text-center" *ngIf="!(loaded$ | async); else table">
+      <progress-spinner></progress-spinner>
+    </div>
     <!-- Resolving failed build -->
     <ng-template #table>
       <div class="card">
@@ -88,7 +88,6 @@
                     pButton
                     pRipple
                     icon="pi pi-angle-double-up"
-                    title="Make listing Premium"
                     class="p-button p-button-gold p-mr-2 p-mb-2"
                     (click)="showPremiumPackagesModal(rowData.id)"
                     pTooltip="Upgrade Listing, to get premium placement and lower buyer fees."
@@ -165,7 +164,6 @@
                     pButton
                     pRipple
                     icon="pi pi-star-o"
-                    title="Rate Buyer"
                     class="p-button p-button-warning p-mr-2 p-mb-2"
                     [routerLink]="[
                       '../..',
@@ -187,7 +185,6 @@
                     pButton
                     pRipple
                     icon="pi pi-pencil"
-                    title="Edit Listing"
                     class="p-button p-button-success p-mb-2"
                     (click)="handleUpdateSelection(rowData)"
                     pTooltip="Edit Listing"
@@ -203,7 +200,6 @@
                     pButton
                     pRipple
                     icon="pi pi-trash"
-                    title="Delete Listing"
                     class="p-button p-button-danger p-mb-2 p-ml-2"
                     (click)="deleteListing(rowData)"
                     pTooltip="Delete Listing"
@@ -215,7 +211,6 @@
                     pButton
                     pRipple
                     icon="pi pi-eye"
-                    title="View Listing"
                     class="p-button p-button-primary p-mb-2 p-ml-2"
                     pTooltip="View Listing"
                     tooltipPosition="top"
@@ -519,6 +514,22 @@
           class="p-error"
           >Shipping details are required.</small
         >
+      </div>
+
+      <!-- hyperlink -->
+      <div class="p-field p-col-12">
+        <label pTooltip="Add a hyperlink to your listing">
+          Hyperlink:
+          <i class="pi pi-question-circle p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <label
+          class="p-pl-2"
+          pTooltip="You will need to purchase the Hyperlink Ad Premium Package for this to be displayed"
+        >
+          <i class="pi pi-dollar p-d-none p-d-md-inline-flex"></i>
+        </label>
+        <br />
+        <input pInputText type="text" formControlName="hyperlink" />
       </div>
 
       <!-- category -->

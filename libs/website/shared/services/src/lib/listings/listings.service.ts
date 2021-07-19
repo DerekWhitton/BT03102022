@@ -65,6 +65,16 @@ export class ListingsService {
     );
   }
 
+  loadHomepageListings(limitNumber: number = 0) {
+    var queryString = '';
+    if (limitNumber > 0) {
+      queryString = `?numberOfListings=${limitNumber}`;
+    }
+    return this.httpClient.get<IListing[]>(
+      `${this.base}api/v${this.version}/Listing/HomepageListings${queryString}`
+    );
+  }
+
   loadAuctionsClosing(limitNumber: number) {
     return this.httpClient.get<IListing[]>(
       `${this.base}api/v${this.version}/Listing/AuctionsClosing?numberOfListings=${limitNumber}`

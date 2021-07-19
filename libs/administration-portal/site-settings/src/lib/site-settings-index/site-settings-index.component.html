@@ -1,4 +1,5 @@
 <h1>Listings Settings</h1>
+<p>Listing prioritues highest number wins, eg: 10 beats 2</p>
 <p-toast position="top-center"></p-toast>
 <p-tabView (onChange)="handleChange($event)">
   <p-tabPanel header="Auction Duration">
@@ -68,13 +69,24 @@
 <ng-template #createOrUpdatePremiumPackageFormTemplate>
   <form [formGroup]="createOrUpdatePremiumPackageFormGroup">
     <div class="p-field">
-      <label>
+      <label for="packageType">Choose Package Type</label>
+      <p-dropdown
+        id="packageType"
+        placeholder="Select a Package Type"
+        [options]="selectablePackageTypes"
+        formControlName="packageType"
+        required
+        (onChange)="packageTypeSelected()"
+      ></p-dropdown>
+    </div>
+    <div class="p-field">
+      <label pTooltip="Minimum one day">
         Number of Days:
       </label>
       <input
         pInputText
         type="number"
-        min="0"
+        min="1"
         required
         formControlName="numberOfDays"
       />
@@ -91,14 +103,15 @@
         formControlName="price"
       />
     </div>
-    <div class="p-field">
-      <label>
-        Priority:
+    <div class="p-field" *ngIf="priorityRequired">
+      <label pTooltip="Higher priority appears on top">
+        Priority (greater than 1):
       </label>
       <input
+        pTooltip="Higher priority appears on top"
         pInputText
         type="number"
-        min="0"
+        min="1"
         required
         formControlName="priority"
       />
