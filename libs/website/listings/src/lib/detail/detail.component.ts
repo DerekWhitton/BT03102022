@@ -63,6 +63,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   sellerProfilePicture: string = 'assets/layout/images/no-profile.png';
   latestBidUserId: string;
   submittingQuestion: boolean = false;
+  showMap: boolean = false;
   // Q&A Section
   questions: ISellerListingConversationMessage[] = []; // Questions retrieved for the current listing
   newQuestion: string = ''; // Holds any new question that is to be asked
@@ -435,6 +436,11 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.visibilityChangedListenerFunction,
       false
     );
+  }
+
+  openWebsite(url) {
+    // probably add a dialogue telling them they are about to leave bushtrade.
+    window.open(url, '_blank');
   }
 
   copyLink() {
