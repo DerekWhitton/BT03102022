@@ -47,10 +47,10 @@ export class CarouselListingItemComponent implements OnInit, OnChanges {
           var parsedDate = this.parseCreatedTime(listing.createdAt);
           return {
             ...listing,
-            listingImageUrl: listing.images[0]?.sizes.filter(
+            listingImageUrl: listing.images[0]?.sizes?.filter(
               (x) => x.width === 150
-            ).length
-              ? listing.images[0]?.sizes.filter((x) => x.width === 150)[0]
+            )?.length
+              ? listing.images[0].sizes.filter((x) => x.width === 150)[0]
                   .imageUrl
               : listing.images[0]?.imageUrl,
             timeAgoCreated: parsedDate,
