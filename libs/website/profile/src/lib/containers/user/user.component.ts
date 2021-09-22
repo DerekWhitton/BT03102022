@@ -62,8 +62,8 @@ export class UserComponent implements OnInit {
     // Display profile image only if provided
     this.user$.subscribe((user) => {
       if (user.profilePicture !== null && user.profilePicture !== undefined)
-        this.image = user.profilePicture.sizes.filter((x) => x.width === 150)
-          .length
+        this.image = user.profilePicture.sizes?.filter((x) => x.width === 150)
+          ?.length
           ? user.profilePicture.sizes.filter((x) => x.width === 150)[0].imageUrl
           : user.profilePicture.imageUrl;
 
