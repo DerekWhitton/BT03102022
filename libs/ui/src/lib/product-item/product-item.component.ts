@@ -18,10 +18,10 @@ export class ProductItemComponent implements OnInit {
   constructor(private listingsService: ListingsService) {}
 
   ngOnInit(): void {
-    this.imageThumbnailUrl = this.item.images[0]?.sizes.filter(
+    this.imageThumbnailUrl = this.item.images[0]?.sizes?.filter(
       (x) => x.width === 150
-    ).length
-      ? this.item.images[0]?.sizes.filter((x) => x.width === 150)[0].imageUrl
+    )?.length
+      ? this.item.images[0].sizes.filter((x) => x.width === 150)[0].imageUrl
       : this.item.images[0]?.imageUrl;
   }
 

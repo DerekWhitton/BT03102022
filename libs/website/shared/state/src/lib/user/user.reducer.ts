@@ -19,13 +19,13 @@ export const userIntialState: UserState = {
   updatedAt: '',
   error: '',
   loaded: false,
-  profilePictureUri: '',
+  profilePicture: { imageId: '', imageUrl: '', sizes: [] },
   age: 0,
   bio: '',
   countriesvisited: '',
   gender: '',
   location: '',
-  occupation: ''
+  occupation: '',
 };
 
 const usersReducer = createReducer(
@@ -57,8 +57,7 @@ const usersReducer = createReducer(
   on(UserActions.setProfilePictureSuccess, (state, { filePath }) => ({
     ...state,
     profilePictureUri: filePath,
-  })),
-  
+  }))
 );
 
 export function userReducer(state: UserState | undefined, action: Action) {
