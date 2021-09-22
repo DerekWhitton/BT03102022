@@ -7,7 +7,7 @@ export interface IUser {
   sellers: any[];
   createdAt: any;
   updatedAt: any;
-  profilePicture: Image;
+  profilePicture?: Image;
 
   age: number;
   bio: string;
