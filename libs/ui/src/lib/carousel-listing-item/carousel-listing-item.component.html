@@ -19,13 +19,13 @@
         >
           <!-- {{ product | json }} -->
           <img
-            *ngIf="(product?.images)[0]?.url"
-            src="{{ (product?.images)[0]?.url }}"
+            *ngIf="product?.listingImageUrl"
+            src="{{ product?.listingImageUrl }}"
             [alt]="product.name"
             class="product-image"
           />
           <img
-            *ngIf="!(product?.images)[0]?.url"
+            *ngIf="!product?.listingImageUrl"
             src="/assets/layout/images/logo-light.png"
             [alt]="product.name"
             class="product-image placeholder"

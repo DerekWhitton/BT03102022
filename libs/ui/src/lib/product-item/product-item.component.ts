@@ -9,6 +9,7 @@ import { ListingsService } from '@bushtrade/website/shared/services';
 })
 export class ProductItemComponent implements OnInit {
   @Input() item: IListing;
+  imageThumbnailUrl: string;
 
   ListingType = ListingType;
 
@@ -16,9 +17,16 @@ export class ProductItemComponent implements OnInit {
 
   constructor(private listingsService: ListingsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.imageThumbnailUrl = this.item.images[0]?.sizes.filter(
+      (x) => x.width === 150
+    ).length
+      ? this.item.images[0]?.sizes.filter((x) => x.width === 150)[0].imageUrl
+      : this.item.images[0]?.imageUrl;
+  }
+
   updateUrl() {
-    this.item.images[0].url = '/assets/layout/images/logo-light.png';
+    this.item.images[0].imageUrl = '/assets/layout/images/logo-light.png';
   }
 
   toggleFavorite() {

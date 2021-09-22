@@ -49,13 +49,13 @@
               >
                 <ng-template pTemplate="item" let-item>
                   <img
-                    [src]="item.url"
+                    [src]="item.imageUrl"
                     style="width: 100%; overflow: hidden; display: block;"
                   />
                 </ng-template>
                 <ng-template pTemplate="thumbnail" let-item>
                   <div class="p-grid p-nogutter p-justify-center">
-                    <img [src]="item.url" style="display: block;" />
+                    <img [src]="item.imageUrl" style="display: block;" />
                   </div>
                 </ng-template>
               </p-galleria>

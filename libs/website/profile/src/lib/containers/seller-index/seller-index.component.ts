@@ -352,17 +352,20 @@ export class SellerIndexComponent implements OnInit {
 
   checkProperties() {
     //We check the required category properties to see that they are populated.
-    this.allRequiredFieldsCompleted = true;
-    // this.categoryProperties
-    //   .filter((x) => x.required == true)
-    //   .map((x) => {
-    //     if (x.value && x.value !== null && x.value !== '') {
-    //       this.allRequiredFieldsCompleted = true;
-    //     } else {
-    //       this.allRequiredFieldsCompleted = true;
-    //       return;
-    //     }
-    //   });
+    if (this.categoryProperties?.filter((x) => x.required == true).length > 0) {
+      this.categoryProperties
+        .filter((x) => x.required == true)
+        .map((x) => {
+          if (x.value && x.value !== null && x.value !== '') {
+            this.allRequiredFieldsCompleted = true;
+          } else {
+            this.allRequiredFieldsCompleted = true;
+            return;
+          }
+        });
+    } else {
+      this.allRequiredFieldsCompleted = true;
+    }
   }
 
   private async loadCategories(parentId: string = null) {
@@ -439,13 +442,6 @@ export class SellerIndexComponent implements OnInit {
               : [],
           } as ICategoryPropertyWithUserSelectedValue)
       );
-
-      //check if there are custom values
-      if (this.categoryProperties.length > 0) {
-        this.allRequiredFieldsCompleted = false;
-      } else {
-        this.allRequiredFieldsCompleted = true;
-      }
 
       // assign old values
       for (let i = 0; i < this.categoryProperties.length; i++) {
@@ -534,7 +530,8 @@ export class SellerIndexComponent implements OnInit {
     if (this.selectedCategoryId) {
       this.isUpdate = true;
     }
-    this.images = listing?.images.map((i) => ({ id: i.id, src: i.url })) ?? [];
+    this.images =
+      listing?.images.map((i) => ({ id: i.imageId, src: i.imageUrl })) ?? [];
     if (listing && listing.listingLocation) {
       this.selectedLocation = listing.listingLocation;
       (this.options.center = listing.listingLocation),
@@ -587,5 +584,6 @@ export class SellerIndexComponent implements OnInit {
         Validators.required
       ),
     });
+    this.checkProperties();
   }
 }
