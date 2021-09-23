@@ -6,7 +6,14 @@ export enum ListingType {
 }
 
 export interface Image {
-  url: string;
+  imageUrl: string;
+  imageId: string;
+  sizes: IImageSize[];
+}
+
+export interface IImageSize {
+  imageUrl: string;
+  width: number;
 }
 
 export class IPremiumListingBase {

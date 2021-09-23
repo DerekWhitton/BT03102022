@@ -1,3 +1,4 @@
+import { Image } from './../listings/i-listing';
 export interface IUser {
   id: string;
   firstName: string;
@@ -6,7 +7,7 @@ export interface IUser {
   sellers: any[];
   createdAt: any;
   updatedAt: any;
-  profilePictureUri: string;
+  profilePicture?: Image;
 
   age: number;
   bio: string;

@@ -37,7 +37,7 @@
             >
               <ng-template pTemplate="item" let-item>
                 <img
-                  [src]="item.url"
+                  [src]="item.imageUrl"
                   style="max-width: 100%; display: block; max-height: 80vh;"
                 />
               </ng-template>
@@ -50,7 +50,7 @@
             >
               <div class="p-col-12" class="detail-image-holder">
                 <img
-                  [src]="listingDetails.images[0]?.url"
+                  [src]="listingDetails.images[0]?.imageUrl"
                   style="cursor: pointer;"
                   (click)="imageClick(0)"
                 />
@@ -62,7 +62,7 @@
                   key="index"
                 >
                   <img
-                    [src]="image.url"
+                    [src]="image.imageUrl"
                     [alt]="image.alt"
                     style="cursor: pointer;"
                     class="thumbnail p-mr-2"
