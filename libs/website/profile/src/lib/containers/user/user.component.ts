@@ -61,7 +61,7 @@ export class UserComponent implements OnInit {
 
     // Display profile image only if provided
     this.user$.subscribe((user) => {
-      if (user.profilePictureUri.length > 0)
+      if (user.profilePictureUri?.length > 0)
         this.image = user.profilePictureUri;
 
       // Update form values
