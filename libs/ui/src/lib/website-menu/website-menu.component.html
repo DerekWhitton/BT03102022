@@ -114,6 +114,7 @@
                   class="p-p-0"
                 >
                   <img
+                    *ngIf="image"
                     [src]="image"
                     alt="{{ user.firstName }} {{ user.surname }}"
                     class="profile-image p-m-0"
