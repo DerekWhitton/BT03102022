@@ -7,8 +7,8 @@ export interface ISellerListingPropertyValue {
 }
 
 export interface ISellerListingImage {
-  id: string;
-  url: string;
+  imageId: string;
+  imageUrl: string;
 }
 
 export interface ISellerListing {
