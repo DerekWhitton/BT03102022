@@ -269,7 +269,7 @@
       </h4>
       <ul class="category-list">
         <li *ngFor="let child of category.children">
-          <a (click)="showListings(category.id, null)">{{ child.name }}</a>
+          <a (click)="showListings(child.id, null)">{{ child.name }}</a>
         </li>
       </ul>
     </div>
