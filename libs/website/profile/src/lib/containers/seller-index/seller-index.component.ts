@@ -173,10 +173,8 @@ export class SellerIndexComponent implements OnInit {
   }
 
   loadSellersListings(seller) {
-    this.selectedSellerId = seller.sellers[0].id;
-    this.listingsFacade.dispatch(
-      loadListings({ sellerId: this.selectedSellerId })
-    );
+    this.selectedSellerId = seller.id;
+    this.listingsFacade.dispatch(loadListings({ sellerId: seller.id }));
   }
 
   handleChange(e) {

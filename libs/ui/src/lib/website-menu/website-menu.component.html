@@ -114,7 +114,6 @@
                   class="p-p-0"
                 >
                   <img
-                    *ngIf="image"
                     [src]="image"
                     alt="{{ user.firstName }} {{ user.surname }}"
                     class="profile-image p-m-0"
@@ -270,7 +269,7 @@
       </h4>
       <ul class="category-list">
         <li *ngFor="let child of category.children">
-          <a (click)="showListings(child.id, null)">{{ child.name }}</a>
+          <a (click)="showListings(category.id, null)">{{ child.name }}</a>
         </li>
       </ul>
     </div>
