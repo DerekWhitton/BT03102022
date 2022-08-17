@@ -66,21 +66,21 @@ stages:
                   azureSubscription: 'Bush-Trade(facf0630-1405-488c-b8d5-b25185a4e0ab)'
                   scriptType: 'ps'
                   scriptLocation: 'inlineScript'
-                  inlineScript: 'az storage blob upload-batch --content-cache-control ''max-age=604800'' --account-name $(AdminStorageAccountName) --account-key $(AdminStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/administration-portal'
+                  inlineScript: 'az storage blob upload-batch --content-cache-control ''max-age=604800'' --account-name $(AdminStorageAccountName) --account-key $(AdminStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/administration-portal --overwrite'
               - task: AzureCLI@2
                 displayName: 'Admin - Upload .js files with cache control of one day'
                 inputs:
                   azureSubscription: 'Bush-Trade(facf0630-1405-488c-b8d5-b25185a4e0ab)'
                   scriptType: 'ps'
                   scriptLocation: 'inlineScript'
-                  inlineScript: 'az storage blob upload-batch --pattern ''*.js'' --content-cache-control ''max-age=86400'' --account-name $(AdminStorageAccountName) --account-key $(AdminStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/administration-portal'
+                  inlineScript: 'az storage blob upload-batch --pattern ''*.js'' --content-cache-control ''max-age=86400'' --account-name $(AdminStorageAccountName) --account-key $(AdminStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/administration-portal --overwrite'
               - task: AzureCLI@2
                 displayName: 'Admin - Upload .html files with cache control of one day'
                 inputs:
                   azureSubscription: 'Bush-Trade(facf0630-1405-488c-b8d5-b25185a4e0ab)'
                   scriptType: 'ps'
                   scriptLocation: 'inlineScript'
-                  inlineScript: 'az storage blob upload-batch --pattern ''*.html'' --content-cache-control ''max-age=600'' --account-name $(AdminStorageAccountName) --account-key $(AdminStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/administration-portal'
+                  inlineScript: 'az storage blob upload-batch --pattern ''*.html'' --content-cache-control ''max-age=600'' --account-name $(AdminStorageAccountName) --account-key $(AdminStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/administration-portal --overwrite'
               - task: AzureCLI@2
                 displayName: 'Admin - Purge CDN'
                 inputs:
@@ -94,21 +94,21 @@ stages:
                   azureSubscription: 'Bush-Trade(facf0630-1405-488c-b8d5-b25185a4e0ab)'
                   scriptType: 'ps'
                   scriptLocation: 'inlineScript'
-                  inlineScript: 'az storage blob upload-batch --content-cache-control ''max-age=604800'' --account-name $(WebsiteStorageAccountName) --account-key $(WebsiteStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/website'
+                  inlineScript: 'az storage blob upload-batch --content-cache-control ''max-age=604800'' --account-name $(WebsiteStorageAccountName) --account-key $(WebsiteStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/website --overwrite'
               - task: AzureCLI@2
                 displayName: 'website - Upload .js files with cache control of one day'
                 inputs:
                   azureSubscription: 'Bush-Trade(facf0630-1405-488c-b8d5-b25185a4e0ab)'
                   scriptType: 'ps'
                   scriptLocation: 'inlineScript'
-                  inlineScript: 'az storage blob upload-batch --pattern ''*.js'' --content-cache-control ''max-age=86400'' --account-name $(WebsiteStorageAccountName) --account-key $(WebsiteStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/website'
+                  inlineScript: 'az storage blob upload-batch --pattern ''*.js'' --content-cache-control ''max-age=86400'' --account-name $(WebsiteStorageAccountName) --account-key $(WebsiteStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/website --overwrite'
               - task: AzureCLI@2
                 displayName: 'website - Upload .html files with cache control of ten minutes'
                 inputs:
                   azureSubscription: 'Bush-Trade(facf0630-1405-488c-b8d5-b25185a4e0ab)'
                   scriptType: 'ps'
                   scriptLocation: 'inlineScript'
-                  inlineScript: 'az storage blob upload-batch --pattern ''*.html'' --content-cache-control ''max-age=600'' --account-name $(WebsiteStorageAccountName) --account-key $(WebsiteStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/website'
+                  inlineScript: 'az storage blob upload-batch --pattern ''*.html'' --content-cache-control ''max-age=600'' --account-name $(WebsiteStorageAccountName) --account-key $(WebsiteStorageAccountKey) --destination ''$web'' --source $(System.DefaultWorkingDirectory)/web_files/website --overwrite'
               - task: AzureCLI@2
                 displayName: 'Website - Purge CDN'
                 inputs:
