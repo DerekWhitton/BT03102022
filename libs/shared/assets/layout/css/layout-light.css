@@ -1,13 +1,13 @@
 @charset "UTF-8";
 /* Add your customizations of the layout variables here */
 @font-face {
-  font-family: 'Montserrat';
+  font-family: 'Alegreya';
   font-style: normal;
   font-weight: 400;
-  src: local('Montserrat Regular'), local('Montserrat-Regular'),
-    url('../../layout/fonts/Montserrat-Regular.woff2')
+  src: local('Alegreya Regular'), local('Alegreya-Regular'),
+    url('../../layout/fonts/fonts/AnyConv.com__AlegreyaSans-Regular.woff2')
       format('woff2'),
-    url('../../layout/fonts/Montserrat-Regular.woff')
+    url('../../layout/fonts/AlegreyaSans-Regular.woff')
       format('woff');
   /* Modern Browsers */
 }
