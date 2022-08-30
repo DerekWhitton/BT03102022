@@ -32,5 +32,5 @@ export const environment = {
       'https://bushtradeproduction.onmicrosoft.com/c035551e-b12b-409e-b4f0-33a9d9a5deb7/api'
     ],
   },
-  googleMapsApiKey: 'AIzaSyCakNllm6pq9ZApi4gH-ISoQAH4IhwsRMo',
+  googleMapsApiKey: 'AIzaSyC_XaM1rdA_7JPW8wyeMaWtlBTb2EvRmJg',
 };
